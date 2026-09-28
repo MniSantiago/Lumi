@@ -1,13 +1,12 @@
 import { Figtree_400Regular, Figtree_500Medium, Figtree_600SemiBold, Figtree_700Bold } from '@expo-google-fonts/figtree';
 import { Fraunces_600SemiBold, Fraunces_700Bold, Fraunces_800ExtraBold, useFonts } from '@expo-google-fonts/fraunces';
-import { DarkTheme, ThemeProvider } from 'expo-router';
-import { NativeTabs } from 'expo-router/unstable-native-tabs';
+import { DarkTheme, Stack, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
-import { Colors, Fonts } from '@/constants/theme';
-import { LumiProvider } from '@/lumi/store';
+import { Colors } from '@/constants/theme';
+import { LumiProvider, useLumi } from '@/lumi/store';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -27,48 +26,42 @@ export default function RootLayout() {
     Figtree_700Bold,
   });
 
-  useEffect(() => {
-    if (loaded || error) SplashScreen.hideAsync();
-  }, [loaded, error]);
-
   if (!loaded && !error) return null;
 
   return (
     <ThemeProvider value={navTheme}>
       <LumiProvider>
         <StatusBar style="light" />
-        {/* Cristal: en iOS 26+ el sistema dibuja Liquid Glass; hasta iOS 18, desenfoque oscuro. */}
-        <NativeTabs
-          blurEffect="systemUltraThinMaterialDark"
-          disableTransparentOnScrollEdge
-          tintColor={Colors.amber}
-          iconColor={{ default: Colors.textTertiary, selected: Colors.amber }}
-          labelStyle={{
-            default: { color: Colors.textTertiary, fontFamily: Fonts.bodyMedium },
-            selected: { color: Colors.amber, fontFamily: Fonts.bodySemiBold },
-          }}>
-          <NativeTabs.Trigger name="index">
-            <NativeTabs.Trigger.Label>Hogar</NativeTabs.Trigger.Label>
-            <NativeTabs.Trigger.Icon sf={{ default: 'house', selected: 'house.fill' }} md="home" />
-          </NativeTabs.Trigger>
-          <NativeTabs.Trigger name="expediciones">
-            <NativeTabs.Trigger.Label>Expediciones</NativeTabs.Trigger.Label>
-            <NativeTabs.Trigger.Icon sf={{ default: 'map', selected: 'map.fill' }} md="map" />
-          </NativeTabs.Trigger>
-          <NativeTabs.Trigger name="coleccion">
-            <NativeTabs.Trigger.Label>Colección</NativeTabs.Trigger.Label>
-            <NativeTabs.Trigger.Icon sf={{ default: 'book.closed', selected: 'book.closed.fill' }} md="collections_bookmark" />
-          </NativeTabs.Trigger>
-          <NativeTabs.Trigger name="progreso">
-            <NativeTabs.Trigger.Label>Progreso</NativeTabs.Trigger.Label>
-            <NativeTabs.Trigger.Icon sf={{ default: 'sparkles', selected: 'sparkles' }} md="auto_awesome" />
-          </NativeTabs.Trigger>
-          <NativeTabs.Trigger name="ajustes">
-            <NativeTabs.Trigger.Label>Ajustes</NativeTabs.Trigger.Label>
-            <NativeTabs.Trigger.Icon sf={{ default: 'gearshape', selected: 'gearshape.fill' }} md="settings" />
-          </NativeTabs.Trigger>
-        </NativeTabs>
+        <RootStack />
       </LumiProvider>
     </ThemeProvider>
+  );
+}
+
+/**
+ * Onboarding hasta que el usuario lo completa; después, las pestañas.
+ * El escudo es una pantalla completa por encima de todo (en iOS real lo
+ * pinta ShieldConfiguration; aquí es su maqueta navegable).
+ */
+function RootStack() {
+  const { ready, settings } = useLumi();
+
+  useEffect(() => {
+    if (ready) SplashScreen.hideAsync();
+  }, [ready]);
+
+  // Esperamos a leer los ajustes guardados para no enseñar el onboarding un instante.
+  if (!ready) return null;
+
+  return (
+    <Stack screenOptions={{ headerShown: false, contentStyle: { backgroundColor: Colors.night } }}>
+      <Stack.Protected guard={!settings.onboarded}>
+        <Stack.Screen name="onboarding" />
+      </Stack.Protected>
+      <Stack.Protected guard={settings.onboarded}>
+        <Stack.Screen name="(tabs)" />
+        <Stack.Screen name="escudo" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
+      </Stack.Protected>
+    </Stack>
   );
 }

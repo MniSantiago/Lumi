@@ -1,9 +1,10 @@
+import { router } from 'expo-router';
 import type { ReactNode } from 'react';
 import { Alert, Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 
 import { PillButton, SectionTitle, Screen, TextLink } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
-import { THIEF_APPS } from '@/lumi/data';
+import { thiefAppById, type ThiefApp } from '@/lumi/data';
 import { formatLimit, LIMIT_OPTIONS, useLumi } from '@/lumi/store';
 
 const PLUS_FEATURES = [
@@ -15,6 +16,7 @@ const PLUS_FEATURES = [
 
 export default function SettingsScreen() {
   const { settings, updateSettings } = useLumi();
+  const apps = settings.thiefApps.map(thiefAppById).filter((a): a is ThiefApp => !!a);
   const limitIndex = Math.max(0, LIMIT_OPTIONS.indexOf(settings.limitMinutes as (typeof LIMIT_OPTIONS)[number]));
   const stepLimit = (dir: -1 | 1) => {
     const next = Math.min(LIMIT_OPTIONS.length - 1, Math.max(0, limitIndex + dir));
@@ -36,8 +38,13 @@ export default function SettingsScreen() {
           Apps ladronas
         </SectionTitle>
         <List>
-          {THIEF_APPS.map((app, i) => (
-            <Row key={app.id} last={i === THIEF_APPS.length - 1}>
+          {apps.length === 0 ? (
+            <Row last>
+              <Label title="Ninguna todavía" sub="Elige las apps que más te roban la atención" />
+            </Row>
+          ) : null}
+          {apps.map((app, i) => (
+            <Row key={app.id} last={i === apps.length - 1}>
               <View style={[styles.ic, { experimental_backgroundImage: app.icon }]}>
                 <Text style={styles.icLetter}>{app.letter}</Text>
               </View>
@@ -85,6 +92,22 @@ export default function SettingsScreen() {
           </Row>
         </List>
       </View>
+
+      {__DEV__ ? (
+        <View style={{ gap: 10 }}>
+          <SectionTitle>Desarrollo</SectionTitle>
+          <List>
+            <Row>
+              <Label title="Ver el escudo" sub="Lo que sale al abrir una app ladrona pasado el límite" />
+              <TextLink label="Abrir" onPress={() => router.push('/escudo')} />
+            </Row>
+            <Row last>
+              <Label title="Repetir el onboarding" sub="Vuelve a la primera pantalla" />
+              <TextLink label="Repetir" onPress={() => updateSettings({ onboarded: false })} />
+            </Row>
+          </List>
+        </View>
+      ) : null}
 
       <View style={styles.plus}>
         <Text style={styles.plusTitle}>Lumi Plus</Text>

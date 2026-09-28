@@ -5,10 +5,14 @@ import { screenTime } from '@/screen-time';
 import { stateForThreshold, type LumiState, type Threshold } from '@/lumi/states';
 
 export type Settings = {
+  /** Se pone a true al terminar el onboarding; hasta entonces no se ven las pestañas. */
+  onboarded: boolean;
   userName: string;
   lumiName: string;
   /** Límite diario suave, en minutos. */
   limitMinutes: number;
+  /** Ids de `THIEF_APP_CATALOG` que apagan la luz de Lumi. */
+  thiefApps: string[];
   nightStart: string;
   nightEnd: string;
   nightlyPostcard: boolean;
@@ -16,9 +20,11 @@ export type Settings = {
 };
 
 const DEFAULT_SETTINGS: Settings = {
-  userName: 'Santi',
+  onboarded: false,
+  userName: '',
   lumiName: 'Lumi',
   limitMinutes: 60,
+  thiefApps: ['tiktok', 'instagram', 'youtube'],
   nightStart: '23:00',
   nightEnd: '07:00',
   nightlyPostcard: true,
@@ -30,6 +36,8 @@ export const LIMIT_OPTIONS = [30, 45, 60, 90, 120] as const;
 const STORAGE_KEY = 'lumi.settings.v1';
 
 type LumiContextValue = {
+  /** Ya se han leído los ajustes guardados. */
+  ready: boolean;
   threshold: Threshold;
   state: LumiState;
   settings: Settings;
@@ -41,6 +49,7 @@ const LumiContext = createContext<LumiContextValue | null>(null);
 export function LumiProvider({ children }: { children: ReactNode }) {
   const [threshold, setThreshold] = useState<Threshold>(0);
   const [settings, setSettings] = useState<Settings>(DEFAULT_SETTINGS);
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     screenTime.getThreshold().then(setThreshold);
@@ -50,7 +59,8 @@ export function LumiProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     AsyncStorage.getItem(STORAGE_KEY)
       .then((raw) => raw && setSettings({ ...DEFAULT_SETTINGS, ...JSON.parse(raw) }))
-      .catch(() => {});
+      .catch(() => {})
+      .finally(() => setReady(true));
   }, []);
 
   const updateSettings = (patch: Partial<Settings>) =>
@@ -61,7 +71,7 @@ export function LumiProvider({ children }: { children: ReactNode }) {
     });
 
   return (
-    <LumiContext value={{ threshold, state: stateForThreshold(threshold), settings, updateSettings }}>
+    <LumiContext value={{ ready, threshold, state: stateForThreshold(threshold), settings, updateSettings }}>
       {children}
     </LumiContext>
   );

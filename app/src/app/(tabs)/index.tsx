@@ -40,7 +40,7 @@ export default function HomeScreen() {
         <View style={styles.header}>
           <View>
             <AppText variant="caption">
-              {greeting()}, {settings.userName}
+              {settings.userName ? `${greeting()}, ${settings.userName}` : greeting()}
             </AppText>
             <AppText variant="display">{settings.lumiName}</AppText>
           </View>
