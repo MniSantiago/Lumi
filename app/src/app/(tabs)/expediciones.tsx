@@ -1,5 +1,5 @@
 import { router } from 'expo-router';
-import { ScrollView, StyleSheet, Text, View } from 'react-native';
+import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 import { PostcardView } from '@/components/postcard';
 import { SectionTitle, Screen, TextLink } from '@/components/ui';
@@ -22,7 +22,12 @@ export default function ExpeditionsScreen() {
           const status: ZoneStatus = waiting ? 'locked' : zone.status;
           const locked = status === 'locked' || status === 'plus';
           return (
-            <View key={zone.id} style={[styles.zone, locked && { opacity: 0.55 }]}>
+            <Pressable
+              key={zone.id}
+              disabled={status !== 'plus'}
+              onPress={() => router.push('/plus')}
+              accessibilityRole={status === 'plus' ? 'button' : undefined}
+              style={[styles.zone, locked && { opacity: 0.55 }]}>
               <View
                 style={[
                   styles.dot,
@@ -35,7 +40,7 @@ export default function ExpeditionsScreen() {
                 <Text style={styles.zoneName}>{zone.name}</Text>
                 <Text style={styles.zoneNote}>{waiting ? 'Mañana, si a Lumi le queda luz.' : zone.note}</Text>
               </View>
-            </View>
+            </Pressable>
           );
         })}
       </View>
@@ -50,7 +55,13 @@ export default function ExpeditionsScreen() {
           style={styles.cardsRow}
           contentContainerStyle={styles.cardsRowContent}>
           {POSTCARDS.slice(0, 3).map((p, i) => (
-            <PostcardView key={p.id} title={p.place} caption={`«${p.quote}»`} art={p.art} width={128} rotate={CARD_TILT[i]} />
+            <Pressable
+              key={p.id}
+              accessibilityRole="button"
+              accessibilityLabel={`Postal de ${p.place}`}
+              onPress={() => router.push({ pathname: '/postal', params: { id: p.id } })}>
+              <PostcardView title={p.place} caption={`«${p.quote}»`} art={p.art} width={128} rotate={CARD_TILT[i]} />
+            </Pressable>
           ))}
         </ScrollView>
       </View>

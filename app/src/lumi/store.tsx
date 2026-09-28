@@ -17,6 +17,8 @@ export type Settings = {
   nightEnd: string;
   nightlyPostcard: boolean;
   restDays: boolean;
+  /** Suscripción a Lumi Plus activa (de momento, compra simulada). */
+  isPlus: boolean;
 };
 
 const DEFAULT_SETTINGS: Settings = {
@@ -29,6 +31,7 @@ const DEFAULT_SETTINGS: Settings = {
   nightEnd: '07:00',
   nightlyPostcard: true,
   restDays: true,
+  isPlus: false,
 };
 
 export const LIMIT_OPTIONS = [30, 45, 60, 90, 120] as const;

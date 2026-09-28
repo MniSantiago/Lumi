@@ -101,6 +101,14 @@ export default function SettingsScreen() {
               <Label title="Ver el escudo" sub="Lo que sale al abrir una app ladrona pasado el límite" />
               <TextLink label="Abrir" onPress={() => router.push('/escudo')} />
             </Row>
+            <Row>
+              <Label title="Ver la postal nocturna" sub="Lo que trae Lumi al volver de su expedición" />
+              <TextLink label="Abrir" onPress={() => router.push('/postal')} />
+            </Row>
+            <Row>
+              <Label title="Ver Lumi Plus" sub="El paywall con la prueba gratis" />
+              <TextLink label="Abrir" onPress={() => router.push('/plus')} />
+            </Row>
             <Row last>
               <Label title="Repetir el onboarding" sub="Vuelve a la primera pantalla" />
               <TextLink label="Repetir" onPress={() => updateSettings({ onboarded: false })} />
@@ -119,7 +127,7 @@ export default function SettingsScreen() {
             </View>
           ))}
         </View>
-        <PillButton label="Probar 7 días gratis" onPress={() => Alert.alert('Lumi Plus', 'El paywall llega en el paso 3.')} />
+        <PillButton label="Probar 7 días gratis" onPress={() => router.push('/plus')} />
         <Text style={styles.plusSmall}>Luego 49,99 $ al año. Lumi no se pone triste si no lo pruebas.</Text>
       </View>
     </Screen>
