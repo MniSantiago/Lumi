@@ -317,6 +317,11 @@ describe('Cuentas (e2e)', () => {
     const read = await http().get('/me/progress').set(auth).expect(200);
     expect(read.body.data.game.sparks).toBe(20);
 
+    const exported = await http().get('/me/export').set(auth).expect(200);
+    expect(exported.body.user.email).toBe('progreso@correo.com');
+    expect(exported.body.progress.game.sparks).toBe(20);
+    expect(exported.body.user).not.toHaveProperty('passwordHash');
+
     await http().put('/me/progress').set(auth).send({ data: 'no' }).expect(400);
     // Cabe más de 100 kB (límite por defecto de Express).
     const big = { schema: 1, blob: 'x'.repeat(200 * 1024) };

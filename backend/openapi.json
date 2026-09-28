@@ -331,6 +331,32 @@
         ]
       }
     },
+    "/me/export": {
+      "get": {
+        "operationId": "exportData",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExportDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "me"
+        ]
+      }
+    },
     "/me/password": {
       "post": {
         "operationId": "changePassword",
@@ -692,6 +718,35 @@
             "maxLength": 24
           }
         }
+      },
+      "ExportDto": {
+        "type": "object",
+        "properties": {
+          "exportedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "user": {
+            "$ref": "#/components/schemas/UserDto"
+          },
+          "progress": {
+            "type": "object",
+            "additionalProperties": true,
+            "nullable": true,
+            "description": "Copia del progreso guardada en la cuenta"
+          },
+          "progressUpdatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "required": [
+          "exportedAt",
+          "user",
+          "progress",
+          "progressUpdatedAt"
+        ]
       },
       "ChangePasswordDto": {
         "type": "object",

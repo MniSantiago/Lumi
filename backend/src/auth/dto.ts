@@ -173,3 +173,22 @@ export class AuthSessionDto {
   @ApiProperty({ type: UserDto })
   user: UserDto;
 }
+
+export class ExportDto {
+  @ApiProperty({ format: 'date-time' })
+  exportedAt: string;
+
+  @ApiProperty({ type: UserDto })
+  user: UserDto;
+
+  @ApiProperty({
+    type: 'object',
+    additionalProperties: true,
+    nullable: true,
+    description: 'Copia del progreso guardada en la cuenta',
+  })
+  progress: Record<string, unknown> | null;
+
+  @ApiProperty({ type: String, format: 'date-time', nullable: true })
+  progressUpdatedAt: string | null;
+}

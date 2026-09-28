@@ -99,6 +99,24 @@ export interface UpdateMeDto {
   lumiName?: string;
 }
 
+/**
+ * Copia del progreso guardada en la cuenta
+ * @nullable
+ */
+export type ExportDtoProgress = { [key: string]: unknown } | null;
+
+export interface ExportDto {
+  exportedAt: string;
+  user: UserDto;
+  /**
+     * Copia del progreso guardada en la cuenta
+     * @nullable
+     */
+  progress: ExportDtoProgress;
+  /** @nullable */
+  progressUpdatedAt: string | null;
+}
+
 export interface ChangePasswordDto {
   currentPassword: string;
   /**
@@ -512,6 +530,27 @@ return apiFetch<UserDto>(getUpdateMeUrl(),
     method: 'PATCH',
     headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
     body: JSON.stringify(updateMeDto)
+  }
+);}
+
+
+
+export const getExportDataUrl = () => {
+
+
+
+
+  return `/me/export`
+}
+
+export const exportData = async ( options?: Parameters<typeof apiFetch>[1]): Promise<ExportDto> => {
+
+  return apiFetch<ExportDto>(getExportDataUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
   }
 );}
 

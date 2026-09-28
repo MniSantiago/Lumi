@@ -11,6 +11,7 @@ import { and, eq, gt, isNull } from 'drizzle-orm';
 import { DB, type Database } from '../db/database.module.js';
 import {
   emailCodes,
+  progress,
   refreshTokens,
   users,
   type EmailCodePurpose,
@@ -31,7 +32,7 @@ import {
   sha256,
   verifyPassword,
 } from './crypto.js';
-import type { AuthSessionDto, RegisterDto, UserDto } from './dto.js';
+import type { AuthSessionDto, ExportDto, RegisterDto, UserDto } from './dto.js';
 
 export const ACCESS_TOKEN_TTL_S = 15 * 60;
 const REFRESH_TOKEN_TTL_MS = 30 * 24 * 60 * 60 * 1000;
@@ -206,6 +207,20 @@ export class AuthService {
       .returning();
     if (!user) throw new UnauthorizedException();
     return toUserDto(user);
+  }
+
+  /** Todo lo que guardamos de la cuenta, para el derecho de acceso (RGPD). */
+  async exportData(userId: string): Promise<ExportDto> {
+    const user = await this.getUser(userId);
+    const saved = await this.db.query.progress.findFirst({
+      where: eq(progress.userId, userId),
+    });
+    return {
+      exportedAt: new Date().toISOString(),
+      user: toUserDto(user),
+      progress: saved?.data ?? null,
+      progressUpdatedAt: saved?.updatedAt.toISOString() ?? null,
+    };
   }
 
   /** Borra la cuenta y todo lo suyo (tokens y códigos caen en cascada). Lo exige Apple (guía 5.1.1(v)). */
