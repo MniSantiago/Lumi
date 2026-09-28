@@ -4,6 +4,8 @@ NestJS 12 + Postgres (Drizzle) + Resend. Cuentas opcionales para guardar el prog
 
 ## Arrancar en local
 
+Node 22.22.3+ (o 24) y npm 11 (`npm install -g npm@11`): el lockfile es de npm 11.
+
 ```bash
 cd backend
 npm ci
