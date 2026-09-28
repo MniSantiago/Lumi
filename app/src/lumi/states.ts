@@ -23,7 +23,8 @@ export type LumiState = {
   exploring: boolean;
   image: ImageSourcePropType;
   bubble: string;
-  meterNote: string;
+  /** Lo que dice al tocarla, por turnos. Siempre con cariño, nunca riñe. */
+  chatter: string[];
   sparks: number;
 };
 
@@ -37,7 +38,12 @@ export const LUMI_STATES: Record<LumiStateKey, LumiState> = {
     exploring: true,
     image: require('@/assets/lumi/radiante.png'),
     bubble: '¡Hoy brillo muchísimo! Me voy de viaje, te traigo algo bonito.',
-    meterNote: 'Menos del 25 % de tu hora',
+    chatter: [
+      '¡Jiji! Me haces cosquillas en la luz.',
+      '¿Sabes? Hoy el mundo se ve más bonito desde aquí.',
+      'Te guardo un sitio en la postal de esta noche.',
+      '¡Mira cómo brillo! Es gracias a ti.',
+    ],
     sparks: 22,
   },
   contenta: {
@@ -49,7 +55,12 @@ export const LUMI_STATES: Record<LumiStateKey, LumiState> = {
     exploring: true,
     image: require('@/assets/lumi/contenta.png'),
     bubble: 'Hoy vamos bien. Si aguantas un ratito más, esta noche te traigo una postal.',
-    meterNote: 'Entre el 25 y el 50 % de tu hora',
+    chatter: [
+      'Voy tarareando por el camino. ¿Me oyes?',
+      'Un ratito más sin scroll y llego lejísimos.',
+      'Me gusta cuando me saludas.',
+      'Hoy huele a musgo y a aventura.',
+    ],
     sparks: 14,
   },
   cansada: {
@@ -61,7 +72,12 @@ export const LUMI_STATES: Record<LumiStateKey, LumiState> = {
     exploring: false,
     image: require('@/assets/lumi/cansada.png'),
     bubble: 'Uff, se me está gastando la luz… ¿dejamos el móvil un rato y miramos las estrellas?',
-    meterNote: 'Entre el 50 y el 75 % de tu hora',
+    chatter: [
+      'Uaaah… perdona, se me escapó un bostezo.',
+      '¿Y si miramos por la ventana un ratito?',
+      'Me recargo mejor cuando el móvil descansa.',
+      'Con un poquito de calma vuelvo a brillar.',
+    ],
     sparks: 6,
   },
   apagadita: {
@@ -73,7 +89,12 @@ export const LUMI_STATES: Record<LumiStateKey, LumiState> = {
     exploring: false,
     image: require('@/assets/lumi/apagadita.png'),
     bubble: 'Me echo una siestecita. Te echaba de menos, mañana empezamos de cero.',
-    meterNote: 'Más del 75 % de tu hora',
+    chatter: [
+      'Zzz… cinco minutitos más…',
+      '*se da la vuelta y sonríe en sueños*',
+      'Mmm… mañana brillamos juntos…',
+      'Zzz… te quiero… zzz…',
+    ],
     sparks: 2,
   },
 };
