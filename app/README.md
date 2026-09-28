@@ -12,6 +12,17 @@ npx expo start        # pulsa i para el simulador de iOS, o escanea el QR con Ex
 
 En desarrollo, el hogar muestra **Simular uso** (0/25/50/75/100 %) para ver los 4 estados de Lumi.
 
+## Probar sin el Mac (EAS Update)
+
+La versión publicada en el canal `preview` se abre en Expo Go (SDK 57) escaneando `../qr-preview-expo-go.png` con la cámara del iPhone, o con:
+
+```
+exp://u.expo.dev/6244480e-5eaa-4ca9-bce9-a3ce408b7116?channel-name=preview&runtime-version=1.0.0
+```
+
+Para publicar una nueva versión: `npm run update:preview -- --message "qué cambia"`.
+Las publicaciones aparecen en https://expo.dev/accounts/mnisantiago/projects/lumi/updates
+
 ## Estructura
 
 | Ruta | Qué es |
