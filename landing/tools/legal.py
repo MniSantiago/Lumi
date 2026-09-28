@@ -1,7 +1,7 @@
 """Genera las páginas legales de la landing a partir de los mismos textos que usa la app.
 
 Uso (desde la raíz del repo): python3 landing/tools/legal.py
-Fuente: app/src/legal/content.json. Salida: landing/privacidad.html y landing/terminos.html.
+Fuente: app/src/legal/content.json. Salida: landing/privacidad.html, landing/terminos.html y landing/ayuda.html.
 """
 import json
 from html import escape
@@ -34,12 +34,13 @@ PAGE = """<!doctype html>
   <h1>{title}</h1>
   <p class="legal-intro">{intro}</p>
 {sections}
+{contact}
   <p class="legal-updated">Última actualización: {updated}</p>
 </main>
 <footer class="foot">
   <div class="wrap foot-inner">
     <span class="wordmark small">Lumi</span>
-    <p><a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a></p>
+    <p><a href="ayuda.html">Ayuda</a> · <a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a></p>
   </div>
 </footer>
 </body>
@@ -47,7 +48,7 @@ PAGE = """<!doctype html>
 """
 
 
-def render(doc: dict) -> str:
+def render(key: str, doc: dict, contact_email: str) -> str:
     sections = "\n".join(
         "  <section>\n    <h2>{}</h2>\n{}\n  </section>".format(
             escape(s["heading"]), "\n".join(f"    <p>{escape(p)}</p>" for p in s["body"])
@@ -59,14 +60,22 @@ def render(doc: dict) -> str:
         intro=escape(doc["intro"]),
         updated=escape(doc["updated"]),
         sections=sections,
+        contact=(
+            f'  <section>\n    <h2>¿Algo más?</h2>\n    <p>Escríbenos a <a href="mailto:{escape(contact_email)}">{escape(contact_email)}</a>.</p>\n  </section>'
+            if key == "ayuda" and contact_email
+            else ""
+        ),
     )
 
 
 def main() -> None:
-    docs = json.loads(SOURCE.read_text(encoding="utf-8"))
-    for key, doc in docs.items():
+    data = json.loads(SOURCE.read_text(encoding="utf-8"))
+    contact_email = data.get("contactEmail", "")
+    for key, doc in data.items():
+        if not isinstance(doc, dict):
+            continue
         path = OUT / f"{key}.html"
-        path.write_text(render(doc), encoding="utf-8")
+        path.write_text(render(key, doc, contact_email), encoding="utf-8")
         print(f"Escrito {path.relative_to(ROOT)}")
 
 

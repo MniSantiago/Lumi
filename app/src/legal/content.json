@@ -85,5 +85,61 @@
         ]
       }
     ]
-  }
+  },
+  "ayuda": {
+    "title": "Ayuda",
+    "intro": "Las dudas más frecuentes sobre Lumi. Si no encuentras la tuya, escríbenos.",
+    "updated": "Septiembre de 2026",
+    "sections": [
+      {
+        "heading": "¿Por qué Lumi se ha cansado si casi no he usado el móvil?",
+        "body": [
+          "Lumi solo cuenta el tiempo en las apps ladronas que elegiste, sumando todas. Puedes cambiarlas en Ajustes › Apps ladronas y subir o bajar tu límite en Ajustes › Límite y noche."
+        ]
+      },
+      {
+        "heading": "¿Lumi ve lo que hago en mis apps?",
+        "body": [
+          "No. Usa Tiempo de uso de Apple y solo recibe avisos del tipo «ya vas por la mitad de tu límite». No sabe qué ves, qué escribes ni con quién hablas."
+        ]
+      },
+      {
+        "heading": "No me llega la postal nocturna",
+        "body": [
+          "Revisa que las notificaciones de Lumi estén activadas en Ajustes de tu iPhone › Notificaciones › Lumi, y que la postal nocturna esté encendida en Ajustes › Límite y noche dentro de la app."
+        ]
+      },
+      {
+        "heading": "¿Necesito una cuenta?",
+        "body": [
+          "No. Todo funciona sin cuenta. Crear una (Ajustes › Cuenta) sirve para no perder el progreso si cambias de iPhone."
+        ]
+      },
+      {
+        "heading": "Se me olvidó la contraseña",
+        "body": [
+          "En Ajustes › Cuenta › Empezar › Ya tengo cuenta, toca «¿Se te olvidó la contraseña?». Te enviamos un código de 6 cifras al correo para elegir una nueva."
+        ]
+      },
+      {
+        "heading": "¿Cómo elimino mi cuenta?",
+        "body": [
+          "En Ajustes › Cuenta › Eliminar la cuenta. Se borra al momento con todos sus datos. Lumi y su progreso en tu iPhone se quedan contigo."
+        ]
+      },
+      {
+        "heading": "¿Cómo cancelo Lumi Plus?",
+        "body": [
+          "Las suscripciones las gestiona Apple: Ajustes de tu iPhone › tu nombre › Suscripciones › Lumi. Si cancelas durante la prueba gratis, no se cobra nada. Eliminar la cuenta o la app no cancela la suscripción."
+        ]
+      },
+      {
+        "heading": "He cambiado de iPhone y no está Lumi Plus",
+        "body": [
+          "En la pantalla de Lumi Plus, toca «Restaurar compras» con el mismo Apple ID con el que te suscribiste."
+        ]
+      }
+    ]
+  },
+  "contactEmail": ""
 }

@@ -1,14 +1,16 @@
 import { useLocalSearchParams } from 'expo-router';
-import { StyleSheet, Text, View } from 'react-native';
+import { Linking, StyleSheet, Text, View } from 'react-native';
 
 import { Sheet } from '@/components/sheet';
 import { Colors, Fonts } from '@/constants/theme';
-import { isLegalDocId, LEGAL_DOCS } from '@/legal/content';
+import { TextLink } from '@/components/ui';
+import { CONTACT_EMAIL, isLegalDocId, LEGAL_DOCS } from '@/legal/content';
 
-/** Privacidad y Términos, en una hoja que se abre desde el paywall y Ajustes. */
+/** Privacidad, Términos y Ayuda, en una hoja que se abre desde el paywall y Ajustes. */
 export default function LegalSheet() {
   const { doc } = useLocalSearchParams<{ doc: string }>();
-  const content = LEGAL_DOCS[isLegalDocId(doc) ? doc : 'privacidad'];
+  const id = isLegalDocId(doc) ? doc : 'privacidad';
+  const content = LEGAL_DOCS[id];
 
   return (
     <Sheet title={content.title} subtitle={content.intro}>
@@ -24,6 +26,14 @@ export default function LegalSheet() {
           ))}
         </View>
       ))}
+      {id === 'ayuda' && CONTACT_EMAIL ? (
+        <View style={styles.section}>
+          <Text style={styles.heading} accessibilityRole="header">
+            ¿Algo más?
+          </Text>
+          <TextLink label={`Escríbenos a ${CONTACT_EMAIL}`} onPress={() => void Linking.openURL(`mailto:${CONTACT_EMAIL}`)} />
+        </View>
+      ) : null}
       <Text style={styles.updated}>Última actualización: {content.updated}</Text>
     </Sheet>
   );

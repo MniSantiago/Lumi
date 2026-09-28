@@ -192,6 +192,8 @@ export default function SettingsScreen() {
       </View>
 
       <View style={styles.legal}>
+        <TextLink label="Ayuda" onPress={() => router.push('/legal/ayuda')} />
+        <Text style={styles.legalSep}>·</Text>
         <TextLink label="Privacidad" onPress={() => router.push('/legal/privacidad')} />
         <Text style={styles.legalSep}>·</Text>
         <TextLink label="Términos" onPress={() => router.push('/legal/terminos')} />
