@@ -106,6 +106,10 @@ export function closeDay(state: GameState, date: DateKey, ctx: EngineContext, no
       owned: { items: state.items, friends: state.friends },
       threshold: day.maxThreshold,
       seed: seedFromDate(date),
+      // La primera visita cuenta la historia que presenta el lugar.
+      timesVisited: Object.values(state.days).filter(
+        (d) => d.date !== date && d.expedition?.destinationId === destination.id,
+      ).length,
     });
     const pending: StoredPending = {
       date,

@@ -18,7 +18,7 @@ Para retomar: abre un chat en el proyecto "Cozy experience" (o pega este archivo
 | Pantallas de onboarding, postal nocturna y paywall | **Pendiente** (paso 3) | |
 | Entitlement de Family Controls | **Pendiente** (paso 4) | |
 | Validación (landing y TikTok) | **Pendiente** (paso 5) | |
-| Repositorio Git | Hecho, solo local (rama `main`) | Raíz de esta carpeta |
+| Repositorio Git | En GitHub: `origin` = github.com/MniSantiago/Lumi (`main` y `feat/expo-app`) | Raíz de esta carpeta |
 
 ---
 
@@ -165,4 +165,5 @@ Lumi/
 
 - **Descargas desde la nube:** el espacio de trabajo en la nube de Claude no puede descargar del CDN de Higgsfield (`cloudfront.net`). Las imágenes se descargan a mano en `assets/` y Claude las lee desde esta carpeta.
 - **Commits desde Claude:** en esta carpeta necesita permiso de borrado (Git borra sus archivos `.lock`); se concede por sesión.
-- **Repositorio:** solo local. Para subirlo a GitHub: crear el repositorio vacío y hacer `git remote add origin … && git push -u origin main`.
+- **Repositorio:** en GitHub (`origin` = https://github.com/MniSantiago/Lumi). La app está en la rama `feat/expo-app`.
+- **Expo:** proyecto `@mnisantiago/lumi` (https://expo.dev/accounts/mnisantiago/projects/lumi), vinculado en `app/app.json`.
