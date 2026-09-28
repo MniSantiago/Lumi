@@ -24,6 +24,7 @@ import {
 import { PlusHero } from '@/components/paywall/plus-hero';
 import { Colors, Fonts, Radius } from '@/constants/theme';
 import { useLumi } from '@/lumi/store';
+import { cancelTrialReminder, scheduleTrialReminder } from '@/notifications';
 import { purchases, type PlusPackage, type PlusPackageId } from '@/purchases';
 
 const ease = { easing: Easing.out(Easing.cubic), reduceMotion: ReduceMotion.System };
@@ -79,7 +80,15 @@ export default function PlusScreen() {
     setNotice(null);
     try {
       const result = await purchases.purchase(pkg.id);
-      if (result.status === 'purchased') celebrate(paywallCopy.successTitle);
+      if (result.status === 'purchased') {
+        celebrate(paywallCopy.successTitle);
+        if (pkg.trialDays > 0) {
+          // Lo prometido: aviso 2 días antes de que acabe la prueba, a las 10:00.
+          const at = addDays(new Date(), pkg.trialDays - REMINDER_DAYS_BEFORE);
+          at.setHours(10, 0, 0, 0);
+          void scheduleTrialReminder({ lumiName: name, at });
+        }
+      }
     } catch {
       setNotice(paywallCopy.purchaseError);
     } finally {
@@ -104,6 +113,7 @@ export default function PlusScreen() {
 
   const onDevRemove = () => {
     updateSettings({ isPlus: false });
+    void cancelTrialReminder();
     boost.value = withTiming(0, { duration: 300, ...ease });
     setView('offer');
   };

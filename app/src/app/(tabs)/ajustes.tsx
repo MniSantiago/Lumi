@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import type { ReactNode } from 'react';
-import { Alert, Pressable, StyleSheet, Switch, Text, View } from 'react-native';
+import { Alert, Linking, Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 
 import { PillButton, SectionTitle, Screen, TextLink } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
@@ -8,6 +8,7 @@ import { plusFeatures } from '@/components/paywall/copy';
 import { useGame } from '@/game/store';
 import { thiefAppById, type ThiefApp } from '@/lumi/data';
 import { formatLimit, LIMIT_OPTIONS, useLumi } from '@/lumi/store';
+import { cancelNightlyReturn, ensureNotificationPermission, permissionDeniedCopy } from '@/notifications';
 
 export default function SettingsScreen() {
   const { settings, updateSettings } = useLumi();
@@ -17,6 +18,22 @@ export default function SettingsScreen() {
   const stepLimit = (dir: -1 | 1) => {
     const next = Math.min(LIMIT_OPTIONS.length - 1, Math.max(0, limitIndex + dir));
     updateSettings({ limitMinutes: LIMIT_OPTIONS[next] });
+  };
+  const setNightlyPostcard = async (on: boolean) => {
+    if (!on) {
+      updateSettings({ nightlyPostcard: false });
+      void cancelNightlyReturn();
+      return;
+    }
+    if (await ensureNotificationPermission()) {
+      updateSettings({ nightlyPostcard: true });
+      return;
+    }
+    // Sin permiso el ajuste sigue apagado; explicamos cómo activarlo, sin insistir.
+    Alert.alert(permissionDeniedCopy.title, permissionDeniedCopy.body(settings.lumiName), [
+      { text: permissionDeniedCopy.notNow, style: 'cancel' },
+      { text: permissionDeniedCopy.openSettings, onPress: () => void Linking.openSettings() },
+    ]);
   };
 
   return (
@@ -79,7 +96,7 @@ export default function SettingsScreen() {
             <Toggle
               label="Postal nocturna"
               value={settings.nightlyPostcard}
-              onChange={(v) => updateSettings({ nightlyPostcard: v })}
+              onChange={(v) => void setNightlyPostcard(v)}
             />
           </Row>
           <Row last>
