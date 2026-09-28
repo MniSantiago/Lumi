@@ -5,11 +5,13 @@ import { Alert, Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 import { PillButton, SectionTitle, Screen, TextLink } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
 import { plusFeatures } from '@/components/paywall/copy';
+import { useGame } from '@/game/store';
 import { thiefAppById, type ThiefApp } from '@/lumi/data';
 import { formatLimit, LIMIT_OPTIONS, useLumi } from '@/lumi/store';
 
 export default function SettingsScreen() {
   const { settings, updateSettings } = useLumi();
+  const game = useGame();
   const apps = settings.thiefApps.map(thiefAppById).filter((a): a is ThiefApp => !!a);
   const limitIndex = Math.max(0, LIMIT_OPTIONS.indexOf(settings.limitMinutes as (typeof LIMIT_OPTIONS)[number]));
   const stepLimit = (dir: -1 | 1) => {
@@ -91,6 +93,18 @@ export default function SettingsScreen() {
         <View style={{ gap: 10 }}>
           <SectionTitle>Desarrollo</SectionTitle>
           <List>
+            <Row>
+              <Label title="Cerrar el día" sub="Como si fuera de noche: Lumi vuelve de su expedición" />
+              <TextLink label="Cerrar" onPress={game.dev.closeDay} />
+            </Row>
+            <Row>
+              <Label title="Pasar al día siguiente" sub="Adelanta el reloj un día" />
+              <TextLink label="Mañana" onPress={game.dev.nextDay} />
+            </Row>
+            <Row>
+              <Label title="Borrar el progreso" sub="Días, álbum, objetos y chispas" />
+              <TextLink label="Borrar" onPress={game.dev.reset} />
+            </Row>
             <Row>
               <Label title="Ver el escudo" sub="Lo que sale al abrir una app ladrona pasado el límite" />
               <TextLink label="Abrir" onPress={() => router.push('/escudo')} />

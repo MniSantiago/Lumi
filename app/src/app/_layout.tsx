@@ -6,7 +6,9 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
 import { Colors } from '@/constants/theme';
+import { GameProvider } from '@/game/store';
 import { LumiProvider, useLumi } from '@/lumi/store';
+import { useNotificationRouting } from '@/notifications';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -31,8 +33,10 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={navTheme}>
       <LumiProvider>
-        <StatusBar style="light" />
-        <RootStack />
+        <GameProvider>
+          <StatusBar style="light" />
+          <RootStack />
+        </GameProvider>
       </LumiProvider>
     </ThemeProvider>
   );
@@ -46,6 +50,7 @@ export default function RootLayout() {
  */
 function RootStack() {
   const { ready, settings } = useLumi();
+  useNotificationRouting();
 
   useEffect(() => {
     if (ready) SplashScreen.hideAsync();
