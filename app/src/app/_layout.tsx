@@ -12,6 +12,7 @@ import { Colors } from '@/constants/theme';
 import { GameProvider } from '@/game/store';
 import { LumiProvider, useLumi } from '@/lumi/store';
 import { useNotificationRouting } from '@/notifications';
+import { PlusSync } from '@/purchases/plus-sync';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -44,6 +45,7 @@ export default function RootLayout() {
             <StatusBar style="light" />
             <RootStack />
             <ProgressSync />
+            <PlusSync />
           </GameProvider>
         </SessionProvider>
       </LumiProvider>

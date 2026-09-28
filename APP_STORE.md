@@ -10,7 +10,7 @@ Lo que Apple pide para publicar Lumi y en qué estado está. ✅ hecho · 🟡 e
 |---|---|---|---|
 | 🔒 | **Entitlement de Family Controls (Distribution)** | ⬜ | Sin él no se puede publicar el bloqueo real. Se pide en developer.apple.com con la cuenta de pago (99 $/año). Tarda semanas: pedirlo ya. |
 | ⬜ | **Módulo nativo de Screen Time** | ⬜ | FamilyControls + DeviceActivityMonitor (25/50/75/100 %) + ShieldConfiguration. Hoy es un mock (`app/src/screen-time`). |
-| ⬜ | **Compras reales (StoreKit)** | ⬜ | RevenueCat (`react-native-purchases`, necesita development build). Hoy es un mock (`app/src/purchases`). |
+| ⬜ | **Compras reales (StoreKit)** | 🟡 | Código listo con RevenueCat (`app/src/purchases/revenuecat.ts`). Falta: crear los productos en App Store Connect, configurar RevenueCat (entitlement `plus`, paquetes `$rc_annual` y `$rc_monthly`), poner `EXPO_PUBLIC_REVENUECAT_IOS_KEY` en EAS y probar con un development build en sandbox. |
 | ⬜ | **Backend desplegado con HTTPS** | 🟡 | Código listo (`backend/`, `Dockerfile`). Falta desplegarlo (Railway, Render o Fly.io) y poner `EXPO_PUBLIC_API_URL` en EAS (ver §6). |
 | ⬜ | **Dominio y correo** | ⬜ | Verificar el dominio en Resend (SPF y DKIM), poner `MAIL_FROM` y rellenar `contactEmail` en `app/src/legal/content.json` (sale en Ayuda). |
 
@@ -54,7 +54,7 @@ El uso de pantalla **no se recoge**: se queda en el iPhone (Screen Time por umbr
 |---|---|---|
 | Precio, periodo y prueba gratis, claros antes de pagar | ✅ | Paywall: «Luego 49,99 $ al año», línea temporal de la prueba |
 | Enlaces a Términos y Privacidad en el paywall | ✅ | |
-| Restaurar compras | 🟡 | Botón hecho; falta conectarlo a StoreKit |
+| Restaurar compras | 🟡 | Conectado a RevenueCat; falta probarlo en sandbox |
 | Recordatorio antes de que acabe la prueba | ✅ | Notificación local 2 días antes |
 | Lo gratis sigue funcionando sin pagar | ✅ | Escudo, límite, expediciones, postales, widget y modo noche |
 | Grupo de suscripción en App Store Connect | ⬜ | Anual (49,99 $, 7 días gratis) y mensual. IDs: `$rc_annual`, `$rc_monthly` en RevenueCat |
@@ -83,6 +83,7 @@ El uso de pantalla **no se recoge**: se queda en el iPhone (Screen Time por umbr
 ```bash
 # Variables de la app en EAS (entorno production)
 npx eas-cli@latest env:create --environment production --name EXPO_PUBLIC_API_URL --value https://api.<dominio> --visibility plaintext
+npx eas-cli@latest env:create --environment production --name EXPO_PUBLIC_REVENUECAT_IOS_KEY --value appl_… --visibility plaintext
 
 # Build y envío
 npx eas-cli@latest build --platform ios --profile production
