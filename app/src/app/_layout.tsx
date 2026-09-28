@@ -69,6 +69,7 @@ function RootStack() {
         <Stack.Screen name="escudo" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
         <Stack.Screen name="postal" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
         <Stack.Screen name="plus" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="resumen" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
       </Stack.Protected>
     </Stack>
   );

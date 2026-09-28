@@ -1,5 +1,6 @@
+import { router } from 'expo-router';
 import { Image } from 'expo-image';
-import { Share, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { Card, PillButton, SectionTitle, Screen } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
@@ -111,7 +112,7 @@ export default function ProgressScreen() {
           />
           <View style={styles.shareTxt}>
             <Text style={styles.shareTitle}>{summary}</Text>
-            <PillButton label="Compartir resumen" onPress={() => Share.share({ message: `${summary} ✨` })} />
+            <PillButton label="Compartir resumen" onPress={() => router.push('/resumen')} />
           </View>
         </View>
       </View>
