@@ -325,6 +325,20 @@ describe('Cuentas (e2e)', () => {
     await http().put('/me/progress').set(auth).send({ data: huge }).expect(413);
   });
 
+  it('limpia tokens caducados y códigos viejos', async () => {
+    const { CleanupService } = await import('../src/db/cleanup.service.js');
+    await register('limpieza@correo.com').expect(200);
+    const future = new Date(Date.now() + 40 * 24 * 60 * 60 * 1000);
+    const result = await app.get(CleanupService).run(future);
+    expect(result.tokens).toBeGreaterThan(0);
+    expect(result.codes).toBeGreaterThan(0);
+    const { rows } = await pool.query(
+      'select count(*)::int as n from refresh_tokens where expires_at < $1',
+      [future],
+    );
+    expect(rows[0].n).toBe(0);
+  });
+
   it('responde al health check', async () => {
     await http().get('/health').expect(200, { status: 'ok' });
   });

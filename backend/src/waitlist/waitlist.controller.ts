@@ -19,6 +19,8 @@ import { IsEmail, IsOptional, IsString, MaxLength } from 'class-validator';
 import { normalizeEmail } from '../auth/crypto.js';
 import { DB, type Database } from '../db/database.module.js';
 import { waitlistEntries } from '../db/schema.js';
+import { MailService } from '../mail/mail.service.js';
+import { waitlistWelcomeMail } from '../mail/templates.js';
 
 const clip = ({ value }: { value: unknown }) =>
   typeof value === 'string' ? value.trim().slice(0, 200) : value;
@@ -93,18 +95,22 @@ export class JoinWaitlistDto {
 @ApiTags('waitlist')
 @Controller('waitlist')
 export class WaitlistController {
-  constructor(@Inject(DB) private readonly db: Database) {}
+  constructor(
+    @Inject(DB) private readonly db: Database,
+    private readonly mail: MailService,
+  ) {}
 
-  /** Apuntarse dos veces no es un error: responde igual y no duplica. */
+  /** Apuntarse dos veces no es un error: responde igual, no duplica y solo manda el correo la primera vez. */
   @Post()
   @Throttle({ default: { limit: 5, ttl: 60_000 } })
   @HttpCode(HttpStatus.NO_CONTENT)
   @ApiNoContentResponse()
   async joinWaitlist(@Body() dto: JoinWaitlistDto): Promise<void> {
-    await this.db
+    const email = normalizeEmail(dto.email);
+    const inserted = await this.db
       .insert(waitlistEntries)
       .values({
-        email: normalizeEmail(dto.email),
+        email,
         app: dto.app ?? null,
         form: dto.form ?? null,
         utmSource: dto.utm_source ?? null,
@@ -115,6 +121,8 @@ export class WaitlistController {
         referrer: dto.referrer ?? null,
         lang: dto.lang ?? null,
       })
-      .onConflictDoNothing({ target: waitlistEntries.email });
+      .onConflictDoNothing({ target: waitlistEntries.email })
+      .returning({ id: waitlistEntries.id });
+    if (inserted.length > 0) await this.mail.send(email, waitlistWelcomeMail());
   }
 }

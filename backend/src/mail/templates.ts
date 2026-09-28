@@ -87,3 +87,14 @@ export function accountDeletedMail(name: string): MailContent {
     text: `${hi}.\n\nHemos borrado tu cuenta y todos sus datos. Si algún día vuelves, Lumi te estará esperando.`,
   };
 }
+
+export function waitlistWelcomeMail(): MailContent {
+  return {
+    subject: '¡Ya estás en la lista de Lumi! ✨',
+    html: layout('¡Ya estás en la lista!', [
+      'Lumi ha dado tres saltitos al leer tu nombre. Te escribiremos en cuanto pueda mudarse a tu iPhone.',
+      'Mientras tanto, un truco suyo: deja el móvil en otra habitación durante la cena. Brilla muchísimo.',
+    ]),
+    text: '¡Ya estás en la lista!\n\nLumi ha dado tres saltitos. Te escribiremos en cuanto pueda mudarse a tu iPhone.\n\nMientras tanto, un truco suyo: deja el móvil en otra habitación durante la cena.',
+  };
+}
