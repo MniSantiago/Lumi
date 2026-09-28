@@ -1,0 +1,657 @@
+<title>Lumi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..800,100,1&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: presentation page — notes column on the left, iPhone frame in the centre; the app theme is lifted from Lumi (night indigo body, lavender skin, amber light, peach cheeks). Single dark world by choice. */
+:root {
+  --night-900: #13112E;
+  --night-800: #1B1840;
+  --night-700: #2A2560;
+  --night-600: #3A3380;
+  --lavender-500: #8C7BD8;
+  --lavender-200: #C9BFF2;
+  --lavender-100: #E6E0FB;
+  --amber-400: #FFC96B;
+  --amber-200: #FFE3A3;
+  --peach-300: #FFB4A2;
+  --moss-500: #5E8C7A;
+  --ink: #F4F0FF;
+  --ink-soft: #B9B0E6;
+  --ink-faint: #A69FD8;
+  --card: rgba(42, 37, 96, 0.72);
+  --card-solid: #2A2560;
+  --line: rgba(201, 191, 242, 0.16);
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-body: "Figtree", "Avenir Next", "Segoe UI", system-ui, sans-serif;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--night-900); color: var(--ink); }
+body { font-family: var(--font-body); font-size: 15px; line-height: 1.5; padding-inline: 16px; padding-block: 32px 48px;
+  background: radial-gradient(1200px 700px at 70% 20%, #231F55 0%, var(--night-900) 60%); background-color: var(--night-900); min-height: 100%; }
+button { font: inherit; color: inherit; }
+:focus-visible { outline: 2px solid var(--amber-400); outline-offset: 2px; }
+
+.stage { max-width: 1120px; margin: 0 auto; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 56px; align-items: start; }
+@media (max-width: 900px) { .stage { grid-template-columns: minmax(0, 1fr); gap: 32px; justify-items: center; } }
+
+/* ---------- notes column ---------- */
+.notes { max-width: 440px; padding-top: 24px; display: grid; gap: 28px; }
+.notes h1 { font-family: var(--font-display); font-variation-settings: "SOFT" 100, "WONK" 1; font-weight: 700; font-size: 64px; line-height: 1; margin: 0; letter-spacing: -0.02em; color: var(--amber-200);
+  text-shadow: 0 0 32px rgba(255, 201, 107, 0.45); }
+.notes .lede { font-size: 18px; color: var(--ink-soft); margin: 0; max-width: 36ch; text-wrap: pretty; }
+.ctl { display: grid; gap: 10px; }
+.ctl h2 { font-family: var(--font-display); font-variation-settings: "SOFT" 100; font-size: 18px; font-weight: 600; margin: 0; }
+.ctl p { margin: 0; color: var(--ink-faint); font-size: 13px; }
+.seg { display: flex; flex-wrap: wrap; gap: 6px; }
+.seg button { border: 1px solid var(--line); background: transparent; padding: 8px 14px; border-radius: 999px; cursor: pointer; font-size: 14px; color: var(--ink-soft); }
+.seg button[aria-pressed="true"] { background: var(--amber-400); color: var(--night-800); border-color: var(--amber-400); font-weight: 600; }
+.swatches { display: flex; flex-wrap: wrap; gap: 10px; }
+.sw { display: grid; gap: 4px; font-size: 11px; color: var(--ink-faint); }
+.sw i { width: 44px; height: 44px; border-radius: 50%; display: block; border: 1px solid var(--line); }
+
+/* ---------- phone ---------- */
+.phone-wrap { width: min(390px, 100%); }
+.phone { position: relative; width: 100%; aspect-ratio: 390 / 844; max-width: 100%; border-radius: 54px; padding: 11px; background: linear-gradient(145deg, #3b3570, #15132f 60%, #2b2660);
+  box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 40px 90px -20px rgba(0,0,0,0.7), 0 0 120px -30px rgba(140,123,216,0.5); }
+.screen { position: relative; width: 100%; height: 100%; border-radius: 44px; overflow: hidden; background: var(--night-800); isolation: isolate; container-type: inline-size; }
+.island { position: absolute; top: 11px; left: 50%; transform: translateX(-50%); width: 31%; height: 30px; background: #000; border-radius: 20px; z-index: 50; }
+.statusbar { position: absolute; top: 0; left: 0; right: 0; height: 50px; display: flex; justify-content: space-between; align-items: center; padding: 6px 30px 0; font-weight: 600; font-size: 15px; z-index: 40; font-variant-numeric: tabular-nums; }
+.statusbar .icons { display: flex; gap: 6px; align-items: center; }
+.home-ind { position: absolute; bottom: 8px; left: 50%; transform: translateX(-50%); width: 36%; height: 5px; border-radius: 3px; background: rgba(255,255,255,0.7); z-index: 60; }
+
+/* views inside screen */
+.view { position: absolute; inset: 0; }
+.scroll { position: absolute; inset: 0; overflow-y: auto; padding: 60px 18px 110px; scrollbar-width: none; }
+.scroll::-webkit-scrollbar { display: none; }
+
+/* ---------- night world background (Higgsfield illustration) ---------- */
+.world { position: absolute; inset: 0; z-index: -1; background: var(--night-800) url("{{BG}}") center bottom / cover no-repeat; }
+.world canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+.world .dim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(19,17,46,0.55) 0%, rgba(19,17,46,0) 30%), rgba(19,17,46,var(--dim, 0)); transition: background-color .8s; }
+
+/* ---------- home ---------- */
+.home { position: absolute; inset: 0; padding: 58px 16px 0; }
+.home-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+.home-top .who { display: grid; }
+.home-top .who small { color: var(--ink-soft); font-size: 13px; }
+.home-top .who b { font-family: var(--font-display); font-variation-settings: "SOFT" 100, "WONK" 1; font-size: 26px; font-weight: 700; line-height: 1.1; }
+.chip { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px 6px 8px; border-radius: 999px; background: rgba(27, 24, 64, 0.7); border: 1px solid var(--line); font-weight: 600; font-size: 14px; font-variant-numeric: tabular-nums; backdrop-filter: blur(8px); }
+.spark { width: 16px; height: 16px; flex: none; }
+.home .meter-card { margin-top: 12px; padding: 12px 14px; }
+.home .meter-card .meter { margin-top: 8px; }
+
+.bubble { position: absolute; left: 16px; right: 16px; bottom: 58%; margin: 0 auto; width: fit-content; max-width: 84%; background: var(--lavender-100); color: var(--night-800); padding: 11px 15px; border-radius: 22px; font-size: 14.5px; font-weight: 500; line-height: 1.35; text-align: center;
+  box-shadow: 0 10px 30px -12px rgba(0,0,0,0.5); text-wrap: balance; }
+.bubble::after { content: ""; position: absolute; left: 50%; bottom: -7px; width: 14px; height: 14px; background: var(--lavender-100); transform: translateX(-50%) rotate(45deg); border-radius: 3px; }
+
+.lumi-stage { position: absolute; left: 0; right: 0; bottom: 22%; display: grid; justify-items: center; }
+.lumi-stage .lumi-img { width: 44%; }
+.lumi-stage::after { content: ""; position: absolute; bottom: 2%; width: 30%; height: 12px; border-radius: 50%; background: rgba(19,17,46,0.35); filter: blur(4px); z-index: -1; }
+.state-label { position: absolute; top: -4px; right: 22%; display: flex; gap: 6px; align-items: center; padding: 4px 11px; border-radius: 999px; background: rgba(19,17,46,0.7); font-size: 12.5px; font-weight: 600; color: var(--amber-200); backdrop-filter: blur(6px); white-space: nowrap; }
+.home .exp-card { position: absolute; left: 12px; right: 12px; bottom: 102px; padding: 12px 14px; }
+
+/* Lumi image + light states */
+.lumi-img { position: relative; display: block; max-width: 100%; }
+.lumi-img img { display: block; width: 100%; height: auto; transition: filter .8s; }
+.lumi-img .breathe { animation: breathe 3.4s ease-in-out infinite; transform-origin: 50% 100%; }
+@keyframes breathe { 0%,100% { transform: scale(1,1) translateY(0); } 50% { transform: scale(1.02,0.98) translateY(1px); } }
+.lumi-img.float .breathe { animation: breathe 3.4s ease-in-out infinite, bob 4.6s ease-in-out infinite; }
+@keyframes bob { 0%,100% { translate: 0 0; } 50% { translate: 0 -6px; } }
+.lumi-img.s-radiante img { filter: brightness(1.06) saturate(1.1) drop-shadow(0 0 18px rgba(255,201,107,0.85)) drop-shadow(0 0 40px rgba(255,201,107,0.45)); }
+.lumi-img.s-contenta img { filter: drop-shadow(0 0 14px rgba(255,201,107,0.6)); }
+.lumi-img.s-cansada img { filter: brightness(0.8) saturate(0.8) drop-shadow(0 0 6px rgba(255,201,107,0.25)); }
+.lumi-img.s-apagadita img { filter: brightness(0.62) saturate(0.6); }
+.lumi-img .zzz { position: absolute; top: 4%; right: 2%; font-family: var(--font-display); font-weight: 700; color: var(--lavender-200); font-size: clamp(12px, 9cqw, 26px); line-height: 1; pointer-events: none; }
+.lumi-img .zzz span { display: block; animation: zzz 3s ease-in-out infinite; }
+.lumi-img .zzz span + span { font-size: .7em; margin-left: .8em; animation-delay: -1.5s; }
+@keyframes zzz { 0% { opacity: 0; transform: translate(0,6px); } 30% { opacity: 1; } 100% { opacity: 0; transform: translate(8px,-14px); } }
+@media (prefers-reduced-motion: reduce) { .lumi-img *, .lumi-img { animation: none !important; } }
+
+.panel { background: var(--card); border: 1px solid var(--line); border-radius: 24px; padding: 16px; backdrop-filter: blur(14px); }
+.stack { display: grid; gap: 12px; margin-top: 12px; }
+.panel h3 { margin: 0; font-size: 13px; font-weight: 600; color: var(--ink-soft); }
+.meter-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.meter-head b { font-family: var(--font-display); font-variation-settings: "SOFT" 100; font-size: 20px; font-weight: 600; }
+.meter-head span { font-size: 13px; color: var(--ink-faint); }
+.meter { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 12px; }
+.meter i { height: 14px; border-radius: 8px; background: rgba(201,191,242,0.14); position: relative; overflow: hidden; }
+.meter i.lit { background: linear-gradient(90deg, var(--amber-400), var(--amber-200)); box-shadow: 0 0 14px rgba(255,201,107,0.55); }
+.meter-legend { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 6px; font-size: 11px; color: var(--ink-faint); text-align: center; }
+.meter-legend span.on { color: var(--amber-200); font-weight: 600; }
+
+.exp { display: flex; gap: 12px; align-items: center; }
+.exp .thumb { width: 56px; height: 56px; border-radius: 18px; flex: none; }
+.exp .txt { min-width: 0; display: grid; gap: 2px; }
+.exp .txt b { font-size: 15px; }
+.exp .txt span { font-size: 13px; color: var(--ink-soft); }
+.progress { height: 6px; border-radius: 3px; background: rgba(201,191,242,0.14); margin-top: 12px; overflow: hidden; }
+.progress i { display: block; height: 100%; background: var(--lavender-200); border-radius: 3px; }
+
+/* ---------- tab bar ---------- */
+.tabbar { position: absolute; left: 12px; right: 12px; bottom: 22px; height: 70px; border-radius: 28px; background: rgba(19,17,46,0.82); border: 1px solid var(--line); backdrop-filter: blur(18px); display: grid; grid-template-columns: repeat(5, 1fr); z-index: 30; padding: 0 4px; }
+.tabbar button { background: none; border: 0; display: grid; justify-items: center; align-content: center; gap: 3px; font-size: 10px; font-weight: 600; color: var(--ink-faint); cursor: pointer; border-radius: 22px; min-width: 0; }
+.tabbar button svg { width: 24px; height: 24px; }
+.tabbar button[aria-selected="true"] { color: var(--amber-200); }
+.tabbar button[aria-selected="true"] svg { filter: drop-shadow(0 0 8px rgba(255,201,107,0.6)); }
+
+/* ---------- inner pages ---------- */
+.page-title { font-family: var(--font-display); font-variation-settings: "SOFT" 100, "WONK" 1; font-size: 32px; font-weight: 700; margin: 6px 0 2px; line-height: 1.1; text-wrap: balance; }
+.page-sub { color: var(--ink-soft); margin: 0 0 16px; font-size: 14px; }
+.inner-bg { position: absolute; inset: 0; z-index: -1; background: radial-gradient(420px 300px at 80% -40px, rgba(140,123,216,0.35), transparent 70%), linear-gradient(180deg, var(--night-800), var(--night-900)); }
+.section-h { display: flex; justify-content: space-between; align-items: baseline; margin: 22px 0 10px; }
+.section-h h4 { margin: 0; font-family: var(--font-display); font-variation-settings: "SOFT" 100; font-size: 18px; font-weight: 600; }
+.section-h a, .link { color: var(--amber-200); font-size: 13px; font-weight: 600; text-decoration: none; background: none; border: 0; cursor: pointer; }
+
+/* expedition trail */
+.trail { position: relative; display: grid; gap: 14px; padding-left: 28px; }
+.trail::before { content: ""; position: absolute; left: 11px; top: 14px; bottom: 14px; border-left: 2px dashed rgba(201,191,242,0.3); }
+.zone { position: relative; display: flex; gap: 12px; align-items: center; }
+.zone .dot { position: absolute; left: -24px; width: 16px; height: 16px; border-radius: 50%; background: var(--night-700); border: 2px solid var(--lavender-500); }
+.zone.done .dot { background: var(--lavender-200); border-color: var(--lavender-200); }
+.zone.now .dot { background: var(--amber-400); border-color: var(--amber-200); box-shadow: 0 0 0 5px rgba(255,201,107,0.2), 0 0 16px var(--amber-400); }
+.zone.locked { opacity: 0.55; }
+.zone .thumb { width: 48px; height: 48px; border-radius: 14px; flex: none; }
+.zone .txt { display: grid; min-width: 0; }
+.zone .txt b { font-size: 15px; }
+.zone .txt span { font-size: 12.5px; color: var(--ink-faint); }
+
+.cards-row { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
+.postcard { flex: none; width: 128px; border-radius: 14px; padding: 6px 6px 10px; background: #F6F1E6; color: var(--night-800); transform: rotate(var(--r, 0deg)); box-shadow: 0 10px 20px -10px rgba(0,0,0,0.6); }
+.postcard .art { height: 86px; border-radius: 9px; }
+.postcard b { display: block; font-family: var(--font-display); font-variation-settings: "SOFT" 100; font-size: 13px; margin: 6px 2px 0; line-height: 1.2; }
+.postcard small { display: block; font-size: 10.5px; color: #6c6690; margin: 2px 2px 0; }
+
+/* collection */
+.tabs-mini { display: flex; gap: 4px; padding: 4px; border-radius: 14px; background: rgba(201,191,242,0.08); margin-bottom: 14px; }
+.tabs-mini button { flex: 1; border: 0; background: transparent; padding: 8px; border-radius: 10px; font-size: 13px; font-weight: 600; color: var(--ink-faint); cursor: pointer; }
+.tabs-mini button[aria-selected="true"] { background: var(--night-600); color: var(--ink); }
+.grid-post { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 12px; }
+.grid-post .postcard { width: auto; }
+.grid-post .postcard .art { height: 100px; }
+.grid-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.item { aspect-ratio: 1; border-radius: 18px; background: var(--card-solid); border: 1px solid var(--line); display: grid; place-items: center; align-content: center; gap: 4px; text-align: center; font-size: 11px; color: var(--ink-soft); padding: 6px; }
+.item svg { width: 40px; height: 40px; }
+.item.locked svg { opacity: 0.25; filter: grayscale(1); }
+.item.locked { color: var(--ink-faint); }
+.count { font-size: 13px; color: var(--ink-faint); margin: -6px 0 12px; }
+
+/* progress */
+.streak { display: flex; gap: 14px; align-items: center; }
+.streak .num { font-family: var(--font-display); font-variation-settings: "SOFT" 100, "WONK" 1; font-size: 54px; font-weight: 800; color: var(--amber-200); line-height: 1; text-shadow: 0 0 22px rgba(255,201,107,0.5); font-variant-numeric: tabular-nums; }
+.streak .txt { display: grid; gap: 2px; }
+.streak .txt span { font-size: 13px; color: var(--ink-soft); }
+.week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; align-items: end; height: 130px; margin-top: 14px; }
+.day { display: grid; justify-items: center; gap: 6px; height: 100%; align-content: end; }
+.day .bar { width: 100%; max-width: 30px; border-radius: 10px; background: linear-gradient(180deg, var(--amber-200), var(--amber-400)); box-shadow: 0 0 12px rgba(255,201,107,0.4); }
+.day .bar.rest { background: repeating-linear-gradient(45deg, rgba(201,191,242,0.25) 0 4px, transparent 4px 8px); box-shadow: none; border: 1px dashed rgba(201,191,242,0.4); }
+.day span { font-size: 11px; color: var(--ink-faint); font-weight: 600; }
+.day.today span { color: var(--amber-200); }
+.chart-note { font-size: 12px; color: var(--ink-faint); margin-top: 10px; }
+.share { margin-top: 12px; border-radius: 22px; padding: 16px; background: linear-gradient(160deg, var(--lavender-500), var(--night-600) 70%); display: flex; gap: 12px; align-items: center; }
+.share .lumi-img { width: 76px; flex: none; }
+.share .txt { display: grid; gap: 6px; min-width: 0; }
+.share .txt b { font-family: var(--font-display); font-variation-settings: "SOFT" 100; font-size: 17px; line-height: 1.2; }
+.btn { border: 0; border-radius: 999px; padding: 10px 18px; font-weight: 700; font-size: 14px; cursor: pointer; background: var(--amber-400); color: var(--night-800); box-shadow: 0 6px 20px -6px rgba(255,201,107,0.7); justify-self: start; }
+.btn.ghost { background: rgba(244,240,255,0.1); color: var(--ink); box-shadow: none; }
+.evo { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; text-align: center; }
+.evo div { display: grid; justify-items: center; gap: 4px; font-size: 11.5px; color: var(--ink-soft); }
+.evo .orb { width: 44px; height: 44px; border-radius: 50%; }
+.evo .locked { opacity: 0.4; }
+
+/* settings */
+.list { background: var(--card); border: 1px solid var(--line); border-radius: 20px; overflow: hidden; }
+.row { display: flex; align-items: center; gap: 12px; padding: 13px 14px; border-bottom: 1px solid var(--line); min-height: 52px; }
+.row:last-child { border-bottom: 0; }
+.row .ic { width: 32px; height: 32px; border-radius: 9px; flex: none; display: grid; place-items: center; font-size: 13px; font-weight: 700; color: #fff; }
+.row .lbl { flex: 1; min-width: 0; font-size: 15px; }
+.row .lbl small { display: block; font-size: 12px; color: var(--ink-faint); }
+.row .val { color: var(--ink-soft); font-size: 14px; font-variant-numeric: tabular-nums; }
+.stepper { display: flex; align-items: center; gap: 8px; }
+.stepper button { width: 30px; height: 30px; border-radius: 50%; border: 1px solid var(--line); background: rgba(201,191,242,0.1); cursor: pointer; font-size: 17px; line-height: 1; }
+.stepper output { min-width: 50px; text-align: center; font-weight: 600; font-variant-numeric: tabular-nums; }
+.toggle { width: 50px; height: 30px; border-radius: 15px; background: var(--lavender-500); position: relative; border: 0; cursor: pointer; flex: none; }
+.toggle::after { content: ""; position: absolute; top: 3px; left: 23px; width: 24px; height: 24px; border-radius: 50%; background: #fff; transition: left .2s; }
+.toggle[aria-checked="false"] { background: rgba(201,191,242,0.25); }
+.toggle[aria-checked="false"]::after { left: 3px; }
+.plus { margin-top: 18px; border-radius: 24px; padding: 18px; background: radial-gradient(260px 160px at 90% 0%, rgba(255,201,107,0.35), transparent 70%), var(--night-700); border: 1px solid rgba(255,201,107,0.3); display: grid; gap: 10px; }
+.plus b { font-family: var(--font-display); font-variation-settings: "SOFT" 100, "WONK" 1; font-size: 22px; color: var(--amber-200); }
+.plus ul { margin: 0; padding-left: 18px; color: var(--ink-soft); font-size: 13.5px; display: grid; gap: 3px; }
+.plus small { color: var(--ink-faint); font-size: 12px; }
+
+/* ---------- shield ---------- */
+.shield { position: absolute; inset: 0; background: radial-gradient(360px 360px at 50% 36%, rgba(140,123,216,0.35), transparent 70%), linear-gradient(180deg, #100E28, var(--night-800)); display: grid; align-content: center; justify-items: center; text-align: center; padding: 60px 28px 60px; gap: 14px; }
+.shield .lumi-img { width: 190px; }
+.shield h2 { font-family: var(--font-display); font-variation-settings: "SOFT" 100, "WONK" 1; font-size: 27px; line-height: 1.15; margin: 8px 0 0; text-wrap: balance; }
+.shield p { color: var(--ink-soft); margin: 0; font-size: 15px; max-width: 28ch; }
+.shield .actions { display: grid; gap: 10px; width: 100%; margin-top: 18px; }
+.shield .actions .btn { justify-self: stretch; padding: 15px; font-size: 16px; }
+.shield .app-tag { font-size: 12px; color: var(--ink-faint); padding: 4px 10px; border: 1px solid var(--line); border-radius: 999px; }
+
+/* ---------- widget view: lock screen ---------- */
+.lock { position: absolute; inset: 0; background: linear-gradient(180deg, #2A2560 0%, #4B3F97 55%, #8C7BD8 100%); display: grid; align-content: start; justify-items: center; padding-top: 70px; }
+.lock .date { font-size: 18px; font-weight: 600; color: rgba(255,255,255,0.85); }
+.lock .time { font-family: var(--font-display); font-variation-settings: "SOFT" 100; font-size: 92px; font-weight: 600; line-height: 1; color: #fff; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.lock .widgets { display: flex; gap: 12px; margin-top: 12px; }
+.w-circ { width: 72px; height: 72px; border-radius: 50%; background: rgba(255,255,255,0.18); backdrop-filter: blur(10px); display: grid; place-items: center; }
+.w-circ .lumi-img { width: 56px; }
+.w-rect { width: 160px; height: 72px; border-radius: 20px; background: rgba(255,255,255,0.18); backdrop-filter: blur(10px); display: flex; align-items: center; gap: 8px; padding: 8px 12px; color: #fff; }
+.w-rect .lumi-img { width: 50px; flex: none; }
+.w-rect div { display: grid; font-size: 12px; line-height: 1.3; }
+.w-rect b { font-size: 14px; }
+.home-widget { position: absolute; left: 22px; right: 22px; bottom: 120px; border-radius: 28px; padding: 16px; background: linear-gradient(160deg, var(--night-700), var(--night-800)); display: flex; gap: 14px; align-items: center; box-shadow: 0 20px 40px -20px rgba(0,0,0,0.6); }
+.home-widget .lumi-img { width: 96px; flex: none; }
+.home-widget .txt { display: grid; gap: 6px; min-width: 0; }
+.home-widget .txt b { font-family: var(--font-display); font-variation-settings: "SOFT" 100; font-size: 18px; }
+.home-widget .meter { margin-top: 2px; gap: 4px; }
+.home-widget .meter i { height: 8px; }
+.home-widget small { font-size: 12px; color: var(--ink-soft); }
+.widget-caption { position: absolute; bottom: 70px; left: 0; right: 0; text-align: center; font-size: 12px; color: rgba(255,255,255,0.8); }
+
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+
+<main class="stage">
+  <section class="notes" aria-label="Controles del mockup">
+    <div>
+      <h1>Lumi</h1>
+    </div>
+    <p class="lede">Un espíritu de luz que vive contigo todo el día. Cuando sueltas el móvil, brilla y sale de aventura. Cuando haces scroll, se atenúa y te espera en casa.</p>
+
+    <div class="ctl">
+      <h2>Luz de hoy</h2>
+      <p>Simula los avisos de Screen Time al 25, 50, 75 y 100 % del límite.</p>
+      <div class="seg" id="stateSeg" role="group" aria-label="Estado de Lumi">
+        <button type="button" data-state="radiante" aria-pressed="false">Radiante</button>
+        <button type="button" data-state="contenta" aria-pressed="true">Contenta</button>
+        <button type="button" data-state="cansada" aria-pressed="false">Cansada</button>
+        <button type="button" data-state="apagadita" aria-pressed="false">Apagadita</button>
+      </div>
+    </div>
+
+    <div class="ctl">
+      <h2>Superficie</h2>
+      <p>La app, la pantalla de escudo que aparece al abrir una app ladrona y los widgets.</p>
+      <div class="seg" id="surfaceSeg" role="group" aria-label="Superficie">
+        <button type="button" data-surface="app" aria-pressed="true">App</button>
+        <button type="button" data-surface="shield" aria-pressed="false">Escudo</button>
+        <button type="button" data-surface="widget" aria-pressed="false">Widgets</button>
+      </div>
+    </div>
+
+    <div class="ctl">
+      <h2>Paleta sacada de Lumi</h2>
+      <div class="swatches">
+        <div class="sw"><i style="background:#1B1840"></i>Noche</div>
+        <div class="sw"><i style="background:#2A2560"></i>Índigo</div>
+        <div class="sw"><i style="background:#8C7BD8"></i>Violeta</div>
+        <div class="sw"><i style="background:#C9BFF2"></i>Lavanda</div>
+        <div class="sw"><i style="background:#FFC96B"></i>Ámbar</div>
+        <div class="sw"><i style="background:#FFB4A2"></i>Mejillas</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="phone-wrap">
+    <div class="phone">
+      <div class="screen" id="screen">
+        <div class="island" aria-hidden="true"></div>
+        <div class="statusbar" aria-hidden="true">
+          <span>21:14</span>
+          <span class="icons">
+            <svg width="18" height="12" viewBox="0 0 18 12" fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5" width="3" height="7" rx="1"/><rect x="10" y="2.5" width="3" height="9.5" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>
+            <svg width="26" height="12" viewBox="0 0 26 12" fill="none"><rect x="0.5" y="0.5" width="22" height="11" rx="3.5" stroke="currentColor" opacity=".5"/><rect x="2" y="2" width="15" height="8" rx="2" fill="currentColor"/><rect x="24" y="4" width="2" height="4" rx="1" fill="currentColor" opacity=".5"/></svg>
+          </span>
+        </div>
+
+        <!-- APP -->
+        <div id="surface-app" class="view">
+          <!-- Hogar -->
+          <div class="view" id="tab-home" role="tabpanel" aria-label="Hogar">
+            <div class="world" aria-hidden="true">
+              <canvas id="sky"></canvas>
+              <div class="dim"></div>
+            </div>
+            <div class="home">
+              <div class="home-top">
+                <div class="who"><small id="greet">Buenas noches, Santi</small><b>Lumi</b></div>
+                <span class="chip" title="Chispas de hoy"><svg class="spark" viewBox="0 0 16 16"><path d="M8 0 L9.6 6.4 L16 8 L9.6 9.6 L8 16 L6.4 9.6 L0 8 L6.4 6.4Z" fill="#FFC96B"/></svg><span id="sparks">+14</span></span>
+              </div>
+              <div class="panel meter-card">
+                <div class="meter-head"><h3>Luz de hoy</h3><span id="meterNote">Entre el 25 y el 50 % de tu hora</span></div>
+                <div class="meter" id="meter" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+              </div>
+              <p class="bubble" id="bubble">Hoy vamos bien. Si aguantas un ratito más, esta noche te traigo una postal.</p>
+              <div class="lumi-stage">
+                <div id="lumiHome" style="display:contents"></div>
+                <span class="state-label" id="stateLabel">Contenta</span>
+              </div>
+              <div class="panel exp-card">
+                <div class="exp">
+                  <div class="thumb" style="background: radial-gradient(circle at 40% 70%, #8FD1A6 0 10%, transparent 11%), radial-gradient(circle at 70% 40%, #FFE3A3 0 6%, transparent 7%), linear-gradient(160deg, #3E6A6A, #1D2446);"></div>
+                  <div class="txt">
+                    <b id="expTitle">Explorando el Bosque de Musgo</b>
+                    <span id="expSub">Vuelve a las 21:00 con una postal</span>
+                  </div>
+                </div>
+                <div class="progress" id="expBar"><i style="width:68%"></i></div>
+              </div>
+            </div>
+          </div>
+          <!-- Expediciones -->
+          <div class="view" id="tab-exp" role="tabpanel" aria-label="Expediciones" hidden>
+            <div class="inner-bg" aria-hidden="true"></div>
+            <div class="scroll">
+              <h2 class="page-title">Expediciones</h2>
+              <p class="page-sub">Lumi explora una zona nueva cada día que le dejas brillar.</p>
+              <div class="trail">
+                <div class="zone done"><span class="dot"></span><div class="thumb" style="background:linear-gradient(160deg,#FFE3A3,#FFB4A2 60%,#8C7BD8)"></div><div class="txt"><b>Colina de los Dientes de León</b><span>Visitada el lunes. Trajo una semilla que vuela.</span></div></div>
+                <div class="zone done"><span class="dot"></span><div class="thumb" style="background:linear-gradient(160deg,#C9BFF2,#5F82C8 60%,#2A2560)"></div><div class="txt"><b>Lago de las Lunas</b><span>Visitada el miércoles. Postal y una piedra lisa.</span></div></div>
+                <div class="zone now"><span class="dot"></span><div class="thumb" style="background:radial-gradient(circle at 40% 70%, #8FD1A6 0 10%, transparent 11%), linear-gradient(160deg,#3E6A6A,#1D2446)"></div><div class="txt"><b>Bosque de Musgo</b><span>Ahora mismo. Vuelve a las 21:00.</span></div></div>
+                <div class="zone locked"><span class="dot"></span><div class="thumb" style="background:linear-gradient(160deg,#9FE3F0,#6A5FC0 60%,#1B1840)"></div><div class="txt"><b>Cuevas de Cristal</b><span>Se abre con 3 días más de luz.</span></div></div>
+                <div class="zone locked"><span class="dot"></span><div class="thumb" style="background:linear-gradient(160deg,#FFC96B,#B06A7A 60%,#2A2560)"></div><div class="txt"><b>Faro Dormido</b><span>Zona de Lumi Plus.</span></div></div>
+              </div>
+              <div class="section-h"><h4>Postales recibidas</h4><button class="link" type="button" data-goto="col">Ver álbum</button></div>
+              <div class="cards-row">
+                <div class="postcard" style="--r:-2deg"><div class="art" style="background:linear-gradient(170deg,#C9BFF2,#5F82C8 55%,#2A2560); position:relative"></div><b>Lago de las Lunas</b><small>«Había dos lunas y ninguna era de queso.»</small></div>
+                <div class="postcard" style="--r:1.5deg"><div class="art" style="background:linear-gradient(170deg,#FFE3A3,#FFB4A2 60%,#8C7BD8)"></div><b>Colina de los Dientes de León</b><small>«Me hice amiga de un soplido.»</small></div>
+                <div class="postcard" style="--r:-1deg"><div class="art" style="background:linear-gradient(170deg,#8FD1A6,#3E6A6A 60%,#1D2446)"></div><b>Pradera Suave</b><small>«Te guardé un trébol.»</small></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Colección -->
+          <div class="view" id="tab-col" role="tabpanel" aria-label="Colección" hidden>
+            <div class="inner-bg" aria-hidden="true"></div>
+            <div class="scroll">
+              <h2 class="page-title">Colección</h2>
+              <p class="page-sub">Todo lo que Lumi ha traído de sus viajes.</p>
+              <div class="tabs-mini" role="tablist" aria-label="Tipo de colección">
+                <button type="button" role="tab" aria-selected="true" data-col="post">Postales</button>
+                <button type="button" role="tab" aria-selected="false" data-col="obj">Objetos</button>
+                <button type="button" role="tab" aria-selected="false" data-col="friends">Amigos</button>
+              </div>
+              <div id="col-post">
+                <p class="count">6 de 20 destinos</p>
+                <div class="grid-post">
+                  <div class="postcard"><div class="art" style="background:linear-gradient(170deg,#C9BFF2,#5F82C8 55%,#2A2560)"></div><b>Lago de las Lunas</b><small>Capítulo 1</small></div>
+                  <div class="postcard"><div class="art" style="background:linear-gradient(170deg,#FFE3A3,#FFB4A2 60%,#8C7BD8)"></div><b>Colina de los Dientes de León</b><small>Capítulo 1</small></div>
+                  <div class="postcard"><div class="art" style="background:linear-gradient(170deg,#8FD1A6,#3E6A6A 60%,#1D2446)"></div><b>Pradera Suave</b><small>Capítulo 1</small></div>
+                  <div class="postcard"><div class="art" style="background:linear-gradient(170deg,#FFB4A2,#8C7BD8 60%,#2A2560)"></div><b>Jardín de Setas</b><small>Capítulo 1</small></div>
+                  <div class="postcard"><div class="art" style="background:linear-gradient(170deg,#E6E0FB,#8C7BD8 50%,#1B1840)"></div><b>Nube Baja</b><small>Capítulo 2</small></div>
+                  <div class="postcard"><div class="art" style="background:linear-gradient(170deg,#FFC96B,#6B4A3E 70%)"></div><b>Madriguera del Vecino</b><small>Capítulo 2</small></div>
+                </div>
+              </div>
+              <div id="col-obj" hidden>
+                <p class="count">9 de 36 objetos</p>
+                <div class="grid-items">
+                  <div class="item"><svg viewBox="0 0 40 40"><circle cx="20" cy="22" r="11" fill="#C9BFF2"/><circle cx="16" cy="18" r="3" fill="#fff" opacity=".6"/></svg>Piedra lisa</div>
+                  <div class="item"><svg viewBox="0 0 40 40"><path d="M20 34 V16" stroke="#8FD1A6" stroke-width="2"/><g stroke="#FFE3A3" stroke-width="1.5"><path d="M20 14 L20 4 M20 14 L28 8 M20 14 L12 8 M20 14 L30 15 M20 14 L10 15"/></g></svg>Semilla voladora</div>
+                  <div class="item"><svg viewBox="0 0 40 40"><path d="M20 8 C 26 16, 30 20, 20 32 C 10 20, 14 16, 20 8Z" fill="#8FD1A6"/></svg>Trébol</div>
+                  <div class="item"><svg viewBox="0 0 40 40"><rect x="18" y="20" width="4" height="12" rx="2" fill="#E6E0FB"/><path d="M8 21 A12 10 0 0 1 32 21Z" fill="#FFB4A2"/><circle cx="15" cy="16" r="2" fill="#fff"/><circle cx="24" cy="14" r="1.5" fill="#fff"/></svg>Seta brillante</div>
+                  <div class="item"><svg viewBox="0 0 40 40"><path d="M10 28 L20 8 L30 28Z" fill="#9FE3F0"/><path d="M20 8 L24 28" stroke="#fff" opacity=".5"/></svg>Cristal pequeño</div>
+                  <div class="item"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="10" fill="#FFE3A3"/><circle cx="20" cy="20" r="16" fill="#FFC96B" opacity=".25"/></svg>Farolillo</div>
+                  <div class="item locked"><svg viewBox="0 0 40 40"><path d="M8 30 Q20 4 32 30Z" fill="#C9BFF2"/></svg>¿?</div>
+                  <div class="item locked"><svg viewBox="0 0 40 40"><rect x="10" y="12" width="20" height="18" rx="4" fill="#C9BFF2"/></svg>¿?</div>
+                  <div class="item locked"><svg viewBox="0 0 40 40"><circle cx="20" cy="20" r="11" fill="#C9BFF2"/></svg>¿?</div>
+                </div>
+              </div>
+              <div id="col-friends" hidden>
+                <p class="count">3 de 12 criaturas amigas</p>
+                <div class="grid-items">
+                  <div class="item"><svg viewBox="0 0 40 40"><ellipse cx="20" cy="24" rx="12" ry="10" fill="#8FD1A6"/><circle cx="16" cy="22" r="1.8" fill="#1B1840"/><circle cx="24" cy="22" r="1.8" fill="#1B1840"/><path d="M14 14 L12 8 M26 14 L28 8" stroke="#8FD1A6" stroke-width="2.5" stroke-linecap="round"/></svg>Musguito</div>
+                  <div class="item"><svg viewBox="0 0 40 40"><circle cx="20" cy="22" r="11" fill="#1B1840" stroke="#8C7BD8"/><circle cx="16" cy="21" r="2.5" fill="#fff"/><circle cx="24" cy="21" r="2.5" fill="#fff"/></svg>Hollín</div>
+                  <div class="item"><svg viewBox="0 0 40 40"><path d="M8 26 C 8 14, 32 14, 32 26 Z" fill="#E6E0FB"/><circle cx="16" cy="22" r="1.6" fill="#1B1840"/><circle cx="24" cy="22" r="1.6" fill="#1B1840"/></svg>Nubecilla</div>
+                  <div class="item locked"><svg viewBox="0 0 40 40"><circle cx="20" cy="22" r="11" fill="#C9BFF2"/></svg>¿?</div>
+                  <div class="item locked"><svg viewBox="0 0 40 40"><ellipse cx="20" cy="22" rx="13" ry="9" fill="#C9BFF2"/></svg>¿?</div>
+                  <div class="item locked"><svg viewBox="0 0 40 40"><path d="M10 30 Q20 6 30 30Z" fill="#C9BFF2"/></svg>¿?</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Progreso -->
+          <div class="view" id="tab-prog" role="tabpanel" aria-label="Progreso" hidden>
+            <div class="inner-bg" aria-hidden="true"></div>
+            <div class="scroll">
+              <h2 class="page-title">Progreso</h2>
+              <p class="page-sub">Semana del 22 al 28 de septiembre</p>
+              <div class="panel">
+                <div class="streak">
+                  <span class="num">12</span>
+                  <div class="txt"><b>días seguidos brillando</b><span>Usaste 1 día de descanso el jueves. Te queda otro esta semana.</span></div>
+                </div>
+              </div>
+              <div class="panel" style="margin-top:12px">
+                <div class="meter-head"><h3>Cuánto brilló Lumi</h3><span>Por tramo de tu límite</span></div>
+                <div class="week" id="week"></div>
+                <p class="chart-note">Cuanto más alta la barra, más luz le quedó a Lumi al final del día.</p>
+              </div>
+              <div class="share">
+                <div id="lumiShare"></div>
+                <div class="txt">
+                  <b>Lumi brilló 6 de 7 días y visitó 4 lugares nuevos</b>
+                  <button class="btn" type="button">Compartir resumen</button>
+                </div>
+              </div>
+              <div class="section-h"><h4>Evolución</h4><span class="count" style="margin:0">Semana 2 de 4</span></div>
+              <div class="panel">
+                <div class="evo">
+                  <div><span class="orb" style="background:radial-gradient(circle,#FFE3A3,#FFC96B 50%,transparent 72%)"></span>Chispa</div>
+                  <div><span class="orb" style="background:radial-gradient(circle,#FFE3A3,#FFC96B 45%,#FFB4A2 60%,transparent 74%)"></span>Farolito</div>
+                  <div class="locked"><span class="orb" style="background:radial-gradient(circle,#E6E0FB,#9FE3F0 50%,transparent 74%)"></span>Estrella</div>
+                  <div class="locked"><span class="orb" style="background:radial-gradient(circle,#fff,#C9BFF2 45%,#8C7BD8 60%,transparent 76%)"></span>Aurora</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Ajustes -->
+          <div class="view" id="tab-set" role="tabpanel" aria-label="Ajustes" hidden>
+            <div class="inner-bg" aria-hidden="true"></div>
+            <div class="scroll">
+              <h2 class="page-title">Ajustes</h2>
+              <p class="page-sub">Lo que apaga la luz de Lumi y cuándo se va a dormir.</p>
+              <div class="section-h" style="margin-top:4px"><h4>Apps ladronas</h4><button class="link" type="button">Editar</button></div>
+              <div class="list">
+                <div class="row"><span class="ic" style="background:#111">T</span><span class="lbl">TikTok</span></div>
+                <div class="row"><span class="ic" style="background:linear-gradient(45deg,#F2A15A,#C9477A,#6F4AC2)">I</span><span class="lbl">Instagram</span></div>
+                <div class="row"><span class="ic" style="background:#E0473E">Y</span><span class="lbl">YouTube<small>Solo Shorts no se puede separar en iOS</small></span></div>
+              </div>
+              <div class="section-h"><h4>Límite y noche</h4></div>
+              <div class="list">
+                <div class="row"><span class="lbl">Límite diario suave<small>Lumi se cansa al acercarte</small></span>
+                  <div class="stepper"><button type="button" id="limMinus" aria-label="Reducir límite">−</button><output id="limOut" aria-live="polite">1 h</output><button type="button" id="limPlus" aria-label="Aumentar límite">+</button></div></div>
+                <div class="row"><span class="lbl">Horario de noche<small>Lumi duerme y las apps ladronas se tapan</small></span><span class="val">23:00 a 07:00</span></div>
+                <div class="row"><span class="lbl">Postal nocturna<small>Aviso cuando Lumi vuelve</small></span><button type="button" class="toggle" role="switch" aria-checked="true" aria-label="Postal nocturna"></button></div>
+                <div class="row"><span class="lbl">Días de descanso<small>2 por semana, la racha no se rompe</small></span><button type="button" class="toggle" role="switch" aria-checked="true" aria-label="Días de descanso"></button></div>
+              </div>
+              <div class="plus">
+                <b>Lumi Plus</b>
+                <ul>
+                  <li>Más especies y colores de luz</li>
+                  <li>Zonas exclusivas y capítulos de historia</li>
+                  <li>Varios horarios y bloqueo estricto</li>
+                  <li>Decoración premium para la madriguera</li>
+                </ul>
+                <button class="btn" type="button">Probar 7 días gratis</button>
+                <small>Luego 49,99 $ al año. Lumi no se pone triste si no lo pruebas.</small>
+              </div>
+            </div>
+          </div>
+
+          <nav class="tabbar" role="tablist" aria-label="Secciones">
+            <button type="button" role="tab" aria-selected="true" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20 C 4 11, 8 6, 12 6 C 16 6, 20 11, 20 20 Z"/><path d="M10 20 v-4 a2 2 0 0 1 4 0 v4"/></svg>Hogar</button>
+            <button type="button" role="tab" aria-selected="false" data-tab="exp"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19 C 8 19, 6 13, 11 13 S 14 7, 20 6"/><circle cx="20" cy="6" r="1.6" fill="currentColor"/><circle cx="4" cy="19" r="1.6"/></svg>Expediciones</button>
+            <button type="button" role="tab" aria-selected="false" data-tab="col"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><rect x="4" y="5" width="14" height="11" rx="2" transform="rotate(-6 11 10)"/><rect x="7" y="9" width="14" height="11" rx="2"/></svg>Colección</button>
+            <button type="button" role="tab" aria-selected="false" data-tab="prog"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3 L13.8 9.2 L20 11 L13.8 12.8 L12 19 L10.2 12.8 L4 11 L10.2 9.2Z" stroke-linejoin="round"/></svg>Progreso</button>
+            <button type="button" role="tab" aria-selected="false" data-tab="set"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M16 4 A8 8 0 1 0 20 15 A6.5 6.5 0 0 1 16 4Z" stroke-linejoin="round"/></svg>Ajustes</button>
+          </nav>
+        </div>
+
+        <!-- SHIELD -->
+        <div id="surface-shield" class="view" hidden>
+          <div class="shield">
+            <span class="app-tag">Instagram está tapada hasta mañana</span>
+            <div id="lumiShield"></div>
+            <h2>Lumi se estaba echando la siesta… ¿de verdad entramos?</h2>
+            <p>Ya habéis pasado de tu hora de hoy. Si lo dejas ahora, mañana se despierta con más luz.</p>
+            <div class="actions">
+              <button class="btn" type="button">Vale, lo dejo</button>
+              <button class="btn ghost" type="button">5 min más</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- WIDGETS -->
+        <div id="surface-widget" class="view" hidden>
+          <div class="lock">
+            <span class="date">lunes, 28 de septiembre</span>
+            <span class="time">21:14</span>
+            <div class="widgets">
+              <div class="w-circ"><div id="lumiW1"></div></div>
+              <div class="w-rect"><div id="lumiW2"></div><div><b id="wState">Contenta</b><span>Vuelve a las 21:00</span></div></div>
+            </div>
+          </div>
+          <div class="home-widget">
+            <div id="lumiW3"></div>
+            <div class="txt">
+              <b id="wState2">Lumi está contenta</b>
+              <div class="meter" id="meterW" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+              <small id="wNote">Explorando el Bosque de Musgo</small>
+            </div>
+          </div>
+          <p class="widget-caption">Widget de bloqueo y de inicio, siempre gratis</p>
+        </div>
+
+        <div class="home-ind" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+(function () {
+  "use strict";
+
+  // ---------- Lumi (Higgsfield illustration) ----------
+  // Placeholder until the 4 state illustrations exist: one image, light changed with CSS filters.
+  const LUMI_SRC = "{{LUMI}}";
+  const STATES = {
+    radiante: { glow: 1,    dim: 0,    label: "Radiante",  lit: 4 },
+    contenta: { glow: 0.75, dim: 0.08, label: "Contenta",  lit: 3 },
+    cansada:  { glow: 0.42, dim: 0.22, label: "Cansada",   lit: 2 },
+    apagadita:{ glow: 0.16, dim: 0.38, label: "Apagadita", lit: 1 }
+  };
+  function lumiIMG(stateKey, animate) {
+    const s = STATES[stateKey];
+    const zzz = stateKey === "apagadita" ? '<span class="zzz" aria-hidden="true"><span>z</span><span>z</span></span>' : "";
+    return `<div class="lumi-img s-${stateKey}${animate && stateKey !== "apagadita" ? " float" : ""}"><div class="${animate ? "breathe" : ""}"><img src="${LUMI_SRC}" alt="Lumi, ${s.label.toLowerCase()}"></div>${zzz}</div>`;
+  }
+
+  // ---------- state ----------
+  const COPY = {
+    radiante: { bubble: "¡Hoy brillo muchísimo! Me voy de viaje, te traigo algo bonito.", note: "Menos del 25 % de tu hora", exp: ["Expedición en curso", "Explorando las Cuevas de Cristal", "Vuelve a las 21:00 con una postal"], bar: 45, sparks: "+22", home: false },
+    contenta: { bubble: "Hoy vamos bien. Si aguantas un ratito más, esta noche te traigo una postal.", note: "Entre el 25 y el 50 % de tu hora", exp: ["Expedición en curso", "Explorando el Bosque de Musgo", "Vuelve a las 21:00 con una postal"], bar: 68, sparks: "+14", home: false },
+    cansada:  { bubble: "Uff, se me está gastando la luz… ¿dejamos el móvil un rato y miramos las estrellas?", note: "Entre el 50 y el 75 % de tu hora", exp: ["Hoy se queda en casa", "Lumi está descansando en la madriguera", "Mañana sale de viaje con la luz llena"], bar: 0, sparks: "+6", home: true },
+    apagadita:{ bubble: "Me echo una siestecita. Te echaba de menos, mañana empezamos de cero.", note: "Has llegado a tu hora de hoy", exp: ["Hoy se queda en casa", "Lumi duerme la siesta", "Mañana se despierta con la luz al máximo"], bar: 0, sparks: "+2", home: true }
+  };
+  let state = "contenta";
+
+  function render() {
+    const s = STATES[state], c = COPY[state];
+    document.getElementById("lumiHome").innerHTML = lumiIMG(state, true);
+    document.getElementById("lumiShare").innerHTML = lumiIMG("radiante", false);
+    document.getElementById("lumiShield").innerHTML = lumiIMG("apagadita", true);
+    ["lumiW1", "lumiW2", "lumiW3"].forEach(id => document.getElementById(id).innerHTML = lumiIMG(state, false));
+    document.getElementById("stateLabel").textContent = s.label;
+    document.querySelector("#tab-home .dim").style.setProperty("--dim", s.dim);
+    document.getElementById("bubble").textContent = c.bubble;
+    document.getElementById("meterNote").textContent = c.note;
+    document.getElementById("sparks").textContent = c.sparks;
+    // meter shows remaining light: 4, 3, 2 or 1 lit segments
+    const m = document.getElementById("meter").querySelectorAll("i");
+    m.forEach((i, idx) => i.classList.toggle("lit", idx < s.lit));
+    document.getElementById("meterW").querySelectorAll("i").forEach((i, idx) => i.classList.toggle("lit", idx < s.lit));
+    document.getElementById("expTitle").textContent = c.exp[1];
+    document.getElementById("expSub").textContent = c.exp[2];
+    const bar = document.getElementById("expBar");
+    bar.hidden = c.home;
+    bar.querySelector("i").style.width = c.bar + "%";
+    document.getElementById("wState").textContent = s.label;
+    document.getElementById("wState2").textContent = "Lumi está " + s.label.toLowerCase();
+    document.getElementById("wNote").textContent = c.home ? "Descansando en casa" : c.exp[1];
+    document.querySelectorAll("#stateSeg button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.state === state)));
+  }
+  document.getElementById("stateSeg").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    state = b.dataset.state; render();
+  });
+
+  // ---------- surfaces ----------
+  document.getElementById("surfaceSeg").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    const s = b.dataset.surface;
+    ["app", "shield", "widget"].forEach(k => document.getElementById("surface-" + k).hidden = k !== s);
+    document.querySelectorAll("#surfaceSeg button").forEach(x => x.setAttribute("aria-pressed", String(x === b)));
+  });
+
+  // ---------- tabs ----------
+  function goTab(t) {
+    ["home", "exp", "col", "prog", "set"].forEach(k => document.getElementById("tab-" + k).hidden = k !== t);
+    document.querySelectorAll(".tabbar button").forEach(b => b.setAttribute("aria-selected", String(b.dataset.tab === t)));
+  }
+  document.querySelector(".tabbar").addEventListener("click", e => { const b = e.target.closest("button"); if (b) goTab(b.dataset.tab); });
+  document.querySelectorAll("[data-goto]").forEach(b => b.addEventListener("click", () => goTab(b.dataset.goto)));
+
+  document.querySelector(".tabs-mini").addEventListener("click", e => {
+    const b = e.target.closest("button"); if (!b) return;
+    ["post", "obj", "friends"].forEach(k => document.getElementById("col-" + k).hidden = k !== b.dataset.col);
+    document.querySelectorAll(".tabs-mini button").forEach(x => x.setAttribute("aria-selected", String(x === b)));
+  });
+
+  // toggles & stepper
+  document.querySelectorAll(".toggle").forEach(t => t.addEventListener("click", () => t.setAttribute("aria-checked", String(t.getAttribute("aria-checked") !== "true"))));
+  const limits = ["30 min", "45 min", "1 h", "1 h 30", "2 h"]; let li = 2;
+  const out = document.getElementById("limOut");
+  document.getElementById("limMinus").addEventListener("click", () => { li = Math.max(0, li - 1); out.textContent = limits[li]; });
+  document.getElementById("limPlus").addEventListener("click", () => { li = Math.min(limits.length - 1, li + 1); out.textContent = limits[li]; });
+
+  // week chart: remaining light at day's end, in tramos (4 = radiante)
+  const week = [["L", 3], ["M", 4], ["X", 3], ["J", 0], ["V", 2], ["S", 4], ["D", 3]];
+  document.getElementById("week").innerHTML = week.map(([d, v], i) => {
+    const rest = v === 0;
+    const h = rest ? 25 : v * 25;
+    return `<div class="day${i === 6 ? " today" : ""}"><div class="bar${rest ? " rest" : ""}" style="height:${h}%" title="${rest ? "Día de descanso" : v + " de 4 tramos de luz"}"></div><span>${d}</span></div>`;
+  }).join("");
+
+  // ---------- fireflies over the illustration ----------
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const cv = document.getElementById("sky"), ctx = cv.getContext("2d");
+  let W = 0, H = 0, flies = [];
+  function size() {
+    const r = cv.getBoundingClientRect(), dpr = Math.min(window.devicePixelRatio || 1, 2);
+    W = r.width; H = r.height; cv.width = W * dpr; cv.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    flies = Array.from({ length: 12 }, () => ({ x: Math.random() * W, y: H * 0.45 + Math.random() * H * 0.5, vx: (Math.random() - .5) * .25, vy: (Math.random() - .5) * .2, p: Math.random() * 6.28, r: Math.random() * 1.6 + 1.2 }));
+  }
+  function frame(t) {
+    ctx.clearRect(0, 0, W, H);
+    const glow = STATES[state].glow;
+    for (const f of flies) {
+      if (!reduce) { f.x += f.vx + Math.sin(t / 1200 + f.p) * .15; f.y += f.vy + Math.cos(t / 1500 + f.p) * .12; }
+      if (f.x < -10) f.x = W + 10; if (f.x > W + 10) f.x = -10; if (f.y < H * 0.35) f.y = H; if (f.y > H + 10) f.y = H * 0.4;
+      const a = (0.35 + 0.45 * (0.5 + 0.5 * Math.sin(t / 700 + f.p))) * (0.4 + 0.6 * glow);
+      const g = ctx.createRadialGradient(f.x, f.y, 0, f.x, f.y, f.r * 6);
+      g.addColorStop(0, `rgba(255,227,163,${a})`); g.addColorStop(1, "rgba(255,201,107,0)");
+      ctx.fillStyle = g; ctx.beginPath(); ctx.arc(f.x, f.y, f.r * 6, 0, 6.28); ctx.fill();
+      ctx.fillStyle = `rgba(255,244,214,${a})`; ctx.beginPath(); ctx.arc(f.x, f.y, f.r * .7, 0, 6.28); ctx.fill();
+    }
+    if (!reduce) requestAnimationFrame(frame);
+  }
+  size(); window.addEventListener("resize", size);
+  requestAnimationFrame(frame);
+
+  render();
+})();
+</script>

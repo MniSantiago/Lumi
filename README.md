@@ -4,9 +4,18 @@ El Finch del tiempo de pantalla: un espíritu de luz que vive contigo todo el d�
 
 ## Contenido
 
-| Archivo | Qué es |
+| Ruta | Qué es |
 |---|---|
 | `BRIEF.md` | Brief del proyecto: idea, competidores, criatura, mecánica y alcance del MVP |
-| `PROCESO.md` | Registro del proceso y próximos pasos (léelo para retomar) |
-| `lumi-mockup.html` | Mockup interactivo de la app para iPhone (ábrelo en el navegador) |
-| `assets/` | Imágenes generadas con Higgsfield (Lumi, fondo, postales) |
+| `PROCESO.md` | Estado actual, historial y **pasos pendientes** (léelo para retomar) |
+| `lumi-mockup.html` | Mockup interactivo para iPhone, generado (ábrelo en el navegador) |
+| `src/lumi-mockup.template.html` | Fuente del mockup; se edita esta |
+| `tools/build.py` | Incrusta las imágenes y genera `lumi-mockup.html` |
+| `assets/` | Originales de Higgsfield |
+| `assets/web/` | Imágenes recortadas y optimizadas que usa el mockup |
+
+## Regenerar el mockup
+
+```bash
+python3 tools/build.py
+```
