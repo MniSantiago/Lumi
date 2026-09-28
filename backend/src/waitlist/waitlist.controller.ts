@@ -31,49 +31,63 @@ export class JoinWaitlistDto {
   @MaxLength(254)
   email: string;
 
-  @ApiPropertyOptional({ description: 'App que más le roba tiempo' })
+  @ApiPropertyOptional({
+    description: 'App que más le roba tiempo',
+    type: String,
+    nullable: true,
+  })
   @IsOptional()
   @Transform(clip)
   @IsString()
   app?: string | null;
 
-  @ApiPropertyOptional()
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsOptional()
   @Transform(clip)
   @IsString()
-  form?: string;
-  @ApiPropertyOptional()
+  form?: string | null;
+
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsOptional()
   @Transform(clip)
   @IsString()
-  utm_source?: string;
-  @ApiPropertyOptional()
+  utm_source?: string | null;
+
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsOptional()
   @Transform(clip)
   @IsString()
-  utm_medium?: string;
-  @ApiPropertyOptional()
+  utm_medium?: string | null;
+
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsOptional()
   @Transform(clip)
   @IsString()
-  utm_campaign?: string;
-  @ApiPropertyOptional()
+  utm_campaign?: string | null;
+
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsOptional()
   @Transform(clip)
   @IsString()
-  utm_content?: string;
-  @ApiPropertyOptional()
+  utm_content?: string | null;
+
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsOptional()
   @Transform(clip)
   @IsString()
-  ref?: string;
-  @ApiPropertyOptional() @IsOptional() @Transform(clip) @IsString() referrer?:
-    string | null;
-  @ApiPropertyOptional()
+  ref?: string | null;
+
+  @ApiPropertyOptional({ type: String, nullable: true })
   @IsOptional()
   @Transform(clip)
   @IsString()
-  lang?: string;
+  referrer?: string | null;
+
+  @ApiPropertyOptional({ type: String, nullable: true })
+  @IsOptional()
+  @Transform(clip)
+  @IsString()
+  lang?: string | null;
 }
 
 @ApiTags('waitlist')

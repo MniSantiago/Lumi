@@ -421,32 +421,41 @@
             "type": "string"
           },
           "app": {
-            "type": "object",
-            "description": "App que más le roba tiempo"
+            "type": "string",
+            "description": "App que más le roba tiempo",
+            "nullable": true
           },
           "form": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "utm_source": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "utm_medium": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "utm_campaign": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "utm_content": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "ref": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           },
           "referrer": {
-            "type": "object"
+            "type": "string",
+            "nullable": true
           },
           "lang": {
-            "type": "string"
+            "type": "string",
+            "nullable": true
           }
         },
         "required": [
