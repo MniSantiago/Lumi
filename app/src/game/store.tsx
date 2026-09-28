@@ -85,6 +85,10 @@ export type GameApi = {
   expeditionProgress: number;
   /** Guarda la vuelta pendiente en el álbum (y la marca como vista). */
   saveReturnToAlbum: () => void;
+  /** Estado guardado tal cual, para la copia de la cuenta (`account/sync.tsx`). */
+  snapshot: GameState;
+  /** Sustituye el progreso por uno traído de la cuenta. */
+  restore: (state: GameState) => void;
   dev: {
     /** Cierra el día ahora como si fuera la noche (genera la vuelta). */
     closeDay: () => void;
@@ -100,12 +104,17 @@ const TICK_MS = 60_000;
 
 const GameContext = createContext<GameApi | null>(null);
 
+/** Valida un estado guardado (en el dispositivo o en la cuenta); si no es de esta versión, vacío. */
+export function toGameState(value: unknown): GameState {
+  const parsed = value as Partial<GameState> | null;
+  if (!parsed || typeof parsed !== 'object' || parsed.version !== 1) return EMPTY_STATE;
+  return { ...EMPTY_STATE, ...parsed } as GameState;
+}
+
 function parseState(raw: string | null): GameState {
   if (!raw) return EMPTY_STATE;
   try {
-    const parsed = JSON.parse(raw) as Partial<GameState>;
-    if (parsed.version !== 1) return EMPTY_STATE;
-    return { ...EMPTY_STATE, ...parsed } as GameState;
+    return toGameState(JSON.parse(raw));
   } catch {
     return EMPTY_STATE;
   }
@@ -204,6 +213,8 @@ export function GameProvider({ children }: { children: ReactNode }) {
     );
   }, []);
 
+  const restore = useCallback((next: GameState) => setState(toGameState(next)), []);
+
   const dev = useMemo(
     () => ({
       closeDay: () => setState((s) => closeDay(s, todayRef.current, ctxRef.current, Date.now())),
@@ -257,9 +268,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
       evolution: evolutionFor(bright),
       expeditionProgress: expeditionProgress(today, settings.nightEnd, now),
       saveReturnToAlbum,
+      snapshot: state,
+      restore,
       dev,
     };
-  }, [state, day, ready, today, todayDestination, currentDestination, now, settings.nightEnd, saveReturnToAlbum, dev]);
+  }, [state, day, ready, today, todayDestination, currentDestination, now, settings.nightEnd, saveReturnToAlbum, restore, dev]);
 
   return <GameContext value={api}>{children}</GameContext>;
 }

@@ -8,6 +8,7 @@ import { validateEnv } from './config/env.js';
 import { DatabaseModule } from './db/database.module.js';
 import { HealthController } from './health.controller.js';
 import { MailModule } from './mail/mail.module.js';
+import { ProgressModule } from './progress/progress.module.js';
 import { WaitlistController } from './waitlist/waitlist.controller.js';
 
 @Module({
@@ -25,6 +26,7 @@ import { WaitlistController } from './waitlist/waitlist.controller.js';
     DatabaseModule,
     MailModule,
     AuthModule,
+    ProgressModule,
   ],
   controllers: [HealthController, WaitlistController],
   providers: [{ provide: APP_GUARD, useClass: ThrottlerGuard }],

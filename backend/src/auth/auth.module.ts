@@ -21,5 +21,7 @@ import { MeController } from './me.controller.js';
   ],
   controllers: [AuthController, MeController],
   providers: [AuthService, JwtAuthGuard],
+  // Para proteger rutas de otros módulos con JwtAuthGuard.
+  exports: [JwtModule, JwtAuthGuard],
 })
 export class AuthModule {}

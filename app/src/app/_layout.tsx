@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
 import { SessionProvider } from '@/account/session';
+import { ProgressSync } from '@/account/sync';
 import { Colors } from '@/constants/theme';
 import { GameProvider } from '@/game/store';
 import { LumiProvider, useLumi } from '@/lumi/store';
@@ -38,6 +39,7 @@ export default function RootLayout() {
           <GameProvider>
             <StatusBar style="light" />
             <RootStack />
+            <ProgressSync />
           </GameProvider>
         </SessionProvider>
       </LumiProvider>

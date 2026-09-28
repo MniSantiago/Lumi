@@ -113,6 +113,28 @@ export interface DeleteAccountDto {
   password: string;
 }
 
+/**
+ * @nullable
+ */
+export type ProgressDtoData = { [key: string]: unknown } | null;
+
+export interface ProgressDto {
+  /** @nullable */
+  data: ProgressDtoData;
+  /** @nullable */
+  updatedAt: string | null;
+}
+
+/**
+ * Progreso de la app tal cual (el servidor no lo interpreta)
+ */
+export type SaveProgressDtoData = { [key: string]: unknown };
+
+export interface SaveProgressDto {
+  /** Progreso de la app tal cual (el servidor no lo interpreta) */
+  data: SaveProgressDtoData;
+}
+
 export type HealthCheck200 = {
   status?: string;
 };
@@ -560,5 +582,61 @@ return apiFetch<void>(getDeleteAccountUrl(),
     method: 'POST',
     headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
     body: JSON.stringify(deleteAccountDto)
+  }
+);}
+
+
+
+export const getGetProgressUrl = () => {
+
+
+
+
+  return `/me/progress`
+}
+
+export const getProgress = async ( options?: Parameters<typeof apiFetch>[1]): Promise<ProgressDto> => {
+
+  return apiFetch<ProgressDto>(getGetProgressUrl(),
+  {
+    ...options,
+    method: 'GET'
+
+
+  }
+);}
+
+
+
+export const getSaveProgressUrl = () => {
+
+
+
+
+  return `/me/progress`
+}
+
+export const saveProgress = async (saveProgressDto: SaveProgressDto, options?: Parameters<typeof apiFetch>[1]): Promise<ProgressDto> => {
+
+    const getHeaders = (h?: NonNullable<RequestInit['headers']>): Record<string, string | readonly string[]> => {
+    if (!h) return {};
+    if (h instanceof Headers) return Object.fromEntries(h.entries());
+    if (Symbol.iterator in h) {
+      return Object.fromEntries(
+        Array.from(h as Iterable<Iterable<string>>, (entry) => Array.from(entry) as [string, string]),
+      );
+    }
+    const headers: Record<string, string | readonly string[]> = {};
+    for (const [name, value] of Object.entries<string | readonly string[] | undefined>(h)) {
+      if (value !== undefined) headers[name] = value;
+    }
+    return headers;
+  };
+return apiFetch<ProgressDto>(getSaveProgressUrl(),
+  {
+    ...options,
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json', ...getHeaders(options?.headers) },
+    body: JSON.stringify(saveProgressDto)
   }
 );}
