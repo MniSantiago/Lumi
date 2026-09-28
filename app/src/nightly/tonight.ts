@@ -1,47 +1,35 @@
 /**
- * Lo que Lumi trae esta noche de su expedición (BRIEF.md, "Ciclo diario").
- * De momento es un mock; más adelante saldrá de la expedición real del día,
- * y solo habrá vuelta los días en que tuvo luz para salir.
+ * Lo que Lumi trae esta noche de su expedición (BRIEF.md, "Ciclo diario"),
+ * listo para la postal nocturna. Sale de la vuelta pendiente del juego.
  */
-import { CURRENT_EXPEDITION, FRIENDS, ITEMS, type Item } from '@/lumi/data';
-
-/** Algo que Lumi se trae en el bolsillo, con su artículo para las frases ("una seta brillante"). */
-export type Keepsake = { item: Item & { name: string }; article: 'un' | 'una' };
+import { friendById, itemById } from '@/game/catalog';
+import type { PendingReturn } from '@/game/store';
+import type { CatalogEntry, Destination } from '@/game/types';
 
 export type NightlyReturn = {
-  zone: string;
-  /** Ilustración provisional del lugar (degradado CSS). */
-  art: string;
-  chapter: number;
-  chapterTitle: string;
-  /** Pie de la postal, en la voz de Lumi. */
-  caption: string;
-  /** Fragmento de historia, 2-3 frases en primera persona. */
+  destination: Destination;
+  /** Fragmento de historia elegido para esta vuelta, en la voz de Lumi. */
   story: string;
-  keepsakes: Keepsake[];
+  /** Lo que se trae en el bolsillo. */
+  keepsakes: CatalogEntry[];
   /** Criatura amiga que la ha seguido hasta casa (no todas las noches). */
-  newFriend?: Item & { name: string };
+  friend: CatalogEntry | null;
+  /** El amigo aún no estaba en la colección. */
+  friendIsNew: boolean;
   sparks: number;
 };
 
-function named(list: Item[], icon: string): Item & { name: string } {
-  const found = list.find((i) => i.icon === icon);
-  return { id: found?.id ?? icon, icon, name: found?.name ?? icon };
+export function nightlyReturnFrom(pending: PendingReturn): NightlyReturn {
+  const { destination, result } = pending;
+  return {
+    destination,
+    story: destination.stories[result.storyIndex] ?? destination.stories[0] ?? destination.caption,
+    keepsakes: result.itemIds.flatMap((id) => {
+      const item = itemById(id);
+      return item ? [item] : [];
+    }),
+    friend: (result.friendId && friendById(result.friendId)) || null,
+    friendIsNew: pending.newFriend,
+    sparks: result.sparks,
+  };
 }
-
-export const TONIGHT: NightlyReturn = {
-  zone: CURRENT_EXPEDITION.zone,
-  // Versión grande del bosque: la miniatura de ZONES lleva un punto de musgo que en grande parece una mancha.
-  art: 'linear-gradient(170deg, #8FD1A6, #3E6A6A 55%, #1D2446)',
-  chapter: 3,
-  chapterTitle: 'El bosque que susurra',
-  caption: 'Aquí todo es blandito. Hasta el silencio.',
-  story:
-    'El musgo estaba tan blandito que me eché una siesta sin querer. Al despertar, una seta me alumbró el camino de vuelta, así que me la traje (le pedí permiso). Y alguien pequeñito y verde me ha seguido hasta casa… creo que quiere quedarse.',
-  keepsakes: [
-    { item: named(ITEMS, 'seta'), article: 'una' },
-    { item: named(ITEMS, 'trebol'), article: 'un' },
-  ],
-  newFriend: named(FRIENDS, 'musguito'),
-  sparks: 14,
-};

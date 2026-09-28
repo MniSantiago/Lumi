@@ -10,10 +10,12 @@ import { buildTimeline, stageProgress, useReveal } from '@/components/nightly/re
 import { CardIn, FadeUp, RewardTile, SparksCounter } from '@/components/nightly/reveal-parts';
 import { ShieldButton } from '@/components/shield/shield-parts';
 import { Colors, Fonts } from '@/constants/theme';
-import { POSTCARDS, type Postcard } from '@/lumi/data';
+import { destinationById } from '@/game/destinations';
+import { useGame, type PendingReturn } from '@/game/store';
+import type { Destination } from '@/game/types';
 import { useLumi } from '@/lumi/store';
 import { nightlyCopy as copy, shareReread, shareTonight } from '@/nightly/copy';
-import { TONIGHT } from '@/nightly/tonight';
+import { nightlyReturnFrom } from '@/nightly/tonight';
 
 /** Cuánto se queda la despedida en pantalla antes de cerrar. */
 const GOODBYE_MS = 1500;
@@ -22,29 +24,71 @@ const easeOut = Easing.out(Easing.cubic);
 
 /**
  * La postal nocturna: Lumi vuelve de su expedición con una postal, un trozo de
- * historia y lo que lleva en el bolsillo. Param opcional `id` de `POSTCARDS`:
- * relectura tranquila de una postal ya recibida, sin la secuencia de premios.
+ * historia y lo que lleva en el bolsillo (la vuelta pendiente del juego).
+ * Param opcional `id` (id del destino): relectura tranquila de una postal del
+ * álbum, sin la secuencia de premios.
  */
 export default function PostcardScreen() {
   const { id } = useLocalSearchParams<{ id?: string }>();
-  const postcard = id ? POSTCARDS.find((p) => p.id === id) : undefined;
-  return postcard ? <RereadPostcard postcard={postcard} /> : <TonightPostcard />;
+  const game = useGame();
+  // Se queda con la vuelta aunque al guardarla deje de estar pendiente, para despedirse con calma.
+  const [held, setHeld] = useState<PendingReturn | null>(null);
+  if (game.pendingReturn && game.pendingReturn.date !== held?.date) setHeld(game.pendingReturn);
+
+  const destination = id ? destinationById(id) : undefined;
+  if (destination) return <RereadPostcard destination={destination} />;
+  if (held) return <TonightPostcard pending={held} />;
+  if (!game.ready) return <View style={styles.screen} />;
+  return <NoPostcard />;
 }
 
-function TonightPostcard() {
+function NoPostcard() {
   const { settings } = useLumi();
+  const game = useGame();
+  const insets = useSafeAreaInsets();
+  const out = !!game.currentDestination && !game.todayRecord.closed;
+  return (
+    <View style={styles.screen}>
+      <View pointerEvents="none" style={styles.background} />
+      <Fireflies glow={0.5} count={8} />
+      <View style={[styles.content, styles.fill, { paddingTop: insets.top + 24 }]}>
+        <Text style={styles.quote}>
+          {out ? copy.stillOut(settings.lumiName, game.returnsAt) : copy.nothingNew(settings.lumiName)}
+        </Text>
+      </View>
+      <View style={[styles.bottom, { paddingBottom: Math.max(insets.bottom, 16) + 12 }]}>
+        <View style={styles.actions}>
+          <ShieldButton label={copy.close} onPress={close} />
+        </View>
+      </View>
+    </View>
+  );
+}
+
+function TonightPostcard({ pending }: { pending: PendingReturn }) {
+  const { settings } = useLumi();
+  const { saveReturnToAlbum } = useGame();
+  const tonight = useMemo(() => nightlyReturnFrom(pending), [pending]);
+  const { destination } = tonight;
   const insets = useSafeAreaInsets();
   const { cardWidth, window } = useSizes();
   const artHeight = Math.round(Math.min(cardWidth * 0.5, window.height * 0.14));
 
   const rewards = useMemo(
     () => [
-      ...TONIGHT.keepsakes.map((k) => ({ key: k.item.id, icon: k.item.icon, name: k.item.name, badge: undefined })),
-      ...(TONIGHT.newFriend
-        ? [{ key: TONIGHT.newFriend.id, icon: TONIGHT.newFriend.icon, name: TONIGHT.newFriend.name, badge: copy.newFriend }]
+      ...tonight.keepsakes.map((k) => ({ key: `i-${k.id}`, icon: k.icon, name: k.name, badge: undefined as string | undefined })),
+      ...(tonight.friend
+        ? [
+            {
+              key: `f-${tonight.friend.id}`,
+              icon: tonight.friend.icon,
+              name: tonight.friend.name,
+              badge: tonight.friendIsNew ? copy.newFriend(tonight.friend) : undefined,
+            },
+          ]
         : []),
     ],
-    [],
+    [tonight],
   );
   const timeline = useMemo(() => buildTimeline(rewards.length), [rewards.length]);
   const { t, done, skip } = useReveal(timeline.end, true);
@@ -62,6 +106,7 @@ function TonightPostcard() {
   const onSave = () => {
     if (busy.current) return;
     busy.current = true;
+    saveReturnToAlbum();
     setSaved(true);
     AccessibilityInfo.announceForAccessibility(copy.saved);
     timer.current = setTimeout(close, GOODBYE_MS);
@@ -90,18 +135,18 @@ function TonightPostcard() {
 
           <CardIn t={t} stage={timeline.card} tilt={TILT}>
             <NightPostcard
-              title={TONIGHT.zone}
-              caption={TONIGHT.caption}
-              art={TONIGHT.art}
+              title={destination.name}
+              caption={destination.caption}
+              art={destination.art}
               width={cardWidth}
               artHeight={artHeight}
-              stamp={`Cap. ${TONIGHT.chapter}`}
+              stamp={`Cap. ${destination.chapter}`}
             />
           </CardIn>
 
           <FadeUp t={t} stage={timeline.story} style={styles.story}>
-            <Text style={styles.chapter}>{copy.chapter(TONIGHT.chapter, TONIGHT.chapterTitle)}</Text>
-            <Text style={styles.storyText}>{TONIGHT.story}</Text>
+            <Text style={styles.chapter}>{copy.chapter(destination.chapter, destination.chapterTitle)}</Text>
+            <Text style={styles.storyText}>{tonight.story}</Text>
           </FadeUp>
 
           <View style={styles.rewards}>
@@ -113,7 +158,7 @@ function TonightPostcard() {
                 <RewardTile key={r.key} t={t} stage={timeline.rewards[i]} icon={r.icon} name={r.name} badge={r.badge} />
               ))}
             </View>
-            <SparksCounter t={t} stage={timeline.sparks} total={TONIGHT.sparks} unit={copy.sparksUnit} />
+            <SparksCounter t={t} stage={timeline.sparks} total={tonight.sparks} unit={copy.sparksUnit} />
           </View>
       </ScrollView>
 
@@ -130,7 +175,7 @@ function TonightPostcard() {
               <ShieldButton
                 ghost
                 label={copy.share}
-                onPress={() => share(shareTonight(settings.lumiName, TONIGHT))}
+                onPress={() => share(shareTonight(settings.lumiName, tonight))}
                 disabled={!done}
               />
             </>
@@ -141,7 +186,7 @@ function TonightPostcard() {
   );
 }
 
-function RereadPostcard({ postcard }: { postcard: Postcard }) {
+function RereadPostcard({ destination }: { destination: Destination }) {
   const { settings } = useLumi();
   const insets = useSafeAreaInsets();
   const { cardWidth, window } = useSizes();
@@ -157,23 +202,23 @@ function RereadPostcard({ postcard }: { postcard: Postcard }) {
         contentContainerStyle={[styles.content, { paddingTop: insets.top + 24 }]}
         showsVerticalScrollIndicator={false}>
         <View style={styles.rereadHeader}>
-          <Text style={styles.label}>{copy.chapter(postcard.chapter)}</Text>
-          <Text style={styles.rereadTitle}>{copy.rereadHeader(postcard.place)}</Text>
+          <Text style={styles.label}>{copy.chapter(destination.chapter, destination.chapterTitle)}</Text>
+          <Text style={styles.rereadTitle}>{copy.rereadHeader(destination)}</Text>
         </View>
 
         <View style={{ transform: [{ rotate: `${TILT}deg` }] }}>
           <NightPostcard
-            title={postcard.place}
-            caption={postcard.quote}
-            art={postcard.art}
+            title={destination.name}
+            caption={destination.caption}
+            art={destination.art}
             width={cardWidth}
             artHeight={artHeight}
-            stamp={`Cap. ${postcard.chapter}`}
+            stamp={`Cap. ${destination.chapter}`}
           />
         </View>
 
         <View style={styles.story}>
-          <Text style={styles.quote}>«{postcard.quote}»</Text>
+          <Text style={styles.quote}>«{destination.quote}»</Text>
           <Text style={styles.signature}>— {settings.lumiName}</Text>
         </View>
       </ScrollView>
@@ -181,7 +226,7 @@ function RereadPostcard({ postcard }: { postcard: Postcard }) {
       <View style={[styles.bottom, { paddingBottom: Math.max(insets.bottom, 16) + 12 }]}>
         <View style={styles.actions}>
           <ShieldButton label={copy.close} onPress={close} />
-          <ShieldButton ghost label={copy.share} onPress={() => share(shareReread(settings.lumiName, postcard))} />
+          <ShieldButton ghost label={copy.share} onPress={() => share(shareReread(settings.lumiName, destination))} />
         </View>
       </View>
     </View>
