@@ -6,6 +6,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
 import { SessionProvider } from '@/account/session';
+import { CrashScreen } from '@/components/crash-screen';
 import { ProgressSync } from '@/account/sync';
 import { Colors } from '@/constants/theme';
 import { GameProvider } from '@/game/store';
@@ -13,6 +14,9 @@ import { LumiProvider, useLumi } from '@/lumi/store';
 import { useNotificationRouting } from '@/notifications';
 
 SplashScreen.preventAutoHideAsync();
+
+/** Si algo falla dentro de la app, Lumi dormida en vez de una pantalla en blanco. */
+export const ErrorBoundary = CrashScreen;
 
 const navTheme = {
   ...DarkTheme,
