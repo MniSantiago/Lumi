@@ -34,7 +34,7 @@ export const DESTINATIONS: Destination[] = [
     id: 'pradera-suave',
     name: 'Pradera Suave',
     article: 'la',
-    art: 'linear-gradient(170deg, #8FD1A6, #3E6A6A 60%, #1D2446)',
+    art: 'linear-gradient(170deg, #FFE3A3, #8FD1A6 50%, #3E6A6A)',
     chapter: 1,
     chapterTitle: 'Lo que hay detrás de casa',
     caption: 'Hierba hasta las orejas y cero prisas.',
