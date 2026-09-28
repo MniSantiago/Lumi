@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -5,15 +6,11 @@ import { CollectionIcon } from '@/components/collection-icon';
 import { PostcardView } from '@/components/postcard';
 import { Screen } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
-import {
-  FRIENDS,
-  ITEMS,
-  POSTCARDS,
-  TOTAL_DESTINATIONS,
-  TOTAL_FRIENDS,
-  TOTAL_ITEMS,
-  type Item,
-} from '@/lumi/data';
+import { FRIEND_CATALOG, ITEM_CATALOG } from '@/game/catalog';
+import { destinationById, DESTINATIONS, fromDestination } from '@/game/destinations';
+import { useGame } from '@/game/store';
+import type { CatalogEntry } from '@/game/types';
+import { useLumi } from '@/lumi/store';
 
 type Section = 'postales' | 'objetos' | 'amigos';
 const SECTIONS: { key: Section; label: string }[] = [
@@ -22,11 +19,24 @@ const SECTIONS: { key: Section; label: string }[] = [
   { key: 'amigos', label: 'Amigos' },
 ];
 
+/** Siluetas para lo que aún no se ha descubierto (sin desvelar la forma real). */
+const MYSTERY_ICONS = ['misterio-arco', 'misterio-caja', 'misterio-bola', 'misterio-ovalo', 'misterio-pico'];
+
 export default function CollectionScreen() {
   const [section, setSection] = useState<Section>('postales');
+  const { settings } = useLumi();
+  const game = useGame();
+  const postcards = [...game.album]
+    .sort((a, b) => b.savedAt - a.savedAt)
+    .flatMap((entry) => {
+      const destination = destinationById(entry.destinationId);
+      return destination ? [destination] : [];
+    });
+  const ownedItems = ITEM_CATALOG.filter((i) => game.items.includes(i.id)).length;
+  const ownedFriends = FRIEND_CATALOG.filter((f) => game.friends.includes(f.id)).length;
 
   return (
-    <Screen title="Colección" subtitle="Todo lo que Lumi ha traído de sus viajes.">
+    <Screen title="Colección" subtitle={`Todo lo que ${settings.lumiName} ha traído de sus viajes.`}>
       <View>
         <View style={styles.tabs} accessibilityRole="tablist" accessibilityLabel="Tipo de colección">
           {SECTIONS.map((s) => {
@@ -47,22 +57,36 @@ export default function CollectionScreen() {
         {section === 'postales' ? (
           <>
             <Text style={styles.count}>
-              {POSTCARDS.length} de {TOTAL_DESTINATIONS} destinos
+              {postcards.length} de {DESTINATIONS.length} destinos
             </Text>
-            <View style={styles.postGrid}>
-              {POSTCARDS.map((p) => (
-                <View key={p.id} style={styles.postCell}>
-                  <PostcardView title={p.place} caption={`Capítulo ${p.chapter}`} art={p.art} artHeight={100} />
-                </View>
-              ))}
-            </View>
+            {postcards.length === 0 ? (
+              <Text style={styles.empty}>Aún no hay postales. Esta noche, quizá la primera ✨</Text>
+            ) : (
+              <View style={styles.postGrid}>
+                {postcards.map((d) => (
+                  <Pressable
+                    key={d.id}
+                    style={styles.postCell}
+                    accessibilityRole="button"
+                    accessibilityLabel={`Postal ${fromDestination(d)}`}
+                    onPress={() => router.push({ pathname: '/postal', params: { id: d.id } })}>
+                    <PostcardView title={d.name} caption={`Capítulo ${d.chapter}`} art={d.art} artHeight={100} />
+                  </Pressable>
+                ))}
+              </View>
+            )}
           </>
         ) : section === 'objetos' ? (
-          <ItemGrid items={ITEMS} caption={`${ITEMS.filter((i) => i.name).length} de ${TOTAL_ITEMS} objetos`} />
+          <ItemGrid
+            entries={ITEM_CATALOG}
+            owned={game.items}
+            caption={`${ownedItems} de ${ITEM_CATALOG.length} objetos`}
+          />
         ) : (
           <ItemGrid
-            items={FRIENDS}
-            caption={`${FRIENDS.filter((i) => i.name).length} de ${TOTAL_FRIENDS} criaturas amigas`}
+            entries={FRIEND_CATALOG}
+            owned={game.friends}
+            caption={`${ownedFriends} de ${FRIEND_CATALOG.length} criaturas amigas`}
           />
         )}
       </View>
@@ -70,21 +94,28 @@ export default function CollectionScreen() {
   );
 }
 
-function ItemGrid({ items, caption }: { items: Item[]; caption: string }) {
+/** Lo que ya ha traído, primero; lo demás, como siluetas por descubrir. */
+function ItemGrid({ entries, owned, caption }: { entries: CatalogEntry[]; owned: string[]; caption: string }) {
+  const sorted = [...entries.filter((e) => owned.includes(e.id)), ...entries.filter((e) => !owned.includes(e.id))];
+  let mystery = 0;
   return (
     <>
       <Text style={styles.count}>{caption}</Text>
       <View style={styles.itemGrid}>
-        {items.map((item) => (
-          <View key={item.id} style={styles.itemCell}>
-            <View style={styles.item} accessible accessibilityLabel={item.name ?? 'Sin descubrir'}>
-              <CollectionIcon name={item.icon} locked={!item.name} />
-              <Text style={[styles.itemLabel, !item.name && { color: Colors.textTertiary }]} numberOfLines={2}>
-                {item.name ?? '¿?'}
-              </Text>
+        {sorted.map((entry) => {
+          const known = owned.includes(entry.id);
+          const icon = known ? entry.icon : MYSTERY_ICONS[mystery++ % MYSTERY_ICONS.length];
+          return (
+            <View key={entry.id} style={styles.itemCell}>
+              <View style={styles.item} accessible accessibilityLabel={known ? entry.name : 'Sin descubrir'}>
+                <CollectionIcon name={icon} locked={!known} />
+                <Text style={[styles.itemLabel, !known && { color: Colors.textTertiary }]} numberOfLines={2}>
+                  {known ? entry.name : '¿?'}
+                </Text>
+              </View>
             </View>
-          </View>
-        ))}
+          );
+        })}
       </View>
     </>
   );
@@ -107,6 +138,7 @@ const styles = StyleSheet.create({
   tabOn: { backgroundColor: Colors.indigoLight },
   tabText: { fontFamily: Fonts.bodySemiBold, fontSize: 13, color: Colors.textTertiary },
   count: { fontFamily: Fonts.body, fontSize: 13, color: Colors.textTertiary, marginBottom: 12 },
+  empty: { fontFamily: Fonts.body, fontSize: 14, lineHeight: 20, color: Colors.textSecondary },
   postGrid: { flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -GRID_GAP / 2, rowGap: 14 },
   postCell: { width: '50%', paddingHorizontal: GRID_GAP / 2 },
   itemGrid: { flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -ITEM_GAP / 2, rowGap: ITEM_GAP },

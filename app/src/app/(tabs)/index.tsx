@@ -1,4 +1,5 @@
 import { Image } from 'expo-image';
+import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -8,7 +9,8 @@ import { LightMeter } from '@/components/light-meter';
 import { LumiAvatar } from '@/components/lumi-avatar';
 import { AppText, Card, Pill } from '@/components/ui';
 import { Colors, Fonts, Radius, Spacing } from '@/constants/theme';
-import { CURRENT_EXPEDITION } from '@/lumi/data';
+import { fromDestination, withArticle } from '@/game/destinations';
+import { useGame, type GameApi } from '@/game/store';
 import { THRESHOLDS, type Threshold } from '@/lumi/states';
 import { useLumi } from '@/lumi/store';
 import { screenTime } from '@/screen-time';
@@ -23,6 +25,7 @@ function greeting(date = new Date()) {
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const { state, threshold, settings } = useLumi();
+  const game = useGame();
 
   return (
     <View style={styles.root}>
@@ -44,8 +47,8 @@ export default function HomeScreen() {
             </AppText>
             <AppText variant="display">{settings.lumiName}</AppText>
           </View>
-          <View style={styles.sparks} accessibilityLabel={`${state.sparks} chispas hoy`}>
-            <Text style={styles.sparksText}>✦ +{state.sparks}</Text>
+          <View style={styles.sparks} accessibilityLabel={`${game.sparks} chispas`}>
+            <Text style={styles.sparksText}>✦ {game.sparks}</Text>
           </View>
         </View>
 
@@ -63,31 +66,65 @@ export default function HomeScreen() {
           <Pill tone={state.exploring ? 'amber' : 'lavender'} style={styles.statePill}>{state.label}</Pill>
         </View>
 
-        <ExpeditionCard exploring={state.exploring} asleep={state.key === 'apagadita'} />
+        {game.ready ? (
+          <ExpeditionCard game={game} lumiName={settings.lumiName} asleep={state.key === 'apagadita'} />
+        ) : null}
       </View>
     </View>
   );
 }
 
-function ExpeditionCard({ exploring, asleep }: { exploring: boolean; asleep: boolean }) {
+/**
+ * Qué hace Lumi hoy: de expedición (con la barra hacia las 21:00), en casa, o
+ * de vuelta con una postal por abrir.
+ */
+function ExpeditionCard({ game, lumiName, asleep }: { game: GameApi; lumiName: string; asleep: boolean }) {
+  const { pendingReturn, currentDestination, todayRecord, returnsAt } = game;
+
+  if (pendingReturn) {
+    return (
+      <Pressable
+        accessibilityRole="button"
+        accessibilityHint="Abre la postal nocturna"
+        onPress={() => router.push('/postal')}>
+        <Card style={[{ gap: 6 }, styles.returnCard]}>
+          <AppText variant="label">Postal nueva 🌙</AppText>
+          <AppText variant="heading">¡{lumiName} ha vuelto! Toca para ver la postal</AppText>
+          <AppText variant="caption">Trae recuerdos {fromDestination(pendingReturn.destination)}</AppText>
+        </Card>
+      </Pressable>
+    );
+  }
+
+  const back = todayRecord.closed && todayRecord.expedition;
+  const exploring = !!currentDestination && !todayRecord.closed;
+  const label = exploring ? 'Expedición en curso' : back ? 'Ya está en casa' : 'Hoy se queda en casa';
   const title = exploring
-    ? `Explorando el ${CURRENT_EXPEDITION.zone}`
-    : asleep
-      ? 'Lumi duerme la siesta'
-      : 'Lumi está descansando en la madriguera';
+    ? `Explorando ${withArticle(currentDestination)}`
+    : back && currentDestination
+      ? `${lumiName} ha vuelto ${fromDestination(currentDestination)}`
+      : asleep
+        ? `${lumiName} duerme la siesta`
+        : `${lumiName} está descansando en la madriguera`;
   const sub = exploring
-    ? `Vuelve a las ${CURRENT_EXPEDITION.returnsAt} con una postal`
-    : asleep
-      ? 'Mañana se despierta con la luz al máximo'
-      : 'Mañana sale de viaje con la luz llena';
+    ? `Vuelve a las ${returnsAt} con una postal`
+    : back
+      ? 'Mañana, otra aventura ✨'
+      : asleep
+        ? 'Mañana se despierta con la luz al máximo'
+        : 'Mañana sale de viaje con la luz llena';
   return (
     <Card style={{ gap: 6 }}>
-      <AppText variant="label">{exploring ? 'Expedición en curso' : 'Hoy se queda en casa'}</AppText>
+      <AppText variant="label">{label}</AppText>
       <AppText variant="heading">{title}</AppText>
       <AppText variant="caption">{sub}</AppText>
       {exploring ? (
-        <View style={styles.track}>
-          <View style={[styles.trackFill, { width: `${CURRENT_EXPEDITION.progress * 100}%` }]} />
+        <View
+          style={styles.track}
+          accessible
+          accessibilityRole="progressbar"
+          accessibilityValue={{ min: 0, max: 100, now: Math.round(game.expeditionProgress * 100) }}>
+          <View style={[styles.trackFill, { width: `${game.expeditionProgress * 100}%` }]} />
         </View>
       ) : null}
     </Card>
@@ -151,6 +188,7 @@ const styles = StyleSheet.create({
     transform: [{ rotate: '45deg' }],
     borderRadius: 3,
   },
+  returnCard: { borderColor: 'rgba(255, 201, 107, 0.45)', borderWidth: 1 },
   track: { height: 6, borderRadius: Radius.pill, backgroundColor: 'rgba(201, 191, 242, 0.14)', marginTop: 6, overflow: 'hidden' },
   trackFill: { height: '100%', borderRadius: Radius.pill, backgroundColor: Colors.amber },
   sim: { gap: 6, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: Colors.hairline, paddingTop: 12 },

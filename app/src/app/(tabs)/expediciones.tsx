@@ -4,26 +4,94 @@ import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import { PostcardView } from '@/components/postcard';
 import { SectionTitle, Screen, TextLink } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
-import { POSTCARDS, ZONES, type ZoneStatus } from '@/lumi/data';
+import { itemById } from '@/game/catalog';
+import { destinationById, DESTINATIONS, fromDestination } from '@/game/destinations';
+import { capitalize, whenLabel, withIndefinite } from '@/game/format';
+import { useGame, type GameApi } from '@/game/store';
+import type { Destination } from '@/game/types';
 import { useLumi } from '@/lumi/store';
 
 const CARD_TILT = [-2, 1.5, -1];
+/** Cuántas visitas recientes se ven en el camino. */
+const RECENT_VISITS = 3;
+
+type ZoneStatus = 'visited' | 'current' | 'waiting' | 'locked' | 'plus';
+type Zone = { key: string; destination: Destination; status: ZoneStatus; note: string };
+
+/**
+ * El camino: las últimas visitas, el destino de hoy y lo que viene después
+ * (los dos siguientes por días de luz y, sin Plus, una zona de Lumi Plus).
+ */
+function buildTrail(game: GameApi, lumiName: string, isPlus: boolean): Zone[] {
+  const zones: Zone[] = [];
+
+  for (const day of game.history.filter((d) => d.expedition).slice(-RECENT_VISITS)) {
+    const expedition = day.expedition!;
+    const destination = destinationById(expedition.destinationId);
+    if (!destination) continue;
+    const first = expedition.itemIds.map(itemById).find((i) => i);
+    const when = capitalize(`visitada ${whenLabel(day.date, game.today)}`);
+    zones.push({
+      key: `v-${day.date}`,
+      destination,
+      status: 'visited',
+      note: first ? `${when}. Trajo ${withIndefinite(first)}.` : `${when}.`,
+    });
+  }
+
+  const today = game.todayDestination;
+  if (today && !game.todayRecord.closed) {
+    zones.push(
+      game.currentDestination
+        ? { key: 'today', destination: today, status: 'current', note: `Ahora mismo. Vuelve a las ${game.returnsAt}.` }
+        : { key: 'today', destination: today, status: 'waiting', note: `Otro día, cuando a ${lumiName} le quede luz.` },
+    );
+  }
+
+  const shown = new Set(zones.map((z) => z.destination.id));
+  const upcoming = DESTINATIONS.filter(
+    (d) => !d.plus && !shown.has(d.id) && !game.visited.includes(d.id) && d.unlockAfterBrightDays > game.brightDays,
+  )
+    .sort((a, b) => a.unlockAfterBrightDays - b.unlockAfterBrightDays)
+    .slice(0, 2);
+  for (const destination of upcoming) {
+    const left = destination.unlockAfterBrightDays - game.brightDays;
+    zones.push({
+      key: `l-${destination.id}`,
+      destination,
+      status: 'locked',
+      note: `Se abre con ${left} ${left === 1 ? 'día' : 'días'} más de luz.`,
+    });
+  }
+
+  if (!isPlus) {
+    const plus = DESTINATIONS.find((d) => d.plus && !shown.has(d.id) && !game.visited.includes(d.id));
+    if (plus) zones.push({ key: `p-${plus.id}`, destination: plus, status: 'plus', note: 'Zona de Lumi Plus.' });
+  }
+  return zones;
+}
 
 export default function ExpeditionsScreen() {
-  const { state } = useLumi();
+  const { settings } = useLumi();
+  const game = useGame();
+  const zones = buildTrail(game, settings.lumiName, settings.isPlus);
+  const postcards = [...game.album]
+    .sort((a, b) => b.savedAt - a.savedAt)
+    .flatMap((entry) => {
+      const destination = destinationById(entry.destinationId);
+      return destination ? [{ entry, destination }] : [];
+    });
 
   return (
-    <Screen title="Expediciones" subtitle="Lumi explora una zona nueva cada día que le dejas brillar.">
+    <Screen title="Expediciones" subtitle={`${settings.lumiName} explora una zona nueva cada día que le dejas brillar.`}>
       <View style={styles.trail}>
         <View style={styles.trailLine} />
-        {ZONES.map((zone) => {
-          // Si hoy Lumi se queda en casa, la zona de hoy espera a mañana.
-          const waiting = zone.status === 'current' && !state.exploring;
-          const status: ZoneStatus = waiting ? 'locked' : zone.status;
-          const locked = status === 'locked' || status === 'plus';
+        {zones.map((zone) => {
+          const { status } = zone;
+          const locked = status === 'locked' || status === 'plus' || status === 'waiting';
           return (
             <Pressable
-              key={zone.id}
+              key={zone.key}
               disabled={status !== 'plus'}
               onPress={() => router.push('/plus')}
               accessibilityRole={status === 'plus' ? 'button' : undefined}
@@ -35,10 +103,10 @@ export default function ExpeditionsScreen() {
                   status === 'current' && styles.dotNow,
                 ]}
               />
-              <View style={[styles.thumb, { experimental_backgroundImage: zone.art }]} />
+              <View style={[styles.thumb, { experimental_backgroundImage: zone.destination.art }]} />
               <View style={styles.txt}>
-                <Text style={styles.zoneName}>{zone.name}</Text>
-                <Text style={styles.zoneNote}>{waiting ? 'Mañana, si a Lumi le queda luz.' : zone.note}</Text>
+                <Text style={styles.zoneName}>{zone.destination.name}</Text>
+                <Text style={styles.zoneNote}>{zone.note}</Text>
               </View>
             </Pressable>
           );
@@ -49,21 +117,31 @@ export default function ExpeditionsScreen() {
         <SectionTitle action={<TextLink label="Ver álbum" onPress={() => router.navigate('/coleccion')} />}>
           Postales recibidas
         </SectionTitle>
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          style={styles.cardsRow}
-          contentContainerStyle={styles.cardsRowContent}>
-          {POSTCARDS.slice(0, 3).map((p, i) => (
-            <Pressable
-              key={p.id}
-              accessibilityRole="button"
-              accessibilityLabel={`Postal de ${p.place}`}
-              onPress={() => router.push({ pathname: '/postal', params: { id: p.id } })}>
-              <PostcardView title={p.place} caption={`«${p.quote}»`} art={p.art} width={128} rotate={CARD_TILT[i]} />
-            </Pressable>
-          ))}
-        </ScrollView>
+        {postcards.length === 0 ? (
+          <Text style={styles.empty}>Aún no hay postales. Esta noche, quizá la primera ✨</Text>
+        ) : (
+          <ScrollView
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            style={styles.cardsRow}
+            contentContainerStyle={styles.cardsRowContent}>
+            {postcards.map(({ entry, destination }, i) => (
+              <Pressable
+                key={entry.destinationId}
+                accessibilityRole="button"
+                accessibilityLabel={`Postal ${fromDestination(destination)}`}
+                onPress={() => router.push({ pathname: '/postal', params: { id: destination.id } })}>
+                <PostcardView
+                  title={destination.name}
+                  caption={`«${destination.quote}»`}
+                  art={destination.art}
+                  width={128}
+                  rotate={CARD_TILT[i % CARD_TILT.length]}
+                />
+              </Pressable>
+            ))}
+          </ScrollView>
+        )}
       </View>
     </Screen>
   );
@@ -105,5 +183,6 @@ const styles = StyleSheet.create({
   zoneNote: { fontFamily: Fonts.body, fontSize: 12.5, lineHeight: 17, color: Colors.textTertiary },
   // El carrusel llega hasta los bordes de la pantalla.
   cardsRow: { marginHorizontal: -18, overflow: 'visible' },
+  empty: { fontFamily: Fonts.body, fontSize: 14, lineHeight: 20, color: Colors.textSecondary },
   cardsRowContent: { gap: 10, paddingHorizontal: 18, paddingVertical: 8 },
 });
