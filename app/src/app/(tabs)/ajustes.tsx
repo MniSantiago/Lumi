@@ -4,15 +4,9 @@ import { Alert, Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 
 import { PillButton, SectionTitle, Screen, TextLink } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
+import { plusFeatures } from '@/components/paywall/copy';
 import { thiefAppById, type ThiefApp } from '@/lumi/data';
 import { formatLimit, LIMIT_OPTIONS, useLumi } from '@/lumi/store';
-
-const PLUS_FEATURES = [
-  'Más especies y colores de luz',
-  'Zonas exclusivas y capítulos de historia',
-  'Varios horarios y bloqueo estricto',
-  'Decoración premium para la madriguera',
-];
 
 export default function SettingsScreen() {
   const { settings, updateSettings } = useLumi();
@@ -120,15 +114,24 @@ export default function SettingsScreen() {
       <View style={styles.plus}>
         <Text style={styles.plusTitle}>Lumi Plus</Text>
         <View style={{ gap: 3 }}>
-          {PLUS_FEATURES.map((f) => (
-            <View key={f} style={styles.bullet}>
+          {plusFeatures.map((f) => (
+            <View key={f.key} style={styles.bullet}>
               <Text style={styles.bulletDot}>•</Text>
-              <Text style={styles.bulletText}>{f}</Text>
+              <Text style={styles.bulletText}>{f.title}</Text>
             </View>
           ))}
         </View>
-        <PillButton label="Probar 7 días gratis" onPress={() => router.push('/plus')} />
-        <Text style={styles.plusSmall}>Luego 49,99 $ al año. Lumi no se pone triste si no lo pruebas.</Text>
+        {settings.isPlus ? (
+          <>
+            <Text style={styles.plusSmall}>Ya tienes Lumi Plus. Gracias por acompañarla un poco más lejos ✨</Text>
+            <TextLink label="Ver mi suscripción" onPress={() => router.push('/plus')} />
+          </>
+        ) : (
+          <>
+            <PillButton label="Probar 7 días gratis" onPress={() => router.push('/plus')} />
+            <Text style={styles.plusSmall}>Luego 49,99 $ al año. Lumi no se pone triste si no lo pruebas.</Text>
+          </>
+        )}
       </View>
     </Screen>
   );

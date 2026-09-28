@@ -35,7 +35,7 @@ function TonightPostcard() {
   const { settings } = useLumi();
   const insets = useSafeAreaInsets();
   const { cardWidth, window } = useSizes();
-  const artHeight = Math.round(Math.min(cardWidth * 0.62, window.height * 0.21));
+  const artHeight = Math.round(Math.min(cardWidth * 0.5, window.height * 0.14));
 
   const rewards = useMemo(
     () => [
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 24,
     paddingBottom: 20,
-    gap: 20,
+    gap: 16,
   },
   headerPill: {
     paddingVertical: 6,

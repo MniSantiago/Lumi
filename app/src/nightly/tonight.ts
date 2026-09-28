@@ -3,7 +3,7 @@
  * De momento es un mock; más adelante saldrá de la expedición real del día,
  * y solo habrá vuelta los días en que tuvo luz para salir.
  */
-import { CURRENT_EXPEDITION, FRIENDS, ITEMS, ZONES, type Item } from '@/lumi/data';
+import { CURRENT_EXPEDITION, FRIENDS, ITEMS, type Item } from '@/lumi/data';
 
 /** Algo que Lumi se trae en el bolsillo, con su artículo para las frases ("una seta brillante"). */
 export type Keepsake = { item: Item & { name: string }; article: 'un' | 'una' };
@@ -29,11 +29,10 @@ function named(list: Item[], icon: string): Item & { name: string } {
   return { id: found?.id ?? icon, icon, name: found?.name ?? icon };
 }
 
-const zone = ZONES.find((z) => z.name === CURRENT_EXPEDITION.zone);
-
 export const TONIGHT: NightlyReturn = {
   zone: CURRENT_EXPEDITION.zone,
-  art: zone?.art ?? 'linear-gradient(160deg, #3E6A6A, #1D2446)',
+  // Versión grande del bosque: la miniatura de ZONES lleva un punto de musgo que en grande parece una mancha.
+  art: 'linear-gradient(170deg, #8FD1A6, #3E6A6A 55%, #1D2446)',
   chapter: 3,
   chapterTitle: 'El bosque que susurra',
   caption: 'Aquí todo es blandito. Hasta el silencio.',
