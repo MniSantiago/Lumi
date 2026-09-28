@@ -15,7 +15,15 @@
         "heading": "Lo que se guarda en tu iPhone",
         "body": [
           "Tu nombre, el nombre de Lumi, tu límite diario, tu horario de noche, las apps que has elegido y tu progreso: días, postales, objetos y chispas.",
-          "Todo esto vive solo en tu dispositivo. No hay cuentas y no se envía a ningún servidor nuestro. Si borras la app, se borra con ella."
+          "Todo esto vive en tu dispositivo. Si no creas una cuenta, no se envía a ningún servidor. Si borras la app, se borra con ella."
+        ]
+      },
+      {
+        "heading": "Si creas una cuenta (opcional)",
+        "body": [
+          "Guardamos tu correo, tu contraseña cifrada (nunca en claro), tu nombre y el de Lumi, para que no pierdas tu progreso si cambias de iPhone.",
+          "Usamos tu correo solo para cosas de tu cuenta: confirmar que es tuyo, recuperar la contraseña y avisarte de cambios de seguridad. Los enviamos con Resend.",
+          "Puedes eliminar la cuenta cuando quieras desde Ajustes › Cuenta › Eliminar la cuenta. Se borra al momento con todos sus datos."
         ]
       },
       {
@@ -39,7 +47,7 @@
       {
         "heading": "Tus derechos",
         "body": [
-          "Puedes pedirnos acceder a tus datos, corregirlos o borrarlos escribiendo al correo de soporte que aparece en la ficha de Lumi en la App Store."
+          "Puedes consultar, corregir o eliminar tus datos desde la app (Ajustes › Cuenta), o pedírnoslo escribiendo al correo de soporte que aparece en la ficha de Lumi en la App Store."
         ]
       }
     ]

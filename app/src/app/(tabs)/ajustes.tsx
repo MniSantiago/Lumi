@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import { Alert, Linking, StyleSheet, Switch, Text, View } from 'react-native';
 
+import { useSession } from '@/account/session';
 import { AppIcon, Label, List, Row, Stepper } from '@/components/onboarding/controls';
 import { PillButton, SectionTitle, Screen, TextLink } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
@@ -126,6 +127,11 @@ export default function SettingsScreen() {
         </List>
       </View>
 
+      <View style={{ gap: 10 }}>
+        <SectionTitle>Cuenta</SectionTitle>
+        <AccountSection />
+      </View>
+
       {__DEV__ ? (
         <View style={{ gap: 10 }}>
           <SectionTitle>Desarrollo</SectionTitle>
@@ -191,6 +197,47 @@ export default function SettingsScreen() {
         <TextLink label="Términos" onPress={() => router.push('/legal/terminos')} />
       </View>
     </Screen>
+  );
+}
+
+/** Cuenta opcional: guardar el progreso, verificar el correo, contraseña, cerrar sesión y eliminarla. */
+function AccountSection() {
+  const { loading, user, signOut } = useSession();
+  if (loading) return null;
+  if (!user) {
+    return (
+      <List>
+        <Row last>
+          <Label title="Guarda tu progreso" sub="Opcional. Para no perder a Lumi si cambias de iPhone" />
+          <TextLink label="Empezar" onPress={() => router.push('/cuenta')} />
+        </Row>
+      </List>
+    );
+  }
+  const askSignOut = () =>
+    Alert.alert('¿Cerrar sesión?', 'Lumi y su progreso se quedan en este iPhone.', [
+      { text: 'Cancelar', style: 'cancel' },
+      { text: 'Cerrar sesión', onPress: () => void signOut() },
+    ]);
+  return (
+    <List>
+      <Row>
+        <Label title={user.email} sub={user.emailVerified ? 'Correo confirmado' : 'Falta confirmar el correo'} />
+        {user.emailVerified ? null : <TextLink label="Confirmar" onPress={() => router.push('/cuenta/verificar')} />}
+      </Row>
+      <Row>
+        <Label title="Contraseña" />
+        <TextLink label="Cambiar" onPress={() => router.push('/cuenta/contrasena')} />
+      </Row>
+      <Row>
+        <Label title="Cerrar sesión" />
+        <TextLink label="Salir" onPress={askSignOut} />
+      </Row>
+      <Row last>
+        <Label title="Eliminar la cuenta" sub="Borra tus datos de nuestro servidor" />
+        <TextLink label="Eliminar" onPress={() => router.push('/cuenta/eliminar')} />
+      </Row>
+    </List>
   );
 }
 

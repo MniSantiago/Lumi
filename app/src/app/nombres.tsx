@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
 
+import { useSession } from '@/account/session';
+import { updateMe } from '@/api/generated';
 import { Field } from '@/components/onboarding/controls';
 import { PrimaryButton } from '@/components/onboarding/step-shell';
 import { closeSheet, Sheet } from '@/components/sheet';
@@ -9,6 +11,7 @@ import { useLumi } from '@/lumi/store';
 /** Cambiar tu nombre y el de Lumi desde Ajustes. Se guarda al pulsar "Guardar". */
 export default function NamesSheet() {
   const { settings, updateSettings } = useLumi();
+  const { user, setUser } = useSession();
   const [userName, setUserName] = useState(settings.userName);
   const [lumiName, setLumiName] = useState(settings.lumiName);
   const lumiNameRef = useRef<TextInput>(null);
@@ -16,7 +19,10 @@ export default function NamesSheet() {
   const changed = userName.trim() !== settings.userName || (lumiName.trim() || 'Lumi') !== settings.lumiName;
 
   const save = () => {
-    updateSettings({ userName: userName.trim(), lumiName: lumiName.trim() || 'Lumi' });
+    const patch = { userName: userName.trim(), lumiName: lumiName.trim() || 'Lumi' };
+    updateSettings(patch);
+    // Con cuenta, también en el servidor. Si falla (sin conexión), el cambio local se queda igual.
+    if (user) updateMe({ name: patch.userName, lumiName: patch.lumiName }).then(setUser, () => {});
     closeSheet();
   };
 

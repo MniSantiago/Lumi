@@ -5,6 +5,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
+import { SessionProvider } from '@/account/session';
 import { Colors } from '@/constants/theme';
 import { GameProvider } from '@/game/store';
 import { LumiProvider, useLumi } from '@/lumi/store';
@@ -33,10 +34,12 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={navTheme}>
       <LumiProvider>
-        <GameProvider>
-          <StatusBar style="light" />
-          <RootStack />
-        </GameProvider>
+        <SessionProvider>
+          <GameProvider>
+            <StatusBar style="light" />
+            <RootStack />
+          </GameProvider>
+        </SessionProvider>
       </LumiProvider>
     </ThemeProvider>
   );
@@ -72,6 +75,11 @@ function RootStack() {
         <Stack.Screen name="apps" options={{ presentation: 'modal' }} />
         <Stack.Screen name="nombres" options={{ presentation: 'modal' }} />
         <Stack.Screen name="legal/[doc]" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="cuenta/index" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="cuenta/verificar" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="cuenta/olvido" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="cuenta/contrasena" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="cuenta/eliminar" options={{ presentation: 'modal' }} />
         <Stack.Screen name="resumen" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
       </Stack.Protected>
     </Stack>
