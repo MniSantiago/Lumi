@@ -13,7 +13,8 @@ Para retomar: abre un chat en el proyecto "Cozy experience" (o pega este archivo
 | Mockup HTML con marco de iPhone | Hecho (v2, con las ilustraciones de Higgsfield) | `lumi-mockup.html` y el artifact en claude.ai: https://claude.ai/artifact/U7vrjvNhSVL9wLAQnRwmuB |
 | Lumi elegida | Variante B (`fa783b9e…`), recortada | Original en `assets/fa783b9e-….png`; recorte en `assets/web/lumi-recorte.png` |
 | Fondo del hogar | Hecho e integrado | Original en `assets/Vertical-mobile-app-home-background-coz.png` |
-| Lumi en 4 estados con expresiones propias | **Pendiente** (paso 2) | Hoy se simulan con filtros CSS sobre una sola imagen |
+| Lumi en 4 estados con expresiones propias | Hecho (ilustraciones), recortados para la app | Originales en `assets/Radiante.png`, `Cansada.png`, `Apagadita.png`; recortes en `app/assets/lumi/`. El mockup HTML aún usa filtros CSS |
+| App Expo (SDK 57) con las 5 pestañas | Hecho (v1, datos de ejemplo y uso simulado) | `app/` |
 | Pantallas de onboarding, postal nocturna y paywall | **Pendiente** (paso 3) | |
 | Entitlement de Family Controls | **Pendiente** (paso 4) | |
 | Validación (landing y TikTok) | **Pendiente** (paso 5) | |
@@ -66,6 +67,14 @@ Lumi/
   - El mundo se oscurece un poco al bajar de estado ("tu atención es luz").
 - **Estados provisionales:** brillo, saturación y halo cambian con filtros CSS, y en Apagadita aparecen las "z". Las expresiones (bostezo, ojos cerrados) llegan en el paso 2.
 
+### Sesión 2 (28 sep, noche): app Expo
+
+- **Proyecto Expo** en `app/`: SDK 57, Expo Router con pestañas nativas (Hogar, Expediciones, Colección, Progreso y Ajustes), TypeScript, Fraunces + Figtree.
+- **Hogar** como en el mockup: fondo ilustrado, luciérnagas animadas, Lumi flotando y respirando con halo, medidor "Luz de hoy", bocadillo, estado y expedición. El mundo se oscurece al bajar de estado.
+- **Estados** derivados del último umbral de uso (0/25/50/75 %), no de minutos, igual que funcionará con `DeviceActivityMonitor`. La fuente de uso es una interfaz (`app/src/screen-time`) con un mock; en desarrollo, el hogar tiene "Simular uso".
+- **Recorte de los estados** (`tools/cutout_states.py`): cuerpo y núcleo de los orbes opacos (con cierre morfológico y relleno de huecos), blancos encerrados como luz y halo con "color a alfa" conservando el tono a brillo máximo.
+- Ajustes guardados en el dispositivo (AsyncStorage). Todo lo demás son datos de ejemplo (`app/src/lumi/data.ts`).
+
 ### Prompts de Higgsfield (reutilizables)
 
 **Lumi:**
@@ -107,7 +116,7 @@ Lumi/
 
 ## 5. Pasos pendientes
 
-### Paso 2. Generar los 4 estados de Lumi
+### Paso 2. Generar los 4 estados de Lumi (hecho para la app; falta llevarlos al mockup HTML)
 
 - **Objetivo:** que sea la misma criatura con expresiones distintas.
 - **Cómo:**
