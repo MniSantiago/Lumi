@@ -46,7 +46,7 @@ export default function SettingsScreen() {
           {apps.map((app, i) => (
             <Row key={app.id} last={i === apps.length - 1}>
               <View style={[styles.ic, { experimental_backgroundImage: app.icon }]}>
-                <Text style={styles.icLetter}>{app.letter}</Text>
+                <Text style={[styles.icLetter, app.ink ? { color: app.ink } : null]}>{app.letter}</Text>
               </View>
               <Label title={app.name} sub={app.note} />
             </Row>

@@ -73,7 +73,7 @@ export const LUMI_STATES: Record<LumiStateKey, LumiState> = {
     exploring: false,
     image: require('@/assets/lumi/apagadita.png'),
     bubble: 'Me echo una siestecita. Te echaba de menos, mañana empezamos de cero.',
-    meterNote: 'Has llegado a tu hora de hoy',
+    meterNote: 'Más del 75 % de tu hora',
     sparks: 2,
   },
 };

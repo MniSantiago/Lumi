@@ -28,7 +28,7 @@ export function Label({ title, sub }: { title: string; sub?: string }) {
 export function AppIcon({ app }: { app: ThiefApp }) {
   return (
     <View style={[styles.ic, { experimental_backgroundImage: app.icon }]}>
-      <Text style={[styles.icLetter, app.id === 'snapchat' && { color: '#111111' }]}>{app.letter}</Text>
+      <Text style={[styles.icLetter, app.ink ? { color: app.ink } : null]}>{app.letter}</Text>
     </View>
   );
 }

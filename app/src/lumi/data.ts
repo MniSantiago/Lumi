@@ -109,6 +109,8 @@ export type ThiefApp = {
   letter: string;
   /** Fondo del icono provisional (degradado CSS). */
   icon: string;
+  /** Color de la letra si el fondo es claro (por defecto, blanco). */
+  ink?: string;
   note?: string;
 };
 
@@ -123,7 +125,7 @@ export const THIEF_APP_CATALOG: ThiefApp[] = [
   { id: 'youtube', name: 'YouTube', letter: 'Y', icon: 'linear-gradient(#E0473E, #E0473E)', note: 'Solo Shorts no se puede separar en iOS' },
   { id: 'x', name: 'X', letter: 'X', icon: 'linear-gradient(#000000, #000000)' },
   { id: 'reddit', name: 'Reddit', letter: 'R', icon: 'linear-gradient(#FF4500, #FF4500)' },
-  { id: 'snapchat', name: 'Snapchat', letter: 'S', icon: 'linear-gradient(#FFFC00, #FFFC00)' },
+  { id: 'snapchat', name: 'Snapchat', letter: 'S', icon: 'linear-gradient(#FFFC00, #FFFC00)', ink: '#111111' },
   { id: 'facebook', name: 'Facebook', letter: 'F', icon: 'linear-gradient(#1877F2, #1877F2)' },
   { id: 'twitch', name: 'Twitch', letter: 'T', icon: 'linear-gradient(#9146FF, #9146FF)' },
 ];
