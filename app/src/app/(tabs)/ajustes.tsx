@@ -184,6 +184,12 @@ export default function SettingsScreen() {
           </>
         )}
       </View>
+
+      <View style={styles.legal}>
+        <TextLink label="Privacidad" onPress={() => router.push('/legal/privacidad')} />
+        <Text style={styles.legalSep}>·</Text>
+        <TextLink label="Términos" onPress={() => router.push('/legal/terminos')} />
+      </View>
     </Screen>
   );
 }
@@ -216,5 +222,7 @@ const styles = StyleSheet.create({
   bullet: { flexDirection: 'row', gap: 8, paddingLeft: 4 },
   bulletDot: { fontSize: 13.5, lineHeight: 19, color: Colors.textSecondary },
   bulletText: { flex: 1, fontFamily: Fonts.body, fontSize: 13.5, lineHeight: 19, color: Colors.textSecondary },
+  legal: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 },
+  legalSep: { fontSize: 13, color: Colors.textTertiary },
   plusSmall: { fontFamily: Fonts.body, fontSize: 12, lineHeight: 17, color: Colors.textTertiary },
 });

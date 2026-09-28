@@ -240,10 +240,9 @@ export default function PlusScreen() {
                   disabled={busy !== null}
                 />
                 <Text style={styles.sep}>·</Text>
-                {/* Pendiente: abrir las páginas legales cuando existan. */}
-                <SmallLink label={paywallCopy.terms} onPress={() => {}} />
+                <SmallLink label={paywallCopy.terms} onPress={() => router.push('/legal/terminos')} />
                 <Text style={styles.sep}>·</Text>
-                <SmallLink label={paywallCopy.privacy} onPress={() => {}} />
+                <SmallLink label={paywallCopy.privacy} onPress={() => router.push('/legal/privacidad')} />
               </View>
               <Text style={styles.tender}>{paywallCopy.noPressure}</Text>
             </>

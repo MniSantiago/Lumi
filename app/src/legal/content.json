@@ -1,0 +1,81 @@
+{
+  "privacidad": {
+    "title": "Privacidad",
+    "intro": "Lumi está hecha para que pases menos rato en el móvil, no para saber más de ti. Esto es lo que usa y por qué.",
+    "updated": "Septiembre de 2026",
+    "sections": [
+      {
+        "heading": "Lo que Lumi no ve",
+        "body": [
+          "Lumi usa Tiempo de uso de Apple (Family Controls y Device Activity). Solo recibe avisos del tipo «ya vas por la mitad de tu límite».",
+          "No sabe qué vídeos ves, qué escribes ni con quién hablas. iOS tampoco se lo permitiría."
+        ]
+      },
+      {
+        "heading": "Lo que se guarda en tu iPhone",
+        "body": [
+          "Tu nombre, el nombre de Lumi, tu límite diario, tu horario de noche, las apps que has elegido y tu progreso: días, postales, objetos y chispas.",
+          "Todo esto vive solo en tu dispositivo. No hay cuentas y no se envía a ningún servidor nuestro. Si borras la app, se borra con ella."
+        ]
+      },
+      {
+        "heading": "Notificaciones",
+        "body": [
+          "Si las activas, Lumi programa en tu iPhone el aviso de la postal nocturna y el recordatorio antes de que acabe la prueba gratis. Son notificaciones locales: no pasan por ningún servidor."
+        ]
+      },
+      {
+        "heading": "Compras",
+        "body": [
+          "Las suscripciones a Lumi Plus las cobra Apple. Nosotros no vemos tu tarjeta. Para saber si tienes Plus activo usamos un identificador anónimo de compra."
+        ]
+      },
+      {
+        "heading": "Lista de espera",
+        "body": [
+          "Si te apuntas en la web, guardamos tu correo y de dónde llegaste (por ejemplo, un vídeo de TikTok) solo para avisarte cuando Lumi esté lista. No lo vendemos ni lo compartimos, y puedes pedir que lo borremos cuando quieras."
+        ]
+      },
+      {
+        "heading": "Tus derechos",
+        "body": [
+          "Puedes pedirnos acceder a tus datos, corregirlos o borrarlos escribiendo al correo de soporte que aparece en la ficha de Lumi en la App Store."
+        ]
+      }
+    ]
+  },
+  "terminos": {
+    "title": "Términos",
+    "intro": "Las reglas de convivencia con Lumi, en corto.",
+    "updated": "Septiembre de 2026",
+    "sections": [
+      {
+        "heading": "Qué es Lumi",
+        "body": [
+          "Lumi es una mascota virtual que te ayuda a usar menos las apps que tú eliges. No es una herramienta médica ni sustituye a un profesional si el uso del móvil te preocupa de verdad."
+        ]
+      },
+      {
+        "heading": "Gratis y Lumi Plus",
+        "body": [
+          "Lo importante de Lumi es gratis y lo seguirá siendo: tu Lumi y su escudo, el límite diario, las expediciones y postales, el widget y el modo noche.",
+          "Lumi Plus es una suscripción opcional (anual o mensual) con prueba gratis de 7 días. Se renueva sola hasta que la canceles.",
+          "Puedes cancelarla cuando quieras desde Ajustes de tu iPhone › tu nombre › Suscripciones, al menos 24 horas antes de la renovación. Si cancelas durante la prueba, no se cobra nada.",
+          "Los reembolsos los gestiona Apple según sus condiciones."
+        ]
+      },
+      {
+        "heading": "Uso justo",
+        "body": [
+          "Lumi es para tu uso personal. No intentes copiar, revender ni modificar la app o sus ilustraciones."
+        ]
+      },
+      {
+        "heading": "Cambios",
+        "body": [
+          "Si cambiamos estos términos de forma importante, te lo contaremos en la app antes de que se apliquen."
+        ]
+      }
+    ]
+  }
+}

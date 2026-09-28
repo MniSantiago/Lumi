@@ -71,6 +71,7 @@ function RootStack() {
         <Stack.Screen name="plus" options={{ presentation: 'modal' }} />
         <Stack.Screen name="apps" options={{ presentation: 'modal' }} />
         <Stack.Screen name="nombres" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="legal/[doc]" options={{ presentation: 'modal' }} />
         <Stack.Screen name="resumen" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
       </Stack.Protected>
     </Stack>
