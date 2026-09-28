@@ -37,6 +37,7 @@ export const Fonts = {
   /** Títulos de cuento. */
   display: 'Fraunces_600SemiBold',
   displayBold: 'Fraunces_700Bold',
+  displayExtraBold: 'Fraunces_800ExtraBold',
   body: 'Figtree_400Regular',
   bodyMedium: 'Figtree_500Medium',
   bodySemiBold: 'Figtree_600SemiBold',

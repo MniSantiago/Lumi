@@ -90,14 +90,22 @@ export const WEEK: { day: string; lit: 0 | 1 | 2 | 3 | 4 }[] = [
 export const STREAK_DAYS = 12;
 
 export const EVOLUTION = {
-  stages: ['Chispa', 'Farolito', 'Estrella', 'Aurora'],
-  current: 0,
+  /** Cada etapa cambia el color de la luz de Lumi; `orb` es su degradado. */
+  stages: [
+    { name: 'Chispa', orb: 'radial-gradient(circle, #FFE3A3, #FFC96B 50%, transparent 72%)' },
+    { name: 'Farolito', orb: 'radial-gradient(circle, #FFE3A3, #FFC96B 45%, #FFB4A2 60%, transparent 74%)' },
+    { name: 'Estrella', orb: 'radial-gradient(circle, #E6E0FB, #9FE3F0 50%, transparent 74%)' },
+    { name: 'Aurora', orb: 'radial-gradient(circle, #FFFFFF, #C9BFF2 45%, #8C7BD8 60%, transparent 76%)' },
+  ],
+  /** Índice de la última etapa alcanzada. */
+  current: 1,
   week: 2,
   weeksPerStage: 4,
 };
 
+/** `icon`: fondo del icono provisional (degradado o color). */
 export const THIEF_APPS = [
-  { id: 'tiktok', name: 'TikTok', letter: 'T', color: '#25F4EE' },
-  { id: 'instagram', name: 'Instagram', letter: 'I', color: '#E1306C' },
-  { id: 'youtube', name: 'YouTube', letter: 'Y', color: '#FF4E45', note: 'Solo Shorts no se puede separar en iOS' },
+  { id: 'tiktok', name: 'TikTok', letter: 'T', icon: 'linear-gradient(#111111, #111111)' },
+  { id: 'instagram', name: 'Instagram', letter: 'I', icon: 'linear-gradient(45deg, #F2A15A, #C9477A, #6F4AC2)' },
+  { id: 'youtube', name: 'YouTube', letter: 'Y', icon: 'linear-gradient(#E0473E, #E0473E)', note: 'Solo Shorts no se puede separar en iOS' },
 ];

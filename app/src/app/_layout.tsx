@@ -1,5 +1,5 @@
 import { Figtree_400Regular, Figtree_500Medium, Figtree_600SemiBold, Figtree_700Bold } from '@expo-google-fonts/figtree';
-import { Fraunces_600SemiBold, Fraunces_700Bold, useFonts } from '@expo-google-fonts/fraunces';
+import { Fraunces_600SemiBold, Fraunces_700Bold, Fraunces_800ExtraBold, useFonts } from '@expo-google-fonts/fraunces';
 import { DarkTheme, ThemeProvider } from 'expo-router';
 import { NativeTabs } from 'expo-router/unstable-native-tabs';
 import * as SplashScreen from 'expo-splash-screen';
@@ -20,6 +20,7 @@ export default function RootLayout() {
   const [loaded, error] = useFonts({
     Fraunces_600SemiBold,
     Fraunces_700Bold,
+    Fraunces_800ExtraBold,
     Figtree_400Regular,
     Figtree_500Medium,
     Figtree_600SemiBold,

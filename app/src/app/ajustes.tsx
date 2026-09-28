@@ -1,10 +1,17 @@
 import type { ReactNode } from 'react';
 import { Alert, Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 
-import { AppText, Button, Card, SectionTitle, Screen, TextLink } from '@/components/ui';
-import { Colors, Fonts, Radius, Spacing } from '@/constants/theme';
+import { PillButton, SectionTitle, Screen, TextLink } from '@/components/ui';
+import { Colors, Fonts } from '@/constants/theme';
 import { THIEF_APPS } from '@/lumi/data';
 import { formatLimit, LIMIT_OPTIONS, useLumi } from '@/lumi/store';
+
+const PLUS_FEATURES = [
+  'Más especies y colores de luz',
+  'Zonas exclusivas y capítulos de historia',
+  'Varios horarios y bloqueo estricto',
+  'Decoración premium para la madriguera',
+];
 
 export default function SettingsScreen() {
   const { settings, updateSettings } = useLumi();
@@ -16,7 +23,7 @@ export default function SettingsScreen() {
 
   return (
     <Screen title="Ajustes" subtitle="Lo que apaga la luz de Lumi y cuándo se va a dormir.">
-      <View style={{ gap: Spacing.three }}>
+      <View style={{ gap: 10 }}>
         <SectionTitle
           action={
             <TextLink
@@ -28,99 +35,100 @@ export default function SettingsScreen() {
           }>
           Apps ladronas
         </SectionTitle>
-        <Card style={{ paddingVertical: 4 }}>
+        <List>
           {THIEF_APPS.map((app, i) => (
             <Row key={app.id} last={i === THIEF_APPS.length - 1}>
-              <View style={[styles.appIcon, { backgroundColor: `${app.color}33` }]}>
-                <Text style={[styles.appLetter, { color: app.color }]}>{app.letter}</Text>
+              <View style={[styles.ic, { experimental_backgroundImage: app.icon }]}>
+                <Text style={styles.icLetter}>{app.letter}</Text>
               </View>
-              <View style={{ flex: 1 }}>
-                <AppText variant="bodyStrong">{app.name}</AppText>
-                {app.note ? <AppText variant="caption">{app.note}</AppText> : null}
-              </View>
+              <Label title={app.name} sub={app.note} />
             </Row>
           ))}
-        </Card>
+        </List>
       </View>
 
-      <View style={{ gap: Spacing.three }}>
+      <View style={{ gap: 10 }}>
         <SectionTitle>Límite y noche</SectionTitle>
-        <Card style={{ paddingVertical: 4 }}>
+        <List>
           <Row>
-            <RowText title="Límite diario suave" sub="Lumi se cansa al acercarte" />
+            <Label title="Límite diario suave" sub="Lumi se cansa al acercarte" />
             <View style={styles.stepper}>
-              <StepButton label="−" disabled={limitIndex === 0} onPress={() => stepLimit(-1)} a11y="Bajar límite" />
-              <Text style={styles.stepValue}>{formatLimit(settings.limitMinutes)}</Text>
+              <StepButton label="−" a11y="Reducir límite" disabled={limitIndex === 0} onPress={() => stepLimit(-1)} />
+              <Text style={styles.stepValue} accessibilityLiveRegion="polite">
+                {formatLimit(settings.limitMinutes)}
+              </Text>
               <StepButton
                 label="+"
+                a11y="Aumentar límite"
                 disabled={limitIndex === LIMIT_OPTIONS.length - 1}
                 onPress={() => stepLimit(1)}
-                a11y="Subir límite"
               />
             </View>
           </Row>
           <Row>
-            <RowText title="Horario de noche" sub="Lumi duerme y las apps ladronas se tapan" />
-            <Text style={styles.value}>
+            <Label title="Horario de noche" sub="Lumi duerme y las apps ladronas se tapan" />
+            <Text style={styles.val}>
               {settings.nightStart} a {settings.nightEnd}
             </Text>
           </Row>
           <Row>
-            <RowText title="Postal nocturna" sub="Aviso cuando Lumi vuelve" />
-            <Toggle value={settings.nightlyPostcard} onChange={(v) => updateSettings({ nightlyPostcard: v })} />
+            <Label title="Postal nocturna" sub="Aviso cuando Lumi vuelve" />
+            <Toggle
+              label="Postal nocturna"
+              value={settings.nightlyPostcard}
+              onChange={(v) => updateSettings({ nightlyPostcard: v })}
+            />
           </Row>
           <Row last>
-            <RowText title="Días de descanso" sub="2 por semana, la racha no se rompe" />
-            <Toggle value={settings.restDays} onChange={(v) => updateSettings({ restDays: v })} />
+            <Label title="Días de descanso" sub="2 por semana, la racha no se rompe" />
+            <Toggle label="Días de descanso" value={settings.restDays} onChange={(v) => updateSettings({ restDays: v })} />
           </Row>
-        </Card>
+        </List>
       </View>
 
-      <Card style={styles.plus}>
-        <AppText variant="title">Lumi Plus</AppText>
-        <View style={{ gap: 6 }}>
-          {[
-            'Más especies y colores de luz',
-            'Zonas exclusivas y capítulos de historia',
-            'Varios horarios y bloqueo estricto',
-            'Decoración premium para la madriguera',
-          ].map((f) => (
-            <View key={f} style={{ flexDirection: 'row', gap: 8 }}>
-              <Text style={{ color: Colors.amber }}>✦</Text>
-              <AppText style={{ flex: 1, color: Colors.text }}>{f}</AppText>
+      <View style={styles.plus}>
+        <Text style={styles.plusTitle}>Lumi Plus</Text>
+        <View style={{ gap: 3 }}>
+          {PLUS_FEATURES.map((f) => (
+            <View key={f} style={styles.bullet}>
+              <Text style={styles.bulletDot}>•</Text>
+              <Text style={styles.bulletText}>{f}</Text>
             </View>
           ))}
         </View>
-        <Button label="Probar 7 días gratis" onPress={() => Alert.alert('Lumi Plus', 'El paywall llega en el paso 3.')} />
-        <AppText variant="caption" style={{ textAlign: 'center' }}>
-          Luego 49,99 $ al año. Lumi no se pone triste si no lo pruebas.
-        </AppText>
-      </Card>
+        <PillButton label="Probar 7 días gratis" onPress={() => Alert.alert('Lumi Plus', 'El paywall llega en el paso 3.')} />
+        <Text style={styles.plusSmall}>Luego 49,99 $ al año. Lumi no se pone triste si no lo pruebas.</Text>
+      </View>
     </Screen>
   );
+}
+
+function List({ children }: { children: ReactNode }) {
+  return <View style={styles.list}>{children}</View>;
 }
 
 function Row({ children, last }: { children: ReactNode; last?: boolean }) {
   return <View style={[styles.row, !last && styles.rowDivider]}>{children}</View>;
 }
 
-function RowText({ title, sub }: { title: string; sub: string }) {
+function Label({ title, sub }: { title: string; sub?: string }) {
   return (
-    <View style={{ flex: 1, gap: 2 }}>
-      <AppText variant="bodyStrong">{title}</AppText>
-      <AppText variant="caption">{sub}</AppText>
+    <View style={styles.lbl}>
+      <Text style={styles.lblTitle}>{title}</Text>
+      {sub ? <Text style={styles.lblSub}>{sub}</Text> : null}
     </View>
   );
 }
 
-function Toggle({ value, onChange }: { value: boolean; onChange: (v: boolean) => void }) {
+function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: boolean) => void; label: string }) {
   return (
     <Switch
+      accessibilityLabel={label}
       value={value}
       onValueChange={onChange}
-      trackColor={{ true: Colors.violet, false: 'rgba(201, 191, 242, 0.2)' }}
-      thumbColor={Colors.lavenderPale}
-      ios_backgroundColor="rgba(201, 191, 242, 0.2)"
+      trackColor={{ true: Colors.violet, false: 'rgba(201, 191, 242, 0.25)' }}
+      thumbColor="#FFFFFF"
+      ios_backgroundColor="rgba(201, 191, 242, 0.25)"
     />
   );
 }
@@ -150,33 +158,54 @@ function StepButton({
 }
 
 const styles = StyleSheet.create({
-  row: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, minHeight: 56 },
-  rowDivider: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: Colors.hairline },
-  appIcon: { width: 36, height: 36, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },
-  appLetter: { fontFamily: Fonts.bodyBold, fontSize: 16 },
-  value: { fontFamily: Fonts.bodySemiBold, fontSize: 15, color: Colors.lavender, fontVariant: ['tabular-nums'] },
-  stepper: { flexDirection: 'row', alignItems: 'center', gap: 10 },
+  list: {
+    backgroundColor: Colors.card,
+    borderWidth: 1,
+    borderColor: Colors.hairline,
+    borderRadius: 20,
+    borderCurve: 'continuous',
+    overflow: 'hidden',
+  },
+  row: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 13, paddingHorizontal: 14, minHeight: 52 },
+  rowDivider: { borderBottomWidth: 1, borderBottomColor: Colors.hairline },
+  ic: { width: 32, height: 32, borderRadius: 9, borderCurve: 'continuous', alignItems: 'center', justifyContent: 'center' },
+  icLetter: { fontFamily: Fonts.bodyBold, fontSize: 13, color: '#FFFFFF' },
+  lbl: { flex: 1, minWidth: 0 },
+  lblTitle: { fontFamily: Fonts.body, fontSize: 15, lineHeight: 20, color: Colors.text },
+  lblSub: { fontFamily: Fonts.body, fontSize: 12, lineHeight: 16, color: Colors.textTertiary },
+  val: { fontFamily: Fonts.body, fontSize: 14, color: Colors.textSecondary, fontVariant: ['tabular-nums'] },
+  stepper: { flexDirection: 'row', alignItems: 'center', gap: 8 },
   stepBtn: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
-    backgroundColor: 'rgba(201, 191, 242, 0.14)',
+    width: 30,
+    height: 30,
+    borderRadius: 15,
+    borderWidth: 1,
+    borderColor: Colors.hairline,
+    backgroundColor: 'rgba(201, 191, 242, 0.1)',
     alignItems: 'center',
     justifyContent: 'center',
   },
-  stepBtnText: { fontFamily: Fonts.bodySemiBold, fontSize: 18, color: Colors.lavenderPale, marginTop: -1 },
+  stepBtnText: { fontFamily: Fonts.body, fontSize: 17, lineHeight: 20, color: Colors.text },
   stepValue: {
-    fontFamily: Fonts.bodyBold,
+    fontFamily: Fonts.bodySemiBold,
     fontSize: 15,
     color: Colors.text,
-    minWidth: 52,
+    minWidth: 50,
     textAlign: 'center',
     fontVariant: ['tabular-nums'],
   },
   plus: {
-    gap: Spacing.three,
-    borderColor: `${Colors.amber}55`,
-    experimental_backgroundImage: `linear-gradient(160deg, ${Colors.indigo}, ${Colors.night})`,
-    borderRadius: Radius.lg,
+    gap: 10,
+    padding: 18,
+    borderRadius: 24,
+    borderCurve: 'continuous',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 201, 107, 0.3)',
+    experimental_backgroundImage: `radial-gradient(ellipse 260px 160px at 90% 0%, rgba(255, 201, 107, 0.35) 0%, transparent 70%), linear-gradient(${Colors.indigo}, ${Colors.indigo})`,
   },
+  plusTitle: { fontFamily: Fonts.displayBold, fontSize: 22, lineHeight: 28, color: Colors.amberPale },
+  bullet: { flexDirection: 'row', gap: 8, paddingLeft: 4 },
+  bulletDot: { fontSize: 13.5, lineHeight: 19, color: Colors.textSecondary },
+  bulletText: { flex: 1, fontFamily: Fonts.body, fontSize: 13.5, lineHeight: 19, color: Colors.textSecondary },
+  plusSmall: { fontFamily: Fonts.body, fontSize: 12, lineHeight: 17, color: Colors.textTertiary },
 });

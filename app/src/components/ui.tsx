@@ -5,7 +5,6 @@ import {
   StyleSheet,
   Text,
   View,
-  type PressableProps,
   type StyleProp,
   type TextProps,
   type TextStyle,
@@ -71,34 +70,23 @@ export function SectionTitle({ children, action }: { children: ReactNode; action
   );
 }
 
+/** Botón compacto en ámbar (el `.btn` del mockup), alineado a la izquierda. */
+export function PillButton({ label, onPress }: { label: string; onPress?: () => void }) {
+  return (
+    <Pressable
+      accessibilityRole="button"
+      onPress={onPress}
+      style={({ pressed }) => [styles.pillButton, pressed && { opacity: 0.85, transform: [{ scale: 0.98 }] }]}>
+      <Text style={styles.pillButtonText}>{label}</Text>
+    </Pressable>
+  );
+}
+
 /** Enlace de texto en ámbar claro ("Ver álbum", "Editar"). */
 export function TextLink({ label, onPress }: { label: string; onPress?: () => void }) {
   return (
     <Pressable accessibilityRole="link" hitSlop={8} onPress={onPress}>
       <Text style={styles.link}>{label}</Text>
-    </Pressable>
-  );
-}
-
-export function Button({
-  label,
-  kind = 'primary',
-  style,
-  ...rest
-}: PressableProps & { label: string; kind?: 'primary' | 'ghost'; style?: StyleProp<ViewStyle> }) {
-  return (
-    <Pressable
-      accessibilityRole="button"
-      {...rest}
-      style={({ pressed }) => [
-        styles.button,
-        kind === 'primary' ? styles.buttonPrimary : styles.buttonGhost,
-        pressed && { opacity: 0.8, transform: [{ scale: 0.98 }] },
-        style,
-      ]}>
-      <Text style={[styles.buttonLabel, kind === 'primary' ? { color: Colors.onAmber } : { color: Colors.lavender }]}>
-        {label}
-      </Text>
     </Pressable>
   );
 }
@@ -132,6 +120,15 @@ const styles = StyleSheet.create({
   header: { gap: 2, paddingTop: Spacing.two, marginBottom: -6 },
   subtitle: { fontSize: 14, lineHeight: 20, color: Colors.textSecondary },
   link: { fontFamily: Fonts.bodySemiBold, fontSize: 13, color: Colors.amberPale },
+  pillButton: {
+    alignSelf: 'flex-start',
+    borderRadius: Radius.pill,
+    paddingVertical: 10,
+    paddingHorizontal: 18,
+    backgroundColor: Colors.amber,
+    boxShadow: '0 6px 20px -6px rgba(255, 201, 107, 0.7)',
+  },
+  pillButtonText: { fontFamily: Fonts.bodyBold, fontSize: 14, color: Colors.night },
   card: {
     backgroundColor: Colors.card,
     borderRadius: Radius.lg,
@@ -141,19 +138,6 @@ const styles = StyleSheet.create({
     borderCurve: 'continuous',
   },
   sectionTitle: { flexDirection: 'row', alignItems: 'baseline', justifyContent: 'space-between' },
-  button: {
-    minHeight: 50,
-    borderRadius: Radius.pill,
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingHorizontal: Spacing.four,
-  },
-  buttonPrimary: {
-    backgroundColor: Colors.amber,
-    boxShadow: `0 0 24px ${Colors.amber}66`,
-  },
-  buttonGhost: { backgroundColor: 'rgba(201, 191, 242, 0.12)' },
-  buttonLabel: { fontFamily: Fonts.bodyBold, fontSize: 16 },
   pill: { borderRadius: Radius.pill, paddingHorizontal: 10, paddingVertical: 4, alignSelf: 'flex-start' },
   pillLavender: { backgroundColor: 'rgba(201, 191, 242, 0.16)' },
   pillAmber: { backgroundColor: 'rgba(255, 201, 107, 0.18)' },
