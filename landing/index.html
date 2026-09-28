@@ -1,0 +1,352 @@
+<!doctype html>
+<html lang="es-ES">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Lumi, la mascota que brilla cuando sueltas el móvil</title>
+<meta name="description" content="Lumi es un espíritu de luz que vive contigo todo el día. Cuanto menos scroll, más brilla y más lejos se va de aventura. Apúntate a la lista de espera para iPhone.">
+<meta name="theme-color" content="#13112E">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="es_ES">
+<meta property="og:title" content="Lumi: cuando sueltas el móvil, brilla y sale de aventura">
+<meta property="og:description" content="Una mascota de luz para pasar menos rato en el móvil. Sin temporizadores y sin culpa.">
+<meta property="og:image" content="img/og.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" type="image/png" href="img/favicon.png">
+<link rel="apple-touch-icon" href="img/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,500..800,100,1&family=Figtree:wght@400;500;600;700&display=swap">
+<link rel="preload" as="image" href="img/pradera-600.webp" media="(max-width: 899px)">
+<link rel="preload" as="image" href="img/lumi-radiante.webp">
+<link rel="stylesheet" href="styles.css">
+<script src="main.js" defer></script>
+</head>
+<body>
+<a class="skip" href="#main">Saltar al contenido</a>
+
+<header class="top">
+  <a class="wordmark" href="#" aria-label="Lumi, inicio">Lumi</a>
+  <span class="top-note">Llega pronto a iPhone</span>
+</header>
+
+<main id="main">
+
+  <!-- ───────── Hero: la pradera de noche, Lumi en el claro, la lista de espera ───────── -->
+  <section class="hero" aria-labelledby="hero-title">
+    <canvas class="fireflies" aria-hidden="true"></canvas>
+    <div class="hero-copy">
+      <h1 id="hero-title">Cuando sueltas el móvil, Lumi brilla y sale de aventura.</h1>
+      <p class="lede">Una mascota de luz que vive contigo todo el día. Cuanto menos scroll, más brilla. Y si te pasas, no te riñe: se echa la siesta.</p>
+
+      <form class="waitlist" data-form="hero" novalidate>
+        <div class="field">
+          <label for="email-hero">Tu correo</label>
+          <input id="email-hero" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" required>
+        </div>
+        <div class="field">
+          <label for="app-hero">¿Qué app te roba más tiempo? <span class="opt">(opcional)</span></label>
+          <select id="app-hero" name="app">
+            <option value="">Elige una</option>
+            <option>TikTok</option>
+            <option>Instagram</option>
+            <option>YouTube</option>
+            <option>X</option>
+            <option>Reddit</option>
+            <option>WhatsApp</option>
+            <option>Otra</option>
+          </select>
+        </div>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn" type="submit">Apuntarme a la lista</button>
+        <p class="form-note">Te escribimos cuando Lumi esté lista, y poco más. Al apuntarte aceptas la <a href="#privacidad">política de privacidad</a>.</p>
+        <p class="form-msg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+
+    <div class="hero-world">
+      <figure class="window">
+        <img class="lumi hero-lumi" src="img/lumi-radiante.webp" width="420" height="402" alt="Lumi, una criatura redonda de color lavanda con dos antenas de luz ámbar, sonriendo con los brazos en alto">
+      </figure>
+    </div>
+  </section>
+
+  <!-- ───────── Cómo funciona: la luz y los 4 estados ───────── -->
+  <section class="light" id="como-funciona" aria-labelledby="light-title">
+    <div class="wrap light-grid">
+      <div class="light-copy">
+        <h2 id="light-title">Tu atención es luz</h2>
+        <p>Eliges las apps que te enganchan y un límite suave para el día. Lumi no cuenta minutos para echártelos en cara: solo brilla más o menos según cómo vaya la cosa.</p>
+        <p class="hint" id="states-hint">Toca un momento del día y mira qué hace Lumi.</p>
+        <div class="states" role="radiogroup" aria-labelledby="states-hint">
+          <button type="button" role="radio" aria-checked="true" data-state="radiante">
+            <img src="img/lumi-radiante.webp" alt="" width="60" height="58" loading="lazy">
+            <span>Casi sin móvil</span>
+          </button>
+          <button type="button" role="radio" aria-checked="false" data-state="contenta">
+            <img src="img/lumi-contenta.webp" alt="" width="54" height="60" loading="lazy">
+            <span>Un ratito</span>
+          </button>
+          <button type="button" role="radio" aria-checked="false" data-state="cansada">
+            <img src="img/lumi-cansada.webp" alt="" width="58" height="60" loading="lazy">
+            <span>Bastante</span>
+          </button>
+          <button type="button" role="radio" aria-checked="false" data-state="apagadita">
+            <img src="img/lumi-apagadita.webp" alt="" width="49" height="60" loading="lazy">
+            <span>Me he pasado</span>
+          </button>
+        </div>
+        <p class="nodeath">Nunca enferma y nunca muere. Cada día empieza de cero.</p>
+      </div>
+
+      <div class="phone" data-lit="radiante">
+        <div class="screen home-screen">
+          <div class="island" aria-hidden="true"></div>
+          <div class="sb" aria-hidden="true"><span>16:20</span><span class="sb-icons"></span></div>
+          <div class="meter-card">
+            <div class="meter-head"><b>Luz de hoy</b><span data-meter-label>Brilla a tope</span></div>
+            <div class="meter" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+          </div>
+          <p class="bubble" data-bubble aria-live="polite">¡Hoy me voy al Bosque de Musgo! Te traigo algo.</p>
+          <img class="lumi home-lumi" data-home-lumi src="img/lumi-radiante.webp" width="420" height="402" alt="Lumi radiante, brillando a tope">
+          <p class="state-caption" data-caption><b>Radiante.</b> Brilla a tope y sale de expedición.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── El escudo: la estrella ───────── -->
+  <section class="shield" id="escudo" aria-labelledby="shield-title">
+    <div class="wrap shield-grid">
+      <div class="shield-copy">
+        <p class="clock" aria-hidden="true">2:07</p>
+        <h2 id="shield-title">«Lumi se estaba echando la siesta… ¿de verdad entramos?»</h2>
+        <p>Cuando ya has pasado tu límite y abres una app ladrona, no sale una pantalla gris de «acceso denegado». Sale Lumi, medio dormida, y te lo pregunta.</p>
+        <p>Puedes entrar igualmente. Solo que ahora alguien te está mirando con esos ojitos.</p>
+      </div>
+
+      <div class="phone phone-shield">
+        <div class="screen shield-screen">
+          <div class="island" aria-hidden="true"></div>
+          <div class="sb" aria-hidden="true"><span>2:07</span><span class="sb-icons"></span></div>
+          <div class="shield-body" data-shield>
+            <p class="app-tag"><span class="app-dot" aria-hidden="true">I</span>Instagram está tapada hasta mañana</p>
+            <img class="lumi shield-lumi" src="img/lumi-apagadita.webp" width="343" height="420" alt="Lumi dormida hecha una bolita, con las antenas apenas encendidas" loading="lazy">
+            <p class="shield-title">Lumi se estaba echando la siesta… ¿de verdad entramos?</p>
+            <p class="shield-sub">Ya habéis pasado de tu hora de hoy. Si lo dejas ahora, mañana se despierta con más luz.</p>
+            <div class="shield-actions">
+              <button type="button" class="btn" data-shield-choice="leave">Vale, lo dejo</button>
+              <button type="button" class="btn ghost" data-shield-choice="snooze">5 min más</button>
+            </div>
+            <p class="shield-reply" data-shield-reply role="status" aria-live="polite"></p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── Postales nocturnas y colección ───────── -->
+  <section class="postcards" id="postales" aria-labelledby="post-title">
+    <div class="wrap">
+      <div class="post-head">
+        <h2 id="post-title">Cada noche vuelve con una postal</h2>
+        <p>Los días que brilla, Lumi se va de expedición. Por la noche te escribe desde donde ha estado, y trae objetos raros para decorar su madriguera.</p>
+      </div>
+
+      <ul class="deck" role="list">
+        <li class="card" style="--r:-4deg">
+          <img src="img/postal-musgo.webp" alt="La entrada redonda de una madriguera en una colina de musgo, de noche" width="520" height="387" loading="lazy">
+          <b>Bosque de Musgo</b>
+          <q>Me eché una siesta sin querer. Cuando me desperté, alguien me había tapado con una hoja.</q>
+        </li>
+        <li class="card" style="--r:2.5deg">
+          <img src="img/postal-lago.webp" alt="Una luna creciente sobre un cielo índigo lleno de estrellas" width="520" height="386" loading="lazy">
+          <b>Lago de las Lunas</b>
+          <q>Había dos lunas y ninguna era de queso.</q>
+        </li>
+        <li class="card" style="--r:-1.5deg">
+          <img src="img/postal-setas.webp" alt="Setas que brillan entre la hierba y flores de color melocotón" width="505" height="400" loading="lazy">
+          <b>Jardín de Setas</b>
+          <q>Una seta me guiñó un ojo. Creo.</q>
+        </li>
+      </ul>
+
+      <div class="collect">
+        <div class="collect-item">
+          <h3>20 lugares por descubrir</h3>
+          <p>Del Bosque de Musgo al Observatorio de los Cometas. Las postales cuentan una historia por capítulos: una estrellita se ha caído del cielo y Lumi va siguiendo sus pistas.</p>
+        </div>
+        <div class="collect-item">
+          <h3>Un álbum que se va llenando</h3>
+          <p>Postales, objetos (un trébol de tres hojas muy simpático, un calcetín perdido) y criaturas amigas que se va encontrando.</p>
+        </div>
+        <div class="collect-item">
+          <h3>Chispas, nunca dinero</h3>
+          <p>Lumi gana chispas explorando y las gasta en decorar su casa. No se compran. Se brillan.</p>
+        </div>
+      </div>
+
+      <!-- Hueco para captura real: si existe img/screen-resumen.png (captura del simulador, 1179×2556 o similar), sustituye al mockup. -->
+      <div class="weekly">
+        <div class="phone phone-small" data-slot="img/screen-resumen.png" data-slot-alt="El resumen semanal de Lumi en formato vertical, listo para compartir en stories">
+          <div class="screen weekly-screen">
+            <div class="island" aria-hidden="true"></div>
+            <div class="weekly-mock" aria-hidden="true">
+              <p class="w-kicker">Tu semana con Lumi</p>
+              <p class="w-big">5 días brillando</p>
+              <div class="w-bars"><i style="--h:80%"></i><i style="--h:95%"></i><i style="--h:40%"></i><i style="--h:88%"></i><i class="rest" style="--h:30%"></i><i style="--h:100%"></i><i style="--h:72%"></i></div>
+              <div class="w-posts"><i style="--r:-5deg;--art:url(img/postal-musgo.webp)"></i><i style="--r:2deg;--art:url(img/postal-lago.webp)"></i><i style="--r:-2deg;--art:url(img/postal-setas.webp)"></i></div>
+              <img src="img/lumi-radiante.webp" alt="" width="420" height="402" loading="lazy">
+              <p class="w-foot">3 postales nuevas. Y un calcetín.</p>
+            </div>
+          </div>
+        </div>
+        <div class="weekly-copy">
+          <h3>Y los domingos, tu semana en una story</h3>
+          <p>Un resumen vertical con lo que ha brillado Lumi y las postales que ha traído, listo para compartir. Sin minutos exactos ni gráficas de culpa.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ───────── No es un temporizador ───────── -->
+  <section class="notimer" aria-labelledby="notimer-title">
+    <div class="wrap">
+      <h2 id="notimer-title">No es un temporizador. Es alguien que vive contigo.</h2>
+      <div class="compare" role="table" aria-label="Diferencias entre un temporizador de concentración y Lumi">
+        <div class="compare-row compare-headrow" role="row">
+          <span role="columnheader">Con un temporizador</span>
+          <span role="columnheader">Con Lumi</span>
+        </div>
+        <div class="compare-row" role="row">
+          <span role="cell">Tienes que acordarte de empezar una sesión.</span>
+          <span role="cell">Lumi ya está ahí, todo el día, sin que hagas nada.</span>
+        </div>
+        <div class="compare-row" role="row">
+          <span role="cell">Si lo dejas a medias, se rompe la racha.</span>
+          <span role="cell">Si te pasas, se duerme. Las rachas perdonan los días de descanso.</span>
+        </div>
+        <div class="compare-row" role="row">
+          <span role="cell">Una pantalla que te dice que no.</span>
+          <span role="cell">Una carita que te pregunta si de verdad.</span>
+        </div>
+      </div>
+      <p class="aside">Los bloqueadores y los temporizadores le funcionan a mucha gente. Lumi es para quien prefiere que le cuiden a que le vigilen.</p>
+    </div>
+  </section>
+
+  <!-- ───────── Privacidad ───────── -->
+  <section class="privacy" id="privacidad" aria-labelledby="privacy-title">
+    <div class="wrap privacy-grid">
+      <h2 id="privacy-title">Lumi no ve lo que haces dentro de tus apps</h2>
+      <ul class="ticks" role="list">
+        <li><b>Usa Tiempo de uso de Apple.</b> Lumi solo recibe avisos del tipo «ya vas por la mitad de tu límite». No sabe qué vídeos ves ni con quién hablas. Tampoco podría: iOS no lo permite.</li>
+        <li><b>Lo que sabe de ti vive en tu iPhone.</b> Su nombre, tu límite y tus postales. Sin cuentas obligatorias.</li>
+        <li><b>Tu correo, solo para esto.</b> Lo usamos para avisarte cuando Lumi esté lista. No lo vendemos ni lo compartimos, y te das de baja cuando quieras.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ───────── Precio ───────── -->
+  <section class="pricing" aria-labelledby="price-title">
+    <div class="wrap">
+      <h2 id="price-title">Lo importante es gratis. Siempre.</h2>
+      <p class="pricing-lede">Lumi te acompaña igual pagues o no. Plus es para quien quiere ir un poco más lejos.</p>
+      <div class="plans">
+        <div class="plan plan-free">
+          <h3>Gratis</h3>
+          <p class="price">0 €, para siempre</p>
+          <ul role="list">
+            <li>Tu Lumi y su escudo</li>
+            <li>El límite diario</li>
+            <li>Expediciones y postales</li>
+            <li>El widget</li>
+            <li>El modo noche</li>
+          </ul>
+        </div>
+        <div class="plan plan-plus">
+          <h3>Lumi Plus</h3>
+          <p class="price">Unos 49,99 € al año, con prueba gratis</p>
+          <ul role="list">
+            <li>Más especies y colores de luz</li>
+            <li>Zonas exclusivas y capítulos de historia</li>
+            <li>Varios horarios, bloqueo estricto y estadísticas</li>
+            <li>Decoración especial para la madriguera</li>
+          </ul>
+        </div>
+      </div>
+      <p class="fineprint">Precio orientativo. Si cambia, lo sabrás antes que nadie.</p>
+    </div>
+  </section>
+
+  <!-- ───────── FAQ ───────── -->
+  <section class="faq" aria-labelledby="faq-title">
+    <div class="wrap narrow">
+      <h2 id="faq-title">Preguntas que nos hacen</h2>
+      <details>
+        <summary>¿Cuándo sale?</summary>
+        <p>Estamos terminando la primera versión para iPhone. Quien esté en la lista la probará antes que nadie, en una beta privada.</p>
+      </details>
+      <details>
+        <summary>¿Y para Android?</summary>
+        <p>De momento solo iPhone. Si usas Android, apúntate igual: nos ayuda a saber cuánta gente lo quiere.</p>
+      </details>
+      <details>
+        <summary>¿Me va a bloquear las apps?</summary>
+        <p>Solo las que tú elijas y solo cuando pases tu límite. Siempre tienes salida con «5 min más». Si quieres un escudo sin excusas, el bloqueo estricto es opcional.</p>
+      </details>
+      <details>
+        <summary>¿Qué pasa si un día me paso muchísimo?</summary>
+        <p>Que Lumi se duerme. No enferma, no se enfada y no te manda notificaciones pasivo-agresivas. Al día siguiente se despierta con toda su luz.</p>
+      </details>
+      <details>
+        <summary>¿Lumi sabe qué hago en el móvil?</summary>
+        <p>No. Solo sabe cuánto de tu límite llevas, a grandes rasgos. Lo que ves, escribes o buscas se queda entre tú y tu iPhone.</p>
+      </details>
+      <details>
+        <summary>¿Por qué una mascota y no un contador de horas?</summary>
+        <p>Porque es más fácil soltar el móvil por alguien que te cae bien que por un número. Y porque ver a Lumi volver con una postal es mucho más bonito que una gráfica.</p>
+      </details>
+    </div>
+  </section>
+
+  <!-- ───────── CTA final ───────── -->
+  <section class="final" aria-labelledby="final-title">
+    <div class="wrap narrow final-inner">
+      <img class="lumi final-lumi" src="img/lumi-contenta.webp" width="373" height="420" alt="Lumi contenta, mirando de frente con las mejillas sonrosadas" loading="lazy">
+      <h2 id="final-title">Lumi te espera despierta</h2>
+      <p>Apúntate y te avisamos en cuanto pueda mudarse a tu iPhone.</p>
+      <form class="waitlist" data-form="final" novalidate>
+        <div class="field">
+          <label for="email-final">Tu correo</label>
+          <input id="email-final" name="email" type="email" inputmode="email" autocomplete="email" placeholder="tu@correo.com" required>
+        </div>
+        <input class="hp" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+        <button class="btn" type="submit">Apuntarme a la lista</button>
+        <p class="form-note">Te escribimos cuando Lumi esté lista, y poco más.</p>
+        <p class="form-msg" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-inner">
+    <span class="wordmark small">Lumi</span>
+    <p>Hecho con cariño y con el móvil boca abajo.</p>
+    <p><a href="#privacidad">Privacidad</a></p>
+  </div>
+</footer>
+
+<!-- Estado de éxito (se clona dentro del formulario que se ha enviado) -->
+<template id="success-tpl">
+  <div class="success" tabindex="-1">
+    <img src="img/lumi-radiante.webp" alt="" width="84" height="80">
+    <p class="success-title">¡Ya estás en la lista!</p>
+    <p>Lumi ha dado tres saltitos. Te escribiremos en cuanto pueda mudarse a tu iPhone.</p>
+    <button type="button" class="btn" data-share>Invita a alguien que también necesite un Lumi</button>
+    <p class="share-msg" role="status" aria-live="polite"></p>
+  </div>
+</template>
+</body>
+</html>
