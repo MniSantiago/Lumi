@@ -46,7 +46,7 @@ export default function RootLayout() {
  * Onboarding hasta que el usuario lo completa; después, las pestañas.
  * Por encima de todo, a pantalla completa: el escudo (en iOS real lo pinta
  * ShieldConfiguration; aquí es su maqueta navegable) y la postal nocturna.
- * Lumi Plus (el paywall) es una hoja modal que se cierra deslizando.
+ * Lumi Plus (el paywall) y las hojas de Ajustes son modales que se cierran deslizando.
  */
 function RootStack() {
   const { ready, settings } = useLumi();
@@ -69,6 +69,8 @@ function RootStack() {
         <Stack.Screen name="escudo" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
         <Stack.Screen name="postal" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
         <Stack.Screen name="plus" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="apps" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="nombres" options={{ presentation: 'modal' }} />
         <Stack.Screen name="resumen" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
       </Stack.Protected>
     </Stack>
