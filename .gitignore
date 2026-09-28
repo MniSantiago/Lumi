@@ -5,3 +5,6 @@
 .vscode/
 .idea/
 *.swp
+
+# Worktrees de los agentes de Claude Code
+.claude/worktrees/
