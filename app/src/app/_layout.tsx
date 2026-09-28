@@ -75,6 +75,11 @@ function RootStack() {
       <Stack.Protected guard={!settings.onboarded}>
         <Stack.Screen name="onboarding" />
       </Stack.Protected>
+      {/* Siempre disponibles: también desde el onboarding (recuperar a Lumi en un iPhone nuevo, leer la privacidad). */}
+      <Stack.Screen name="legal/[doc]" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="cuenta/index" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="cuenta/verificar" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="cuenta/olvido" options={{ presentation: 'modal' }} />
       <Stack.Protected guard={settings.onboarded}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="escudo" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
@@ -82,10 +87,6 @@ function RootStack() {
         <Stack.Screen name="plus" options={{ presentation: 'modal' }} />
         <Stack.Screen name="apps" options={{ presentation: 'modal' }} />
         <Stack.Screen name="nombres" options={{ presentation: 'modal' }} />
-        <Stack.Screen name="legal/[doc]" options={{ presentation: 'modal' }} />
-        <Stack.Screen name="cuenta/index" options={{ presentation: 'modal' }} />
-        <Stack.Screen name="cuenta/verificar" options={{ presentation: 'modal' }} />
-        <Stack.Screen name="cuenta/olvido" options={{ presentation: 'modal' }} />
         <Stack.Screen name="cuenta/contrasena" options={{ presentation: 'modal' }} />
         <Stack.Screen name="cuenta/eliminar" options={{ presentation: 'modal' }} />
         <Stack.Screen name="resumen" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />

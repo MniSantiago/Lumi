@@ -6,6 +6,7 @@ import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
 
 import { Fireflies } from '@/components/fireflies';
 import { LumiAvatar } from '@/components/lumi-avatar';
+import { SecondaryLink } from '@/components/account/form';
 import { Field, SpeechBubble } from '@/components/onboarding/controls';
 import { useOnboardingDraft } from '@/components/onboarding/draft';
 import { StepShell } from '@/components/onboarding/step-shell';
@@ -67,6 +68,7 @@ export default function MeetLumiStep() {
           autoCapitalize="words"
           returnKeyType="done"
         />
+        <SecondaryLink label="¿Ya tenías a Lumi? Entra en tu cuenta" onPress={() => router.push('/cuenta?modo=entrar')} />
       </View>
     </StepShell>
   );

@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useRef, useState } from 'react';
 import { StyleSheet, Text, TextInput, View } from 'react-native';
 
@@ -16,7 +16,8 @@ type Mode = 'signup' | 'signin';
 export default function AccountSheet() {
   const { settings, updateSettings } = useLumi();
   const { signIn, signUp } = useSession();
-  const [mode, setMode] = useState<Mode>('signup');
+  const { modo } = useLocalSearchParams<{ modo?: string }>();
+  const [mode, setMode] = useState<Mode>(modo === 'entrar' ? 'signin' : 'signup');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const passwordRef = useRef<TextInput>(null);
@@ -29,10 +30,18 @@ export default function AccountSheet() {
         await signUp({ email, password, name: settings.userName, lumiName: settings.lumiName });
         router.replace('/cuenta/verificar');
       } else {
+        const fromOnboarding = !settings.onboarded;
         const user = await signIn(email, password);
-        // Los nombres de la cuenta mandan sobre los de este dispositivo.
-        updateSettings({ userName: user.name || settings.userName, lumiName: user.lumiName || settings.lumiName });
-        closeSheet();
+        // Los nombres de la cuenta mandan sobre los de este dispositivo. Si entra desde el
+        // onboarding (iPhone nuevo), se lo salta: el progreso de la cuenta llega con ProgressSync.
+        updateSettings({
+          userName: user.name || settings.userName,
+          lumiName: user.lumiName || settings.lumiName,
+          onboarded: true,
+        });
+        // Desde el onboarding no hay a dónde volver (desaparece del stack): al Hogar, cuando ya exista.
+        if (fromOnboarding) setTimeout(() => router.replace('/'), 0);
+        else closeSheet();
       }
     });
 
