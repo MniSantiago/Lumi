@@ -72,7 +72,7 @@ button { font: inherit; color: inherit; }
 .world .dim { position: absolute; inset: 0; background: linear-gradient(180deg, rgba(19,17,46,0.55) 0%, rgba(19,17,46,0) 30%), rgba(19,17,46,var(--dim, 0)); transition: background-color .8s; }
 
 /* ---------- home ---------- */
-.home { position: absolute; inset: 0; padding: 58px 16px 0; }
+.home { position: absolute; inset: 0; padding: 58px 16px 0; --lumi-bottom: 204px; }
 .home-top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
 .home-top .who { display: grid; }
 .home-top .who small { color: var(--ink-soft); font-size: 13px; }
@@ -82,11 +82,11 @@ button { font: inherit; color: inherit; }
 .home .meter-card { margin-top: 12px; padding: 12px 14px; }
 .home .meter-card .meter { margin-top: 8px; }
 
-.bubble { position: absolute; left: 16px; right: 16px; bottom: 58%; margin: 0 auto; width: fit-content; max-width: 84%; background: var(--lavender-100); color: var(--night-800); padding: 11px 15px; border-radius: 22px; font-size: 14.5px; font-weight: 500; line-height: 1.35; text-align: center;
+.bubble { position: absolute; left: 16px; right: 16px; bottom: calc(var(--lumi-bottom) + 49cqw + 10px); margin: 0 auto; width: fit-content; max-width: 84%; background: var(--lavender-100); color: var(--night-800); padding: 11px 15px; border-radius: 22px; font-size: 14.5px; font-weight: 500; line-height: 1.35; text-align: center;
   box-shadow: 0 10px 30px -12px rgba(0,0,0,0.5); text-wrap: balance; }
 .bubble::after { content: ""; position: absolute; left: 50%; bottom: -7px; width: 14px; height: 14px; background: var(--lavender-100); transform: translateX(-50%) rotate(45deg); border-radius: 3px; }
 
-.lumi-stage { position: absolute; left: 0; right: 0; bottom: 22%; display: grid; justify-items: center; }
+.lumi-stage { position: absolute; left: 0; right: 0; bottom: var(--lumi-bottom); display: grid; justify-items: center; }
 .lumi-stage .lumi-img { width: 44%; }
 .lumi-stage::after { content: ""; position: absolute; bottom: 2%; width: 30%; height: 12px; border-radius: 50%; background: rgba(19,17,46,0.35); filter: blur(4px); z-index: -1; }
 .state-label { position: absolute; top: -4px; right: 22%; display: flex; gap: 6px; align-items: center; padding: 4px 11px; border-radius: 999px; background: rgba(19,17,46,0.7); font-size: 12.5px; font-weight: 600; color: var(--amber-200); backdrop-filter: blur(6px); white-space: nowrap; }
