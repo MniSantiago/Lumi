@@ -8,6 +8,8 @@ export const Colors = {
   night: '#1B1840',
   nightDeep: '#13112E',
   indigo: '#2A2560',
+  /** Pestaña/segmento seleccionado. */
+  indigoLight: '#3A3380',
   violet: '#8C7BD8',
   lavender: '#C9BFF2',
   lavenderPale: '#E6E0FB',
@@ -15,6 +17,10 @@ export const Colors = {
   amber: '#FFC96B',
   amberPale: '#FFE3A3',
   peach: '#FFB4A2',
+  moss: '#8FD1A6',
+  /** Papel de las postales. */
+  paper: '#F6F1E6',
+  paperInk: '#6C6690',
 
   text: '#F4F0FF',
   textSecondary: '#B9B0E6',

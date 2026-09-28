@@ -1,7 +1,7 @@
 import type { ReactNode } from 'react';
 import { Alert, Pressable, StyleSheet, Switch, Text, View } from 'react-native';
 
-import { AppText, Button, Card, SectionTitle, Screen } from '@/components/ui';
+import { AppText, Button, Card, SectionTitle, Screen, TextLink } from '@/components/ui';
 import { Colors, Fonts, Radius, Spacing } from '@/constants/theme';
 import { THIEF_APPS } from '@/lumi/data';
 import { formatLimit, LIMIT_OPTIONS, useLumi } from '@/lumi/store';
@@ -19,14 +19,12 @@ export default function SettingsScreen() {
       <View style={{ gap: Spacing.three }}>
         <SectionTitle
           action={
-            <Pressable
-              accessibilityRole="button"
-              hitSlop={8}
+            <TextLink
+              label="Editar"
               onPress={() =>
                 Alert.alert('Apps ladronas', 'Aquí se abrirá el selector de apps de Apple (FamilyActivityPicker).')
-              }>
-              <Text style={styles.link}>Editar</Text>
-            </Pressable>
+              }
+            />
           }>
           Apps ladronas
         </SectionTitle>
@@ -152,7 +150,6 @@ function StepButton({
 }
 
 const styles = StyleSheet.create({
-  link: { fontFamily: Fonts.bodySemiBold, fontSize: 15, color: Colors.amber },
   row: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 12, minHeight: 56 },
   rowDivider: { borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: Colors.hairline },
   appIcon: { width: 36, height: 36, borderRadius: 10, alignItems: 'center', justifyContent: 'center' },

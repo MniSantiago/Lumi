@@ -1,67 +1,56 @@
+import { router } from 'expo-router';
 import { ScrollView, StyleSheet, Text, View } from 'react-native';
 
-import { AppText, Card, Pill, SectionTitle, Screen } from '@/components/ui';
-import { Colors, Fonts, Radius, Spacing } from '@/constants/theme';
+import { PostcardView } from '@/components/postcard';
+import { SectionTitle, Screen, TextLink } from '@/components/ui';
+import { Colors, Fonts } from '@/constants/theme';
 import { POSTCARDS, ZONES, type ZoneStatus } from '@/lumi/data';
 import { useLumi } from '@/lumi/store';
 
-const STATUS_LABEL: Record<ZoneStatus, string | null> = {
-  visited: 'Visitada',
-  current: 'Ahora',
-  locked: null,
-  plus: 'Plus',
-};
+const CARD_TILT = [-2, 1.5, -1];
 
 export default function ExpeditionsScreen() {
   const { state } = useLumi();
 
   return (
     <Screen title="Expediciones" subtitle="Lumi explora una zona nueva cada día que le dejas brillar.">
-      <View style={{ gap: Spacing.two }}>
+      <View style={styles.trail}>
+        <View style={styles.trailLine} />
         {ZONES.map((zone) => {
-          // Si hoy Lumi se queda en casa, la zona actual espera a mañana.
-          const status: ZoneStatus = zone.status === 'current' && !state.exploring ? 'locked' : zone.status;
-          const dimmed = status === 'locked' || status === 'plus';
+          // Si hoy Lumi se queda en casa, la zona de hoy espera a mañana.
+          const waiting = zone.status === 'current' && !state.exploring;
+          const status: ZoneStatus = waiting ? 'locked' : zone.status;
+          const locked = status === 'locked' || status === 'plus';
           return (
-            <Card key={zone.id} style={[styles.zone, status === 'current' && styles.zoneCurrent]}>
-              <View style={[styles.zoneIcon, dimmed && { opacity: 0.45 }]}>
-                <Text style={{ fontSize: 24 }}>{zone.emoji}</Text>
+            <View key={zone.id} style={[styles.zone, locked && { opacity: 0.55 }]}>
+              <View
+                style={[
+                  styles.dot,
+                  status === 'visited' && styles.dotDone,
+                  status === 'current' && styles.dotNow,
+                ]}
+              />
+              <View style={[styles.thumb, { experimental_backgroundImage: zone.art }]} />
+              <View style={styles.txt}>
+                <Text style={styles.zoneName}>{zone.name}</Text>
+                <Text style={styles.zoneNote}>{waiting ? 'Mañana, si a Lumi le queda luz.' : zone.note}</Text>
               </View>
-              <View style={{ flex: 1, gap: 2 }}>
-                <AppText variant="heading" style={dimmed && { color: Colors.textSecondary }}>
-                  {zone.name}
-                </AppText>
-                <AppText variant="caption">
-                  {zone.status === 'current' && !state.exploring ? 'Mañana, si a Lumi le queda luz.' : zone.note}
-                </AppText>
-              </View>
-              {STATUS_LABEL[status] ? (
-                <Pill tone={status === 'current' ? 'amber' : 'lavender'}>{STATUS_LABEL[status]}</Pill>
-              ) : (
-                <Text style={styles.lock}>🔒</Text>
-              )}
-            </Card>
+            </View>
           );
         })}
       </View>
 
-      <View style={{ gap: Spacing.three }}>
-        <SectionTitle action={<AppText variant="caption">Ver álbum</AppText>}>Postales recibidas</SectionTitle>
+      <View style={{ gap: 10 }}>
+        <SectionTitle action={<TextLink label="Ver álbum" onPress={() => router.navigate('/coleccion')} />}>
+          Postales recibidas
+        </SectionTitle>
         <ScrollView
           horizontal
           showsHorizontalScrollIndicator={false}
-          contentContainerStyle={{ gap: 12, paddingHorizontal: Spacing.three + 4, paddingVertical: 4 }}
-          style={{ marginHorizontal: -(Spacing.three + 4) }}>
-          {POSTCARDS.slice(0, 3).map((p) => (
-            <View key={p.id} style={styles.postcard}>
-              <View style={styles.postcardArt}>
-                <Text style={{ fontSize: 40 }}>{p.emoji}</Text>
-              </View>
-              <AppText variant="heading" numberOfLines={1} style={{ color: Colors.night }}>
-                {p.place}
-              </AppText>
-              <Text style={styles.quote}>«{p.quote}»</Text>
-            </View>
+          style={styles.cardsRow}
+          contentContainerStyle={styles.cardsRowContent}>
+          {POSTCARDS.slice(0, 3).map((p, i) => (
+            <PostcardView key={p.id} title={p.place} caption={`«${p.quote}»`} art={p.art} width={128} rotate={CARD_TILT[i]} />
           ))}
         </ScrollView>
       </View>
@@ -69,32 +58,41 @@ export default function ExpeditionsScreen() {
   );
 }
 
+const TRAIL_PAD = 28;
+
 const styles = StyleSheet.create({
-  zone: { flexDirection: 'row', alignItems: 'center', gap: 14 },
-  zoneCurrent: { borderColor: `${Colors.amber}88`, boxShadow: `0 0 18px ${Colors.amber}33` },
-  zoneIcon: {
-    width: 48,
-    height: 48,
-    borderRadius: Radius.sm,
-    backgroundColor: 'rgba(201, 191, 242, 0.12)',
-    alignItems: 'center',
-    justifyContent: 'center',
+  trail: { gap: 14, paddingLeft: TRAIL_PAD },
+  trailLine: {
+    position: 'absolute',
+    left: 11,
+    top: 14,
+    bottom: 14,
+    borderLeftWidth: 2,
+    borderStyle: 'dashed',
+    borderColor: 'rgba(201, 191, 242, 0.3)',
   },
-  lock: { fontSize: 16, opacity: 0.6 },
-  postcard: {
-    width: 200,
-    backgroundColor: Colors.lavenderPale,
-    borderRadius: Radius.md,
-    padding: 10,
-    gap: 6,
-    transform: [{ rotate: '-1deg' }],
+  zone: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  dot: {
+    position: 'absolute',
+    left: -24,
+    width: 16,
+    height: 16,
+    borderRadius: 8,
+    backgroundColor: Colors.indigo,
+    borderWidth: 2,
+    borderColor: Colors.violet,
   },
-  postcardArt: {
-    height: 110,
-    borderRadius: Radius.sm,
-    alignItems: 'center',
-    justifyContent: 'center',
-    experimental_backgroundImage: `linear-gradient(160deg, ${Colors.indigo}, ${Colors.violet})`,
+  dotDone: { backgroundColor: Colors.lavender, borderColor: Colors.lavender },
+  dotNow: {
+    backgroundColor: Colors.amber,
+    borderColor: Colors.amberPale,
+    boxShadow: `0 0 0 5px rgba(255, 201, 107, 0.2), 0 0 16px ${Colors.amber}`,
   },
-  quote: { fontFamily: Fonts.body, fontStyle: 'italic', fontSize: 13, lineHeight: 18, color: Colors.indigo },
+  thumb: { width: 48, height: 48, borderRadius: 14, borderCurve: 'continuous' },
+  txt: { flex: 1, minWidth: 0 },
+  zoneName: { fontFamily: Fonts.bodyBold, fontSize: 15, lineHeight: 20, color: Colors.text },
+  zoneNote: { fontFamily: Fonts.body, fontSize: 12.5, lineHeight: 17, color: Colors.textTertiary },
+  // El carrusel llega hasta los bordes de la pantalla.
+  cardsRow: { marginHorizontal: -18, overflow: 'visible' },
+  cardsRowContent: { gap: 10, paddingHorizontal: 18, paddingVertical: 8 },
 });

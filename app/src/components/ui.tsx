@@ -14,11 +14,12 @@ import {
 
 import { Colors, Fonts, Radius, Spacing } from '@/constants/theme';
 
-type Variant = 'display' | 'title' | 'heading' | 'body' | 'bodyStrong' | 'caption' | 'label';
+type Variant = 'display' | 'title' | 'section' | 'heading' | 'body' | 'bodyStrong' | 'caption' | 'label';
 
 const variants: Record<Variant, TextStyle> = {
-  display: { fontFamily: Fonts.display, fontSize: 32, lineHeight: 38, color: Colors.text, letterSpacing: -0.3 },
+  display: { fontFamily: Fonts.displayBold, fontSize: 32, lineHeight: 36, color: Colors.text, letterSpacing: -0.3 },
   title: { fontFamily: Fonts.display, fontSize: 22, lineHeight: 28, color: Colors.text },
+  section: { fontFamily: Fonts.display, fontSize: 18, lineHeight: 24, color: Colors.text },
   heading: { fontFamily: Fonts.bodySemiBold, fontSize: 16, lineHeight: 22, color: Colors.text },
   body: { fontFamily: Fonts.body, fontSize: 15, lineHeight: 21, color: Colors.textSecondary },
   bodyStrong: { fontFamily: Fonts.bodyMedium, fontSize: 15, lineHeight: 21, color: Colors.text },
@@ -41,28 +42,41 @@ export function Card({ children, style }: { children: ReactNode; style?: StylePr
   return <View style={[styles.card, style]}>{children}</View>;
 }
 
-/** Pantalla con scroll y cabecera de cuento. Bajo las pestañas nativas, el inset lo pone iOS. */
+/**
+ * Pantalla interior con scroll y cabecera de cuento, sobre la noche con un
+ * resplandor lavanda arriba a la derecha (como `.inner-bg` del mockup).
+ * Bajo las pestañas nativas, el inset inferior lo pone iOS.
+ */
 export function Screen({ title, subtitle, children }: { title: string; subtitle?: string; children: ReactNode }) {
   return (
-    <ScrollView
-      style={styles.screen}
-      contentInsetAdjustmentBehavior="automatic"
-      contentContainerStyle={styles.screenContent}>
-      <View style={styles.header}>
-        <AppText variant="display">{title}</AppText>
-        {subtitle ? <AppText>{subtitle}</AppText> : null}
-      </View>
-      {children}
-    </ScrollView>
+    <View style={styles.screen}>
+      <View pointerEvents="none" style={styles.innerBg} />
+      <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={styles.screenContent}>
+        <View style={styles.header}>
+          <AppText variant="display">{title}</AppText>
+          {subtitle ? <AppText style={styles.subtitle}>{subtitle}</AppText> : null}
+        </View>
+        {children}
+      </ScrollView>
+    </View>
   );
 }
 
 export function SectionTitle({ children, action }: { children: ReactNode; action?: ReactNode }) {
   return (
     <View style={styles.sectionTitle}>
-      <AppText variant="title">{children}</AppText>
+      <AppText variant="section">{children}</AppText>
       {action}
     </View>
+  );
+}
+
+/** Enlace de texto en ámbar claro ("Ver álbum", "Editar"). */
+export function TextLink({ label, onPress }: { label: string; onPress?: () => void }) {
+  return (
+    <Pressable accessibilityRole="link" hitSlop={8} onPress={onPress}>
+      <Text style={styles.link}>{label}</Text>
+    </Pressable>
   );
 }
 
@@ -108,9 +122,16 @@ export function Pill({
 }
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: Colors.night },
-  screenContent: { paddingHorizontal: Spacing.three + 4, paddingBottom: Spacing.six, gap: Spacing.four },
-  header: { gap: Spacing.one, paddingTop: Spacing.three },
+  screen: { flex: 1, backgroundColor: Colors.nightDeep },
+  innerBg: {
+    position: 'absolute',
+    inset: 0,
+    experimental_backgroundImage: `radial-gradient(ellipse 420px 300px at 80% -40px, rgba(140, 123, 216, 0.35) 0%, transparent 70%), linear-gradient(180deg, ${Colors.night}, ${Colors.nightDeep})`,
+  },
+  screenContent: { paddingHorizontal: 18, paddingBottom: Spacing.six, gap: 22 },
+  header: { gap: 2, paddingTop: Spacing.two, marginBottom: -6 },
+  subtitle: { fontSize: 14, lineHeight: 20, color: Colors.textSecondary },
+  link: { fontFamily: Fonts.bodySemiBold, fontSize: 13, color: Colors.amberPale },
   card: {
     backgroundColor: Colors.card,
     borderRadius: Radius.lg,

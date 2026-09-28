@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
-import { AppText, Screen } from '@/components/ui';
-import { Colors, Fonts, Radius, Spacing } from '@/constants/theme';
+import { CollectionIcon } from '@/components/collection-icon';
+import { PostcardView } from '@/components/postcard';
+import { Screen } from '@/components/ui';
+import { Colors, Fonts } from '@/constants/theme';
 import {
   FRIENDS,
   ITEMS,
@@ -25,114 +27,101 @@ export default function CollectionScreen() {
 
   return (
     <Screen title="Colección" subtitle="Todo lo que Lumi ha traído de sus viajes.">
-      <View style={styles.segmented} accessibilityRole="tablist">
-        {SECTIONS.map((s) => {
-          const on = s.key === section;
-          return (
-            <Pressable
-              key={s.key}
-              accessibilityRole="tab"
-              accessibilityState={{ selected: on }}
-              onPress={() => setSection(s.key)}
-              style={[styles.segment, on && styles.segmentOn]}>
-              <Text style={[styles.segmentText, on && { color: Colors.night }]}>{s.label}</Text>
-            </Pressable>
-          );
-        })}
-      </View>
-
-      {section === 'postales' ? (
-        <View style={{ gap: Spacing.three }}>
-          <AppText variant="caption">
-            {POSTCARDS.length} de {TOTAL_DESTINATIONS} destinos
-          </AppText>
-          <View style={styles.grid}>
-            {POSTCARDS.map((p) => (
-              <View key={p.id} style={styles.postcard}>
-                <View style={styles.postcardArt}>
-                  <Text style={{ fontSize: 34 }}>{p.emoji}</Text>
-                </View>
-                <Text style={styles.postcardTitle} numberOfLines={2}>
-                  {p.place}
-                </Text>
-                <Text style={styles.postcardMeta}>Capítulo {p.chapter}</Text>
-              </View>
-            ))}
-          </View>
+      <View>
+        <View style={styles.tabs} accessibilityRole="tablist" accessibilityLabel="Tipo de colección">
+          {SECTIONS.map((s) => {
+            const on = s.key === section;
+            return (
+              <Pressable
+                key={s.key}
+                accessibilityRole="tab"
+                accessibilityState={{ selected: on }}
+                onPress={() => setSection(s.key)}
+                style={[styles.tab, on && styles.tabOn]}>
+                <Text style={[styles.tabText, on && { color: Colors.text }]}>{s.label}</Text>
+              </Pressable>
+            );
+          })}
         </View>
-      ) : (
-        <ItemGrid
-          items={section === 'objetos' ? ITEMS : FRIENDS}
-          caption={
-            section === 'objetos'
-              ? `${ITEMS.filter((i) => i.name).length} de ${TOTAL_ITEMS} objetos`
-              : `${FRIENDS.filter((i) => i.name).length} de ${TOTAL_FRIENDS} criaturas amigas`
-          }
-        />
-      )}
+
+        {section === 'postales' ? (
+          <>
+            <Text style={styles.count}>
+              {POSTCARDS.length} de {TOTAL_DESTINATIONS} destinos
+            </Text>
+            <View style={styles.postGrid}>
+              {POSTCARDS.map((p) => (
+                <View key={p.id} style={styles.postCell}>
+                  <PostcardView title={p.place} caption={`Capítulo ${p.chapter}`} art={p.art} artHeight={100} />
+                </View>
+              ))}
+            </View>
+          </>
+        ) : section === 'objetos' ? (
+          <ItemGrid items={ITEMS} caption={`${ITEMS.filter((i) => i.name).length} de ${TOTAL_ITEMS} objetos`} />
+        ) : (
+          <ItemGrid
+            items={FRIENDS}
+            caption={`${FRIENDS.filter((i) => i.name).length} de ${TOTAL_FRIENDS} criaturas amigas`}
+          />
+        )}
+      </View>
     </Screen>
   );
 }
 
 function ItemGrid({ items, caption }: { items: Item[]; caption: string }) {
   return (
-    <View style={{ gap: Spacing.three }}>
-      <AppText variant="caption">{caption}</AppText>
-      <View style={styles.grid3}>
+    <>
+      <Text style={styles.count}>{caption}</Text>
+      <View style={styles.itemGrid}>
         {items.map((item) => (
-          <View key={item.id} style={[styles.item, !item.name && styles.itemUnknown]}>
-            <Text style={{ fontSize: 30, opacity: item.name ? 1 : 0.5 }}>{item.name ? item.emoji : '?'}</Text>
-            <AppText variant="caption" numberOfLines={1} style={item.name ? { color: Colors.textSecondary } : undefined}>
-              {item.name ?? '¿?'}
-            </AppText>
+          <View key={item.id} style={styles.itemCell}>
+            <View style={styles.item} accessible accessibilityLabel={item.name ?? 'Sin descubrir'}>
+              <CollectionIcon name={item.icon} locked={!item.name} />
+              <Text style={[styles.itemLabel, !item.name && { color: Colors.textTertiary }]} numberOfLines={2}>
+                {item.name ?? '¿?'}
+              </Text>
+            </View>
           </View>
         ))}
       </View>
-    </View>
+    </>
   );
 }
 
+const GRID_GAP = 12;
+const ITEM_GAP = 10;
+
 const styles = StyleSheet.create({
-  segmented: {
+  tabs: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(201, 191, 242, 0.10)',
-    borderRadius: Radius.pill,
-    padding: 4,
-  },
-  segment: { flex: 1, alignItems: 'center', paddingVertical: 9, borderRadius: Radius.pill },
-  segmentOn: { backgroundColor: Colors.lavender },
-  segmentText: { fontFamily: Fonts.bodySemiBold, fontSize: 14, color: Colors.textSecondary },
-  grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 12 },
-  postcard: {
-    width: '48%',
-    flexGrow: 1,
-    backgroundColor: Colors.lavenderPale,
-    borderRadius: Radius.md,
-    padding: 8,
     gap: 4,
+    padding: 4,
+    borderRadius: 14,
+    borderCurve: 'continuous',
+    backgroundColor: 'rgba(201, 191, 242, 0.08)',
+    marginBottom: 14,
   },
-  postcardArt: {
-    aspectRatio: 4 / 3,
-    borderRadius: Radius.sm,
-    alignItems: 'center',
-    justifyContent: 'center',
-    experimental_backgroundImage: `linear-gradient(160deg, ${Colors.indigo}, ${Colors.violet})`,
-  },
-  postcardTitle: { fontFamily: Fonts.bodySemiBold, fontSize: 14, lineHeight: 18, color: Colors.night },
-  postcardMeta: { fontFamily: Fonts.body, fontSize: 12, color: Colors.indigo },
-  grid3: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
+  tab: { flex: 1, alignItems: 'center', padding: 8, borderRadius: 10, borderCurve: 'continuous' },
+  tabOn: { backgroundColor: Colors.indigoLight },
+  tabText: { fontFamily: Fonts.bodySemiBold, fontSize: 13, color: Colors.textTertiary },
+  count: { fontFamily: Fonts.body, fontSize: 13, color: Colors.textTertiary, marginBottom: 12 },
+  postGrid: { flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -GRID_GAP / 2, rowGap: 14 },
+  postCell: { width: '50%', paddingHorizontal: GRID_GAP / 2 },
+  itemGrid: { flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -ITEM_GAP / 2, rowGap: ITEM_GAP },
+  itemCell: { width: '33.333%', paddingHorizontal: ITEM_GAP / 2 },
   item: {
-    width: '31%',
-    flexGrow: 1,
     aspectRatio: 1,
-    backgroundColor: Colors.card,
-    borderRadius: Radius.md,
+    borderRadius: 18,
+    borderCurve: 'continuous',
+    backgroundColor: Colors.cardSolid,
+    borderWidth: 1,
+    borderColor: Colors.hairline,
     alignItems: 'center',
     justifyContent: 'center',
-    gap: 6,
-    padding: 8,
-    borderWidth: StyleSheet.hairlineWidth,
-    borderColor: Colors.hairline,
+    gap: 4,
+    padding: 6,
   },
-  itemUnknown: { backgroundColor: 'transparent', borderStyle: 'dashed', borderWidth: 1 },
+  itemLabel: { fontFamily: Fonts.body, fontSize: 11, lineHeight: 14, color: Colors.textSecondary, textAlign: 'center' },
 });

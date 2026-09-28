@@ -36,9 +36,10 @@ export default function RootLayout() {
     <ThemeProvider value={navTheme}>
       <LumiProvider>
         <StatusBar style="light" />
+        {/* Cristal: en iOS 26+ el sistema dibuja Liquid Glass; hasta iOS 18, desenfoque oscuro. */}
         <NativeTabs
+          blurEffect="systemUltraThinMaterialDark"
           disableTransparentOnScrollEdge
-          backgroundColor={Colors.nightDeep}
           tintColor={Colors.amber}
           iconColor={{ default: Colors.textTertiary, selected: Colors.amber }}
           labelStyle={{
