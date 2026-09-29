@@ -94,6 +94,8 @@ Trabajo en bloques, cada uno con su PR (ver «PRs de la sesión 3» abajo para e
 - **Idiomas:** la app, los correos y errores del backend, la landing, los legales y la ficha de la App Store siguen el idioma del dispositivo: español, inglés, chino simplificado, hindi y francés (si no, inglés). `tr()` tipado desde el español: si falta una traducción, no compila.
 - **Plus honesto:** Plus anuncia solo lo que existe (zonas exclusivas, escudo estricto y «Tus números»); lo demás (especies y colores, varios horarios, decoración) queda para cuando exista. Ver `APP_STORE.md`.
 - **Más UX:** aviso del domingo con el resumen, rachas redondas celebradas en la postal, selectores accesibles con VoiceOver, botones que crecen con el texto grande y cuenta de prueba para la revisión (`npm run review:account`).
+- **A prueba de errores de configuración:** una build de la tienda sin `EXPO_PUBLIC_API_URL` oculta la cuenta y sin la clave de RevenueCat no deja comprar (nunca Plus gratis). Comprobación final antes de enviar en `APP_STORE.md` §7.
+- **Crecimiento y privacidad:** la postal se comparte como imagen; la lista de espera trae enlace de baja firmado (y List-Unsubscribe); la landing tiene selector de idioma.
 - **Producción:** RevenueCat (código listo), Screen Time nativo con `react-native-device-activity` (borrador sin compilar), EAS por entornos, blueprint de Render, CI en GitHub Actions y tests del motor del juego (jest-expo).
 
 #### PRs de la sesión 3 (orden de merge)
