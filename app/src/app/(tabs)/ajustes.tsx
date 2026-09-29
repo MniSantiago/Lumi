@@ -258,8 +258,8 @@ export default function SettingsScreen() {
                 fr: 'Va dormir',
               })}
               value={clockTime(settings.nightStart)}
-              onDecrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, -1) })}
-              onIncrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, 1) })}
+              onDecrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, -1, settings.nightEnd) })}
+              onIncrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, 1, settings.nightEnd) })}
               decreaseLabel={tr({
                 es: 'Acostarse media hora antes',
                 en: 'Go to bed half an hour earlier',
@@ -302,8 +302,8 @@ export default function SettingsScreen() {
                 fr: 'Se réveille',
               })}
               value={clockTime(settings.nightEnd)}
-              onDecrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, -1) })}
-              onIncrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, 1) })}
+              onDecrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, -1, settings.nightStart) })}
+              onIncrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, 1, settings.nightStart) })}
               decreaseLabel={tr({
                 es: 'Despertarse media hora antes',
                 en: 'Wake up half an hour earlier',

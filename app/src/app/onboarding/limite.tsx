@@ -200,8 +200,8 @@ export default function LimitStep() {
                 fr: 'Va dormir',
               })}
               value={clockTime(draft.nightStart)}
-              onDecrease={() => setDraft({ nightStart: stepTime(draft.nightStart, -1) })}
-              onIncrease={() => setDraft({ nightStart: stepTime(draft.nightStart, 1) })}
+              onDecrease={() => setDraft({ nightStart: stepTime(draft.nightStart, -1, draft.nightEnd) })}
+              onIncrease={() => setDraft({ nightStart: stepTime(draft.nightStart, 1, draft.nightEnd) })}
               decreaseLabel={tr({
                 es: 'Acostarse media hora antes',
                 en: 'Go to bed half an hour earlier',
@@ -237,8 +237,8 @@ export default function LimitStep() {
                 fr: 'Se réveille',
               })}
               value={clockTime(draft.nightEnd)}
-              onDecrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, -1) })}
-              onIncrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, 1) })}
+              onDecrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, -1, draft.nightStart) })}
+              onIncrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, 1, draft.nightStart) })}
               decreaseLabel={tr({
                 es: 'Despertarse media hora antes',
                 en: 'Wake up half an hour earlier',

@@ -35,3 +35,15 @@ describe('isNightTime', () => {
     expect(isNightTime('07:00', '07:00', at('07:00'))).toBe(false);
   });
 });
+
+describe('stepTime con la otra hora', () => {
+  it('se salta la hora de fin para no dejar la noche vacía', () => {
+    expect(stepTime('06:30', 1, '07:00')).toBe('07:30');
+    expect(stepTime('07:30', -1, '07:00')).toBe('06:30');
+    expect(stepTime('23:30', 1, '00:00')).toBe('00:30');
+  });
+
+  it('si no choca, avanza media hora normal', () => {
+    expect(stepTime('23:00', 1, '07:00')).toBe('23:30');
+  });
+});
