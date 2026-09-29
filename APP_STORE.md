@@ -114,3 +114,16 @@ npx eas-cli@latest submit --platform ios --profile production
 Backend (variables en la plataforma): `NODE_ENV=production`, `DATABASE_URL`, `JWT_SECRET` (32+ caracteres), `RESEND_API_KEY`, `MAIL_FROM`, `CORS_ORIGINS` (el dominio de la landing). Al arrancar aplica las migraciones. Activa las copias de seguridad de Postgres en la plataforma.
 
 Landing: pon la URL del backend en `WAITLIST_ENDPOINT` (`landing/main.js`) como `https://api.<dominio>/waitlist`.
+
+## 7. Comprobación final antes de enviar
+
+Con la build de producción (TestFlight) en un iPhone real:
+
+1. **Idioma:** con el iPhone en inglés (o en Ajustes de iOS › Lumi › Idioma), la app, los avisos y los correos salen en inglés. Repetir con otro idioma.
+2. **Cuenta:** Ajustes › Cuenta aparece (si no, falta `EXPO_PUBLIC_API_URL`). Crear una cuenta, recibir el código, entrar desde otro iPhone y borrarla.
+3. **Cuenta de prueba:** `review@<dominio>` entra con la contraseña de las notas de revisión (`npm run review:account` la crea).
+4. **Plus:** el paywall enseña los precios de la App Store (si dice «no está disponible», falta `EXPO_PUBLIC_REVENUECAT_IOS_KEY`). Comprar en sandbox, restaurar y encender el escudo estricto.
+5. **Escudo y avisos:** elegir apps con el selector de Apple, llegar al límite y ver a Lumi en el escudo; la postal nocturna y el aviso del domingo llegan.
+6. **Legales:** Privacidad, Términos y Ayuda se abren en la app y en la web, en el idioma del dispositivo, con el correo de contacto relleno.
+7. **Ficha:** `python3 tools/check_ficha.py` en verde, capturas de 6,9" y las URLs con el dominio real (también las `hreflang` de la landing, en absoluto).
+8. **Lista de espera:** apuntarse en la landing, recibir el correo de bienvenida en el idioma de la web y darse de baja con su enlace.
