@@ -12,7 +12,7 @@ import { thiefAppById, type ThiefApp } from '@/lumi/data';
 import { formatLimit, LIMIT_OPTIONS, useLumi } from '@/lumi/store';
 import { stepTime } from '@/lumi/time';
 import { cancelNightlyReturn, ensureNotificationPermission, permissionDeniedCopy } from '@/notifications';
-import { tr } from '@/i18n';
+import { lang, LANG_NAMES, tr } from '@/i18n';
 
 export default function SettingsScreen() {
   const { settings, updateSettings } = useLumi();
@@ -333,6 +333,28 @@ export default function SettingsScreen() {
       <View style={{ gap: 10 }}>
         <SectionTitle>{tr({ es: 'Cuenta', en: 'Account', zh: '账户', hi: 'खाता', fr: 'Compte' })}</SectionTitle>
         <AccountSection />
+      </View>
+
+      <View style={{ gap: 10 }}>
+        <SectionTitle>{tr({ es: 'Idioma', en: 'Language', zh: '语言', hi: 'भाषा', fr: 'Langue' })}</SectionTitle>
+        <List>
+          <Row last>
+            <Label
+              title={LANG_NAMES[lang]}
+              sub={tr({
+                es: 'El del iPhone. Puedes elegir otro solo para Lumi en Ajustes de iOS.',
+                en: 'Your iPhone’s. You can pick another just for Lumi in iOS Settings.',
+                zh: '跟随 iPhone。你可以在 iOS 设置里单独为 Lumi 选择其他语言。',
+                hi: 'iPhone वाली। तुम iOS सेटिंग्स में सिर्फ़ Lumi के लिए दूसरी भाषा चुन सकते हो।',
+                fr: 'Celle de l’iPhone. Tu peux en choisir une autre juste pour Lumi dans Réglages d’iOS.',
+              })}
+            />
+            <TextLink
+              label={tr({ es: 'Cambiar', en: 'Change', zh: '更改', hi: 'बदलो', fr: 'Modifier' })}
+              onPress={() => void Linking.openSettings()}
+            />
+          </Row>
+        </List>
       </View>
 
       {__DEV__ ? (
