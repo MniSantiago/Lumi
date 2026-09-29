@@ -1,8 +1,21 @@
 import { content } from '@/game/content';
 import type { Destination } from '@/game/types';
 
+/** Ilustración de cada lugar (`assets/expeditions`). Los que faltan usan solo el degradado. */
+const IMAGES: Record<string, Destination['image']> = {
+  'lago-lunas': require('../../assets/expeditions/lago-lunas.jpg'),
+  'dientes-de-leon': require('../../assets/expeditions/dientes-de-leon.jpg'),
+  'pradera-suave': require('../../assets/expeditions/pradera-suave.jpg'),
+  'jardin-setas': require('../../assets/expeditions/jardin-setas.jpg'),
+  'nube-baja': require('../../assets/expeditions/nube-baja.jpg'),
+  'madriguera-vecino': require('../../assets/expeditions/madriguera-vecino.jpg'),
+  'bosque-musgo': require('../../assets/expeditions/bosque-musgo.jpg'),
+  'cuevas-cristal': require('../../assets/expeditions/cuevas-cristal.jpg'),
+  'faro-dormido': require('../../assets/expeditions/faro-dormido.jpg'),
+};
+
 /** Lo que no depende del idioma; los textos vienen de `game/content/<idioma>.ts`. */
-type DestinationData = Omit<Destination, 'name' | 'the' | 'from' | 'chapterTitle' | 'caption' | 'quote' | 'stories'>;
+type DestinationData = Omit<Destination, 'image' | 'name' | 'the' | 'from' | 'chapterTitle' | 'caption' | 'quote' | 'stories'>;
 
 /**
  * Los 20 destinos del MVP, en 4 capítulos de 5 lugares.
@@ -207,6 +220,7 @@ export const DESTINATIONS: Destination[] = DATA.map((d) => {
   const text = content.places[d.id];
   return {
     ...d,
+    image: IMAGES[d.id],
     name: text.name,
     the: text.the,
     from: text.from,

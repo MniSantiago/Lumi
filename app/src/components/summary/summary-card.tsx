@@ -3,6 +3,7 @@ import { useMemo, type Ref } from 'react';
 import { StyleSheet, Text, View, type TextProps } from 'react-native';
 
 import { CollectionIcon } from '@/components/collection-icon';
+import { DestinationArt } from '@/components/destination-art';
 import { weekLetter } from '@/i18n/dates';
 import { tr } from '@/i18n';
 import { Colors, Fonts } from '@/constants/theme';
@@ -278,7 +279,7 @@ function Places({ summary, s }: { summary: WeekSummary; s: Styles }) {
             <View
               key={d.id}
               style={[s.mini, i > 0 && s.miniOverlap, { transform: [{ rotate: `${TILTS[i]}deg` }], zIndex: 3 - i }]}>
-              <View style={[s.miniArt, { experimental_backgroundImage: d.art }]} />
+              <DestinationArt art={d.art} image={d.image} style={s.miniArt} />
               <T style={s.miniTitle} numberOfLines={2}>
                 {d.name}
               </T>

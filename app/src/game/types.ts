@@ -3,6 +3,8 @@
  * Lo usan el motor (`game/store.tsx`), el contenido (`game/destinations.ts`,
  * `game/catalog.ts`, `game/rewards.ts`) y las notificaciones.
  */
+import type { ImageSource } from 'expo-image';
+
 import type { Threshold } from '@/lumi/states';
 
 /** Fecha local 'YYYY-MM-DD'. */
@@ -17,6 +19,8 @@ export type Destination = {
   from: string;
   /** Degradado CSS (`experimental_backgroundImage`) de la miniatura y la postal. */
   art: string;
+  /** Ilustración del lugar; sin ella se ve solo el degradado. */
+  image?: ImageSource;
   chapter: number;
   chapterTitle: string;
   /** Pie corto de la postal. */

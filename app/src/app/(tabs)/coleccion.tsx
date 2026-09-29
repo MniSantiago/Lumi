@@ -118,7 +118,7 @@ export default function CollectionScreen() {
                   accessibilityRole="button"
                   accessibilityLabel={nightlyCopy.rereadHeader(d)}
                   onPress={() => router.push({ pathname: '/postal', params: { id: d.id } })}>
-                  <PostcardView title={d.name} caption={nightlyCopy.chapter(d.chapter)} art={d.art} artHeight={100} />
+                  <PostcardView title={d.name} caption={nightlyCopy.chapter(d.chapter)} art={d.art} image={d.image} artHeight={100} />
                 </Pressable>
               ))}
               {missing.map((d) => (

@@ -186,6 +186,7 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
               title={destination.name}
               caption={destination.caption}
               art={destination.art}
+              image={destination.image}
               width={cardWidth}
               artHeight={artHeight}
               stamp={stamp(destination.chapter)}
@@ -274,6 +275,7 @@ function RereadPostcard({ destination }: { destination: Destination }) {
               title={destination.name}
               caption={destination.caption}
               art={destination.art}
+              image={destination.image}
               width={cardWidth}
               artHeight={artHeight}
               stamp={stamp(destination.chapter)}

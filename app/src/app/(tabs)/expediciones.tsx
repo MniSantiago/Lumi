@@ -1,6 +1,7 @@
 import { router } from 'expo-router';
 import { Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 
+import { DestinationArt } from '@/components/destination-art';
 import { PostcardView } from '@/components/postcard';
 import { SectionTitle, Screen, TextLink } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
@@ -185,8 +186,10 @@ export default function ExpeditionsScreen() {
                 ]}
               />
               {/* Bloqueada: se apagan el punto y la miniatura; el texto sigue legible (contraste AA). */}
-              <View
-                style={[styles.thumb, { experimental_backgroundImage: zone.destination.art }, locked && styles.faded]}
+              <DestinationArt
+                art={zone.destination.art}
+                image={zone.destination.image}
+                style={[styles.thumb, locked && styles.faded]}
               />
               <View style={styles.txt}>
                 <Text style={[styles.zoneName, locked && { color: Colors.textSecondary }]}>
@@ -241,6 +244,7 @@ export default function ExpeditionsScreen() {
                   title={destination.name}
                   caption={quoted(destination.quote)}
                   art={destination.art}
+                  image={destination.image}
                   width={128}
                   rotate={CARD_TILT[i % CARD_TILT.length]}
                 />

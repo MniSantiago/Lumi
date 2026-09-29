@@ -1,5 +1,7 @@
+import type { ImageSource } from 'expo-image';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { DestinationArt } from '@/components/destination-art';
 import { Colors, Fonts } from '@/constants/theme';
 
 /** Estrellitas fijas sobre la ilustración (en % del ancho/alto). */
@@ -20,6 +22,7 @@ export function NightPostcard({
   title,
   caption,
   art,
+  image,
   width,
   artHeight,
   stamp,
@@ -27,6 +30,7 @@ export function NightPostcard({
   title: string;
   caption: string;
   art: string;
+  image?: ImageSource;
   width: number;
   artHeight: number;
   /** Texto pequeño del sello ("Cap. 3"). */
@@ -34,7 +38,7 @@ export function NightPostcard({
 }) {
   return (
     <View style={[styles.card, { width }]}>
-      <View style={[styles.art, { height: artHeight, experimental_backgroundImage: art }]}>
+      <DestinationArt art={art} image={image} style={[styles.art, { height: artHeight }]}>
         {STARS.map((s, i) => (
           <View
             key={i}
@@ -48,7 +52,7 @@ export function NightPostcard({
           <View style={styles.stampMoon} />
           {stamp ? <Text style={styles.stampText}>{stamp}</Text> : null}
         </View>
-      </View>
+      </DestinationArt>
       <View style={styles.footer}>
         <Text style={styles.title}>{title}</Text>
         <Text style={styles.caption}>{caption}</Text>
