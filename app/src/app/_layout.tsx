@@ -13,6 +13,7 @@ import { GameProvider } from '@/game/store';
 import { LumiProvider, useLumi } from '@/lumi/store';
 import { useNotificationRouting, useBedtimeReminder, useWeeklySummaryReminder } from '@/notifications';
 import { PlusSync } from '@/purchases/plus-sync';
+import { ScreenTimePlan } from '@/screen-time/plan';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -46,6 +47,7 @@ export default function RootLayout() {
             <RootStack />
             <ProgressSync />
             <PlusSync />
+            <ScreenTimePlan />
           </GameProvider>
         </SessionProvider>
       </LumiProvider>

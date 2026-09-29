@@ -187,6 +187,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const synced = active ? syncToday(state, today, ctx, now, threshold) : state;
   if (synced !== state) setState(synced);
 
+  // En iOS, «5 min más» lo gestiona la extensión del escudo: se lee aquí (cada minuto y al volver a la app).
+  const nightSnooze = active ? screenTime.lastNightSnooze?.() : null;
+  const restless = nightSnooze ? markRestless(synced, morningAfter(nightSnooze, settings.nightEnd)) : synced;
+  if (restless !== synced) setState(restless);
+
   const day: StoredDay = state.days[today] ?? emptyDay(today);
   const ready = active && !!state.days[today];
   const todayDestination = day.destinationId ? (destinationById(day.destinationId) ?? null) : null;
@@ -222,6 +227,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const markRestlessNight = useCallback(() => {
     setState((s) => markRestless(s, morningAfter(clock.now(), nightEnd)));
   }, [nightEnd]);
+
 
   const restore = useCallback((next: GameState) => setState(toGameState(next)), []);
 

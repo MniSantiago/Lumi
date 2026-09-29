@@ -14,6 +14,8 @@ import { useGame } from '@/game/store';
 import { thiefAppById, type ThiefApp } from '@/lumi/data';
 import { formatLimit, LIMIT_OPTIONS, useLumi } from '@/lumi/store';
 import { stepTime } from '@/lumi/time';
+import { realScreenTime } from '@/screen-time';
+import { thiefAppsCount } from '@/screen-time/native';
 import { cancelNightlyReturn, ensureNotificationPermission, permissionDeniedCopy } from '@/notifications';
 import { lang, LANG_NAMES, tr } from '@/i18n';
 import { clockTime, dayMonth } from '@/i18n/dates';
@@ -195,34 +197,51 @@ export default function SettingsScreen() {
           }>
           {tr({ es: 'Apps ladronas', en: 'Thief apps', zh: '偷时间的 App', hi: 'चोर ऐप्स', fr: 'Applis voleuses' })}
         </SectionTitle>
-        <List>
-          {apps.length === 0 ? (
+        {realScreenTime ? (
+          <List>
             <Row last>
               <Label
                 title={tr({
-                  es: 'Ninguna todavía',
-                  en: 'None yet',
-                  zh: '还没有',
-                  hi: 'अभी कोई नहीं',
-                  fr: 'Aucune pour l’instant',
+                  es: `${thiefAppsCount()} apps y categorías`,
+                  en: `${thiefAppsCount()} apps and categories`,
+                  zh: `${thiefAppsCount()} 个 App 和类别`,
+                  hi: `${thiefAppsCount()} ऐप्स और श्रेणियाँ`,
+                  fr: `${thiefAppsCount()} applis et catégories`,
                 })}
                 sub={tr({
-                  es: 'Elige las apps que más te roban la atención',
-                  en: 'Pick the apps that steal your attention the most',
-                  zh: '选出最偷走你注意力的 App',
-                  hi: 'वो ऐप्स चुनो जो सबसे ज़्यादा ध्यान चुराती हैं',
-                  fr: 'Choisis les applis qui te volent le plus d’attention',
+                  es: 'Elegidas con el selector de Apple',
+                  en: 'Picked with Apple’s picker',
+                  zh: '通过 Apple 的选择器选择',
+                  hi: 'Apple के चयनकर्ता से चुनी गईं',
+                  fr: 'Choisies avec le sélecteur d’Apple',
                 })}
               />
             </Row>
-          ) : null}
-          {apps.map((app, i) => (
-            <Row key={app.id} last={i === apps.length - 1}>
-              <AppIcon app={app} />
-              <Label title={app.name} sub={app.note} />
-            </Row>
-          ))}
-        </List>
+          </List>
+        ) : (
+          <List>
+            {apps.length === 0 ? (
+              <Row last>
+                <Label
+                  title={tr({ es: 'Ninguna todavía', en: 'None yet', zh: '还没有', hi: 'अभी कोई नहीं', fr: 'Aucune pour l’instant' })}
+                  sub={tr({
+                    es: 'Elige las apps que más te roban la atención',
+                    en: 'Pick the apps that steal your attention the most',
+                    zh: '选出最偷走你注意力的 App',
+                    hi: 'वो ऐप्स चुनो जो सबसे ज़्यादा ध्यान चुराती हैं',
+                    fr: 'Choisis les applis qui te volent le plus d’attention',
+                  })}
+                />
+              </Row>
+            ) : null}
+            {apps.map((app, i) => (
+              <Row key={app.id} last={i === apps.length - 1}>
+                <AppIcon app={app} />
+                <Label title={app.name} sub={app.note} />
+              </Row>
+            ))}
+          </List>
+        )}
       </View>
 
       <View style={{ gap: 10 }}>

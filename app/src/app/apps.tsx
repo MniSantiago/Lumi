@@ -2,15 +2,34 @@ import { StyleSheet, Text } from 'react-native';
 
 import { List, SelectRow } from '@/components/onboarding/controls';
 import { Sheet } from '@/components/sheet';
+import { ThiefAppsPicker } from '@/components/thief-apps-picker';
 import { Colors, Fonts } from '@/constants/theme';
 import { THIEF_APP_CATALOG } from '@/lumi/data';
 import { useLumi } from '@/lumi/store';
+import { realScreenTime } from '@/screen-time';
+import { applyScreenTimePlan } from '@/screen-time/native';
 import { tr } from '@/i18n';
 
 /**
  * Editar las apps ladronas desde Ajustes. Es la misma lista del onboarding
  * (maqueta del `FamilyActivityPicker`); cada toque se guarda al momento.
  */
+const sheetTitle = tr({
+  es: 'Apps ladronas',
+  en: 'Thief apps',
+  zh: '偷时间的 App',
+  hi: 'चोर ऐप्स',
+  fr: 'Applis voleuses',
+});
+const sheetSubtitle = (name: string) =>
+  tr({
+    es: `Las que le roban la luz a ${name}. Los cambios se guardan solos.`,
+    en: `The ones that steal ${name}’s light. Changes save automatically.`,
+    zh: `偷走${name}的光的 App。修改会自动保存。`,
+    hi: `जो ${name} की रोशनी चुराती हैं। बदलाव अपने आप सहेजे जाते हैं।`,
+    fr: `Celles qui volent la lumière de ${name}. Les changements s’enregistrent tout seuls.`,
+  });
+
 export default function ThiefAppsSheet() {
   const { settings, updateSettings } = useLumi();
   const name = settings.lumiName;
@@ -26,6 +45,19 @@ export default function ThiefAppsSheet() {
       ),
     });
   };
+
+  if (realScreenTime) {
+    return (
+      <Sheet title={sheetTitle} subtitle={sheetSubtitle(name)}>
+        <ThiefAppsPicker
+          lumiName={name}
+          onChange={() =>
+            void applyScreenTimePlan({ ...settings, strict: settings.isPlus && settings.strictShield }).catch(() => {})
+          }
+        />
+      </Sheet>
+    );
+  }
 
   return (
     <Sheet

@@ -1,13 +1,17 @@
 import { router, type Href } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
+import { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { List, SelectRow } from '@/components/onboarding/controls';
 import { useLumiName, useOnboardingDraft } from '@/components/onboarding/draft';
 import { StepShell } from '@/components/onboarding/step-shell';
+import { ThiefAppsPicker } from '@/components/thief-apps-picker';
 import { AppText } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
 import { THIEF_APP_CATALOG } from '@/lumi/data';
+import { realScreenTime } from '@/screen-time';
+import { thiefAppsCount } from '@/screen-time/native';
 import { tr } from '@/i18n';
 
 /**
@@ -18,7 +22,9 @@ export default function ThiefAppsStep() {
   const { draft, setDraft } = useOnboardingDraft();
   const lumiName = useLumiName();
   const selected = new Set(draft.thiefApps);
-  const count = selected.size;
+  // Con Screen Time de verdad elige el selector de Apple; si no, la maqueta.
+  const [nativeCount, setNativeCount] = useState(() => (realScreenTime ? thiefAppsCount() : 0));
+  const count = realScreenTime ? nativeCount : selected.size;
 
   const toggle = (id: string) =>
     setDraft({
@@ -74,6 +80,27 @@ export default function ThiefAppsStep() {
                 }),
         onPress: () => router.push('/onboarding/limite' as Href),
       }}>
+      {realScreenTime ? (
+        <ThiefAppsPicker lumiName={lumiName} onChange={setNativeCount} />
+      ) : (
+        <MockThiefApps selected={selected} onToggle={toggle} lumiName={lumiName} />
+      )}
+    </StepShell>
+  );
+}
+
+/** Maqueta del `FamilyActivityPicker` (Expo Go y web): una lista fija de apps. */
+function MockThiefApps({
+  selected,
+  onToggle,
+  lumiName,
+}: {
+  selected: Set<string>;
+  onToggle: (id: string) => void;
+  lumiName: string;
+}) {
+  return (
+    <>
       <View style={{ gap: 10 }}>
         <AppText variant="label">
           {tr({
@@ -90,7 +117,7 @@ export default function ThiefAppsStep() {
               key={app.id}
               app={app}
               selected={selected.has(app.id)}
-              onToggle={() => toggle(app.id)}
+              onToggle={() => onToggle(app.id)}
               last={i === THIEF_APP_CATALOG.length - 1}
             />
           ))}
@@ -109,7 +136,7 @@ export default function ThiefAppsStep() {
           })}
         </Text>
       </View>
-    </StepShell>
+    </>
   );
 }
 

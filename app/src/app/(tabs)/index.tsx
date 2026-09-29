@@ -132,7 +132,7 @@ export default function HomeScreen() {
               })}
             </AppText>
           ) : null}
-          {__DEV__ ? <ThresholdSimulator value={threshold} /> : null}
+          {__DEV__ && screenTime.simulate ? <ThresholdSimulator value={threshold} /> : null}
         </Card>
 
         <View style={styles.stage}>
