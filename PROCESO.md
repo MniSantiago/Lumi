@@ -171,7 +171,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 63 | #65 | CI: prueba de humo en la web (5 idiomas) y arreglo de contraste |
 | 64 | #66 | Tus números: noches tranquilas, chispas y días de descanso |
 | 65 | #67 | Aviso de buenas noches (opcional) a la hora de dormir |
-| — | #15 | **Borrador:** Screen Time nativo, con escudo de noche y noches movidas (encima de #64; fusionar cuando compile en un iPhone) |
+| — | #15 | **Borrador:** Screen Time nativo, con escudo de noche y noches movidas (encima de #67; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
 Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1` (ver `app/app.config.ts`); sin esas variables, la app es la de siempre.
