@@ -18,6 +18,8 @@ export interface ScreenTimeSource {
   getThreshold(): Promise<Threshold>;
   /** Avisa cada vez que se cruza un umbral. Devuelve la función para darse de baja. */
   subscribe(listener: (t: Threshold) => void): () => void;
+  /** Solo en nativo: la última vez que se pidió «5 min más» en el escudo de noche (en el mock lo apunta `escudo.tsx`). */
+  lastNightSnooze?(): Date | null;
   /** Solo en el mock: simular que se ha llegado a un umbral. */
   simulate?(t: Threshold): void;
 }

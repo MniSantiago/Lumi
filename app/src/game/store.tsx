@@ -125,6 +125,12 @@ function parseState(raw: string | null): GameState {
   }
 }
 
+/** Mañana en la que acaba la noche de `at`: antes de la hora de despertar, ese mismo día; si no, el siguiente. */
+function morningAfter(at: Date, nightEnd: string): DateKey {
+  const key = clock.dateKey(at);
+  return at.getHours() * 60 + at.getMinutes() < toMinutes(nightEnd) ? key : clock.addDays(key, 1);
+}
+
 export function GameProvider({ children }: { children: ReactNode }) {
   const { ready: lumiReady, threshold, settings } = useLumi();
   const [state, setState] = useState<GameState>(EMPTY_STATE);
@@ -187,6 +193,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const synced = active ? syncToday(state, today, ctx, now, threshold) : state;
   if (synced !== state) setState(synced);
 
+  // En iOS, «5 min más» lo gestiona la extensión del escudo: se lee aquí (cada minuto y al volver a la app).
+  const nightSnooze = active ? screenTime.lastNightSnooze?.() : null;
+  const restless = nightSnooze ? markRestless(synced, morningAfter(nightSnooze, settings.nightEnd)) : synced;
+  if (restless !== synced) setState(restless);
+
   const day: StoredDay = state.days[today] ?? emptyDay(today);
   const ready = active && !!state.days[today];
   const todayDestination = day.destinationId ? (destinationById(day.destinationId) ?? null) : null;
@@ -220,12 +231,9 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const nightEnd = settings.nightEnd;
   const markRestlessNight = useCallback(() => {
-    const n = clock.now();
-    const key = clock.dateKey(n);
-    // Antes de la hora de despertar, la noche acaba hoy; si no, mañana.
-    const morning = n.getHours() * 60 + n.getMinutes() < toMinutes(nightEnd) ? key : clock.addDays(key, 1);
-    setState((s) => markRestless(s, morning));
+    setState((s) => markRestless(s, morningAfter(clock.now(), nightEnd)));
   }, [nightEnd]);
+
 
   const restore = useCallback((next: GameState) => setState(toGameState(next)), []);
 
