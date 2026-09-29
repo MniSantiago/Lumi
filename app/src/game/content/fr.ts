@@ -323,9 +323,9 @@ export default {
     vela: { name: 'Bougie en cire', a: 'une bougie en cire', feminine: true },
     catalejo: { name: 'Longue-vue', a: 'une longue-vue', feminine: true },
     'polvo-estrella': {
-      name: 'Flacon de poussière d’étoile',
-      a: 'un flacon de poussière d’étoile',
-      feminine: false,
+      name: 'Poussière d’étoiles',
+      a: 'un flacon de poussière d’étoiles',
+      feminine: true,
     },
     'trocito-luna': {
       name: 'Petit bout de lune',
