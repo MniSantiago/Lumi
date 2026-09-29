@@ -52,6 +52,14 @@ const ROUTES = [
 /** Una palabra que tiene que salir en el Hogar en cada idioma (la pestaña). */
 const LOCALES = { 'es-ES': 'Hogar', 'en-US': 'Home', 'zh-CN': '家', 'hi-IN': 'घर', 'fr-FR': 'Maison' };
 
+const NON_LATIN = new Set(['zh-CN', 'hi-IN']);
+/** Nombres propios y marcas que se escriben igual en todos los idiomas. */
+const LATIN_OK = new Set(
+  'Lumi lumi Plus PLUS Ana TikTok Instagram YouTube Shorts Reddit Snapchat Facebook Twitch iOS iPhone Apple App Store Screen Time Family Controls Device Activity Zzz min Resend'.split(
+    ' ',
+  ),
+);
+
 await new Promise((ok) => server.listen(0, ok));
 const base = `http://localhost:${server.address().port}`;
 const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
@@ -71,6 +79,11 @@ for (const [locale, homeWord] of Object.entries(LOCALES)) {
     const text = await page.evaluate(() => document.body.innerText);
     if (!text.trim()) failures.push(`${locale} ${route}: pantalla vacía`);
     if (route === '/' && !text.includes(homeWord)) failures.push(`${locale} /: no sale «${homeWord}»`);
+    // En chino e hindi, una palabra en alfabeto latino suele ser un texto sin traducir.
+    if (NON_LATIN.has(locale)) {
+      const leftovers = [...new Set(text.match(/[A-Za-zÀ-ÿ’']{3,}/g) ?? [])].filter((w) => !LATIN_OK.has(w));
+      if (leftovers.length) failures.push(`${locale} ${route}: ¿sin traducir? ${leftovers.slice(0, 8).join(' ')}`);
+    }
   }
   console.log(`✓ ${locale}: ${ROUTES.length} pantallas`);
 }
