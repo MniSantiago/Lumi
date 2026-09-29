@@ -143,6 +143,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 39 | #41 | Builds de la tienda seguras: sin API se oculta la cuenta, sin RevenueCat no hay Plus gratis |
 | 40 | #42 | Idiomas: sin suponer el género del usuario (hindi y francés) |
 | 41 | #43 | Postal: compartir como imagen, con su texto |
+| 42 | #44 | Pulido: selector de idioma en la landing, idioma en la lista de espera y sin precio fijo |
 | — | #15 | **Borrador:** Screen Time nativo (encima de #36, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
