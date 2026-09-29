@@ -1,6 +1,6 @@
 # Lumi: registro del proceso
 
-Última sesión: lunes 28 al martes 29 de septiembre de 2026 (noche): bloques de UX y preparación para producción (PR hasta #66).
+Última sesión: lunes 28 al martes 29 de septiembre de 2026 (noche): bloques de UX y preparación para producción (PR hasta #67).
 Para retomar: abre un chat en el proyecto "Cozy experience" (o pega este archivo y `BRIEF.md`) y di en qué paso vamos.
 
 ---
@@ -170,6 +170,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 62 | #64 | Hogar: el halo de Lumi cambia de color con su evolución |
 | 63 | #65 | CI: prueba de humo en la web (5 idiomas) y arreglo de contraste |
 | 64 | #66 | Tus números: noches tranquilas, chispas y días de descanso |
+| 65 | #67 | Aviso de buenas noches (opcional) a la hora de dormir |
 | — | #15 | **Borrador:** Screen Time nativo, con escudo de noche y noches movidas (encima de #64; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
