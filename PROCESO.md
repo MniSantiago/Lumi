@@ -134,6 +134,8 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 32 | #34 | Aviso del domingo con el resumen de la semana |
 | 33 | #35 | Accesibilidad: selectores ajustables y texto grande |
 | 34 | #36 | Plus: anunciar solo lo que existe (+ escudo estricto y «Tus números») |
+| 35 | #37 | Web: las pestañas ya no tapan el título |
+| 36 | #38 | Mockup HTML con las 4 ilustraciones (paso 2) |
 | — | #15 | **Borrador:** Screen Time nativo (encima de #36, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
