@@ -152,6 +152,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 46 | #48 | Backend: exportar la lista de espera a CSV para el lanzamiento |
 | 47 | #49 | Backend: aviso de lanzamiento a la lista de espera, en el idioma de cada uno |
 | 48 | #50 | Landing: modo lanzamiento con APP_STORE_URL |
+| 49 | #51 | Onboarding: vista previa del escudo en el paso del límite |
 | — | #15 | **Borrador:** Screen Time nativo (encima de #47, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
