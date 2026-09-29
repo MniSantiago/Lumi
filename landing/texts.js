@@ -64,7 +64,7 @@ window.LUMI_ROWS = [
   ['Lumi dormida hecha una bolita, con las antenas apenas encendidas', 'Lumi asleep curled up in a ball, her antennae barely lit', 'Lumi 蜷成一团睡着了，触角只亮着一点点', 'Lumi गेंद की तरह सिकुड़कर सोई हुई, एंटीना बस हल्के-से जले हुए', 'Lumi endormie en boule, les antennes à peine allumées'],
   ['Lumi se estaba echando la siesta… ¿de verdad entramos?', 'Lumi was taking a nap… are we really going in?', 'Lumi 正在打盹呢……真的要进去吗？', 'Lumi झपकी ले रही थी… सच में अंदर जाएँ?', 'Lumi faisait la sieste… on y va vraiment ?'],
   ['Ya habéis pasado de tu hora de hoy. Si lo dejas ahora, mañana se despierta con más luz.', 'You’ve gone past today’s time. If you stop now, she’ll wake up brighter tomorrow.', '今天的时间已经用完了。现在放下，她明天醒来会更亮。', 'आज का समय पूरा हो चुका है। अभी छोड़ दो, तो कल वो और ज़्यादा रोशनी के साथ जागेगी।', 'Vous avez dépassé ton temps du jour. Si tu arrêtes maintenant, elle se réveillera plus lumineuse demain.'],
-  ['Vale, lo dejo', 'Okay, I’ll stop', '好，我放下', 'ठीक है, छोड़ता हूँ', 'D’accord, j’arrête'],
+  ['Vale, lo dejo', 'Okay, I’ll stop', '好，我放下', 'ठीक है, छोड़ देते हैं', 'D’accord, j’arrête'],
   ['5 min más', '5 more min', '再 5 分钟', '5 मिनट और', '5 min de plus'],
   ['Gracias. Me quedo soñando contigo 💤', 'Thank you. I’ll keep dreaming of you 💤', '谢谢你。我继续梦见你 💤', 'शुक्रिया। मैं तुम्हारे सपने देखती रहूँगी 💤', 'Merci. Je continue à rêver de toi 💤'],
   ['Vale, 5 minutitos. Aquí te espero 🌙', 'Okay, 5 little minutes. I’ll wait here 🌙', '好，5 分钟。我在这儿等你 🌙', 'ठीक है, 5 मिनट। मैं यहीं इंतज़ार करूँगी 🌙', 'D’accord, 5 petites minutes. Je t’attends ici 🌙'],
@@ -106,7 +106,7 @@ window.LUMI_ROWS = [
   ['Si lo dejas a medias, se rompe la racha.', 'If you stop halfway, the streak breaks.', '半途而废，连续记录就断了。', 'बीच में छोड़ा, तो सिलसिला टूट जाता है।', 'Si tu t’arrêtes en cours, la série est cassée.'],
   ['Si te pasas, se duerme. Las rachas perdonan los días de descanso.', 'If you overdo it, she falls asleep. Streaks forgive rest days.', '刷过头了，她就睡着。连续记录会原谅休息日。', 'ज़्यादा हो जाए, तो वो सो जाती है। सिलसिले आराम के दिनों को माफ़ कर देते हैं।', 'Si tu exagères, elle s’endort. Les séries pardonnent les jours de repos.'],
   ['Una pantalla que te dice que no.', 'A screen that tells you no.', '一块对你说“不”的屏幕。', 'एक स्क्रीन जो तुम्हें ना कहती है।', 'Un écran qui te dit non.'],
-  ['Una carita que te pregunta si de verdad.', 'A little face asking if you really mean it.', '一张小脸问你：真的吗？', 'एक नन्हा चेहरा जो पूछता है: सच में?', 'Une petite frimousse qui te demande si tu es sûr.'],
+  ['Una carita que te pregunta si de verdad.', 'A little face asking if you really mean it.', '一张小脸问你：真的吗？', 'एक नन्हा चेहरा जो पूछता है: सच में?', 'Une petite frimousse qui te demande : vraiment ?'],
   ['Los bloqueadores y los temporizadores le funcionan a mucha gente. Lumi es para quien prefiere que le cuiden a que le vigilen.', 'Blockers and timers work for lots of people. Lumi is for those who’d rather be cared for than watched.', '屏蔽器和计时器对很多人有用。Lumi 是给那些更想被照顾、而不是被监视的人。', 'ब्लॉकर और टाइमर बहुत लोगों के काम आते हैं। Lumi उनके लिए है जिन्हें निगरानी से ज़्यादा देखभाल पसंद है।', 'Les bloqueurs et les minuteurs marchent pour beaucoup de gens. Lumi est pour celles et ceux qui préfèrent qu’on prenne soin d’eux plutôt qu’on les surveille.'],
 
   // ── Privacidad ──

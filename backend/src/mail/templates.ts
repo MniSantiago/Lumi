@@ -170,7 +170,7 @@ export function passwordChangedMail(name: string): MailContent {
     en: 'We’ve signed you out on your other devices.',
     zh: '我们已让你的其他设备退出登录。',
     hi: 'हमने तुम्हारे दूसरे डिवाइस से साइन आउट कर दिया है।',
-    fr: 'Nous t’avons déconnecté de tes autres appareils.',
+    fr: 'Nous avons fermé ta session sur tes autres appareils.',
   });
   return {
     subject: tr({
