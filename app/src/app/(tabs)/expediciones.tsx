@@ -31,11 +31,17 @@ function buildTrail(game: GameApi, lumiName: string, isPlus: boolean): Zone[] {
     if (!destination) continue;
     const first = expedition.itemIds.map(itemById).find((i) => i);
     const when = capitalize(`visitada ${whenLabel(day.date, game.today)}`);
+    // Con la postal aún sin abrir, no se desvela lo que trae: esa sorpresa es de la postal.
+    const unopened = game.pendingReturn?.date === day.date;
     zones.push({
       key: `v-${day.date}`,
       destination,
       status: 'visited',
-      note: first ? `${when}. Trajo ${withIndefinite(first)}.` : `${when}.`,
+      note: unopened
+        ? `${when}. Ha vuelto con una postal sin abrir ✨`
+        : first
+          ? `${when}. Trajo ${withIndefinite(first)}.`
+          : `${when}.`,
     });
   }
 
