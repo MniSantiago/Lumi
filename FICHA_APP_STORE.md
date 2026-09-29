@@ -81,15 +81,21 @@ Privacidad: https://<dominio>/privacidad.html
 
 ## Notas para la revisión
 
+En inglés, que es lo que lee el equipo de revisión de Apple (pegar tal cual en App Store Connect › Información para la revisión › Notas):
+
 ```
-Lumi es una mascota que ayuda a usar menos las apps que elige el propio usuario. Usa Family Controls con autorización individual (no control parental): el usuario elige sus apps con FamilyActivityPicker, DeviceActivityMonitor avisa al 25/50/75/100 % de su límite diario y ShieldConfiguration muestra a Lumi al abrir una de esas apps pasado el límite. Ningún dato de uso sale del dispositivo.
+Lumi is a pet that helps people use the apps they choose less. It uses Family Controls with individual authorization (not parental control): the user picks their own apps with FamilyActivityPicker, DeviceActivityMonitor reports when they reach 25/50/75/100% of their daily limit, and ShieldConfiguration shows Lumi when one of those apps is opened past the limit. The apps are also shielded during the user's night hours (23:00-07:00 by default). The shield always offers "5 more min" unless the user turned on the optional strict shield (Lumi Plus). No usage data leaves the device.
 
-Para probarlo rápido: en el onboarding, elige Safari como app y pon el límite más bajo (30 min).
+To test it quickly: during onboarding, pick Safari and the lowest limit (30 min). To see the night shield without waiting, go to Settings > Limit and night and move "Goes to sleep" to a few minutes from now.
 
-La cuenta es opcional (Ajustes › Cuenta) y se puede eliminar desde la app (Ajustes › Cuenta › Eliminar la cuenta). Cuenta de prueba: review@<dominio> / <contraseña>.
+The account is optional (Settings > Account) and can be deleted in the app (Settings > Account > Delete account). Demo account: review@<domain> / <password>.
 
-Lumi Plus es una suscripción auto-renovable (anual con 7 días gratis y mensual). Todo lo esencial funciona sin pagar.
+Lumi Plus is an auto-renewable subscription (yearly with a 7-day free trial, and monthly). Everything essential works without paying.
+
+The app is available in Spanish, English, Simplified Chinese, Hindi and French, following the device language.
 ```
+
+Referencia en español: Lumi usa Family Controls para el propio usuario (no control parental); el escudo sale al pasar el límite y en el horario de noche, siempre con «5 min más» salvo con el escudo estricto (Plus). La cuenta es opcional y se borra desde la app. Plus: anual con 7 días gratis y mensual.
 
 ## Pendiente antes de enviar
 
