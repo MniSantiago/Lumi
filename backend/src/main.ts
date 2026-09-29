@@ -1,3 +1,4 @@
+import { ConsoleLogger } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { ConfigService } from '@nestjs/config';
 import type { NestExpressApplication } from '@nestjs/platform-express';
@@ -8,7 +9,13 @@ import type { Env } from './config/env.js';
 import { buildOpenApi, configureApp } from './setup.js';
 
 async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule);
+  // En producción, logs en JSON (una línea por evento, sin colores): los entienden las plataformas de logs.
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
+    logger:
+      process.env.NODE_ENV === 'production'
+        ? new ConsoleLogger({ json: true, colors: false })
+        : undefined,
+  });
   // Detrás del proxy de la plataforma, para que el límite por IP use la IP real.
   app.getHttpAdapter().getInstance().set('trust proxy', 1);
   configureApp(app);

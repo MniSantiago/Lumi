@@ -61,7 +61,8 @@
     "typecheck": "tsc --noEmit",
     "update:preview": "eas update --branch preview --environment preview --platform ios",
     "api:generate": "orval --config orval.config.ts",
-    "test": "jest"
+    "test": "jest",
+    "update:production": "eas update --branch production --environment production --platform ios"
   },
   "private": true,
   "jest": {

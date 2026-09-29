@@ -23,6 +23,10 @@ exp://u.expo.dev/6244480e-5eaa-4ca9-bce9-a3ce408b7116?channel-name=preview&runti
 Para publicar una nueva versión: `npm run update:preview -- --message "qué cambia"`.
 Las publicaciones aparecen en https://expo.dev/accounts/mnisantiago/projects/lumi/updates
 
+## Canales en producción
+
+Cada perfil de build escucha su canal (`eas.json`): `development`, `preview` y `production`. Un arreglo solo de JavaScript llega a la versión de la tienda sin pasar por revisión con `npm run update:production -- --message "qué cambia"`. Si cambia algo nativo (un paquete nuevo con código nativo, `app.json`), hace falta un build nuevo: `runtimeVersion` sigue a la versión de la app.
+
 ## Estructura
 
 | Ruta | Qué es |
