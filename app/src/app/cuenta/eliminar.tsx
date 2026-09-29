@@ -56,13 +56,7 @@ export default function DeleteAccountSheet() {
   return (
     <Sheet
       title={tr({
-        es: tr({
-          es: 'Eliminar la cuenta',
-          en: 'Delete account',
-          zh: '删除账户',
-          hi: 'खाता हटाओ',
-          fr: 'Supprimer le compte',
-        }),
+        es: 'Eliminar la cuenta',
         en: 'Delete account',
         zh: '删除账户',
         hi: 'खाता हटाओ',
@@ -80,13 +74,7 @@ export default function DeleteAccountSheet() {
           <FormError message={error} />
           <WideButton
             label={tr({
-              es: tr({
-                es: 'Eliminar mi cuenta',
-                en: 'Delete my account',
-                zh: '删除我的账户',
-                hi: 'मेरा खाता हटाओ',
-                fr: 'Supprimer mon compte',
-              }),
+              es: 'Eliminar mi cuenta',
               en: 'Delete my account',
               zh: '删除我的账户',
               hi: 'मेरा खाता हटाओ',
@@ -102,13 +90,7 @@ export default function DeleteAccountSheet() {
       <View style={{ gap: 16 }}>
         <Field
           label={tr({
-            es: tr({
-              es: 'Tu contraseña, para confirmar',
-              en: 'Your password, to confirm',
-              zh: '输入密码以确认',
-              hi: 'पुष्टि के लिए तुम्हारा पासवर्ड',
-              fr: 'Ton mot de passe, pour confirmer',
-            }),
+            es: 'Tu contraseña, para confirmar',
             en: 'Your password, to confirm',
             zh: '输入密码以确认',
             hi: 'पुष्टि के लिए तुम्हारा पासवर्ड',

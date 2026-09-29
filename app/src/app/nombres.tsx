@@ -30,20 +30,14 @@ export default function NamesSheet() {
   return (
     <Sheet
       title={tr({
-        es: tr({ es: 'Nombres', en: 'Names', zh: '名字', hi: 'नाम', fr: 'Prénoms' }),
+        es: 'Nombres',
         en: 'Names',
         zh: '名字',
         hi: 'नाम',
         fr: 'Prénoms',
       })}
       subtitle={tr({
-        es: tr({
-          es: 'Cómo te saluda y cómo se llama tu lucecita.',
-          en: 'How she greets you and what your little light is called.',
-          zh: '她怎么称呼你，你的小光叫什么。',
-          hi: 'वो तुम्हें कैसे बुलाती है और तुम्हारी नन्ही रोशनी का नाम क्या है।',
-          fr: 'Comment elle te salue et comment s’appelle ta petite lumière.',
-        }),
+        es: 'Cómo te saluda y cómo se llama tu lucecita.',
         en: 'How she greets you and what your little light is called.',
         zh: '她怎么称呼你，你的小光叫什么。',
         hi: 'वो तुम्हें कैसे बुलाती है और तुम्हारी नन्ही रोशनी का नाम क्या है।',
@@ -52,7 +46,7 @@ export default function NamesSheet() {
       footer={
         <PrimaryButton
           label={tr({
-            es: tr({ es: 'Guardar', en: 'Save', zh: '保存', hi: 'सहेजो', fr: 'Enregistrer' }),
+            es: 'Guardar',
             en: 'Save',
             zh: '保存',
             hi: 'सहेजो',
@@ -65,14 +59,14 @@ export default function NamesSheet() {
       <View style={{ gap: 16 }}>
         <Field
           label={tr({
-            es: tr({ es: 'Tu nombre', en: 'Your name', zh: '你的名字', hi: 'तुम्हारा नाम', fr: 'Ton prénom' }),
+            es: 'Tu nombre',
             en: 'Your name',
             zh: '你的名字',
             hi: 'तुम्हारा नाम',
             fr: 'Ton prénom',
           })}
           placeholder={tr({
-            es: tr({ es: 'Tu nombre', en: 'Your name', zh: '你的名字', hi: 'तुम्हारा नाम', fr: 'Ton prénom' }),
+            es: 'Tu nombre',
             en: 'Your name',
             zh: '你的名字',
             hi: 'तुम्हारा नाम',
@@ -90,13 +84,7 @@ export default function NamesSheet() {
         <Field
           ref={lumiNameRef}
           label={tr({
-            es: tr({
-              es: 'Nombre de tu lucecita',
-              en: 'Your little light’s name',
-              zh: '你的小光的名字',
-              hi: 'तुम्हारी नन्ही रोशनी का नाम',
-              fr: 'Nom de ta petite lumière',
-            }),
+            es: 'Nombre de tu lucecita',
             en: 'Your little light’s name',
             zh: '你的小光的名字',
             hi: 'तुम्हारी नन्ही रोशनी का नाम',

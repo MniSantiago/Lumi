@@ -28,20 +28,14 @@ export default function MeetLumiStep() {
     <StepShell
       step={1}
       title={tr({
-        es: tr({ es: 'Conoce a Lumi', en: 'Meet Lumi', zh: '认识 Lumi', hi: 'Lumi से मिलो', fr: 'Voici Lumi' }),
+        es: 'Conoce a Lumi',
         en: 'Meet Lumi',
         zh: '认识 Lumi',
         hi: 'Lumi से मिलो',
         fr: 'Voici Lumi',
       })}
       subtitle={tr({
-        es: tr({
-          es: 'Una lucecita que vive contigo y brilla cuando descansas del móvil.',
-          en: 'A little light that lives with you and shines when you take a break from your phone.',
-          zh: '一束和你住在一起的小光，你放下手机休息时，她就发光。',
-          hi: 'एक नन्ही रोशनी जो तुम्हारे साथ रहती है और तब चमकती है जब तुम फ़ोन से आराम लेते हो।',
-          fr: 'Une petite lumière qui vit avec toi et brille quand tu fais une pause de ton téléphone.',
-        }),
+        es: 'Una lucecita que vive contigo y brilla cuando descansas del móvil.',
         en: 'A little light that lives with you and shines when you take a break from your phone.',
         zh: '一束和你住在一起的小光，你放下手机休息时，她就发光。',
         hi: 'एक नन्ही रोशनी जो तुम्हारे साथ रहती है और तब चमकती है जब तुम फ़ोन से आराम लेते हो।',
@@ -78,20 +72,14 @@ export default function MeetLumiStep() {
       <View style={styles.fields}>
         <Field
           label={tr({
-            es: tr({
-              es: '¿Cómo te llamas?',
-              en: 'What’s your name?',
-              zh: '你叫什么名字？',
-              hi: 'तुम्हारा नाम क्या है?',
-              fr: 'Comment tu t’appelles ?',
-            }),
+            es: '¿Cómo te llamas?',
             en: 'What’s your name?',
             zh: '你叫什么名字？',
             hi: 'तुम्हारा नाम क्या है?',
             fr: 'Comment tu t’appelles ?',
           })}
           placeholder={tr({
-            es: tr({ es: 'Tu nombre', en: 'Your name', zh: '你的名字', hi: 'तुम्हारा नाम', fr: 'Ton prénom' }),
+            es: 'Tu nombre',
             en: 'Your name',
             zh: '你的名字',
             hi: 'तुम्हारा नाम',
@@ -110,13 +98,7 @@ export default function MeetLumiStep() {
         <Field
           ref={lumiNameRef}
           label={tr({
-            es: tr({
-              es: '¿Y cómo me llamas tú?',
-              en: 'And what will you call me?',
-              zh: '那你叫我什么呢？',
-              hi: 'और तुम मुझे क्या बुलाओगे?',
-              fr: 'Et toi, comment tu m’appelles ?',
-            }),
+            es: '¿Y cómo me llamas tú?',
             en: 'And what will you call me?',
             zh: '那你叫我什么呢？',
             hi: 'और तुम मुझे क्या बुलाओगे?',
@@ -131,13 +113,7 @@ export default function MeetLumiStep() {
         />
         <SecondaryLink
           label={tr({
-            es: tr({
-              es: '¿Ya tenías a Lumi? Entra en tu cuenta',
-              en: 'Already had Lumi? Sign in',
-              zh: '已经有 Lumi 了？登录账户',
-              hi: 'पहले से Lumi है? अपने खाते में जाओ',
-              fr: 'Tu avais déjà Lumi ? Connecte-toi',
-            }),
+            es: '¿Ya tenías a Lumi? Entra en tu cuenta',
             en: 'Already had Lumi? Sign in',
             zh: '已经有 Lumi 了？登录账户',
             hi: 'पहले से Lumi है? अपने खाते में जाओ',

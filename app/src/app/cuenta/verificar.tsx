@@ -49,13 +49,7 @@ export default function VerifyEmailSheet() {
   return (
     <Sheet
       title={tr({
-        es: tr({
-          es: 'Revisa tu correo',
-          en: 'Check your email',
-          zh: '查看你的邮箱',
-          hi: 'अपना ईमेल देखो',
-          fr: 'Vérifie tes e-mails',
-        }),
+        es: 'Revisa tu correo',
         en: 'Check your email',
         zh: '查看你的邮箱',
         hi: 'अपना ईमेल देखो',
@@ -92,7 +86,7 @@ export default function VerifyEmailSheet() {
           />
           <SecondaryLink
             label={tr({
-              es: tr({ es: 'Más tarde', en: 'Later', zh: '稍后', hi: 'बाद में', fr: 'Plus tard' }),
+              es: 'Más tarde',
               en: 'Later',
               zh: '稍后',
               hi: 'बाद में',
@@ -105,7 +99,7 @@ export default function VerifyEmailSheet() {
       <View style={{ gap: 16 }}>
         <Field
           label={tr({
-            es: tr({ es: 'Código', en: 'Code', zh: '验证码', hi: 'कोड', fr: 'Code' }),
+            es: 'Código',
             en: 'Code',
             zh: '验证码',
             hi: 'कोड',
