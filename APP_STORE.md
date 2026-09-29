@@ -70,10 +70,32 @@ El uso de pantalla **no se recoge**: se queda en el iPhone (Screen Time por umbr
 | URL de marketing | 🟡 | La landing |
 | Capturas de 6,9" (1320 × 2868) | ⬜ | Desde el simulador del iPhone 17 Pro Max (ver `landing/videos.md` para ocultar la hora) |
 | Icono de 1024 × 1024 sin transparencia | ✅ | `app/assets/images/icon.png` |
-| Clasificación por edad | ⬜ | Cuestionario: sin contenido sensible, debería salir 4+ |
-| Categoría | ⬜ | Estilo de vida (o Salud y forma física) |
+| Clasificación por edad | 🟡 | Respuestas preparadas abajo: debería salir 4+. Falta rellenarlo en App Store Connect |
+| Categoría | 🟡 | Principal: **Estilo de vida**. Secundaria: **Productividad**. No elegir «Niños» (ver abajo) |
 | Cumplimiento de exportación | ✅ | `ITSAppUsesNonExemptEncryption: false` (solo HTTPS) |
 | Solo iPhone | ✅ | `supportsTablet: false` |
+
+**Cuestionario de clasificación por edad** (App Store Connect › Información de la app › Clasificación por edad). Los nombres de las preguntas pueden variar un poco; la idea es:
+
+| Pregunta | Respuesta | Por qué |
+|---|---|---|
+| Violencia (de dibujos, realista, prolongada) | Ninguna | Lumi solo explora y trae postales |
+| Lenguaje soez o humor crudo | Ninguno | |
+| Contenido sexual o desnudos | Ninguno | |
+| Terror o miedo | Ninguno | |
+| Alcohol, tabaco o drogas | Ninguno | |
+| Información médica o de tratamientos | Ninguna | Es bienestar digital, no salud: no da consejos médicos |
+| Juegos de azar simulados | Ninguno | Las recompensas de las expediciones dependen de la luz del día, no se compran ni se apuestan (las chispas no se venden) |
+| Concursos | No | |
+| Acceso libre a la web | No | Solo abre enlaces propios (legales, ayuda) |
+| Contenido generado por usuarios o chat | No | Los nombres (el tuyo y el de Lumi) no los ve nadie más |
+| Publicidad | No | |
+| Controles parentales | No | Family Controls se usa para el propio usuario, no para controlar a otros |
+| Verificación de edad | No | |
+
+Resultado esperado: **4+**. Los Términos piden 13 años o más para crear cuenta (la app sin cuenta funciona igual), lo que no cambia la clasificación.
+
+**Por qué no la categoría «Niños»:** obliga a reglas extra (sin enlaces fuera de la app sin control parental, sin análisis de terceros, revisión más estricta) y Lumi no está pensada para menores de 13.
 
 ### Idiomas
 
