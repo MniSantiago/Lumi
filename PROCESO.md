@@ -1,6 +1,6 @@
 # Lumi: registro del proceso
 
-Última sesión: lunes 28 al martes 29 de septiembre de 2026 (noche): bloques de UX y preparación para producción (PR hasta #61).
+Última sesión: lunes 28 al martes 29 de septiembre de 2026 (noche): bloques de UX y preparación para producción (PR hasta #66).
 Para retomar: abre un chat en el proyecto "Cozy experience" (o pega este archivo y `BRIEF.md`) y di en qué paso vamos.
 
 ---
