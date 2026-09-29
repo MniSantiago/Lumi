@@ -27,6 +27,15 @@ REVIEW_EMAIL=review@<dominio> REVIEW_PASSWORD=<contraseña> npm run review:accou
 
 La crea con el correo ya verificado. Si existe, le cambia la contraseña y cierra sus sesiones.
 
+### Exportar la lista de espera (para el aviso de lanzamiento)
+
+```bash
+npm run waitlist:export > lista.csv
+# en producción, ya compilado: node dist/db/export-waitlist.js > lista.csv
+```
+
+CSV con correo, idioma (es, en, zh, hi o fr: el de la web al apuntarse), app, origen y fecha. Quien se dio de baja ya no está.
+
 ## Endpoints
 
 | Método | Ruta | Qué hace |
