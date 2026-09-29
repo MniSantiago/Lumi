@@ -117,7 +117,13 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 17 | #19 | Tests de la app |
 | 18 | #20 | Valoraciones y gestionar suscripción |
 | 19 | #3 | Hogar: tocar a Lumi y medidor |
+| 20 | #21 | Este resumen |
+| 21 | #23 | No usar un dominio que no es nuestro |
+| 22 | #24 | Expediciones sin destripar la postal |
 | — | #15 | **Borrador:** Screen Time nativo (sale de #14; fusionar cuando compile en un iPhone) |
+| — | #22 | **Borrador:** widget de Lumi (encima de #15) |
+
+Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1` (ver `app/app.config.ts`); sin esas variables, la app es la de siempre.
 
 ### Prompts de Higgsfield (reutilizables)
 
