@@ -132,11 +132,11 @@ export default function SparksSheet() {
 
       <Text style={styles.note}>
         {tr({
-          es: 'Nunca pierde las que tiene, ni se compran con dinero. Pronto servirán para decorar su madriguera.',
-          en: 'She never loses the ones she has, and they can’t be bought. Soon they’ll be used to decorate her burrow.',
-          zh: '她不会失去已有的火花，也不能用钱买。很快就能用来装饰她的小窝。',
-          hi: 'जो उसके पास हैं वो कभी नहीं खोतीं, और पैसों से नहीं ख़रीदी जातीं। जल्द ही इनसे उसका घर सजेगा।',
-          fr: 'Elle ne perd jamais celles qu’elle a, et elles ne s’achètent pas. Bientôt, elles serviront à décorer son terrier.',
+          es: 'Nunca pierde las que tiene, ni se compran con dinero: son la luz que ha ido juntando contigo.',
+          en: 'She never loses the ones she has, and they can’t be bought: they’re the light she’s gathered with you.',
+          zh: '她不会失去已有的火花，也不能用钱买：这是她和你一起攒下的光。',
+          hi: 'जो उसके पास हैं वो कभी नहीं खोतीं, और पैसों से नहीं ख़रीदी जातीं: ये वो रोशनी है जो उसने तुम्हारे साथ जुटाई है।',
+          fr: 'Elle ne perd jamais celles qu’elle a, et elles ne s’achètent pas : c’est la lumière qu’elle a réunie avec toi.',
         })}
       </Text>
     </Sheet>
