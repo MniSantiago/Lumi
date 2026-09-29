@@ -51,26 +51,14 @@ export default function SparksSheet() {
           <Row>
             <Label
               title={tr({
-                es: tr({
-                  es: 'Radiante todo el día',
-                  en: 'Radiant all day',
-                  zh: '一整天都闪闪发光',
-                  hi: 'पूरे दिन जगमग',
-                  fr: 'Radieuse toute la journée',
-                }),
+                es: 'Radiante todo el día',
                 en: 'Radiant all day',
                 zh: '一整天都闪闪发光',
                 hi: 'पूरे दिन जगमग',
                 fr: 'Radieuse toute la journée',
               })}
               sub={tr({
-                es: tr({
-                  es: 'Menos del 25 % de tu límite',
-                  en: 'Under 25% of your limit',
-                  zh: '不到上限的 25%',
-                  hi: 'तुम्हारी सीमा के 25% से कम',
-                  fr: 'Moins de 25 % de ta limite',
-                }),
+                es: 'Menos del 25 % de tu límite',
                 en: 'Under 25% of your limit',
                 zh: '不到上限的 25%',
                 hi: 'तुम्हारी सीमा के 25% से कम',
@@ -82,20 +70,14 @@ export default function SparksSheet() {
           <Row>
             <Label
               title={tr({
-                es: tr({ es: 'Contenta', en: 'Happy', zh: '开心', hi: 'ख़ुश', fr: 'Contente' }),
+                es: 'Contenta',
                 en: 'Happy',
                 zh: '开心',
                 hi: 'ख़ुश',
                 fr: 'Contente',
               })}
               sub={tr({
-                es: tr({
-                  es: 'Entre el 25 y el 50 %',
-                  en: 'Between 25 and 50%',
-                  zh: '25% 到 50% 之间',
-                  hi: '25 और 50% के बीच',
-                  fr: 'Entre 25 et 50 %',
-                }),
+                es: 'Entre el 25 y el 50 %',
                 en: 'Between 25 and 50%',
                 zh: '25% 到 50% 之间',
                 hi: '25 और 50% के बीच',
@@ -107,26 +89,14 @@ export default function SparksSheet() {
           <Row last>
             <Label
               title={tr({
-                es: tr({
-                  es: 'Cansada o dormida',
-                  en: 'Tired or asleep',
-                  zh: '累了或睡着了',
-                  hi: 'थकी हुई या सोई हुई',
-                  fr: 'Fatiguée ou endormie',
-                }),
+                es: 'Cansada o dormida',
                 en: 'Tired or asleep',
                 zh: '累了或睡着了',
                 hi: 'थकी हुई या सोई हुई',
                 fr: 'Fatiguée ou endormie',
               })}
               sub={tr({
-                es: tr({
-                  es: 'Se queda en casa, sin expedición',
-                  en: 'Stays home, no expedition',
-                  zh: '待在家，不去探险',
-                  hi: 'घर पर रहती है, कोई सफ़र नहीं',
-                  fr: 'Reste à la maison, pas d’expédition',
-                }),
+                es: 'Se queda en casa, sin expedición',
                 en: 'Stays home, no expedition',
                 zh: '待在家，不去探险',
                 hi: 'घर पर रहती है, कोई सफ़र नहीं',

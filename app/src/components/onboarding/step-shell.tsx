@@ -123,7 +123,7 @@ function BackButton() {
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={tr({
-        es: tr({ es: 'Atrás', en: 'Back', zh: '返回', hi: 'पीछे', fr: 'Retour' }),
+        es: 'Atrás',
         en: 'Back',
         zh: '返回',
         hi: 'पीछे',

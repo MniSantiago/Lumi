@@ -34,13 +34,7 @@ export default function LimitStep() {
     <StepShell
       step={3}
       title={tr({
-        es: tr({
-          es: 'Límite y noche',
-          en: 'Limit and night',
-          zh: '上限和夜晚',
-          hi: 'सीमा और रात',
-          fr: 'Limite et nuit',
-        }),
+        es: 'Límite y noche',
         en: 'Limit and night',
         zh: '上限和夜晚',
         hi: 'सीमा और रात',
@@ -71,26 +65,14 @@ export default function LimitStep() {
           <Row last>
             <Label
               title={tr({
-                es: tr({
-                  es: 'Límite diario suave',
-                  en: 'Gentle daily limit',
-                  zh: '温和的每日上限',
-                  hi: 'रोज़ की नरम सीमा',
-                  fr: 'Limite quotidienne douce',
-                }),
+                es: 'Límite diario suave',
                 en: 'Gentle daily limit',
                 zh: '温和的每日上限',
                 hi: 'रोज़ की नरम सीमा',
                 fr: 'Limite quotidienne douce',
               })}
               sub={tr({
-                es: tr({
-                  es: 'Sumando todas tus apps ladronas',
-                  en: 'Adding up all your thief apps',
-                  zh: '所有偷时间的 App 加起来',
-                  hi: 'सभी चोर ऐप्स मिलाकर',
-                  fr: 'En additionnant toutes tes applis voleuses',
-                }),
+                es: 'Sumando todas tus apps ladronas',
                 en: 'Adding up all your thief apps',
                 zh: '所有偷时间的 App 加起来',
                 hi: 'सभी चोर ऐप्स मिलाकर',
@@ -104,26 +86,14 @@ export default function LimitStep() {
               canDecrease={limitIndex > 0}
               canIncrease={limitIndex < LIMIT_OPTIONS.length - 1}
               decreaseLabel={tr({
-                es: tr({
-                  es: 'Reducir límite',
-                  en: 'Lower limit',
-                  zh: '减少上限',
-                  hi: 'सीमा घटाओ',
-                  fr: 'Réduire la limite',
-                }),
+                es: 'Reducir límite',
                 en: 'Lower limit',
                 zh: '减少上限',
                 hi: 'सीमा घटाओ',
                 fr: 'Réduire la limite',
               })}
               increaseLabel={tr({
-                es: tr({
-                  es: 'Aumentar límite',
-                  en: 'Raise limit',
-                  zh: '增加上限',
-                  hi: 'सीमा बढ़ाओ',
-                  fr: 'Augmenter la limite',
-                }),
+                es: 'Aumentar límite',
                 en: 'Raise limit',
                 zh: '增加上限',
                 hi: 'सीमा बढ़ाओ',
@@ -177,13 +147,7 @@ export default function LimitStep() {
           <Row>
             <Label
               title={tr({
-                es: tr({
-                  es: 'Se va a dormir',
-                  en: 'Goes to sleep',
-                  zh: '睡觉时间',
-                  hi: 'सोने जाती है',
-                  fr: 'Va dormir',
-                }),
+                es: 'Se va a dormir',
                 en: 'Goes to sleep',
                 zh: '睡觉时间',
                 hi: 'सोने जाती है',
@@ -195,26 +159,14 @@ export default function LimitStep() {
               onDecrease={() => setDraft({ nightStart: stepTime(draft.nightStart, -1) })}
               onIncrease={() => setDraft({ nightStart: stepTime(draft.nightStart, 1) })}
               decreaseLabel={tr({
-                es: tr({
-                  es: 'Acostarse media hora antes',
-                  en: 'Go to bed half an hour earlier',
-                  zh: '提前半小时睡觉',
-                  hi: 'आधा घंटा पहले सोना',
-                  fr: 'Se coucher une demi-heure plus tôt',
-                }),
+                es: 'Acostarse media hora antes',
                 en: 'Go to bed half an hour earlier',
                 zh: '提前半小时睡觉',
                 hi: 'आधा घंटा पहले सोना',
                 fr: 'Se coucher une demi-heure plus tôt',
               })}
               increaseLabel={tr({
-                es: tr({
-                  es: 'Acostarse media hora después',
-                  en: 'Go to bed half an hour later',
-                  zh: '推迟半小时睡觉',
-                  hi: 'आधा घंटा बाद सोना',
-                  fr: 'Se coucher une demi-heure plus tard',
-                }),
+                es: 'Acostarse media hora después',
                 en: 'Go to bed half an hour later',
                 zh: '推迟半小时睡觉',
                 hi: 'आधा घंटा बाद सोना',
@@ -225,7 +177,7 @@ export default function LimitStep() {
           <Row>
             <Label
               title={tr({
-                es: tr({ es: 'Se despierta', en: 'Wakes up', zh: '起床时间', hi: 'जागती है', fr: 'Se réveille' }),
+                es: 'Se despierta',
                 en: 'Wakes up',
                 zh: '起床时间',
                 hi: 'जागती है',
@@ -237,26 +189,14 @@ export default function LimitStep() {
               onDecrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, -1) })}
               onIncrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, 1) })}
               decreaseLabel={tr({
-                es: tr({
-                  es: 'Despertarse media hora antes',
-                  en: 'Wake up half an hour earlier',
-                  zh: '提前半小时起床',
-                  hi: 'आधा घंटा पहले जागना',
-                  fr: 'Se réveiller une demi-heure plus tôt',
-                }),
+                es: 'Despertarse media hora antes',
                 en: 'Wake up half an hour earlier',
                 zh: '提前半小时起床',
                 hi: 'आधा घंटा पहले जागना',
                 fr: 'Se réveiller une demi-heure plus tôt',
               })}
               increaseLabel={tr({
-                es: tr({
-                  es: 'Despertarse media hora después',
-                  en: 'Wake up half an hour later',
-                  zh: '推迟半小时起床',
-                  hi: 'आधा घंटा बाद जागना',
-                  fr: 'Se réveiller une demi-heure plus tard',
-                }),
+                es: 'Despertarse media hora después',
                 en: 'Wake up half an hour later',
                 zh: '推迟半小时起床',
                 hi: 'आधा घंटा बाद जागना',
@@ -267,26 +207,14 @@ export default function LimitStep() {
           <Row last>
             <Label
               title={tr({
-                es: tr({
-                  es: 'Avisarme cuando vuelva',
-                  en: 'Notify me when she’s back',
-                  zh: '她回来时通知我',
-                  hi: 'लौटने पर मुझे बताओ',
-                  fr: 'Me prévenir à son retour',
-                }),
+                es: 'Avisarme cuando vuelva',
                 en: 'Notify me when she’s back',
                 zh: '她回来时通知我',
                 hi: 'लौटने पर मुझे बताओ',
                 fr: 'Me prévenir à son retour',
               })}
               sub={tr({
-                es: tr({
-                  es: 'Una notificación por la noche con su postal',
-                  en: 'A notification at night with her postcard',
-                  zh: '晚上发一条带明信片的通知',
-                  hi: 'रात को उसके पोस्टकार्ड के साथ एक सूचना',
-                  fr: 'Une notification le soir avec sa carte',
-                }),
+                es: 'Una notificación por la noche con su postal',
                 en: 'A notification at night with her postcard',
                 zh: '晚上发一条带明信片的通知',
                 hi: 'रात को उसके पोस्टकार्ड के साथ एक सूचना',
@@ -295,13 +223,7 @@ export default function LimitStep() {
             />
             <Toggle
               label={tr({
-                es: tr({
-                  es: 'Avisarme cuando vuelva',
-                  en: 'Notify me when she’s back',
-                  zh: '她回来时通知我',
-                  hi: 'लौटने पर मुझे बताओ',
-                  fr: 'Me prévenir à son retour',
-                }),
+                es: 'Avisarme cuando vuelva',
                 en: 'Notify me when she’s back',
                 zh: '她回来时通知我',
                 hi: 'लौटने पर मुझे बताओ',
