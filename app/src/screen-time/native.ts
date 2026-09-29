@@ -86,11 +86,14 @@ export async function applyScreenTimePlan({
   nightStart,
   nightEnd,
   lumiName,
+  strict = false,
 }: {
   limitMinutes: number;
   nightStart: string;
   nightEnd: string;
   lumiName: string;
+  /** Escudo estricto (Lumi Plus): sin «5 min más». */
+  strict?: boolean;
 }) {
   const token = getThiefAppsSelection();
   if (!token) return;
@@ -116,7 +119,10 @@ export async function applyScreenTimePlan({
       primaryButtonLabel: shieldCopy.leave,
       primaryButtonLabelColor: night,
       primaryButtonBackgroundColor: amber,
-      secondaryButtonLabel: shieldCopy.snooze(0),
+      // Sin etiqueta, iOS no enseña el segundo botón.
+      ...(strict
+        ? { subtitle: `${shieldCopy.body}\n\n${shieldCopy.strictNote}` }
+        : { secondaryButtonLabel: shieldCopy.snooze(0) }),
       secondaryButtonLabelColor: soft,
     },
     {
@@ -140,10 +146,19 @@ export async function applyScreenTimePlan({
 
   // Día: umbrales y escudo al 100 %; al empezar el día, todo destapado.
   da().configureActions({ activityName: DAY, callbackName: 'intervalDidStart', actions: [unblock] });
-  da().configureActions({ activityName: DAY, callbackName: 'eventDidReachThreshold', eventName: eventName(100), actions: [block] });
+  da().configureActions({
+    activityName: DAY,
+    callbackName: 'eventDidReachThreshold',
+    eventName: eventName(100),
+    actions: [block],
+  });
   await da().startMonitoring(
     DAY,
-    { intervalStart: { hour: 0, minute: 0, second: 0 }, intervalEnd: { hour: 23, minute: 59, second: 59 }, repeats: true },
+    {
+      intervalStart: { hour: 0, minute: 0, second: 0 },
+      intervalEnd: { hour: 23, minute: 59, second: 59 },
+      repeats: true,
+    },
     THRESHOLDS.map((t) => ({
       eventName: eventName(t),
       familyActivitySelection: token,
@@ -152,7 +167,12 @@ export async function applyScreenTimePlan({
   );
 
   // Pausa de "5 min más": al llegar a 5 minutos, se vuelve a tapar.
-  da().configureActions({ activityName: PAUSE, callbackName: 'eventDidReachThreshold', eventName: 'm5', actions: [block] });
+  da().configureActions({
+    activityName: PAUSE,
+    callbackName: 'eventDidReachThreshold',
+    eventName: 'm5',
+    actions: [block],
+  });
 
   // Noche: se tapa al empezar y se destapa al terminar.
   da().configureActions({ activityName: NIGHT, callbackName: 'intervalDidStart', actions: [block] });
