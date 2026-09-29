@@ -4,6 +4,7 @@ import { Alert, Linking, StyleSheet, Text, View } from 'react-native';
 import { exportMyData } from '@/account/export';
 import { apiAvailable } from '@/api/client';
 import { useSession } from '@/account/session';
+import { useLastBackup } from '@/account/sync';
 import { AppIcon, Label, List, Row, Stepper, Toggle } from '@/components/onboarding/controls';
 import { PillButton, SectionTitle, Screen, TextLink } from '@/components/ui';
 import { confirmAction } from '@/confirm';
@@ -15,7 +16,7 @@ import { formatLimit, LIMIT_OPTIONS, useLumi } from '@/lumi/store';
 import { stepTime } from '@/lumi/time';
 import { cancelNightlyReturn, ensureNotificationPermission, permissionDeniedCopy } from '@/notifications';
 import { lang, LANG_NAMES, tr } from '@/i18n';
-import { clockTime } from '@/i18n/dates';
+import { clockTime, dayMonth } from '@/i18n/dates';
 
 const strictTitle = tr({
   es: 'Escudo estricto',
@@ -32,6 +33,36 @@ const bedtimeTitle = tr({
   hi: 'शुभ रात्रि की याद',
   fr: 'Rappel du coucher',
 });
+
+/** «Guardada hoy a las 03:40» / «el 28 de septiembre», o que aún no se ha podido guardar. */
+function backupLabel(at: number | null) {
+  if (!at) {
+    return tr({
+      es: 'Se guardará en cuanto haya conexión',
+      en: 'It’ll be saved as soon as you’re online',
+      zh: '联网后就会保存',
+      hi: 'इंटरनेट मिलते ही सहेजी जाएगी',
+      fr: 'Elle sera enregistrée dès que tu seras en ligne',
+    });
+  }
+  const d = new Date(at);
+  const time = clockTime(`${String(d.getHours()).padStart(2, '0')}:${String(d.getMinutes()).padStart(2, '0')}`);
+  return d.toDateString() === new Date().toDateString()
+    ? tr({
+        es: `Guardada hoy a las ${time}`,
+        en: `Saved today at ${time}`,
+        zh: `今天 ${time} 已保存`,
+        hi: `आज ${time} को सहेजी गई`,
+        fr: `Enregistrée aujourd’hui à ${time}`,
+      })
+    : tr({
+        es: `Guardada el ${dayMonth(d)}`,
+        en: `Saved on ${dayMonth(d)}`,
+        zh: `${dayMonth(d)}已保存`,
+        hi: `${dayMonth(d)} को सहेजी गई`,
+        fr: `Enregistrée le ${dayMonth(d)}`,
+      });
+}
 
 const weeklyTitle = tr({
   es: 'Resumen del domingo',
@@ -600,6 +631,7 @@ export default function SettingsScreen() {
 
 /** Cuenta opcional: guardar el progreso, verificar el correo, contraseña, cerrar sesión y eliminarla. */
 function AccountSection() {
+  const lastBackup = useLastBackup();
   const { loading, user, signOut } = useSession();
   const { settings } = useLumi();
   const game = useGame();
@@ -739,6 +771,18 @@ function AccountSection() {
             onPress={() => router.push('/cuenta/verificar')}
           />
         )}
+      </Row>
+      <Row>
+        <Label
+          title={tr({
+            es: 'Copia de tu progreso',
+            en: 'Progress backup',
+            zh: '进度备份',
+            hi: 'प्रगति की कॉपी',
+            fr: 'Sauvegarde de ta progression',
+          })}
+          sub={backupLabel(lastBackup)}
+        />
       </Row>
       {downloadRow()}
       <Row>
