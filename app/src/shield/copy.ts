@@ -29,6 +29,33 @@ export const shieldCopy = {
     fr: 'Vous avez dépassé ton temps du jour. Si tu arrêtes maintenant, elle se réveillera plus lumineuse demain.',
   }),
 
+  /** En el horario de noche: el escudo sale aunque no se haya llegado al límite. */
+  night: {
+    appTag: (appName: string, wakesAt: string) =>
+      tr({
+        es: `${appName} está tapada hasta las ${wakesAt}`,
+        en: `${appName} is tucked in until ${wakesAt}`,
+        zh: `${appName}盖上被子了，${wakesAt}见`,
+        hi: `${appName} ${wakesAt} तक ढकी हुई है`,
+        fr: `${appName} est bordée jusqu’à ${wakesAt}`,
+      }),
+    title: (lumiName: string) =>
+      tr({
+        es: `${lumiName} ya está dormida… ¿de verdad entramos?`,
+        en: `${lumiName} is already asleep… are we really going in?`,
+        zh: `${lumiName}已经睡着了……真的要进去吗？`,
+        hi: `${lumiName} सो चुकी है… सच में अंदर जाएँ?`,
+        fr: `${lumiName} dort déjà… on y va vraiment ?`,
+      }),
+    body: tr({
+      es: 'Es su hora de dormir, y también la tuya. Si lo dejas ahora, mañana se despierta con más luz.',
+      en: 'It’s her bedtime, and yours too. If you stop now, she’ll wake up brighter tomorrow.',
+      zh: '到她睡觉的时间了，也到你的了。现在放下，她明天醒来会更亮。',
+      hi: 'उसके सोने का समय है, और तुम्हारा भी। अभी छोड़ दो, तो कल वो और ज़्यादा रोशनी के साथ जागेगी।',
+      fr: 'C’est l’heure de dormir pour elle, et pour toi aussi. Si tu arrêtes maintenant, elle se réveillera plus lumineuse demain.',
+    }),
+  },
+
   leave: tr({
     es: 'Vale, lo dejo',
     en: 'Okay, I’ll stop',

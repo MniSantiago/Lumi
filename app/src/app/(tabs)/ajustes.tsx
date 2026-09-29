@@ -459,7 +459,11 @@ export default function SettingsScreen() {
             </Row>
             <Row>
               <Label title="Ver el escudo" sub="Lo que sale al abrir una app ladrona pasado el límite" />
-              <TextLink label="Abrir" onPress={() => router.push('/escudo')} />
+              <TextLink label="Abrir" onPress={() => router.push('/escudo?motivo=limite')} />
+            </Row>
+            <Row>
+              <Label title="Ver el escudo de noche" sub="Lo que sale en el horario de noche, aunque no se haya llegado al límite" />
+              <TextLink label="Abrir" onPress={() => router.push('/escudo?motivo=noche')} />
             </Row>
             <Row>
               <Label title="Ver la postal nocturna" sub="Lo que trae Lumi al volver de su expedición" />
