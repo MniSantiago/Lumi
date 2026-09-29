@@ -13,7 +13,7 @@ Para retomar: abre un chat en el proyecto "Cozy experience" (o pega este archivo
 | Mockup HTML con marco de iPhone | Hecho (v2, con las ilustraciones de Higgsfield) | `lumi-mockup.html` y el artifact en claude.ai: https://claude.ai/artifact/U7vrjvNhSVL9wLAQnRwmuB |
 | Lumi elegida | Variante B (`fa783b9e…`), recortada | Original en `assets/fa783b9e-….png`; recorte en `assets/web/lumi-recorte.png` |
 | Fondo del hogar | Hecho e integrado | Original en `assets/Vertical-mobile-app-home-background-coz.png` |
-| Lumi en 4 estados con expresiones propias | Hecho (ilustraciones), recortados para la app | Originales en `assets/Radiante.png`, `Cansada.png`, `Apagadita.png`; recortes en `app/assets/lumi/`. El mockup HTML aún usa filtros CSS |
+| Lumi en 4 estados con expresiones propias | Hecho (ilustraciones), en la app, la landing y el mockup HTML | Originales en `assets/Radiante.png`, `Cansada.png`, `Apagadita.png`; recortes en `app/assets/lumi/` y `landing/img/` |
 | App Expo (SDK 57) con las 5 pestañas | Hecho (v1, datos de ejemplo y uso simulado) | `app/` |
 | Onboarding, postal nocturna, escudo, paywall y resumen semanal | Hecho en la app (datos de ejemplo y uso simulado) | `app/src/app/` |
 | Motor del ciclo diario (expediciones, postales, recompensas) | Hecho | `app/src/game/` |
@@ -182,7 +182,7 @@ Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1`
 
 > Lo necesario para publicar está en `APP_STORE.md`. Lo más urgente: pedir el entitlement de Family Controls y desplegar el backend.
 
-### Paso 2. Generar los 4 estados de Lumi (hecho para la app; falta llevarlos al mockup HTML)
+### Paso 2. Generar los 4 estados de Lumi (hecho: app, landing y mockup HTML)
 
 - **Objetivo:** que sea la misma criatura con expresiones distintas.
 - **Cómo:**
