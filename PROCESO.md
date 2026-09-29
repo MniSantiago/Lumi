@@ -166,6 +166,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 58 | #60 | Horario de noche: dormir y despertar nunca a la misma hora |
 | 59 | #61 | Noche tranquila: +5 chispas por dormir bien |
 | 60 | #62 | Colección: cada objeto y amigo cuenta de dónde vino |
+| 61 | #63 | Postal: celebra cuando Lumi crece de etapa |
 | — | #15 | **Borrador:** Screen Time nativo (encima de #60; fusionar cuando compile en un iPhone. Falta el escudo de noche en iOS, ver #57) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
