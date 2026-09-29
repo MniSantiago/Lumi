@@ -154,6 +154,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 48 | #50 | Landing: modo lanzamiento con APP_STORE_URL |
 | 49 | #51 | Onboarding: vista previa del escudo en el paso del límite |
 | 50 | #52 | Home: Lumi duerme en el horario de noche |
+| 51 | #53 | Pulido: contador de Colección traducido y semana vacía en Progreso |
 | — | #15 | **Borrador:** Screen Time nativo (encima de #47, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
