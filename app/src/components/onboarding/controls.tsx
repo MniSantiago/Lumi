@@ -159,6 +159,9 @@ export function Toggle({ value, onChange, label }: { value: boolean; onChange: (
   );
 }
 
+/** Largo máximo de los nombres (el tuyo y el de Lumi): caben en la cabecera, el escudo y las postales. La API admite 40 y 24. */
+export const NAME_MAX = 24;
+
 /** Campo de texto del tema: tarjeta redondeada, borde fino y ámbar al enfocar. */
 export function Field({
   label,
@@ -179,7 +182,6 @@ export function Field({
         cursorColor={Colors.amber}
         keyboardAppearance="dark"
         autoCorrect={false}
-        maxLength={24}
         {...input}
         onFocus={(e) => {
           setFocused(true);

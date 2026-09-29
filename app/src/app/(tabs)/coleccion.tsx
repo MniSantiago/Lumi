@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
+import { haptic } from '@/haptics';
 import { CollectionIcon } from '@/components/collection-icon';
 import { PostcardView } from '@/components/postcard';
 import { Screen } from '@/components/ui';
@@ -9,9 +10,11 @@ import { Colors, Fonts } from '@/constants/theme';
 import { FRIEND_CATALOG, ITEM_CATALOG } from '@/game/catalog';
 import { destinationById, DESTINATIONS } from '@/game/destinations';
 import { useGame } from '@/game/store';
-import type { CatalogEntry } from '@/game/types';
+import { parseDateKey } from '@/game/clock';
+import type { CatalogEntry, DayRecord, ExpeditionResult } from '@/game/types';
 import { useLumi } from '@/lumi/store';
 import { tr } from '@/i18n';
+import { dayMonth } from '@/i18n/dates';
 import { nightlyCopy } from '@/nightly/copy';
 
 const undiscovered = tr({
@@ -129,6 +132,18 @@ export default function CollectionScreen() {
           <ItemGrid
             entries={ITEM_CATALOG}
             owned={game.items}
+            describe={(entry) => {
+              const found = firstFound(game.history, (r) => r.itemIds.includes(entry.id));
+              return found
+                ? tr({
+                    es: `${entry.name}: recuerdo ${found.destination.from}, del ${dayMonth(found.date)}.`,
+                    en: `${entry.name}: a keepsake ${found.destination.from}, ${dayMonth(found.date)}.`,
+                    zh: `${entry.name}：${dayMonth(found.date)}从${found.destination.from}带回的纪念。`,
+                    hi: `${entry.name}: ${dayMonth(found.date)} को ${found.destination.from} से लाई याद।`,
+                    fr: `${entry.name} : souvenir ${found.destination.from}, du ${dayMonth(found.date)}.`,
+                  })
+                : null;
+            }}
             caption={tr({
               es: `${ownedItems} de ${ITEM_CATALOG.length} objetos`,
               en: `${ownedItems} of ${ITEM_CATALOG.length} things`,
@@ -141,6 +156,18 @@ export default function CollectionScreen() {
           <ItemGrid
             entries={FRIEND_CATALOG}
             owned={game.friends}
+            describe={(entry) => {
+              const found = firstFound(game.history, (r) => r.friendId === entry.id);
+              return found
+                ? tr({
+                    es: `${entry.name}: se conocieron en ${found.destination.the} el ${dayMonth(found.date)}.`,
+                    en: `${entry.name}: they met in ${found.destination.the} on ${dayMonth(found.date)}.`,
+                    zh: `${entry.name}：${dayMonth(found.date)}在${found.destination.the}认识的。`,
+                    hi: `${entry.name}: ${dayMonth(found.date)} को ${found.destination.from} में मुलाक़ात हुई।`,
+                    fr: `${entry.name} : première rencontre dans ${found.destination.the}, le ${dayMonth(found.date)}.`,
+                  })
+                : null;
+            }}
             caption={tr({
               es: `${ownedFriends} de ${FRIEND_CATALOG.length} criaturas amigas`,
               en: `${ownedFriends} of ${FRIEND_CATALOG.length} creature friends`,
@@ -173,25 +200,69 @@ function SealedPostcard({ chapter, plus }: { chapter: number; plus: boolean }) {
   );
 }
 
-/** Lo que ya ha traído, primero; lo demás, como siluetas por descubrir. */
-function ItemGrid({ entries, owned, caption }: { entries: CatalogEntry[]; owned: string[]; caption: string }) {
+/** Primera expedición que cumple `match` (de dónde y cuándo llegó un objeto o un amigo). */
+function firstFound(history: DayRecord[], match: (result: ExpeditionResult) => boolean) {
+  const day = history.find((d) => d.expedition && match(d.expedition));
+  const destination = day?.expedition ? destinationById(day.expedition.destinationId) : undefined;
+  return day && destination ? { destination, date: parseDateKey(day.date) } : null;
+}
+
+/** Lo que ya ha traído, primero; lo demás, como siluetas por descubrir. Al tocar uno, de dónde vino. */
+function ItemGrid({
+  entries,
+  owned,
+  caption,
+  describe,
+}: {
+  entries: CatalogEntry[];
+  owned: string[];
+  caption: string;
+  describe: (entry: CatalogEntry) => string | null;
+}) {
+  const [selected, setSelected] = useState<string | null>(null);
+  const selectedEntry = entries.find((e) => e.id === selected && owned.includes(e.id));
+  const detail = selectedEntry ? describe(selectedEntry) : null;
   const sorted = [...entries.filter((e) => owned.includes(e.id)), ...entries.filter((e) => !owned.includes(e.id))];
   let mystery = 0;
   return (
     <>
       <Text style={styles.count}>{caption}</Text>
+      {detail ? (
+        <Text style={styles.detail} accessibilityLiveRegion="polite">
+          {detail}
+        </Text>
+      ) : owned.some((id) => entries.some((e) => e.id === id)) ? (
+        <Text style={styles.detail}>
+          {tr({
+            es: 'Toca uno para ver de dónde vino.',
+            en: 'Tap one to see where it came from.',
+            zh: '轻点一个，看看它从哪里来。',
+            hi: 'कोई एक टैप करो और देखो वो कहाँ से आया।',
+            fr: 'Touche-en un pour voir d’où il vient.',
+          })}
+        </Text>
+      ) : null}
       <View style={styles.itemGrid}>
         {sorted.map((entry) => {
           const known = owned.includes(entry.id);
           const icon = known ? entry.icon : MYSTERY_ICONS[mystery++ % MYSTERY_ICONS.length];
           return (
             <View key={entry.id} style={styles.itemCell}>
-              <View style={styles.item} accessible accessibilityLabel={known ? entry.name : undiscovered}>
+              <Pressable
+                style={[styles.item, known && selected === entry.id && styles.itemOn]}
+                disabled={!known}
+                accessibilityRole={known ? 'button' : undefined}
+                accessibilityLabel={known ? entry.name : undiscovered}
+                accessibilityState={known ? { selected: selected === entry.id } : undefined}
+                onPress={() => {
+                  haptic.selection();
+                  setSelected((id) => (id === entry.id ? null : entry.id));
+                }}>
                 <CollectionIcon name={icon} locked={!known} />
                 <Text style={[styles.itemLabel, !known && { color: Colors.textTertiary }]} numberOfLines={2}>
                   {known ? entry.name : '¿?'}
                 </Text>
-              </View>
+              </Pressable>
             </View>
           );
         })}
@@ -269,5 +340,7 @@ const styles = StyleSheet.create({
     gap: 4,
     padding: 6,
   },
+  itemOn: { borderColor: Colors.amber },
+  detail: { fontFamily: Fonts.body, fontSize: 14, lineHeight: 20, color: Colors.textSecondary, marginBottom: 14 },
   itemLabel: { fontFamily: Fonts.body, fontSize: 11, lineHeight: 14, color: Colors.textSecondary, textAlign: 'center' },
 });

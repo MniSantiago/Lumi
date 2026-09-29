@@ -23,9 +23,11 @@ import { CardIn, FadeUp, RewardTile, SparksCounter } from '@/components/nightly/
 import { ShieldButton } from '@/components/shield/shield-parts';
 import { Colors, Fonts } from '@/constants/theme';
 import { destinationById } from '@/game/destinations';
+import { BRIGHT_DAYS_PER_STAGE, EVOLUTION_STAGES } from '@/game/engine';
 import { useGame, type PendingReturn } from '@/game/store';
 import type { Destination } from '@/game/types';
 import { quoted, tr } from '@/i18n';
+import { EVOLUTION } from '@/lumi/data';
 import { useLumi } from '@/lumi/store';
 import { nightlyCopy as copy, shareReread, shareTonight } from '@/nightly/copy';
 import { nightlyReturnFrom } from '@/nightly/tonight';
@@ -90,8 +92,19 @@ function NoPostcard() {
 
 function TonightPostcard({ pending }: { pending: PendingReturn }) {
   const { settings } = useLumi();
-  const { saveReturnToAlbum, album, streak } = useGame();
-  const milestone = copy.streakMilestone(streak);
+  const { saveReturnToAlbum, album, streak, brightDays } = useGame();
+  // Se decide al abrir: al guardarla, el álbum deja de estar vacío.
+  const [first] = useState(album.length === 0);
+  // Esta vuelta es el día brillante que completa una etapa (7, 14, 21): Lumi crece.
+  const [grewTo] = useState(() =>
+    brightDays > 0 && brightDays % BRIGHT_DAYS_PER_STAGE === 0 && brightDays / BRIGHT_DAYS_PER_STAGE < EVOLUTION_STAGES
+      ? EVOLUTION.stages[brightDays / BRIGHT_DAYS_PER_STAGE]
+      : null,
+  );
+  const milestone =
+    (grewTo ? copy.grewUp(settings.lumiName, grewTo.name) : null) ??
+    copy.streakMilestone(streak) ??
+    (first ? copy.firstPostcard : null);
   const tonight = useMemo(() => nightlyReturnFrom(pending), [pending]);
   const cardRef = useRef<View>(null);
   const { destination } = tonight;
@@ -195,6 +208,11 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
             ))}
           </View>
           <SparksCounter t={t} stage={timeline.sparks} total={tonight.sparks} unit={copy.sparksUnit} />
+          {pending.result.nightBonus ? (
+            <FadeUp t={t} stage={timeline.sparks} lift={4}>
+              <Text style={styles.bonus}>{copy.nightBonus(pending.result.nightBonus)}</Text>
+            </FadeUp>
+          ) : null}
           {milestone ? (
             <FadeUp t={t} stage={timeline.sparks} lift={4}>
               <Text style={styles.milestone} accessibilityLiveRegion="polite">
@@ -366,6 +384,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   rewardRow: { flexDirection: 'row', justifyContent: 'center', gap: 10 },
+  bonus: { fontFamily: Fonts.bodyMedium, fontSize: 13, lineHeight: 18, color: Colors.lavenderPale, textAlign: 'center' },
   milestone: {
     fontFamily: Fonts.bodySemiBold,
     fontSize: 14,

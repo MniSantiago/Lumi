@@ -16,6 +16,7 @@ import type { Destination } from '@/game/types';
 import { tr } from '@/i18n';
 import { clockTime } from '@/i18n/dates';
 import { meterNote } from '@/lumi/meter';
+import { EVOLUTION } from '@/lumi/data';
 import { LUMI_STATES, THRESHOLDS, type LumiState, type Threshold } from '@/lumi/states';
 import { useLumi } from '@/lumi/store';
 import { isNightTime } from '@/lumi/time';
@@ -48,11 +49,11 @@ function nightState(wakesAt: string): LumiState {
     ...LUMI_STATES.apagadita,
     label: tr({ es: 'Durmiendo', en: 'Sleeping', zh: '睡觉中', hi: 'सो रही है', fr: 'Endormie' }),
     bubble: tr({
-      es: `Zzz… Es hora de dormir. A las ${at} me despierto con más luz.`,
-      en: `Zzz… It’s bedtime. I’ll wake up brighter at ${at}.`,
-      zh: `Zzz……该睡觉了。${at}我会带着更多的光醒来。`,
-      hi: `Zzz… सोने का समय है। ${at} को और रोशनी के साथ जागूँगी।`,
-      fr: `Zzz… C’est l’heure de dormir. Je me réveille à ${at} avec plus de lumière.`,
+      es: `Zzz… Hasta las ${at}. Si dormimos del tirón, mañana traigo chispas de más.`,
+      en: `Zzz… Sleeping until ${at}. If we sleep right through, I’ll bring extra sparks tomorrow.`,
+      zh: `Zzz……睡到${at}。一觉睡到天亮的话，明天我会多带些火花回来。`,
+      hi: `Zzz… ${at} तक सोऊँगी। रात भर नींद पूरी हुई, तो कल ज़्यादा चिंगारियाँ लाऊँगी।`,
+      fr: `Zzz… Je dors jusqu’à ${at}. Si on dort d’une traite, demain je rapporte des étincelles en plus.`,
     }),
   };
 }
@@ -64,6 +65,8 @@ export default function HomeScreen() {
   const night = isNightTime(settings.nightStart, settings.nightEnd);
   const state = night ? nightState(settings.nightEnd) : dayState;
   const game = useGame();
+  // El primer día se explica la regla: sin pasar de la mitad del límite, hay postal.
+  const firstDay = game.ready && game.history.length <= 1 && !game.pendingReturn && !night && dayState.lit > 2;
   // Al tocar a Lumi dice otra cosa; con cada cambio de estado vuelve a su frase principal.
   const [talk, setTalk] = useState<{ key: string; i: number }>({ key: state.key, i: -1 });
   const line = talk.key === state.key && talk.i >= 0 ? state.chatter[talk.i % state.chatter.length] : state.bubble;
@@ -118,6 +121,17 @@ export default function HomeScreen() {
 
         <Card style={styles.meterCard}>
           <LightMeter lit={dayState.lit} note={meterNote(threshold, settings.limitMinutes)} />
+          {firstDay ? (
+            <AppText variant="caption">
+              {tr({
+                es: 'Tus apps ladronas gastan su luz. Si hoy no pasas de la mitad de tu límite, esta noche vuelve con una postal.',
+                en: 'Your thief apps drain her light. Stay under half your limit today and she’ll bring you a postcard tonight.',
+                zh: '“偷时间”的应用会消耗她的光。今天用量不超过上限的一半，今晚她就会带着明信片回来。',
+                hi: 'चोर ऐप्स उसकी रोशनी खर्च करते हैं। आज सीमा का आधा भी पार न हो, तो आज रात वो पोस्टकार्ड लेकर लौटेगी।',
+                fr: 'Tes applis voleuses usent sa lumière. Reste sous la moitié de ta limite aujourd’hui et elle te rapporte une carte ce soir.',
+              })}
+            </AppText>
+          ) : null}
           {__DEV__ ? <ThresholdSimulator value={threshold} /> : null}
         </Card>
 
@@ -131,6 +145,7 @@ export default function HomeScreen() {
           <LumiAvatar
             state={state}
             size={190}
+            halo={EVOLUTION.stages[game.evolution.stage]?.halo}
             onPress={onPokeLumi}
             accessibilityHint={tr({
               es: 'Le dice algo',

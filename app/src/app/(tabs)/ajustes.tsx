@@ -6,6 +6,7 @@ import { apiAvailable } from '@/api/client';
 import { useSession } from '@/account/session';
 import { AppIcon, Label, List, Row, Stepper, Toggle } from '@/components/onboarding/controls';
 import { PillButton, SectionTitle, Screen, TextLink } from '@/components/ui';
+import { confirmAction } from '@/confirm';
 import { Colors, Fonts } from '@/constants/theme';
 import { paywallCopy, plusFeatures } from '@/components/paywall/copy';
 import { useGame } from '@/game/store';
@@ -257,8 +258,8 @@ export default function SettingsScreen() {
                 fr: 'Va dormir',
               })}
               value={clockTime(settings.nightStart)}
-              onDecrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, -1) })}
-              onIncrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, 1) })}
+              onDecrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, -1, settings.nightEnd) })}
+              onIncrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, 1, settings.nightEnd) })}
               decreaseLabel={tr({
                 es: 'Acostarse media hora antes',
                 en: 'Go to bed half an hour earlier',
@@ -301,8 +302,8 @@ export default function SettingsScreen() {
                 fr: 'Se réveille',
               })}
               value={clockTime(settings.nightEnd)}
-              onDecrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, -1) })}
-              onIncrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, 1) })}
+              onDecrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, -1, settings.nightStart) })}
+              onIncrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, 1, settings.nightStart) })}
               decreaseLabel={tr({
                 es: 'Despertarse media hora antes',
                 en: 'Wake up half an hour earlier',
@@ -459,7 +460,11 @@ export default function SettingsScreen() {
             </Row>
             <Row>
               <Label title="Ver el escudo" sub="Lo que sale al abrir una app ladrona pasado el límite" />
-              <TextLink label="Abrir" onPress={() => router.push('/escudo')} />
+              <TextLink label="Abrir" onPress={() => router.push('/escudo?motivo=limite')} />
+            </Row>
+            <Row>
+              <Label title="Ver el escudo de noche" sub="Lo que sale en el horario de noche, aunque no se haya llegado al límite" />
+              <TextLink label="Abrir" onPress={() => router.push('/escudo?motivo=noche')} />
             </Row>
             <Row>
               <Label title="Ver la postal nocturna" sub="Lo que trae Lumi al volver de su expedición" />
@@ -650,23 +655,19 @@ function AccountSection() {
     );
   }
   const askSignOut = () =>
-    Alert.alert(
-      tr({ es: '¿Cerrar sesión?', en: 'Sign out?', zh: '退出登录？', hi: 'साइन आउट करें?', fr: 'Se déconnecter ?' }),
-      tr({
+    confirmAction({
+      title: tr({ es: '¿Cerrar sesión?', en: 'Sign out?', zh: '退出登录？', hi: 'साइन आउट करें?', fr: 'Se déconnecter ?' }),
+      message: tr({
         es: 'Lumi y su progreso se quedan en este iPhone.',
         en: 'Lumi and her progress stay on this iPhone.',
         zh: 'Lumi 和她的进度会留在这台 iPhone 上。',
         hi: 'Lumi और उसकी प्रगति इसी iPhone पर रहेगी।',
         fr: 'Lumi et sa progression restent sur cet iPhone.',
       }),
-      [
-        { text: tr({ es: 'Cancelar', en: 'Cancel', zh: '取消', hi: 'रद्द करो', fr: 'Annuler' }), style: 'cancel' },
-        {
-          text: tr({ es: 'Cerrar sesión', en: 'Sign out', zh: '退出登录', hi: 'साइन आउट', fr: 'Se déconnecter' }),
-          onPress: () => void signOut(),
-        },
-      ],
-    );
+      cancel: tr({ es: 'Cancelar', en: 'Cancel', zh: '取消', hi: 'रद्द करो', fr: 'Annuler' }),
+      confirm: tr({ es: 'Cerrar sesión', en: 'Sign out', zh: '退出登录', hi: 'साइन आउट', fr: 'Se déconnecter' }),
+      onConfirm: () => void signOut(),
+    });
   return (
     <List>
       <Row>

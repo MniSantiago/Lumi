@@ -8,7 +8,7 @@ import { apiAvailable } from '@/api/client';
 import { Fireflies } from '@/components/fireflies';
 import { LumiAvatar } from '@/components/lumi-avatar';
 import { SecondaryLink } from '@/components/account/form';
-import { Field, SpeechBubble } from '@/components/onboarding/controls';
+import { Field, NAME_MAX, SpeechBubble } from '@/components/onboarding/controls';
 import { useOnboardingDraft } from '@/components/onboarding/draft';
 import { StepShell } from '@/components/onboarding/step-shell';
 import { Colors } from '@/constants/theme';
@@ -88,6 +88,7 @@ export default function MeetLumiStep() {
           })}
           value={draft.userName}
           onChangeText={(userName) => setDraft({ userName })}
+          maxLength={NAME_MAX}
           onFocus={revealFields}
           autoCapitalize="words"
           autoComplete="given-name"
@@ -108,6 +109,7 @@ export default function MeetLumiStep() {
           placeholder="Lumi"
           value={draft.lumiName}
           onChangeText={(lumiName) => setDraft({ lumiName })}
+          maxLength={NAME_MAX}
           onFocus={revealFields}
           autoCapitalize="words"
           returnKeyType="done"

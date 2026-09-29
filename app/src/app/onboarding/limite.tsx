@@ -200,8 +200,8 @@ export default function LimitStep() {
                 fr: 'Va dormir',
               })}
               value={clockTime(draft.nightStart)}
-              onDecrease={() => setDraft({ nightStart: stepTime(draft.nightStart, -1) })}
-              onIncrease={() => setDraft({ nightStart: stepTime(draft.nightStart, 1) })}
+              onDecrease={() => setDraft({ nightStart: stepTime(draft.nightStart, -1, draft.nightEnd) })}
+              onIncrease={() => setDraft({ nightStart: stepTime(draft.nightStart, 1, draft.nightEnd) })}
               decreaseLabel={tr({
                 es: 'Acostarse media hora antes',
                 en: 'Go to bed half an hour earlier',
@@ -237,8 +237,8 @@ export default function LimitStep() {
                 fr: 'Se réveille',
               })}
               value={clockTime(draft.nightEnd)}
-              onDecrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, -1) })}
-              onIncrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, 1) })}
+              onDecrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, -1, draft.nightStart) })}
+              onIncrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, 1, draft.nightStart) })}
               decreaseLabel={tr({
                 es: 'Despertarse media hora antes',
                 en: 'Wake up half an hour earlier',
@@ -287,11 +287,11 @@ export default function LimitStep() {
         </List>
         <AppText variant="caption" style={{ paddingHorizontal: 6 }}>
           {tr({
-            es: `De noche ${lumiName} duerme y las apps ladronas se tapan con su escudo. Si le dejas dormir, se despierta con más luz.`,
-            en: `At night ${lumiName} sleeps and the thief apps are covered by her shield. If you let her sleep, she wakes up brighter.`,
-            zh: `晚上${lumiName}睡觉，偷时间的 App 会被她的护盾盖住。让她好好睡，她醒来会更亮。`,
-            hi: `रात को ${lumiName} सोती है और चोर ऐप्स उसकी ढाल से ढक जाती हैं। उसे सोने दो, तो वो और रोशनी के साथ जागेगी।`,
-            fr: `La nuit, ${lumiName} dort et les applis voleuses sont couvertes par son bouclier. Si tu la laisses dormir, elle se réveille plus lumineuse.`,
+            es: `De noche ${lumiName} duerme y las apps ladronas se tapan con su escudo. Si le dejas dormir, al día siguiente trae chispas de más.`,
+            en: `At night ${lumiName} sleeps and the thief apps are covered by her shield. If you let her sleep, she brings extra sparks the next day.`,
+            zh: `晚上${lumiName}睡觉，偷时间的 App 会被她的护盾盖住。让她好好睡，第二天她会多带些火花回来。`,
+            hi: `रात को ${lumiName} सोती है और चोर ऐप्स उसकी ढाल से ढक जाती हैं। उसे सोने दो, तो अगले दिन वो ज़्यादा चिंगारियाँ लाएगी।`,
+            fr: `La nuit, ${lumiName} dort et les applis voleuses sont couvertes par son bouclier. Si tu la laisses dormir, elle rapporte des étincelles en plus le lendemain.`,
           })}
         </AppText>
       </View>
