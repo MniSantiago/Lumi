@@ -57,9 +57,15 @@ export default function HomeScreen() {
             </AppText>
             <AppText variant="display">{settings.lumiName}</AppText>
           </View>
-          <View style={styles.sparks} accessibilityLabel={`${game.sparks} chispas`}>
+          <Pressable
+            style={({ pressed }) => [styles.sparks, pressed && { opacity: 0.75 }]}
+            accessibilityRole="button"
+            accessibilityLabel={`${game.sparks} chispas`}
+            accessibilityHint="Qué son y cómo se consiguen"
+            hitSlop={8}
+            onPress={() => router.push('/chispas')}>
             <Text style={styles.sparksText}>✦ {game.sparks}</Text>
-          </View>
+          </Pressable>
         </View>
 
         <Card style={styles.meterCard}>

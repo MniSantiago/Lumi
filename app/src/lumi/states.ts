@@ -25,7 +25,6 @@ export type LumiState = {
   bubble: string;
   /** Lo que dice al tocarla, por turnos. Siempre con cariño, nunca riñe. */
   chatter: string[];
-  sparks: number;
 };
 
 export const LUMI_STATES: Record<LumiStateKey, LumiState> = {
@@ -44,7 +43,6 @@ export const LUMI_STATES: Record<LumiStateKey, LumiState> = {
       'Te guardo un sitio en la postal de esta noche.',
       '¡Mira cómo brillo! Es gracias a ti.',
     ],
-    sparks: 22,
   },
   contenta: {
     key: 'contenta',
@@ -61,7 +59,6 @@ export const LUMI_STATES: Record<LumiStateKey, LumiState> = {
       'Me gusta cuando me saludas.',
       'Hoy huele a musgo y a aventura.',
     ],
-    sparks: 14,
   },
   cansada: {
     key: 'cansada',
@@ -78,7 +75,6 @@ export const LUMI_STATES: Record<LumiStateKey, LumiState> = {
       'Me recargo mejor cuando el móvil descansa.',
       'Con un poquito de calma vuelvo a brillar.',
     ],
-    sparks: 6,
   },
   apagadita: {
     key: 'apagadita',
@@ -95,7 +91,6 @@ export const LUMI_STATES: Record<LumiStateKey, LumiState> = {
       'Mmm… mañana brillamos juntos…',
       'Zzz… te quiero… zzz…',
     ],
-    sparks: 2,
   },
 };
 
