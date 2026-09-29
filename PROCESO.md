@@ -147,6 +147,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 41 | #43 | Postal: compartir como imagen, con su texto |
 | 42 | #44 | Pulido: selector de idioma en la landing, idioma en la lista de espera y sin precio fijo |
 | 43 | #45 | Tus números: las últimas 4 semanas (Plus) y plurales en francés |
+| 44 | #46 | Postales compartidas con enlace a Lumi (si hay dominio) |
 | — | #15 | **Borrador:** Screen Time nativo (encima de #36, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
