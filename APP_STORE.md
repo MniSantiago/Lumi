@@ -105,6 +105,8 @@ La app y la web hablan el idioma del dispositivo: **español, inglés, chino (si
 # Variables de la app en EAS (entorno production)
 npx eas-cli@latest env:create --environment production --name EXPO_PUBLIC_API_URL --value https://api.<dominio> --visibility plaintext
 npx eas-cli@latest env:create --environment production --name EXPO_PUBLIC_REVENUECAT_IOS_KEY --value appl_… --visibility plaintext
+# El dominio de la landing: sale en la tarjeta del resumen y en las postales compartidas (sin él, no se enseña)
+npx eas-cli@latest env:create --environment production --name EXPO_PUBLIC_SITE_DOMAIN --value <dominio> --visibility plaintext
 
 # Build y envío
 npx eas-cli@latest build --platform ios --profile production
