@@ -160,7 +160,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 54 | #56 | Home: el primer día explica la regla de la postal |
 | 55 | #57 | Escudo de noche: habla de dormir, no del límite |
 | 56 | #58 | Postal: celebra la primera postal |
-| 57 | #59 | Cuenta: correos y contraseñas largos ya no se cortan a 24 caracteres |
+| 57 | #59 | Cuenta: correos y contraseñas largos ya no se cortan; confirmaciones en la web |
 | — | #15 | **Borrador:** Screen Time nativo (encima de #47, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
