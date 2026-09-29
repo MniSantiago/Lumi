@@ -44,6 +44,8 @@ const CODE_MAX_ATTEMPTS = 5;
 /** Intentos fallidos de login por correo antes de pausar esa cuenta un rato (además del límite por IP). */
 const LOGIN_MAX_FAILURES = 10;
 const LOGIN_WINDOW_MS = 15 * 60 * 1000;
+/** Tope de correos vigilados a la vez: sin él, probar correos al azar llenaría la memoria. */
+const LOGIN_TRACKED_MAX = 10_000;
 
 /** Hash de relleno para que "ese correo no existe" tarde lo mismo que "contraseña mal". */
 const DUMMY_HASH = hashPassword('lumi-no-existe');
@@ -111,11 +113,8 @@ export class AuthService {
       user?.passwordHash ?? (await DUMMY_HASH),
     );
     if (!user || !ok) {
-      const current = this.loginFailures.get(email);
-      this.loginFailures.set(email, {
-        count: (current?.count ?? 0) + 1,
-        since: current?.since ?? now,
-      });
+      // También para correos sin cuenta: si solo se pausaran las que existen, el 429 lo delataría.
+      this.recordLoginFailure(email, now);
       throw new UnauthorizedException('Correo o contraseña incorrectos');
     }
     this.loginFailures.delete(email);
@@ -278,6 +277,24 @@ export class AuthService {
   }
 
   /* ───────── Internos ───────── */
+
+  private recordLoginFailure(email: string, now: number) {
+    const current = this.loginFailures.get(email);
+    this.loginFailures.delete(email); // Reinsertar lo lleva al final (el Map guarda el orden).
+    this.loginFailures.set(email, {
+      count: (current?.count ?? 0) + 1,
+      since: current?.since ?? now,
+    });
+    if (this.loginFailures.size <= LOGIN_TRACKED_MAX) return;
+    for (const [key, value] of this.loginFailures) {
+      if (now - value.since > LOGIN_WINDOW_MS) this.loginFailures.delete(key);
+    }
+    // Si sigue lleno, fuera los más antiguos.
+    for (const key of this.loginFailures.keys()) {
+      if (this.loginFailures.size <= LOGIN_TRACKED_MAX) break;
+      this.loginFailures.delete(key);
+    }
+  }
 
   private findByEmail(email: string) {
     return this.db.query.users.findFirst({
