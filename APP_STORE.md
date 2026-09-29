@@ -129,3 +129,9 @@ Con la build de producción (TestFlight) en un iPhone real:
 6. **Legales:** Privacidad, Términos y Ayuda se abren en la app y en la web, en el idioma del dispositivo, con el correo de contacto relleno.
 7. **Ficha:** `python3 tools/check_ficha.py` en verde, capturas de 6,9" y las URLs con el dominio real (también las `hreflang` de la landing, en absoluto).
 8. **Lista de espera:** apuntarse en la landing, recibir el correo de bienvenida en el idioma de la web y darse de baja con su enlace.
+
+## 8. Después de publicar
+
+1. Con la URL de la ficha, simular el aviso a la lista de espera: `APP_STORE_URL=… node dist/db/announce-launch.js` (cuenta por idioma, no envía nada).
+2. Enviarlo con `--send` (ver `backend/README.md`). Quien se dé de baja sale de la lista al momento.
+3. Poner la URL de la App Store en la landing (el botón de la lista de espera puede pasar a «Descargar»).
