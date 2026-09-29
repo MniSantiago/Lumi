@@ -78,6 +78,25 @@ export function weeklySummaryContent(lumiName: string) {
   };
 }
 
+export function bedtimeContent(lumiName: string) {
+  return {
+    title: tr({
+      es: `${lumiName} se va a dormir 🌙`,
+      en: `${lumiName} is going to sleep 🌙`,
+      zh: `${lumiName}要睡觉了 🌙`,
+      hi: `${lumiName} सोने जा रही है 🌙`,
+      fr: `${lumiName} va se coucher 🌙`,
+    }),
+    body: tr({
+      es: 'Buenas noches. Si dormís del tirón, mañana trae chispas de más.',
+      en: 'Good night. If you both sleep right through, she brings extra sparks tomorrow.',
+      zh: '晚安。如果你们一觉睡到天亮，明天她会多带些火花回来。',
+      hi: 'शुभ रात्रि। अगर रात भर चैन की नींद हुई, तो कल वो ज़्यादा चिंगारियाँ लाएगी।',
+      fr: 'Bonne nuit. Si vous dormez d’une traite, demain elle rapporte des étincelles en plus.',
+    }),
+  };
+}
+
 export function trialReminderContent(lumiName: string) {
   return {
     title: tr({

@@ -19,6 +19,8 @@ export type Settings = {
   nightlyPostcard: boolean;
   /** Aviso del domingo por la tarde con el resumen de la semana. */
   weeklySummary: boolean;
+  /** Aviso a la hora de dormir (empieza el horario de noche). Desactivado de entrada. */
+  bedtimeReminder: boolean;
   restDays: boolean;
   /** Escudo estricto (Lumi Plus): sin «5 min más». */
   strictShield: boolean;
@@ -36,6 +38,7 @@ const DEFAULT_SETTINGS: Settings = {
   nightEnd: '07:00',
   nightlyPostcard: true,
   weeklySummary: true,
+  bedtimeReminder: false,
   restDays: true,
   strictShield: false,
   isPlus: false,

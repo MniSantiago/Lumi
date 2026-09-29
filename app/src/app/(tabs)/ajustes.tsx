@@ -25,6 +25,14 @@ const strictTitle = tr({
   fr: 'Bouclier strict',
 });
 
+const bedtimeTitle = tr({
+  es: 'Aviso de buenas noches',
+  en: 'Good-night reminder',
+  zh: '晚安提醒',
+  hi: 'शुभ रात्रि की याद',
+  fr: 'Rappel du coucher',
+});
+
 const weeklyTitle = tr({
   es: 'Resumen del domingo',
   en: 'Sunday summary',
@@ -53,6 +61,17 @@ export default function SettingsScreen() {
       return;
     }
     // Sin permiso el ajuste sigue apagado; explicamos cómo activarlo, sin insistir.
+    Alert.alert(permissionDeniedCopy.title, permissionDeniedCopy.body(settings.lumiName), [
+      { text: permissionDeniedCopy.notNow, style: 'cancel' },
+      { text: permissionDeniedCopy.openSettings, onPress: () => void Linking.openSettings() },
+    ]);
+  };
+
+  const setBedtimeReminder = async (on: boolean) => {
+    if (!on || (await ensureNotificationPermission())) {
+      updateSettings({ bedtimeReminder: on });
+      return;
+    }
     Alert.alert(permissionDeniedCopy.title, permissionDeniedCopy.body(settings.lumiName), [
       { text: permissionDeniedCopy.notNow, style: 'cancel' },
       { text: permissionDeniedCopy.openSettings, onPress: () => void Linking.openSettings() },
@@ -361,6 +380,23 @@ export default function SettingsScreen() {
               })}
             />
             <Toggle label={weeklyTitle} value={settings.weeklySummary} onChange={(v) => void setWeeklySummary(v)} />
+          </Row>
+          <Row>
+            <Label
+              title={bedtimeTitle}
+              sub={tr({
+                es: `Un «buenas noches» a las ${clockTime(settings.nightStart)}, cuando ${settings.lumiName} se va a dormir`,
+                en: `A “good night” at ${clockTime(settings.nightStart)}, when ${settings.lumiName} goes to sleep`,
+                zh: `${clockTime(settings.nightStart)}，${settings.lumiName}睡觉时道一声晚安`,
+                hi: `${clockTime(settings.nightStart)} को "शुभ रात्रि", जब ${settings.lumiName} सोने जाती है`,
+                fr: `Un « bonne nuit » à ${clockTime(settings.nightStart)}, quand ${settings.lumiName} va se coucher`,
+              })}
+            />
+            <Toggle
+              label={bedtimeTitle}
+              value={settings.bedtimeReminder}
+              onChange={(v) => void setBedtimeReminder(v)}
+            />
           </Row>
           <Row>
             <Label
