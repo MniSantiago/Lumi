@@ -197,6 +197,11 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
             ))}
           </View>
           <SparksCounter t={t} stage={timeline.sparks} total={tonight.sparks} unit={copy.sparksUnit} />
+          {pending.result.nightBonus ? (
+            <FadeUp t={t} stage={timeline.sparks} lift={4}>
+              <Text style={styles.bonus}>{copy.nightBonus(pending.result.nightBonus)}</Text>
+            </FadeUp>
+          ) : null}
           {milestone ? (
             <FadeUp t={t} stage={timeline.sparks} lift={4}>
               <Text style={styles.milestone} accessibilityLiveRegion="polite">
@@ -368,6 +373,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   rewardRow: { flexDirection: 'row', justifyContent: 'center', gap: 10 },
+  bonus: { fontFamily: Fonts.bodyMedium, fontSize: 13, lineHeight: 18, color: Colors.lavenderPale, textAlign: 'center' },
   milestone: {
     fontFamily: Fonts.bodySemiBold,
     fontSize: 14,

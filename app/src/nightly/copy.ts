@@ -60,6 +60,15 @@ export const nightlyCopy = {
           fr: `✨ ${days} jours de lumière d’affilée. Quelle jolie série !`,
         })
       : null,
+  /** Chispas extra por no pedir «5 min más» de noche (ya van en el total). */
+  nightBonus: (n: number) =>
+    tr({
+      es: `🌙 +${n} por dormir bien anoche`,
+      en: `🌙 +${n} for sleeping well last night`,
+      zh: `🌙 昨晚睡得好，多得 ${n} 个`,
+      hi: `🌙 कल रात अच्छी नींद के लिए +${n}`,
+      fr: `🌙 +${n} pour avoir bien dormi cette nuit`,
+    }),
   firstPostcard: tr({
     es: '✨ ¡Tu primera postal! La primera de muchas.',
     en: '✨ Your first postcard! The first of many.',

@@ -51,7 +51,10 @@ export type ExpeditionResult = {
   storyIndex: number;
   itemIds: string[];
   friendId: string | null;
+  /** Chispas en total, con el bonus de la noche incluido. */
   sparks: number;
+  /** Chispas extra por haber dormido bien la noche anterior (ya sumadas en `sparks`). */
+  nightBonus?: number;
 };
 
 export type DayRecord = {

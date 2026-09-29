@@ -2,6 +2,7 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { LumiAvatar } from '@/components/lumi-avatar';
 import { Label, List, Row } from '@/components/onboarding/controls';
+import { NIGHT_BONUS } from '@/game/engine';
 import { Sheet } from '@/components/sheet';
 import { Colors, Fonts } from '@/constants/theme';
 import { useGame } from '@/game/store';
@@ -104,6 +105,27 @@ export default function SparksSheet() {
               })}
             />
             <Text style={[styles.amount, styles.muted]}>0 ✦</Text>
+          </Row>
+        </List>
+        <List>
+          <Row last>
+            <Label
+              title={tr({
+                es: 'Noche tranquila',
+                en: 'A calm night',
+                zh: '安稳的一夜',
+                hi: 'शांत रात',
+                fr: 'Une nuit tranquille',
+              })}
+              sub={tr({
+                es: 'Sin «5 min más» en el horario de noche: su próxima expedición trae más',
+                en: 'No “5 more min” during the night: her next expedition brings extra',
+                zh: '夜间没有点“再 5 分钟”：下一次探险会多带一些',
+                hi: 'रात में "5 मिनट और" नहीं: अगले सफ़र में ज़्यादा लाती है',
+                fr: 'Pas de « 5 min de plus » la nuit : sa prochaine expédition en rapporte plus',
+              })}
+            />
+            <Text style={styles.amount}>+{NIGHT_BONUS} ✦</Text>
           </Row>
         </List>
       </View>
