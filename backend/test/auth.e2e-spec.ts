@@ -18,6 +18,17 @@ class FakeMail {
   async send(to: string, mail: MailContent) {
     this.sent.push({ to, mail });
   }
+  /** El código de recuperación se envía sin esperar: hay que darle un momento. */
+  async waitForCode(to: string, after = 0) {
+    for (let i = 0; i < 50; i++) {
+      const found = this.sent
+        .slice(after)
+        .some((m) => m.to === to && /\d{6}/.test(m.mail.subject));
+      if (found) return this.lastCode(to);
+      await new Promise((r) => setTimeout(r, 20));
+    }
+    return '';
+  }
   lastCode(to: string) {
     const last = [...this.sent]
       .reverse()
@@ -123,6 +134,36 @@ describe('Cuentas (e2e)', () => {
     expect(bad.body.message).toBe(missing.body.message);
   });
 
+  it('pausa una cuenta tras 10 logins fallidos, aunque cambie la IP', async () => {
+    await register('bloqueo@correo.com').expect(200);
+    for (let i = 0; i < 10; i++) {
+      await http()
+        .post('/auth/login')
+        .send({ email: 'bloqueo@correo.com', password: 'mal-mal-mal' })
+        .expect(401);
+    }
+    const res = await http()
+      .post('/auth/login')
+      .send({ email: 'Bloqueo@correo.com', password: 'contraseña-larga' })
+      .expect(429);
+    expect(res.body.message).toMatch(/Demasiados intentos/);
+    // Recuperar la contraseña la desbloquea.
+    const before = mail.sent.length;
+    await http()
+      .post('/auth/forgot-password')
+      .send({ email: 'bloqueo@correo.com' })
+      .expect(204);
+    const code = await mail.waitForCode('bloqueo@correo.com', before);
+    await http()
+      .post('/auth/reset-password')
+      .send({ email: 'bloqueo@correo.com', code, password: 'otra-contraseña' })
+      .expect(204);
+    await http()
+      .post('/auth/login')
+      .send({ email: 'bloqueo@correo.com', password: 'otra-contraseña' })
+      .expect(200);
+  }, 20_000);
+
   it('rota el token de refresco y detecta la reutilización', async () => {
     const { body: first } = await register('refresh@correo.com').expect(200);
     const { body: second } = await http()
@@ -155,6 +196,7 @@ describe('Cuentas (e2e)', () => {
 
   it('recupera la contraseña con un código', async () => {
     const { body } = await register('olvido@correo.com').expect(200);
+    const before = mail.sent.length;
     await http()
       .post('/auth/forgot-password')
       .send({ email: 'olvido@correo.com' })
@@ -164,7 +206,7 @@ describe('Cuentas (e2e)', () => {
       .post('/auth/forgot-password')
       .send({ email: 'fantasma@correo.com' })
       .expect(204);
-    const code = mail.lastCode('olvido@correo.com');
+    const code = await mail.waitForCode('olvido@correo.com', before);
 
     await http()
       .post('/auth/reset-password')
@@ -194,11 +236,12 @@ describe('Cuentas (e2e)', () => {
 
   it('bloquea el código tras 5 intentos fallidos', async () => {
     await register('intentos@correo.com').expect(200);
+    const before = mail.sent.length;
     await http()
       .post('/auth/forgot-password')
       .send({ email: 'intentos@correo.com' })
       .expect(204);
-    const code = mail.lastCode('intentos@correo.com');
+    const code = await mail.waitForCode('intentos@correo.com', before);
     const wrong = code === '111111' ? '222222' : '111111';
     for (let i = 0; i < 5; i++) {
       await http()
@@ -342,6 +385,67 @@ describe('Cuentas (e2e)', () => {
       [future],
     );
     expect(rows[0].n).toBe(0);
+  });
+
+  it('devuelve un X-Request-Id (el que llega, si es válido)', async () => {
+    const own = await http()
+      .get('/me')
+      .set('X-Request-Id', 'soporte-12345678')
+      .expect(401);
+    expect(own.headers['x-request-id']).toBe('soporte-12345678');
+    const generated = await http()
+      .get('/me')
+      .set('X-Request-Id', 'no válido!')
+      .expect(401);
+    expect(generated.headers['x-request-id']).toMatch(/^[0-9a-f-]{36}$/);
+  });
+
+  it('responde en el idioma de la app (Accept-Language)', async () => {
+    await register('idiomas@correo.com').expect(200);
+    const wrong = await http()
+      .post('/auth/login')
+      .set('Accept-Language', 'fr-FR,fr;q=0.9')
+      .send({ email: 'idiomas@correo.com', password: 'no-es-esta' })
+      .expect(401);
+    expect(wrong.body.message).toBe('E-mail ou mot de passe incorrect');
+    expect(wrong.headers['content-language']).toBe('fr');
+
+    const invalid = await http()
+      .post('/auth/register')
+      .set('Accept-Language', 'zh')
+      .send({ email: 'no-es-un-correo', password: 'corta' })
+      .expect(400);
+    expect(invalid.body.message).toContain('这个邮箱地址好像不完整');
+
+    const english = await http()
+      .post('/auth/register')
+      .set('Accept-Language', 'en')
+      .send({ email: 'english@correo.com', password: 'contraseña-larga' })
+      .expect(200);
+    expect(english.body.user.email).toBe('english@correo.com');
+    expect(mail.sent.at(-1)?.mail.subject).toMatch(/^\d{6} is your Lumi code$/);
+
+    // El correo de recuperación se envía después de responder: el idioma tiene que llegar igual.
+    const before = mail.sent.length;
+    await http()
+      .post('/auth/forgot-password')
+      .set('Accept-Language', 'hi-IN')
+      .send({ email: 'idiomas@correo.com' })
+      .expect(204);
+    await mail.waitForCode('idiomas@correo.com', before);
+    const reset = mail.sent
+      .slice(before)
+      .find((m) => m.to === 'idiomas@correo.com');
+    expect(reset?.mail.subject).toContain('पासवर्ड बदलने का तुम्हारा कोड है');
+    expect(reset?.mail.html).toContain('<html lang="hi">');
+
+    // Un idioma que no hablamos cae en inglés; sin cabecera, español.
+    const german = await http()
+      .post('/auth/login')
+      .set('Accept-Language', 'de-DE')
+      .send({ email: 'idiomas@correo.com', password: 'no-es-esta' })
+      .expect(401);
+    expect(german.body.message).toBe('Wrong email or password');
   });
 
   it('responde al health check', async () => {

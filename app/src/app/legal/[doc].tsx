@@ -5,6 +5,7 @@ import { Sheet } from '@/components/sheet';
 import { Colors, Fonts } from '@/constants/theme';
 import { TextLink } from '@/components/ui';
 import { CONTACT_EMAIL, isLegalDocId, LEGAL_DOCS } from '@/legal/content';
+import { tr } from '@/i18n';
 
 /** Privacidad, Términos y Ayuda, en una hoja que se abre desde el paywall y Ajustes. */
 export default function LegalSheet() {
@@ -29,12 +30,30 @@ export default function LegalSheet() {
       {id === 'ayuda' && CONTACT_EMAIL ? (
         <View style={styles.section}>
           <Text style={styles.heading} accessibilityRole="header">
-            ¿Algo más?
+            {tr({ es: '¿Algo más?', en: 'Anything else?', zh: '还有别的问题？', hi: 'कुछ और?', fr: 'Autre chose ?' })}
           </Text>
-          <TextLink label={`Escríbenos a ${CONTACT_EMAIL}`} onPress={() => void Linking.openURL(`mailto:${CONTACT_EMAIL}`)} />
+          <TextLink
+            label={tr({
+              es: `Escríbenos a ${CONTACT_EMAIL}`,
+              en: `Write to us at ${CONTACT_EMAIL}`,
+              zh: `写信给我们：${CONTACT_EMAIL}`,
+              hi: `हमें लिखो: ${CONTACT_EMAIL}`,
+              fr: `Écris-nous à ${CONTACT_EMAIL}`,
+            })}
+            onPress={() => void Linking.openURL(`mailto:${CONTACT_EMAIL}`)}
+          />
         </View>
       ) : null}
-      <Text style={styles.updated}>Última actualización: {content.updated}</Text>
+      <Text style={styles.updated}>
+        {tr({
+          es: 'Última actualización',
+          en: 'Last updated',
+          zh: '最后更新',
+          hi: 'आख़िरी अपडेट',
+          fr: 'Dernière mise à jour',
+        })}
+        : {content.updated}
+      </Text>
     </Sheet>
   );
 }

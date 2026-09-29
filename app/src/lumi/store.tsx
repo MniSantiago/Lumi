@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, use, useEffect, useState, type ReactNode } from 'react';
 
 import { screenTime } from '@/screen-time';
+import { tr } from '@/i18n';
 import { stateForThreshold, type LumiState, type Threshold } from '@/lumi/states';
 
 export type Settings = {
@@ -87,8 +88,23 @@ export function useLumi() {
 }
 
 export function formatLimit(minutes: number) {
-  if (minutes < 60) return `${minutes} min`;
+  if (minutes < 60)
+    return tr({
+      es: `${minutes} min`,
+      en: `${minutes} min`,
+      zh: `${minutes} 分钟`,
+      hi: `${minutes} मिनट`,
+      fr: `${minutes} min`,
+    });
   const h = Math.floor(minutes / 60);
   const m = minutes % 60;
-  return m ? `${h} h ${m}` : `${h} h`;
+  const mm = String(m).padStart(2, '0');
+  if (!m) return tr({ es: `${h} h`, en: `${h} h`, zh: `${h} 小时`, hi: `${h} घंटा`, fr: `${h} h` });
+  return tr({
+    es: `${h} h ${mm}`,
+    en: `${h} h ${mm}`,
+    zh: `${h} 小时 ${m} 分`,
+    hi: `${h} घं ${mm} मि`,
+    fr: `${h} h ${mm}`,
+  });
 }

@@ -64,7 +64,7 @@ El uso de pantalla **no se recoge**: se queda en el iPhone (Screen Time por umbr
 
 | Qué | Estado | Notas |
 |---|---|---|
-| Nombre, subtítulo, palabras clave, descripción | ⬜ | Tono de la landing |
+| Nombre, subtítulo, palabras clave, descripción | 🟡 | Borrador en `FICHA_APP_STORE.md` (límites comprobados con `tools/check_ficha.py`) |
 | **URL de soporte** (obligatoria) | 🟡 | `landing/ayuda.html` (preguntas frecuentes), falta publicarla |
 | URL de marketing | 🟡 | La landing |
 | Capturas de 6,9" (1320 × 2868) | ⬜ | Desde el simulador del iPhone 17 Pro Max (ver `landing/videos.md` para ocultar la hora) |
@@ -74,11 +74,31 @@ El uso de pantalla **no se recoge**: se queda en el iPhone (Screen Time por umbr
 | Cumplimiento de exportación | ✅ | `ITSAppUsesNonExemptEncryption: false` (solo HTTPS) |
 | Solo iPhone | ✅ | `supportsTablet: false` |
 
-**Notas para la revisión (borrador):**
+### Idiomas
+
+La app y la web hablan el idioma del dispositivo: **español, inglés, chino (simplificado), hindi y francés**. Si el dispositivo usa otro idioma, salen en inglés.
+
+| Qué | Estado | Notas |
+|---|---|---|
+| Base (`app/src/i18n`): detección del idioma y `tr()` tipado | ✅ | Si falta una traducción, TypeScript no compila |
+| Contenido del juego (20 lugares, 60 historias, 36 objetos, 12 amigos) | ✅ | `app/src/game/content/<idioma>.ts` |
+| Textos de Lumi, avisos, escudo, paywall, fechas | ✅ | |
+| Todas las pantallas | ✅ | Menos el panel de desarrollo, que solo se ve en `__DEV__` |
+| `CFBundleLocalizations` (para que iOS muestre los idiomas en la ficha) | ✅ | `app.json`. La app no pide permisos con texto propio (avisos y Tiempo de uso usan los de iOS) |
+| Legales, ayuda y landing | ✅ | `app/src/legal/i18n/<idioma>.json` (app y web) y `landing/texts.js`. La web sigue `navigator.language` (o `?lang=xx`) |
+| Correos y errores del backend | ✅ | Según `Accept-Language` (la app lo manda); sin cabecera, español |
+| Ficha de la App Store en los 5 idiomas | ✅ | `FICHA_APP_STORE.md` (es) y `ficha/<idioma>.md`; límites comprobados con `tools/check_ficha.py` |
+| Revisión de las traducciones por hablantes nativos | ⬜ | Sobre todo hindi y chino |
+
+**Notas para la revisión:** versión completa en `FICHA_APP_STORE.md`.
+
+**Resumen:**
 
 > Lumi es una mascota que ayuda a usar menos las apps que elige el usuario. Usa Family Controls solo para el propio usuario (no control parental): el usuario elige sus apps con FamilyActivityPicker, DeviceActivityMonitor avisa al 25/50/75/100 % de su límite y ShieldConfiguration muestra a Lumi al abrir una app pasado el límite. Ningún dato de uso sale del dispositivo. La cuenta es opcional (Ajustes › Cuenta) y se puede eliminar desde la app. Cuenta de prueba: review@… / …
 
 ## 6. Configuración de producción
+
+**Backend y landing en Render:** `render.yaml` (New › Blueprint). Rellena `RESEND_API_KEY`, `MAIL_FROM` y `CORS_ORIGINS` en `lumi-api`. Con la URL de la API, pon `WAITLIST_ENDPOINT` en `landing/main.js` y `EXPO_PUBLIC_API_URL` en EAS.
 
 ```bash
 # Variables de la app en EAS (entorno production)

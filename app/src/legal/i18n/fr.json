@@ -1,0 +1,144 @@
+{
+  "privacidad": {
+    "title": "Confidentialité",
+    "intro": "Lumi est faite pour que tu passes moins de temps sur ton téléphone, pas pour en savoir plus sur toi. Voici ce qu’elle utilise et pourquoi.",
+    "updated": "Septembre 2026",
+    "sections": [
+      {
+        "heading": "Ce que Lumi ne voit pas",
+        "body": [
+          "Lumi utilise Temps d’écran d’Apple (Family Controls et Device Activity). Elle reçoit seulement des avis du type « tu es à la moitié de ta limite ».",
+          "Elle ne sait pas quelles vidéos tu regardes, ce que tu écris ni avec qui tu parles. iOS ne le permettrait pas de toute façon."
+        ]
+      },
+      {
+        "heading": "Ce qui est enregistré sur ton iPhone",
+        "body": [
+          "Ton prénom, celui de Lumi, ta limite quotidienne, ton horaire de nuit, les applis choisies et ta progression : jours, cartes postales, objets et étincelles.",
+          "Tout cela reste sur ton appareil. Si tu ne crées pas de compte, rien n’est envoyé à un serveur. Si tu supprimes l’app, tout est supprimé avec elle."
+        ]
+      },
+      {
+        "heading": "Si tu crées un compte (facultatif)",
+        "body": [
+          "Nous enregistrons ton e-mail, ton mot de passe chiffré (jamais en clair), ton prénom et celui de Lumi, pour que tu ne perdes pas ta progression si tu changes d’iPhone.",
+          "Nous utilisons ton e-mail uniquement pour ton compte : confirmer qu’il est à toi, récupérer ton mot de passe et te prévenir des changements de sécurité. Nous les envoyons avec Resend.",
+          "Tu peux supprimer ton compte quand tu veux depuis Réglages › Compte › Supprimer le compte. Il est effacé immédiatement avec toutes ses données."
+        ]
+      },
+      {
+        "heading": "Notifications",
+        "body": [
+          "Si tu les actives, Lumi programme sur ton iPhone la notification de la carte du soir et le rappel avant la fin de l’essai gratuit. Ce sont des notifications locales : elles ne passent par aucun serveur."
+        ]
+      },
+      {
+        "heading": "Achats",
+        "body": [
+          "Les abonnements Lumi Plus sont facturés par Apple. Nous ne voyons jamais ta carte. Pour savoir si Plus est actif, nous utilisons un identifiant d’achat anonyme."
+        ]
+      },
+      {
+        "heading": "Liste d’attente",
+        "body": [
+          "Si tu t’inscris sur le site, nous enregistrons ton e-mail et d’où tu viens (par exemple une vidéo TikTok) uniquement pour te prévenir quand Lumi sera prête. Nous ne le vendons ni ne le partageons, et tu peux nous demander de l’effacer quand tu veux."
+        ]
+      },
+      {
+        "heading": "Tes droits",
+        "body": [
+          "Depuis Réglages › Compte, tu peux télécharger toutes tes données dans un fichier (Tes données › Télécharger), corriger tes prénoms et supprimer le compte. Tu peux aussi nous le demander en écrivant à l’adresse de support indiquée sur la page de Lumi dans l’App Store."
+        ]
+      }
+    ]
+  },
+  "terminos": {
+    "title": "Conditions",
+    "intro": "Les règles pour vivre avec Lumi, en bref.",
+    "updated": "Septembre 2026",
+    "sections": [
+      {
+        "heading": "Ce qu’est Lumi",
+        "body": [
+          "Lumi est un animal virtuel qui t’aide à moins utiliser les applis que tu choisis. Ce n’est pas un outil médical et elle ne remplace pas un professionnel si ton usage du téléphone t’inquiète vraiment."
+        ]
+      },
+      {
+        "heading": "Gratuit et Lumi Plus",
+        "body": [
+          "L’essentiel de Lumi est gratuit et le restera : ta Lumi et son bouclier, la limite quotidienne, les expéditions et les cartes postales, le widget et le mode nuit.",
+          "Lumi Plus est un abonnement facultatif (annuel ou mensuel) avec un essai gratuit de 7 jours. Il se renouvelle automatiquement jusqu’à ce que tu l’annules.",
+          "Tu peux l’annuler quand tu veux depuis Réglages de ton iPhone › ton nom › Abonnements, au moins 24 heures avant le renouvellement. Si tu annules pendant l’essai, rien n’est facturé.",
+          "Les remboursements sont gérés par Apple selon ses conditions."
+        ]
+      },
+      {
+        "heading": "Usage loyal",
+        "body": [
+          "Lumi est pour ton usage personnel. N’essaie pas de copier, revendre ou modifier l’app ou ses illustrations."
+        ]
+      },
+      {
+        "heading": "Changements",
+        "body": [
+          "Si nous modifions ces conditions de façon importante, nous te le dirons dans l’app avant qu’elles s’appliquent."
+        ]
+      }
+    ]
+  },
+  "ayuda": {
+    "title": "Aide",
+    "intro": "Les questions les plus fréquentes sur Lumi. Si tu ne trouves pas la tienne, écris-nous.",
+    "updated": "Septembre 2026",
+    "sections": [
+      {
+        "heading": "Pourquoi Lumi est fatiguée alors que j’ai à peine utilisé mon téléphone ?",
+        "body": [
+          "Lumi compte seulement le temps passé dans les applis voleuses que tu as choisies, toutes ensemble. Tu peux les changer dans Réglages › Applis voleuses et monter ou baisser ta limite dans Réglages › Limite et nuit."
+        ]
+      },
+      {
+        "heading": "Lumi voit-elle ce que je fais dans mes applis ?",
+        "body": [
+          "Non. Elle utilise Temps d’écran d’Apple et reçoit seulement des avis du type « tu es à la moitié de ta limite ». Elle ne sait pas ce que tu regardes, ce que tu écris ni avec qui tu parles."
+        ]
+      },
+      {
+        "heading": "Je ne reçois pas la carte du soir",
+        "body": [
+          "Vérifie que les notifications de Lumi sont activées dans Réglages de ton iPhone › Notifications › Lumi, et que la carte du soir est activée dans Réglages › Limite et nuit dans l’app."
+        ]
+      },
+      {
+        "heading": "Ai-je besoin d’un compte ?",
+        "body": [
+          "Non. Tout fonctionne sans compte. En créer un (Réglages › Compte) sert à ne pas perdre ta progression si tu changes d’iPhone."
+        ]
+      },
+      {
+        "heading": "J’ai oublié mon mot de passe",
+        "body": [
+          "Dans Réglages › Compte › Commencer › J’ai déjà un compte, touche « Mot de passe oublié ? ». On t’envoie par e-mail un code à 6 chiffres pour en choisir un nouveau."
+        ]
+      },
+      {
+        "heading": "Comment supprimer mon compte ?",
+        "body": [
+          "Dans Réglages › Compte › Supprimer le compte. Il est effacé immédiatement avec toutes ses données. Lumi et sa progression sur ton iPhone restent avec toi."
+        ]
+      },
+      {
+        "heading": "Comment annuler Lumi Plus ?",
+        "body": [
+          "Les abonnements sont gérés par Apple : Réglages de ton iPhone › ton nom › Abonnements › Lumi. Si tu annules pendant l’essai gratuit, rien n’est facturé. Supprimer le compte ou l’app n’annule pas l’abonnement."
+        ]
+      },
+      {
+        "heading": "J’ai changé d’iPhone et Lumi Plus n’est plus là",
+        "body": [
+          "Sur l’écran Lumi Plus, touche « Restaurer les achats » avec le même identifiant Apple que celui de ton abonnement."
+        ]
+      }
+    ]
+  }
+}

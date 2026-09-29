@@ -1,8 +1,11 @@
 import {
   BadRequestException,
   ConflictException,
+  HttpException,
+  HttpStatus,
   Inject,
   Injectable,
+  Logger,
   UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
@@ -38,6 +41,11 @@ export const ACCESS_TOKEN_TTL_S = 15 * 60;
 const REFRESH_TOKEN_TTL_MS = 30 * 24 * 60 * 60 * 1000;
 const CODE_TTL_MS = 15 * 60 * 1000;
 const CODE_MAX_ATTEMPTS = 5;
+/** Intentos fallidos de login por correo antes de pausar esa cuenta un rato (además del límite por IP). */
+const LOGIN_MAX_FAILURES = 10;
+const LOGIN_WINDOW_MS = 15 * 60 * 1000;
+/** Tope de correos vigilados a la vez: sin él, probar correos al azar llenaría la memoria. */
+const LOGIN_TRACKED_MAX = 10_000;
 
 /** Hash de relleno para que "ese correo no existe" tarde lo mismo que "contraseña mal". */
 const DUMMY_HASH = hashPassword('lumi-no-existe');
@@ -46,6 +54,16 @@ export type AccessPayload = { sub: string };
 
 @Injectable()
 export class AuthService {
+  private readonly logger = new Logger(AuthService.name);
+  /**
+   * Fallos de login recientes por correo. En memoria: vale para una sola
+   * instancia; con varias, habría que llevarlo a Redis o a la base de datos.
+   */
+  private readonly loginFailures = new Map<
+    string,
+    { count: number; since: number }
+  >();
+
   constructor(
     @Inject(DB) private readonly db: Database,
     private readonly jwt: JwtService,
@@ -77,13 +95,29 @@ export class AuthService {
   }
 
   async login(emailInput: string, password: string): Promise<AuthSessionDto> {
-    const user = await this.findByEmail(emailInput);
+    const email = normalizeEmail(emailInput);
+    const now = Date.now();
+    const failures = this.loginFailures.get(email);
+    if (failures && now - failures.since > LOGIN_WINDOW_MS) {
+      this.loginFailures.delete(email);
+    } else if (failures && failures.count >= LOGIN_MAX_FAILURES) {
+      throw new HttpException(
+        'Demasiados intentos con esta cuenta. Espera unos minutos o cambia la contraseña.',
+        HttpStatus.TOO_MANY_REQUESTS,
+      );
+    }
+
+    const user = await this.findByEmail(email);
     const ok = await verifyPassword(
       password,
       user?.passwordHash ?? (await DUMMY_HASH),
     );
-    if (!user || !ok)
+    if (!user || !ok) {
+      // También para correos sin cuenta: si solo se pausaran las que existen, el 429 lo delataría.
+      this.recordLoginFailure(email, now);
       throw new UnauthorizedException('Correo o contraseña incorrectos');
+    }
+    this.loginFailures.delete(email);
     return this.createSession(user);
   }
 
@@ -150,7 +184,15 @@ export class AuthService {
   /** Nunca dice si el correo existe: responde igual siempre. */
   async forgotPassword(emailInput: string): Promise<void> {
     const user = await this.findByEmail(emailInput);
-    if (user) await this.sendCode(user, 'reset_password');
+    // Sin esperar al envío: si no, la respuesta tardaría más cuando el correo
+    // existe y se podría adivinar quién tiene cuenta.
+    if (user) {
+      this.sendCode(user, 'reset_password').catch((e: unknown) =>
+        this.logger.error(
+          `No se pudo enviar el código de recuperación: ${String(e)}`,
+        ),
+      );
+    }
   }
 
   async resetPassword(
@@ -163,6 +205,7 @@ export class AuthService {
       throw new BadRequestException('El código no es válido o ha caducado');
     await this.consumeCode(user.id, 'reset_password', code);
     await this.setPassword(user, password);
+    this.loginFailures.delete(user.email);
     // Si ha recibido el código, el correo es suyo.
     if (!user.emailVerifiedAt) {
       await this.db
@@ -234,6 +277,24 @@ export class AuthService {
   }
 
   /* ───────── Internos ───────── */
+
+  private recordLoginFailure(email: string, now: number) {
+    const current = this.loginFailures.get(email);
+    this.loginFailures.delete(email); // Reinsertar lo lleva al final (el Map guarda el orden).
+    this.loginFailures.set(email, {
+      count: (current?.count ?? 0) + 1,
+      since: current?.since ?? now,
+    });
+    if (this.loginFailures.size <= LOGIN_TRACKED_MAX) return;
+    for (const [key, value] of this.loginFailures) {
+      if (now - value.since > LOGIN_WINDOW_MS) this.loginFailures.delete(key);
+    }
+    // Si sigue lleno, fuera los más antiguos.
+    for (const key of this.loginFailures.keys()) {
+      if (this.loginFailures.size <= LOGIN_TRACKED_MAX) break;
+      this.loginFailures.delete(key);
+    }
+  }
 
   private findByEmail(email: string) {
     return this.db.query.users.findFirst({
