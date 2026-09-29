@@ -58,7 +58,10 @@ export default function PlusScreen() {
 
   useEffect(() => {
     let alive = true;
-    purchases.getOfferings().then((p) => alive && setPackages(p));
+    purchases
+      .getOfferings()
+      .then((p) => alive && setPackages(p))
+      .catch(() => alive && setPackages([]));
     return () => {
       alive = false;
       if (timer.current) clearTimeout(timer.current);
@@ -169,7 +172,9 @@ export default function PlusScreen() {
 
                 <View style={styles.section}>
                   <Text style={styles.sectionLabel}>{paywallCopy.plansSection}</Text>
-                  {packages ? (
+                  {packages && packages.length === 0 ? (
+                    <Text style={styles.small}>{paywallCopy.plansUnavailable}</Text>
+                  ) : packages ? (
                     <View style={styles.plans} accessibilityRole="radiogroup">
                       {packages.map((p) => (
                         <PlanCard
