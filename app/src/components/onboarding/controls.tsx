@@ -63,6 +63,7 @@ export function SelectRow({
 }
 
 export function Stepper({
+  label,
   value,
   onDecrease,
   onIncrease,
@@ -71,6 +72,8 @@ export function Stepper({
   decreaseLabel,
   increaseLabel,
 }: {
+  /** Qué se ajusta. Con VoiceOver, el control es uno solo: se sube y se baja deslizando. */
+  label: string;
   value: string;
   onDecrease: () => void;
   onIncrease: () => void;
@@ -80,9 +83,20 @@ export function Stepper({
   increaseLabel: string;
 }) {
   return (
-    <View style={styles.stepper}>
+    <View
+      style={styles.stepper}
+      accessible
+      accessibilityRole="adjustable"
+      accessibilityLabel={label}
+      accessibilityValue={{ text: value }}
+      accessibilityHint={`${decreaseLabel} · ${increaseLabel}`}
+      accessibilityActions={[{ name: 'increment' }, { name: 'decrement' }]}
+      onAccessibilityAction={(e) => {
+        if (e.nativeEvent.actionName === 'increment' && canIncrease) onIncrease();
+        if (e.nativeEvent.actionName === 'decrement' && canDecrease) onDecrease();
+      }}>
       <StepButton label="−" a11y={decreaseLabel} disabled={!canDecrease} onPress={onDecrease} />
-      <Text style={styles.stepValue} accessibilityLiveRegion="polite">
+      <Text style={styles.stepValue} maxFontSizeMultiplier={1.6}>
         {value}
       </Text>
       <StepButton label="+" a11y={increaseLabel} disabled={!canIncrease} onPress={onIncrease} />
@@ -90,14 +104,24 @@ export function Stepper({
   );
 }
 
-function StepButton({ label, onPress, disabled, a11y }: { label: string; onPress: () => void; disabled?: boolean; a11y: string }) {
+function StepButton({
+  label,
+  onPress,
+  disabled,
+  a11y,
+}: {
+  label: string;
+  onPress: () => void;
+  disabled?: boolean;
+  a11y: string;
+}) {
   return (
     <Pressable
       accessibilityRole="button"
       accessibilityLabel={a11y}
       disabled={disabled}
       onPress={onPress}
-      hitSlop={6}
+      hitSlop={8}
       style={({ pressed }) => [styles.stepBtn, disabled && { opacity: 0.35 }, pressed && { opacity: 0.7 }]}>
       <Text style={styles.stepBtnText}>{label}</Text>
     </Pressable>
@@ -173,10 +197,24 @@ const styles = StyleSheet.create({
     borderCurve: 'continuous',
     overflow: 'hidden',
   },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 13, paddingHorizontal: 14, minHeight: 52 },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+    paddingVertical: 13,
+    paddingHorizontal: 14,
+    minHeight: 52,
+  },
   rowDivider: { borderBottomWidth: 1, borderBottomColor: Colors.hairline },
   rowPressed: { backgroundColor: 'rgba(201, 191, 242, 0.08)' },
-  ic: { width: 32, height: 32, borderRadius: 9, borderCurve: 'continuous', alignItems: 'center', justifyContent: 'center' },
+  ic: {
+    width: 32,
+    height: 32,
+    borderRadius: 9,
+    borderCurve: 'continuous',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   icLetter: { fontFamily: Fonts.bodyBold, fontSize: 13, color: '#FFFFFF' },
   lbl: { flex: 1, minWidth: 0 },
   lblTitle: { fontFamily: Fonts.body, fontSize: 15, lineHeight: 20, color: Colors.text },
@@ -206,7 +244,8 @@ const styles = StyleSheet.create({
   },
   fieldLabel: { fontFamily: Fonts.bodySemiBold, fontSize: 14, color: Colors.lavenderPale },
   input: {
-    height: 50,
+    minHeight: 50,
+    paddingVertical: 12,
     paddingHorizontal: 16,
     borderRadius: Radius.md,
     borderCurve: 'continuous',

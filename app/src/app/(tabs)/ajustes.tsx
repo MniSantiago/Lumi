@@ -14,7 +14,24 @@ import { stepTime } from '@/lumi/time';
 import { realScreenTime } from '@/screen-time';
 import { thiefAppsCount } from '@/screen-time/native';
 import { cancelNightlyReturn, ensureNotificationPermission, permissionDeniedCopy } from '@/notifications';
-import { tr } from '@/i18n';
+import { lang, LANG_NAMES, tr } from '@/i18n';
+import { clockTime } from '@/i18n/dates';
+
+const strictTitle = tr({
+  es: 'Escudo estricto',
+  en: 'Strict shield',
+  zh: '严格护盾',
+  hi: 'सख़्त ढाल',
+  fr: 'Bouclier strict',
+});
+
+const weeklyTitle = tr({
+  es: 'Resumen del domingo',
+  en: 'Sunday summary',
+  zh: '周日总结',
+  hi: 'रविवार का सारांश',
+  fr: 'Bilan du dimanche',
+});
 
 export default function SettingsScreen() {
   const { settings, updateSettings } = useLumi();
@@ -36,6 +53,17 @@ export default function SettingsScreen() {
       return;
     }
     // Sin permiso el ajuste sigue apagado; explicamos cómo activarlo, sin insistir.
+    Alert.alert(permissionDeniedCopy.title, permissionDeniedCopy.body(settings.lumiName), [
+      { text: permissionDeniedCopy.notNow, style: 'cancel' },
+      { text: permissionDeniedCopy.openSettings, onPress: () => void Linking.openSettings() },
+    ]);
+  };
+
+  const setWeeklySummary = async (on: boolean) => {
+    if (!on || (await ensureNotificationPermission())) {
+      updateSettings({ weeklySummary: on });
+      return;
+    }
     Alert.alert(permissionDeniedCopy.title, permissionDeniedCopy.body(settings.lumiName), [
       { text: permissionDeniedCopy.notNow, style: 'cancel' },
       { text: permissionDeniedCopy.openSettings, onPress: () => void Linking.openSettings() },
@@ -193,6 +221,13 @@ export default function SettingsScreen() {
               })}
             />
             <Stepper
+              label={tr({
+                es: 'Límite diario suave',
+                en: 'Gentle daily limit',
+                zh: '温和的每日上限',
+                hi: 'रोज़ की नरम सीमा',
+                fr: 'Limite quotidienne douce',
+              })}
               value={formatLimit(settings.limitMinutes)}
               onDecrease={() => stepLimit(-1)}
               onIncrease={() => stepLimit(1)}
@@ -232,7 +267,14 @@ export default function SettingsScreen() {
               })}
             />
             <Stepper
-              value={settings.nightStart}
+              label={tr({
+                es: 'Se va a dormir',
+                en: 'Goes to sleep',
+                zh: '睡觉时间',
+                hi: 'सोने जाती है',
+                fr: 'Va dormir',
+              })}
+              value={clockTime(settings.nightStart)}
               onDecrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, -1) })}
               onIncrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, 1) })}
               decreaseLabel={tr({
@@ -269,7 +311,14 @@ export default function SettingsScreen() {
               })}
             />
             <Stepper
-              value={settings.nightEnd}
+              label={tr({
+                es: 'Se despierta',
+                en: 'Wakes up',
+                zh: '起床时间',
+                hi: 'जागती है',
+                fr: 'Se réveille',
+              })}
+              value={clockTime(settings.nightEnd)}
               onDecrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, -1) })}
               onIncrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, 1) })}
               decreaseLabel={tr({
@@ -317,7 +366,20 @@ export default function SettingsScreen() {
               onChange={(v) => void setNightlyPostcard(v)}
             />
           </Row>
-          <Row last>
+          <Row>
+            <Label
+              title={weeklyTitle}
+              sub={tr({
+                es: 'El domingo por la tarde, tu semana lista para compartir',
+                en: 'On Sunday evening, your week ready to share',
+                zh: '周日傍晚，你的一周总结准备好分享',
+                hi: 'रविवार शाम, तुम्हारा हफ़्ता शेयर करने के लिए तैयार',
+                fr: 'Le dimanche soir, ta semaine prête à partager',
+              })}
+            />
+            <Toggle label={weeklyTitle} value={settings.weeklySummary} onChange={(v) => void setWeeklySummary(v)} />
+          </Row>
+          <Row>
             <Label
               title={tr({
                 es: 'Días de descanso',
@@ -346,12 +408,55 @@ export default function SettingsScreen() {
               onChange={(v) => updateSettings({ restDays: v })}
             />
           </Row>
+          <Row last>
+            <Label
+              title={strictTitle}
+              sub={tr({
+                es: 'Sin «5 min más» en el escudo · Lumi Plus',
+                en: 'No “5 more min” on the shield · Lumi Plus',
+                zh: '护盾上没有“再 5 分钟” · Lumi Plus',
+                hi: 'ढाल पर "5 मिनट और" नहीं · Lumi Plus',
+                fr: 'Pas de « 5 min de plus » sur le bouclier · Lumi Plus',
+              })}
+            />
+            {settings.isPlus ? (
+              <Toggle
+                label={strictTitle}
+                value={settings.strictShield}
+                onChange={(v) => updateSettings({ strictShield: v })}
+              />
+            ) : (
+              <TextLink label="Plus" onPress={() => router.push('/plus')} />
+            )}
+          </Row>
         </List>
       </View>
 
       <View style={{ gap: 10 }}>
         <SectionTitle>{tr({ es: 'Cuenta', en: 'Account', zh: '账户', hi: 'खाता', fr: 'Compte' })}</SectionTitle>
         <AccountSection />
+      </View>
+
+      <View style={{ gap: 10 }}>
+        <SectionTitle>{tr({ es: 'Idioma', en: 'Language', zh: '语言', hi: 'भाषा', fr: 'Langue' })}</SectionTitle>
+        <List>
+          <Row last>
+            <Label
+              title={LANG_NAMES[lang]}
+              sub={tr({
+                es: 'El del iPhone. Puedes elegir otro solo para Lumi en Ajustes de iOS.',
+                en: 'Your iPhone’s. You can pick another just for Lumi in iOS Settings.',
+                zh: '跟随 iPhone。你可以在 iOS 设置里单独为 Lumi 选择其他语言。',
+                hi: 'iPhone वाली। तुम iOS सेटिंग्स में सिर्फ़ Lumi के लिए दूसरी भाषा चुन सकते हो।',
+                fr: 'Celle de l’iPhone. Tu peux en choisir une autre juste pour Lumi dans Réglages d’iOS.',
+              })}
+            />
+            <TextLink
+              label={tr({ es: 'Cambiar', en: 'Change', zh: '更改', hi: 'बदलो', fr: 'Modifier' })}
+              onPress={() => void Linking.openSettings()}
+            />
+          </Row>
+        </List>
       </View>
 
       {__DEV__ ? (

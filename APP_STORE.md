@@ -24,7 +24,7 @@ Lo que Apple pide para publicar Lumi y en qué estado está. ✅ hecho · 🟡 e
 | Verificar el correo | ✅ | Código de 6 cifras |
 | Cambiar la contraseña y cerrar sesión | ✅ | Ajustes › Cuenta |
 | Iniciar sesión con Apple | No hace falta | Solo es obligatorio si se ofrece otro login social (Google, etc.). Con correo y contraseña, no. |
-| Cuenta de prueba para la revisión | ⬜ | Crear `review@<dominio>` en producción y ponerla en las notas de revisión |
+| Cuenta de prueba para la revisión | 🟡 | Script listo: `REVIEW_EMAIL=… REVIEW_PASSWORD=… node dist/db/review-account.js` en el servidor (ver `backend/README.md`). Falta ejecutarlo en producción y ponerla en las notas de revisión |
 
 ## 3. Privacidad
 
@@ -58,6 +58,7 @@ El uso de pantalla **no se recoge**: se queda en el iPhone (Screen Time por umbr
 | Recordatorio antes de que acabe la prueba | ✅ | Notificación local 2 días antes |
 | Lo gratis sigue funcionando sin pagar | ✅ | Escudo, límite, expediciones, postales, widget y modo noche |
 | Grupo de suscripción en App Store Connect | ⬜ | Anual (49,99 $, 7 días gratis) y mensual. IDs: `$rc_annual`, `$rc_monthly` en RevenueCat |
+| **Lo que se anuncia de Plus existe** (guías 2.3.1 y 3.1.2) | ✅ | Plus anuncia solo zonas exclusivas, escudo estricto y «Tus números», que ya están en la app. Especies y colores de luz, varios horarios y decoración de la madriguera quedan para más adelante: no se anuncian hasta que existan. Si el widget (#22) no sale en la primera versión, quitarlo también de «Gratis para siempre», de la ficha y de la landing. |
 | EULA | 🟡 | Términos propios en la app. En App Store Connect se puede usar el EULA estándar de Apple o enlazar `landing/terminos.html`. |
 
 ## 5. Ficha de la App Store

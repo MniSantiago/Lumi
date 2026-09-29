@@ -13,6 +13,15 @@ export type Lang = (typeof LANGS)[number];
 
 const FALLBACK: Lang = 'en';
 
+/** Cada idioma escrito en sí mismo, para enseñarlo en Ajustes. */
+export const LANG_NAMES: Record<Lang, string> = {
+  es: 'Español',
+  en: 'English',
+  zh: '简体中文',
+  hi: 'हिन्दी',
+  fr: 'Français',
+};
+
 export function detectLang(languageCodes: (string | null | undefined)[]): Lang {
   for (const code of languageCodes) {
     const base = code?.toLowerCase().split(/[-_]/)[0];

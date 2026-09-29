@@ -44,6 +44,15 @@ export const shieldCopy = {
     fr: 'Merci. Je continue à rêver de toi 💤',
   }),
 
+  /** Con el escudo estricto (Plus) no hay «5 min más». */
+  strictNote: tr({
+    es: 'Escudo estricto: hoy no hay ratitos extra. Lo elegiste tú, y Lumi te lo agradece.',
+    en: 'Strict shield: no extra minutes today. You chose it, and Lumi thanks you.',
+    zh: '严格护盾：今天没有额外时间。这是你自己的选择，Lumi 谢谢你。',
+    hi: 'सख़्त ढाल: आज कोई अतिरिक्त समय नहीं। यह तुमने चुना था, और Lumi तुम्हारा शुक्रिया करती है।',
+    fr: 'Bouclier strict : pas de minutes en plus aujourd’hui. C’est toi qui l’as choisi, et Lumi t’en remercie.',
+  }),
+
   /** `used` = veces que ya se ha pedido hoy, antes de esta. */
   snooze: (used: number) =>
     used === 0

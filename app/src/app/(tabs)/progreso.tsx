@@ -4,9 +4,13 @@ import { StyleSheet, Text, View } from 'react-native';
 
 import { Card, PillButton, SectionTitle, Screen } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
+import { paywallCopy } from '@/components/paywall/copy';
+import { FRIEND_CATALOG, ITEM_CATALOG } from '@/game/catalog';
+import { DESTINATIONS } from '@/game/destinations';
 import { MAX_REST_DAYS_PER_WEEK } from '@/game/engine';
 import { rangeLabel, whenLabel } from '@/game/format';
 import { useGame, type GameApi } from '@/game/store';
+import { longestStreak } from '@/game/stats';
 import { EVOLUTION } from '@/lumi/data';
 import { LUMI_STATES } from '@/lumi/states';
 import { useLumi } from '@/lumi/store';
@@ -272,7 +276,76 @@ export default function ProgressScreen() {
           })}
         </Card>
       </View>
+
+      <LifetimeStats game={game} isPlus={settings.isPlus} />
     </Screen>
+  );
+}
+
+/** Tus números de siempre (Lumi Plus). Sin Plus se ven difuminados, con la invitación. */
+function LifetimeStats({ game, isPlus }: { game: GameApi; isPlus: boolean }) {
+  const stats = [
+    {
+      value: game.brightDays,
+      label: tr({ es: 'días brillando', en: 'bright days', zh: '发光的日子', hi: 'रोशन दिन', fr: 'jours de lumière' }),
+    },
+    {
+      value: longestStreak(game.history),
+      label: tr({ es: 'racha más larga', en: 'longest streak', zh: '最长连续', hi: 'सबसे लंबा सिलसिला', fr: 'plus longue série' }),
+    },
+    {
+      value: `${game.visited.length}/${DESTINATIONS.length}`,
+      label: tr({ es: 'lugares', en: 'places', zh: '地点', hi: 'जगहें', fr: 'lieux' }),
+    },
+    {
+      value: game.album.length,
+      label: tr({ es: 'postales', en: 'postcards', zh: '明信片', hi: 'पोस्टकार्ड', fr: 'cartes' }),
+    },
+    {
+      value: `${game.items.length}/${ITEM_CATALOG.length}`,
+      label: tr({ es: 'objetos', en: 'things', zh: '物品', hi: 'चीज़ें', fr: 'objets' }),
+    },
+    {
+      value: `${game.friends.length}/${FRIEND_CATALOG.length}`,
+      label: tr({ es: 'amigos', en: 'friends', zh: '朋友', hi: 'दोस्त', fr: 'amis' }),
+    },
+  ];
+  return (
+    <View style={{ gap: 10 }}>
+      <SectionTitle action={isPlus ? undefined : <Text style={styles.count}>Lumi Plus</Text>}>
+        {tr({ es: 'Tus números', en: 'Your numbers', zh: '你的数据', hi: 'तुम्हारे आँकड़े', fr: 'Tes chiffres' })}
+      </SectionTitle>
+      <Card style={styles.stats}>
+        <View style={[styles.statsGrid, !isPlus && styles.statsLocked]} accessibilityElementsHidden={!isPlus}>
+          {stats.map((st) => (
+            <View
+              key={st.label}
+              style={styles.stat}
+              accessible
+              accessibilityLabel={`${isPlus ? st.value : '?'} ${st.label}`}>
+              <Text style={styles.statValue} maxFontSizeMultiplier={1.4}>
+                {isPlus ? st.value : '·'}
+              </Text>
+              <Text style={styles.statLabel}>{st.label}</Text>
+            </View>
+          ))}
+        </View>
+        {isPlus ? null : (
+          <View style={styles.statsCta}>
+            <Text style={styles.chartNote}>
+              {tr({
+                es: 'Con Lumi Plus ves todo lo que habéis brillado juntos desde el primer día.',
+                en: 'With Lumi Plus you see everything you’ve shone together since day one.',
+                zh: '开通 Lumi Plus，就能看到你们从第一天起一起发的所有光。',
+                hi: 'Lumi Plus के साथ देखो कि पहले दिन से तुम दोनों कितना चमके हो।',
+                fr: 'Avec Lumi Plus, tu vois tout ce que vous avez brillé ensemble depuis le premier jour.',
+              })}
+            </Text>
+            <PillButton label={paywallCopy.title} onPress={() => router.push('/plus')} />
+          </View>
+        )}
+      </Card>
+    </View>
   );
 }
 
@@ -322,6 +395,13 @@ const styles = StyleSheet.create({
   shareTxt: { flex: 1, gap: 8, minWidth: 0 },
   shareTitle: { fontFamily: Fonts.displayBold, fontSize: 17, lineHeight: 21, color: Colors.text },
   count: { fontFamily: Fonts.body, fontSize: 13, color: Colors.textTertiary },
+  stats: { gap: 14 },
+  statsGrid: { flexDirection: 'row', flexWrap: 'wrap', rowGap: 16 },
+  statsLocked: { opacity: 0.35 },
+  stat: { width: '33.33%', alignItems: 'center', gap: 2 },
+  statValue: { fontFamily: Fonts.displayBold, fontSize: 24, lineHeight: 30, color: Colors.amberPale, fontVariant: ['tabular-nums'] },
+  statLabel: { fontFamily: Fonts.body, fontSize: 12, lineHeight: 16, color: Colors.textTertiary, textAlign: 'center' },
+  statsCta: { alignItems: 'center', gap: 10 },
   evo: { flexDirection: 'row', gap: 8 },
   evoStage: { flex: 1, alignItems: 'center', gap: 4 },
   orb: { width: 44, height: 44, borderRadius: 22 },
