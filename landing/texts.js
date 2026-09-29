@@ -163,12 +163,20 @@ window.LUMI_ROWS = [
   ['Invita a alguien que también necesite un Lumi', 'Invite someone who also needs a Lumi', '邀请一个也需要 Lumi 的人', 'किसी ऐसे को बुलाओ जिसे भी एक Lumi चाहिए', 'Invite quelqu’un qui a aussi besoin d’un Lumi'],
 
   // ── Mensajes de main.js ──
+  ['Descargar en la App Store', 'Download on the App Store', '在 App Store 下载', 'App Store से डाउनलोड करो', 'Télécharger dans l’App Store'],
+  ['Ya en el iPhone', 'Now on iPhone', '现已登陆 iPhone', 'अब iPhone पर', 'Disponible sur iPhone'],
   ['He encontrado una mascota que brilla cuando sueltas el móvil. Creo que tú también necesitas un Lumi.', 'I found a pet that shines when you put your phone down. I think you need a Lumi too.', '我发现了一只你放下手机就会发光的宠物。我觉得你也需要一个 Lumi。', 'मुझे एक पालतू मिला जो फ़ोन रखते ही चमकता है। मुझे लगता है तुम्हें भी एक Lumi चाहिए।', 'J’ai trouvé une mascotte qui brille quand tu poses ton téléphone. Je crois que toi aussi, tu as besoin d’un Lumi.'],
   ['Enlace copiado. Pégaselo a quien quieras.', 'Link copied. Paste it to whoever you like.', '链接已复制。发给你想分享的人吧。', 'लिंक कॉपी हो गया। जिसे चाहो भेज दो।', 'Lien copié. Colle-le à qui tu veux.'],
   ['Copia este enlace:', 'Copy this link:', '复制这个链接：', 'यह लिंक कॉपी करो:', 'Copie ce lien :'],
   ['Ese correo no parece completo. Revisa que tenga @ y dominio, por ejemplo tu@correo.com.', 'That email doesn’t look complete. Check it has an @ and a domain, for example you@email.com.', '这个邮箱地址好像不完整。请检查是否有 @ 和域名，例如 you@email.com。', 'यह ईमेल पूरा नहीं लगता। देखो कि उसमें @ और डोमेन है, जैसे you@email.com।', 'Cet e-mail semble incomplet. Vérifie qu’il a un @ et un domaine, par exemple toi@email.com.'],
   ['La lista de espera abre muy pronto y todavía no guarda correos. Vuelve en unos días y Lumi te apunta.', 'The waitlist opens very soon and doesn’t save emails yet. Come back in a few days and Lumi will sign you up.', '等候名单很快开放，目前还不能保存邮箱。过几天再来，Lumi 会帮你登记。', 'प्रतीक्षा सूची बहुत जल्द खुलेगी और अभी ईमेल सहेजती नहीं। कुछ दिनों में लौटो, Lumi तुम्हारा नाम लिख लेगी।', 'La liste d’attente ouvre très bientôt et n’enregistre pas encore les e-mails. Reviens dans quelques jours et Lumi t’inscrira.'],
   ['No se ha podido guardar tu correo. Comprueba la conexión y vuelve a intentarlo.', 'We couldn’t save your email. Check your connection and try again.', '无法保存你的邮箱。请检查网络后重试。', 'तुम्हारा ईमेल सहेजा नहीं जा सका। कनेक्शन देखकर फिर कोशिश करो।', 'Impossible d’enregistrer ton e-mail. Vérifie ta connexion et réessaie.'],
+
+  // ── Página 404 ──
+  ['Página no encontrada · Lumi', 'Page not found · Lumi', '找不到页面 · Lumi', 'पेज नहीं मिला · Lumi', 'Page introuvable · Lumi'],
+  ['Esta página se ha ido de expedición', 'This page has gone on an expedition', '这个页面出去探险了', 'यह पेज सफ़र पर निकल गया है', 'Cette page est partie en expédition'],
+  ['No la encontramos por aquí. Seguro que vuelve con una postal.', 'We can’t find it around here. It’ll surely come back with a postcard.', '我们在这里找不到它。它一定会带着明信片回来。', 'हमें यह यहाँ नहीं मिला। पक्का पोस्टकार्ड लेकर लौटेगा।', 'On ne la trouve pas par ici. Elle reviendra sûrement avec une carte postale.'],
+  ['Volver al inicio', 'Back to home', '返回首页', 'होम पर लौटो', 'Retour à l’accueil'],
 
   // ── Páginas legales ──
   ['Última actualización:', 'Last updated:', '最后更新：', 'आख़िरी अपडेट:', 'Dernière mise à jour :'],

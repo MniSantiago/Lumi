@@ -2,6 +2,7 @@
  * Textos de la postal nocturna. Lumi vuelve contenta, cuenta y nunca juzga.
  * (El texto del aviso lo escribe `notifications/`.)
  */
+import { withSiteLink } from '@/constants/site';
 import type { CatalogEntry, Destination } from '@/game/types';
 import { tr } from '@/i18n';
 import type { NightlyReturn } from '@/nightly/tonight';
@@ -91,7 +92,7 @@ export const nightlyCopy = {
       es: `${lumiName} aún está de expedición. Vuelve a las ${returnsAt} 🌙`,
       en: `${lumiName} is still exploring. She’ll be back at ${returnsAt} 🌙`,
       zh: `${lumiName}还在探险，${returnsAt}回来 🌙`,
-      hi: `${lumiName} अभी सफ़र पर है। ${returnsAt} बजे लौटेगी 🌙`,
+      hi: `${lumiName} अभी सफ़र पर है। ${returnsAt} को लौटेगी 🌙`,
       fr: `${lumiName} est encore en expédition. Elle rentre à ${returnsAt} 🌙`,
     }),
   nothingNew: (lumiName: string) =>
@@ -105,6 +106,10 @@ export const nightlyCopy = {
 };
 
 export function shareTonight(lumiName: string, result: NightlyReturn) {
+  return withSiteLink(shareTonightText(lumiName, result), 'postal');
+}
+
+function shareTonightText(lumiName: string, result: NightlyReturn) {
   const first = result.keepsakes[0];
   const d = result.destination;
   const friend = result.friend?.name;
@@ -118,6 +123,10 @@ export function shareTonight(lumiName: string, result: NightlyReturn) {
 }
 
 export function shareReread(lumiName: string, d: Destination) {
+  return withSiteLink(shareRereadText(lumiName, d), 'postal');
+}
+
+function shareRereadText(lumiName: string, d: Destination) {
   return tr({
     es: `Mi ${lumiName} me mandó una postal ${d.from}: «${d.quote}» ✨`,
     en: `My ${lumiName} sent me a postcard ${d.from}: “${d.quote}” ✨`,

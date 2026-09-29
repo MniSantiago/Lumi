@@ -94,6 +94,8 @@ Trabajo en bloques, cada uno con su PR (ver «PRs de la sesión 3» abajo para e
 - **Idiomas:** la app, los correos y errores del backend, la landing, los legales y la ficha de la App Store siguen el idioma del dispositivo: español, inglés, chino simplificado, hindi y francés (si no, inglés). `tr()` tipado desde el español: si falta una traducción, no compila.
 - **Plus honesto:** Plus anuncia solo lo que existe (zonas exclusivas, escudo estricto y «Tus números»); lo demás (especies y colores, varios horarios, decoración) queda para cuando exista. Ver `APP_STORE.md`.
 - **Más UX:** aviso del domingo con el resumen, rachas redondas celebradas en la postal, selectores accesibles con VoiceOver, botones que crecen con el texto grande y cuenta de prueba para la revisión (`npm run review:account`).
+- **A prueba de errores de configuración:** una build de la tienda sin `EXPO_PUBLIC_API_URL` oculta la cuenta y sin la clave de RevenueCat no deja comprar (nunca Plus gratis). Comprobación final antes de enviar en `APP_STORE.md` §7.
+- **Crecimiento y privacidad:** la postal se comparte como imagen; la lista de espera trae enlace de baja firmado (y List-Unsubscribe); la landing tiene selector de idioma.
 - **Producción:** RevenueCat (código listo), Screen Time nativo con `react-native-device-activity` (borrador sin compilar), EAS por entornos, blueprint de Render, CI en GitHub Actions y tests del motor del juego (jest-expo).
 
 #### PRs de la sesión 3 (orden de merge)
@@ -143,7 +145,19 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 39 | #41 | Builds de la tienda seguras: sin API se oculta la cuenta, sin RevenueCat no hay Plus gratis |
 | 40 | #42 | Idiomas: sin suponer el género del usuario (hindi y francés) |
 | 41 | #43 | Postal: compartir como imagen, con su texto |
-| — | #15 | **Borrador:** Screen Time nativo (encima de #36, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
+| 42 | #44 | Pulido: selector de idioma en la landing, idioma en la lista de espera y sin precio fijo |
+| 43 | #45 | Tus números: las últimas 4 semanas (Plus) y plurales en francés |
+| 44 | #46 | Postales compartidas con enlace a Lumi (si hay dominio) |
+| 45 | #47 | Pulido: página 404 de la landing, robots.txt y el dominio en EAS |
+| 46 | #48 | Backend: exportar la lista de espera a CSV para el lanzamiento |
+| 47 | #49 | Backend: aviso de lanzamiento a la lista de espera, en el idioma de cada uno |
+| 48 | #50 | Landing: modo lanzamiento con APP_STORE_URL |
+| 49 | #51 | Onboarding: vista previa del escudo en el paso del límite |
+| 50 | #52 | Home: Lumi duerme en el horario de noche |
+| 51 | #53 | Pulido: contador de Colección traducido y semana vacía en Progreso |
+| 52 | #54 | Legales: menores y edad mínima; respuestas de la clasificación por edad |
+| 53 | #55 | Capturas de la App Store con titular en 5 idiomas |
+| — | #15 | **Borrador:** Screen Time nativo (encima de #47, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
 Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1` (ver `app/app.config.ts`); sin esas variables, la app es la de siempre.
@@ -204,7 +218,9 @@ Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1`
   - Bucle de vídeo de Lumi respirando o flotando.
   - 2-3 postales ilustradas: Bosque de Musgo, Cuevas de Cristal y Lago de las Lunas.
 
-### Paso 3. Completar las pantallas del MVP en el mockup
+### Paso 3. Completar las pantallas del MVP en el mockup (superado: están en la app)
+
+> Onboarding, postal nocturna, paywall y resumen semanal ya existen en la app de verdad (`app/src/app/`), en 5 idiomas. El mockup queda como referencia visual; no hace falta completarlo.
 
 - **Onboarding (3 pasos):**
   1. Conocer a Lumi y ponerle nombre.

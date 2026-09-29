@@ -87,6 +87,7 @@ p { margin: 0; text-wrap: pretty; }
 .field input:focus, .field select:focus { outline: none; border-color: var(--amber-400); box-shadow: 0 0 0 3px rgba(255, 201, 107, 0.25); }
 .field input[aria-invalid="true"] { border-color: var(--peach-300); }
 .waitlist .btn { margin-top: 4px; }
+.btn.download { display: inline-flex; text-decoration: none; margin-top: 8px; }
 .form-note { font-size: 13.5px; color: var(--ink-soft); line-height: 1.45; }
 .hero .form-note { color: var(--lavender-100); text-shadow: 0 1px 8px rgba(15, 13, 38, 0.95), 0 0 2px rgba(15, 13, 38, 0.9); }
 .form-msg { font-size: 15px; color: var(--peach-300); min-height: 0; }
@@ -364,6 +365,7 @@ p { margin: 0; text-wrap: pretty; }
 
 /* ───────── Pie ───────── */
 .foot { padding: 32px 0 44px; background: var(--night-950); border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-faint); }
+.foot .langs a[aria-current] { color: var(--ink); font-weight: 600; text-decoration: none; }
 .foot-inner { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; justify-content: space-between; }
 
 /* ───────── Páginas legales (privacidad.html y terminos.html) ───────── */

@@ -45,6 +45,13 @@
         ]
       },
       {
+        "heading": "Children",
+        "body": [
+          "Lumi isn’t meant for children under 13. To create an account you must be at least 13, or the age your country requires to agree to this yourself if it’s higher (16 in some EU countries).",
+          "Without an account, nothing leaves your iPhone. If you think a child has given us their email, write to us and we’ll delete it."
+        ]
+      },
+      {
         "heading": "Your rights",
         "body": [
           "From Settings › Account you can download all your data in a file (Your data › Download), correct your names and delete your account. You can also ask us by writing to the support email shown on Lumi’s App Store page."
@@ -75,7 +82,8 @@
       {
         "heading": "Fair use",
         "body": [
-          "Lumi is for your personal use. Don’t try to copy, resell or modify the app or its illustrations."
+          "Lumi is for your personal use. Don’t try to copy, resell or modify the app or its illustrations.",
+          "To create an account you must be at least 13 (or the minimum age in your country, if it’s higher)."
         ]
       },
       {

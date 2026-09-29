@@ -68,12 +68,34 @@ El uso de pantalla **no se recoge**: se queda en el iPhone (Screen Time por umbr
 | Nombre, subtítulo, palabras clave, descripción | 🟡 | Borrador en `FICHA_APP_STORE.md` (límites comprobados con `tools/check_ficha.py`) |
 | **URL de soporte** (obligatoria) | 🟡 | `landing/ayuda.html` (preguntas frecuentes), falta publicarla |
 | URL de marketing | 🟡 | La landing |
-| Capturas de 6,9" (1320 × 2868) | ⬜ | Desde el simulador del iPhone 17 Pro Max (ver `landing/videos.md` para ocultar la hora) |
+| Capturas de 6,9" (1320 × 2868) | 🟡 | Hacerlas en el simulador del iPhone 17 Pro Max con cada idioma (ver `landing/videos.md` para ocultar la hora), dejarlas en `capturas/<idioma>/1-5.png` y ejecutar `sh landing/tools/capturas.sh`: salen en `capturas/<idioma>/tienda/` con un titular encima (textos en `landing/tools/capturas.html`) |
 | Icono de 1024 × 1024 sin transparencia | ✅ | `app/assets/images/icon.png` |
-| Clasificación por edad | ⬜ | Cuestionario: sin contenido sensible, debería salir 4+ |
-| Categoría | ⬜ | Estilo de vida (o Salud y forma física) |
+| Clasificación por edad | 🟡 | Respuestas preparadas abajo: debería salir 4+. Falta rellenarlo en App Store Connect |
+| Categoría | 🟡 | Principal: **Estilo de vida**. Secundaria: **Productividad**. No elegir «Niños» (ver abajo) |
 | Cumplimiento de exportación | ✅ | `ITSAppUsesNonExemptEncryption: false` (solo HTTPS) |
 | Solo iPhone | ✅ | `supportsTablet: false` |
+
+**Cuestionario de clasificación por edad** (App Store Connect › Información de la app › Clasificación por edad). Los nombres de las preguntas pueden variar un poco; la idea es:
+
+| Pregunta | Respuesta | Por qué |
+|---|---|---|
+| Violencia (de dibujos, realista, prolongada) | Ninguna | Lumi solo explora y trae postales |
+| Lenguaje soez o humor crudo | Ninguno | |
+| Contenido sexual o desnudos | Ninguno | |
+| Terror o miedo | Ninguno | |
+| Alcohol, tabaco o drogas | Ninguno | |
+| Información médica o de tratamientos | Ninguna | Es bienestar digital, no salud: no da consejos médicos |
+| Juegos de azar simulados | Ninguno | Las recompensas de las expediciones dependen de la luz del día, no se compran ni se apuestan (las chispas no se venden) |
+| Concursos | No | |
+| Acceso libre a la web | No | Solo abre enlaces propios (legales, ayuda) |
+| Contenido generado por usuarios o chat | No | Los nombres (el tuyo y el de Lumi) no los ve nadie más |
+| Publicidad | No | |
+| Controles parentales | No | Family Controls se usa para el propio usuario, no para controlar a otros |
+| Verificación de edad | No | |
+
+Resultado esperado: **4+**. Los Términos piden 13 años o más para crear cuenta (la app sin cuenta funciona igual), lo que no cambia la clasificación.
+
+**Por qué no la categoría «Niños»:** obliga a reglas extra (sin enlaces fuera de la app sin control parental, sin análisis de terceros, revisión más estricta) y Lumi no está pensada para menores de 13.
 
 ### Idiomas
 
@@ -105,6 +127,8 @@ La app y la web hablan el idioma del dispositivo: **español, inglés, chino (si
 # Variables de la app en EAS (entorno production)
 npx eas-cli@latest env:create --environment production --name EXPO_PUBLIC_API_URL --value https://api.<dominio> --visibility plaintext
 npx eas-cli@latest env:create --environment production --name EXPO_PUBLIC_REVENUECAT_IOS_KEY --value appl_… --visibility plaintext
+# El dominio de la landing: sale en la tarjeta del resumen y en las postales compartidas (sin él, no se enseña)
+npx eas-cli@latest env:create --environment production --name EXPO_PUBLIC_SITE_DOMAIN --value <dominio> --visibility plaintext
 
 # Build y envío
 npx eas-cli@latest build --platform ios --profile production
@@ -127,3 +151,9 @@ Con la build de producción (TestFlight) en un iPhone real:
 6. **Legales:** Privacidad, Términos y Ayuda se abren en la app y en la web, en el idioma del dispositivo, con el correo de contacto relleno.
 7. **Ficha:** `python3 tools/check_ficha.py` en verde, capturas de 6,9" y las URLs con el dominio real (también las `hreflang` de la landing, en absoluto).
 8. **Lista de espera:** apuntarse en la landing, recibir el correo de bienvenida en el idioma de la web y darse de baja con su enlace.
+
+## 8. Después de publicar
+
+1. Con la URL de la ficha, simular el aviso a la lista de espera: `APP_STORE_URL=… node dist/db/announce-launch.js` (cuenta por idioma, no envía nada).
+2. Enviarlo con `--send` (ver `backend/README.md`). Quien se dé de baja sale de la lista al momento.
+3. Poner la URL de la ficha en `APP_STORE_URL` (`landing/main.js`): la landing pasa a modo lanzamiento (botón «Descargar en la App Store» en vez de la lista de espera, «Ya en el iPhone» y sin «¿Cuándo sale?»).

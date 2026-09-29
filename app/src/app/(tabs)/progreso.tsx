@@ -10,7 +10,8 @@ import { DESTINATIONS } from '@/game/destinations';
 import { MAX_REST_DAYS_PER_WEEK } from '@/game/engine';
 import { rangeLabel, whenLabel } from '@/game/format';
 import { useGame, type GameApi } from '@/game/store';
-import { longestStreak } from '@/game/stats';
+import { longestStreak, pastWeeks } from '@/game/stats';
+import { shortDay, shortRange } from '@/components/summary/week-summary';
 import { EVOLUTION } from '@/lumi/data';
 import { LUMI_STATES } from '@/lumi/states';
 import { useLumi } from '@/lumi/store';
@@ -86,15 +87,24 @@ export default function ProgressScreen() {
           en: `${name} shone ${brightDays} of 7 days and visited 1 new place`,
           zh: `${name}在 7 天里亮了 ${brightDays} 天，去了 1 个新地方`,
           hi: `${name} 7 में से ${brightDays} दिन चमकी और 1 नई जगह घूमी`,
-          fr: `${name} a brillé ${brightDays} jours sur 7 et a visité 1 nouveau lieu`,
+          fr: `${name} a brillé ${brightDays} ${frDays(brightDays)} sur 7 et a visité 1 nouveau lieu`,
         })
       : tr({
           es: `${name} brilló ${brightDays} de 7 días y visitó ${places} lugares nuevos`,
           en: `${name} shone ${brightDays} of 7 days and visited ${places} new places`,
           zh: `${name}在 7 天里亮了 ${brightDays} 天，去了 ${places} 个新地方`,
           hi: `${name} 7 में से ${brightDays} दिन चमकी और ${places} नई जगहें घूमी`,
-          fr: `${name} a brillé ${brightDays} jours sur 7 et a visité ${places} nouveaux lieux`,
+          fr: `${name} a brillé ${brightDays} ${frDays(brightDays)} sur 7 et a visité ${places} ${places === 0 ? 'nouveau lieu' : 'nouveaux lieux'}`,
         });
+  // Una semana a cero no se comparte: se anima a empezarla.
+  const empty = brightDays === 0 && places === 0;
+  const emptySummary = tr({
+    es: `La semana de ${name} empieza con su primera expedición. Aquí verás cómo os va.`,
+    en: `${name}’s week starts with the first expedition. You’ll see how it’s going here.`,
+    zh: `${name}的一周从第一次探险开始。在这里可以看到你们的进展。`,
+    hi: `${name} का हफ़्ता पहले सफ़र से शुरू होता है। कैसा चल रहा है, यहाँ दिखेगा।`,
+    fr: `La semaine de ${name} commence avec sa première expédition. Tu verras ici comment ça se passe.`,
+  });
   const range = week.length ? rangeLabel(week[0].date, week[week.length - 1].date) : '';
   const subtitle = week.length
     ? tr({
@@ -190,7 +200,7 @@ export default function ProgressScreen() {
                           en: `${d.lit} of 4 light segments`,
                           zh: `4 段光中的 ${d.lit} 段`,
                           hi: `रोशनी के 4 में से ${d.lit} हिस्से`,
-                          fr: `${d.lit} tranches de lumière sur 4`,
+                          fr: `${d.lit} ${d.lit <= 1 ? 'tranche' : 'tranches'} de lumière sur 4`,
                         })
               }`;
               return (
@@ -226,17 +236,19 @@ export default function ProgressScreen() {
             accessibilityLabel={`${name}, ${LUMI_STATES.radiante.label.toLowerCase()}`}
           />
           <View style={styles.shareTxt}>
-            <Text style={styles.shareTitle}>{summary}</Text>
-            <PillButton
-              label={tr({
-                es: 'Compartir resumen',
-                en: 'Share summary',
-                zh: '分享总结',
-                hi: 'सारांश शेयर करो',
-                fr: 'Partager le bilan',
-              })}
-              onPress={() => router.push('/resumen')}
-            />
+            <Text style={styles.shareTitle}>{empty ? emptySummary : summary}</Text>
+            {empty ? null : (
+              <PillButton
+                label={tr({
+                  es: 'Compartir resumen',
+                  en: 'Share summary',
+                  zh: '分享总结',
+                  hi: 'सारांश शेयर करो',
+                  fr: 'Partager le bilan',
+                })}
+                onPress={() => router.push('/resumen')}
+              />
+            )}
           </View>
         </View>
       </View>
@@ -258,7 +270,7 @@ export default function ProgressScreen() {
                     en: `${evolution.inStage} of ${evolution.perStage} bright days`,
                     zh: `${evolution.inStage} / ${evolution.perStage} 个发光日`,
                     hi: `${evolution.perStage} में से ${evolution.inStage} रोशन दिन`,
-                    fr: `${evolution.inStage} jours de lumière sur ${evolution.perStage}`,
+                    fr: `${evolution.inStage} ${frDays(evolution.inStage)} de lumière sur ${evolution.perStage}`,
                   })}
             </Text>
           }>
@@ -282,16 +294,33 @@ export default function ProgressScreen() {
   );
 }
 
+/** En francés, 0 y 1 van en singular. */
+const frDays = (n: number) => (n <= 1 ? 'jour' : 'jours');
+
+const brightLabel = tr({
+  es: 'días brillando',
+  en: 'bright days',
+  zh: '发光的日子',
+  hi: 'रोशन दिन',
+  fr: 'jours de lumière',
+});
+
 /** Tus números de siempre (Lumi Plus). Sin Plus se ven difuminados, con la invitación. */
 function LifetimeStats({ game, isPlus }: { game: GameApi; isPlus: boolean }) {
   const stats = [
     {
       value: game.brightDays,
-      label: tr({ es: 'días brillando', en: 'bright days', zh: '发光的日子', hi: 'रोशन दिन', fr: 'jours de lumière' }),
+      label: brightLabel,
     },
     {
       value: longestStreak(game.history),
-      label: tr({ es: 'racha más larga', en: 'longest streak', zh: '最长连续', hi: 'सबसे लंबा सिलसिला', fr: 'plus longue série' }),
+      label: tr({
+        es: 'racha más larga',
+        en: 'longest streak',
+        zh: '最长连续',
+        hi: 'सबसे लंबा सिलसिला',
+        fr: 'plus longue série',
+      }),
     },
     {
       value: `${game.visited.length}/${DESTINATIONS.length}`,
@@ -327,6 +356,23 @@ function LifetimeStats({ game, isPlus }: { game: GameApi; isPlus: boolean }) {
                 {isPlus ? st.value : '·'}
               </Text>
               <Text style={styles.statLabel}>{st.label}</Text>
+            </View>
+          ))}
+        </View>
+        <View style={[styles.pastWeeks, !isPlus && styles.statsLocked]} accessibilityElementsHidden={!isPlus}>
+          {pastWeeks(game.history, game.today).map((w) => (
+            <View
+              key={w.monday}
+              style={styles.pastWeek}
+              accessible
+              accessibilityLabel={`${shortRange(w.monday, w.sunday)}: ${isPlus ? w.brightDays : '?'}/7 ${brightLabel}`}>
+              <View style={styles.pastTrack}>
+                <View style={[styles.pastFill, { height: `${((isPlus ? w.brightDays : 0) / 7) * 100}%` }]} />
+              </View>
+              <Text style={styles.pastValue}>{isPlus ? `${w.brightDays}/7` : '·'}</Text>
+              <Text style={styles.statLabel} numberOfLines={1}>
+                {shortDay(w.monday)}
+              </Text>
             </View>
           ))}
         </View>
@@ -399,9 +445,33 @@ const styles = StyleSheet.create({
   statsGrid: { flexDirection: 'row', flexWrap: 'wrap', rowGap: 16 },
   statsLocked: { opacity: 0.35 },
   stat: { width: '33.33%', alignItems: 'center', gap: 2 },
-  statValue: { fontFamily: Fonts.displayBold, fontSize: 24, lineHeight: 30, color: Colors.amberPale, fontVariant: ['tabular-nums'] },
+  statValue: {
+    fontFamily: Fonts.displayBold,
+    fontSize: 24,
+    lineHeight: 30,
+    color: Colors.amberPale,
+    fontVariant: ['tabular-nums'],
+  },
   statLabel: { fontFamily: Fonts.body, fontSize: 12, lineHeight: 16, color: Colors.textTertiary, textAlign: 'center' },
   statsCta: { alignItems: 'center', gap: 10 },
+  pastWeeks: {
+    flexDirection: 'row',
+    gap: 8,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: Colors.hairline,
+    paddingTop: 14,
+  },
+  pastWeek: { flex: 1, alignItems: 'center', gap: 4 },
+  pastTrack: {
+    width: 22,
+    height: 44,
+    borderRadius: 8,
+    backgroundColor: 'rgba(201, 191, 242, 0.1)',
+    justifyContent: 'flex-end',
+    overflow: 'hidden',
+  },
+  pastFill: { width: '100%', borderRadius: 8, backgroundColor: Colors.amber },
+  pastValue: { fontFamily: Fonts.bodySemiBold, fontSize: 12, color: Colors.amberPale, fontVariant: ['tabular-nums'] },
   evo: { flexDirection: 'row', gap: 8 },
   evoStage: { flex: 1, alignItems: 'center', gap: 4 },
   orb: { width: 44, height: 44, borderRadius: 22 },

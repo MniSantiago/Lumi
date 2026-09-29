@@ -53,6 +53,7 @@ PAGE = """<!doctype html>
   <div class="wrap foot-inner">
     <span class="wordmark small">Lumi</span>
     <p><a href="ayuda.html">Ayuda</a> · <a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a></p>
+    <p class="langs" data-langs><a href="?lang=es" hreflang="es" lang="es">Español</a> · <a href="?lang=en" hreflang="en" lang="en">English</a> · <a href="?lang=zh" hreflang="zh-Hans" lang="zh-Hans">中文</a> · <a href="?lang=hi" hreflang="hi" lang="hi">हिन्दी</a> · <a href="?lang=fr" hreflang="fr" lang="fr">Français</a></p>
   </div>
 </footer>
 </body>

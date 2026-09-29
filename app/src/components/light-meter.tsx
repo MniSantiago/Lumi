@@ -25,7 +25,7 @@ export function LightMeter({ lit, note, compact = false }: { lit: number; note?:
           en: `Today’s light: ${lit} of 4 segments`,
           zh: `今天的光：4 段中的 ${lit} 段`,
           hi: `आज की रोशनी: 4 में से ${lit} हिस्से`,
-          fr: `Lumière du jour : ${lit} tranches sur 4`,
+          fr: `Lumière du jour : ${lit} ${lit <= 1 ? 'tranche' : 'tranches'} sur 4`,
         })}>
         {[0, 1, 2, 3].map((i) => (
           <View key={i} style={[styles.segment, i < lit ? styles.lit : styles.off]} />
