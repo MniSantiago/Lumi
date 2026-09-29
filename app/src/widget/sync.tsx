@@ -2,8 +2,11 @@ import Constants, { ExecutionEnvironment } from 'expo-constants';
 import { useEffect } from 'react';
 
 import { useGame } from '@/game/store';
+import { LUMI_STATES } from '@/lumi/states';
 import { useLumi } from '@/lumi/store';
+import { isNightTime } from '@/lumi/time';
 import { tr } from '@/i18n';
+import { clockTime } from '@/i18n/dates';
 
 import type { LumiWidgetProps } from './lumi-widget';
 
@@ -29,7 +32,18 @@ export function WidgetSync() {
   const { ready, state, settings } = useLumi();
   const game = useGame();
   const exploring = !!game.currentDestination && !game.todayRecord.closed;
-  const status = game.pendingReturn
+  // En el horario de noche, dormida (como en el Hogar, #52).
+  const night = isNightTime(settings.nightStart, settings.nightEnd);
+  const shown = night ? LUMI_STATES.apagadita : state;
+  const status = night
+    ? tr({
+        es: `Durmiendo hasta las ${clockTime(settings.nightEnd)}`,
+        en: `Sleeping until ${clockTime(settings.nightEnd)}`,
+        zh: `睡到${clockTime(settings.nightEnd)}`,
+        hi: `${clockTime(settings.nightEnd)} तक सो रही है`,
+        fr: `Dort jusqu’à ${clockTime(settings.nightEnd)}`,
+      })
+    : game.pendingReturn
     ? tr({
         es: 'Ha vuelto con una postal',
         en: 'Back with a postcard',
@@ -42,7 +56,7 @@ export function WidgetSync() {
           es: `De expedición, vuelve a las ${game.returnsAt}`,
           en: `Exploring, back at ${game.returnsAt}`,
           zh: `探险中，${game.returnsAt}回来`,
-          hi: `सफ़र पर, ${game.returnsAt} बजे लौटेगी`,
+          hi: `सफ़र पर, ${game.returnsAt} को लौटेगी`,
           fr: `En expédition, retour à ${game.returnsAt}`,
         })
       : state.key === 'apagadita'
@@ -59,8 +73,8 @@ export function WidgetSync() {
     if (!enabled || !ready || !settings.onboarded) return;
     const props: LumiWidgetProps = {
       lumiName: settings.lumiName,
-      label: state.label,
-      stateKey: state.key,
+      label: night ? tr({ es: 'Durmiendo', en: 'Sleeping', zh: '睡觉中', hi: 'सो रही है', fr: 'Endormie' }) : state.label,
+      stateKey: shown.key,
       lit: state.lit,
       status,
     };
@@ -69,7 +83,7 @@ export function WidgetSync() {
     } catch {
       // Un widget que no se actualiza no debe romper la app.
     }
-  }, [ready, settings.onboarded, settings.lumiName, state.key, state.label, state.lit, status]);
+  }, [ready, settings.onboarded, settings.lumiName, night, shown.key, state.label, state.lit, status]);
 
   return null;
 }
