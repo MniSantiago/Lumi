@@ -207,7 +207,9 @@ Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1`
   - Bucle de vídeo de Lumi respirando o flotando.
   - 2-3 postales ilustradas: Bosque de Musgo, Cuevas de Cristal y Lago de las Lunas.
 
-### Paso 3. Completar las pantallas del MVP en el mockup
+### Paso 3. Completar las pantallas del MVP en el mockup (superado: están en la app)
+
+> Onboarding, postal nocturna, paywall y resumen semanal ya existen en la app de verdad (`app/src/app/`), en 5 idiomas. El mockup queda como referencia visual; no hace falta completarlo.
 
 - **Onboarding (3 pasos):**
   1. Conocer a Lumi y ponerle nombre.
