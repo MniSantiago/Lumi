@@ -10,6 +10,7 @@ import { LUMI_STATES, type LumiState } from '@/lumi/states';
 import { formatLimit, LIMIT_OPTIONS } from '@/lumi/store';
 import { stepTime } from '@/lumi/time';
 import { tr } from '@/i18n';
+import { clockTime } from '@/i18n/dates';
 
 /** Umbral en el que aparece cada estado (ver `stateForThreshold`). */
 const STAGES: { state: LumiState; pct: number }[] = [
@@ -155,7 +156,7 @@ export default function LimitStep() {
               })}
             />
             <Stepper
-              value={draft.nightStart}
+              value={clockTime(draft.nightStart)}
               onDecrease={() => setDraft({ nightStart: stepTime(draft.nightStart, -1) })}
               onIncrease={() => setDraft({ nightStart: stepTime(draft.nightStart, 1) })}
               decreaseLabel={tr({
@@ -185,7 +186,7 @@ export default function LimitStep() {
               })}
             />
             <Stepper
-              value={draft.nightEnd}
+              value={clockTime(draft.nightEnd)}
               onDecrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, -1) })}
               onIncrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, 1) })}
               decreaseLabel={tr({

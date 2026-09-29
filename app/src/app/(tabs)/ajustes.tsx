@@ -13,6 +13,7 @@ import { formatLimit, LIMIT_OPTIONS, useLumi } from '@/lumi/store';
 import { stepTime } from '@/lumi/time';
 import { cancelNightlyReturn, ensureNotificationPermission, permissionDeniedCopy } from '@/notifications';
 import { lang, LANG_NAMES, tr } from '@/i18n';
+import { clockTime } from '@/i18n/dates';
 
 export default function SettingsScreen() {
   const { settings, updateSettings } = useLumi();
@@ -213,7 +214,7 @@ export default function SettingsScreen() {
               })}
             />
             <Stepper
-              value={settings.nightStart}
+              value={clockTime(settings.nightStart)}
               onDecrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, -1) })}
               onIncrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, 1) })}
               decreaseLabel={tr({
@@ -250,7 +251,7 @@ export default function SettingsScreen() {
               })}
             />
             <Stepper
-              value={settings.nightEnd}
+              value={clockTime(settings.nightEnd)}
               onDecrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, -1) })}
               onIncrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, 1) })}
               decreaseLabel={tr({
