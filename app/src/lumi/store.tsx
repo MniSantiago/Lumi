@@ -20,6 +20,8 @@ export type Settings = {
   /** Aviso del domingo por la tarde con el resumen de la semana. */
   weeklySummary: boolean;
   restDays: boolean;
+  /** Escudo estricto (Lumi Plus): sin «5 min más». */
+  strictShield: boolean;
   /** Suscripción a Lumi Plus activa (de momento, compra simulada). */
   isPlus: boolean;
 };
@@ -35,6 +37,7 @@ const DEFAULT_SETTINGS: Settings = {
   nightlyPostcard: true,
   weeklySummary: true,
   restDays: true,
+  strictShield: false,
   isPlus: false,
 };
 

@@ -58,6 +58,7 @@ El uso de pantalla **no se recoge**: se queda en el iPhone (Screen Time por umbr
 | Recordatorio antes de que acabe la prueba | ✅ | Notificación local 2 días antes |
 | Lo gratis sigue funcionando sin pagar | ✅ | Escudo, límite, expediciones, postales, widget y modo noche |
 | Grupo de suscripción en App Store Connect | ⬜ | Anual (49,99 $, 7 días gratis) y mensual. IDs: `$rc_annual`, `$rc_monthly` en RevenueCat |
+| **Lo que se anuncia de Plus existe** (guías 2.3.1 y 3.1.2) | ✅ | Plus anuncia solo zonas exclusivas, escudo estricto y «Tus números», que ya están en la app. Especies y colores de luz, varios horarios y decoración de la madriguera quedan para más adelante: no se anuncian hasta que existan. Si el widget (#22) no sale en la primera versión, quitarlo también de «Gratis para siempre», de la ficha y de la landing. |
 | EULA | 🟡 | Términos propios en la app. En App Store Connect se puede usar el EULA estándar de Apple o enlazar `landing/terminos.html`. |
 
 ## 5. Ficha de la App Store

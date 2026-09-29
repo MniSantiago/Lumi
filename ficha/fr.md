@@ -52,7 +52,7 @@ L’ESSENTIEL EST GRATUIT
 Ta Lumi et son bouclier, la limite quotidienne, les expéditions et les cartes, le widget et le mode nuit sont gratuits. Toujours.
 
 LUMI PLUS (FACULTATIF)
-Pour qui veut aller un peu plus loin : plus d’espèces et de couleurs de lumière, des lieux exclusifs et des chapitres d’histoire, plusieurs horaires et des statistiques, et de la décoration pour son terrier. Abonnement annuel ou mensuel, avec 7 jours gratuits sur l’offre annuelle. Il se renouvelle automatiquement jusqu’à ce que tu l’annules dans Réglages › ton nom › Abonnements, au moins 24 heures avant le renouvellement.
+Pour qui veut aller un peu plus loin : des lieux exclusifs avec leurs propres histoires, un bouclier strict sans « 5 min de plus » et tes chiffres depuis le début (plus longue série, lieux, objets et amis). Abonnement annuel ou mensuel, avec 7 jours gratuits sur l’offre annuelle. Il se renouvelle automatiquement jusqu’à ce que tu l’annules dans Réglages › ton nom › Abonnements, au moins 24 heures avant le renouvellement.
 
 Conditions : https://<domaine>/terminos.html?lang=fr
 Confidentialité : https://<domaine>/privacidad.html?lang=fr

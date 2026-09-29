@@ -15,6 +15,14 @@ import { cancelNightlyReturn, ensureNotificationPermission, permissionDeniedCopy
 import { lang, LANG_NAMES, tr } from '@/i18n';
 import { clockTime } from '@/i18n/dates';
 
+const strictTitle = tr({
+  es: 'Escudo estricto',
+  en: 'Strict shield',
+  zh: '严格护盾',
+  hi: 'सख़्त ढाल',
+  fr: 'Bouclier strict',
+});
+
 const weeklyTitle = tr({
   es: 'Resumen del domingo',
   en: 'Sunday summary',
@@ -352,7 +360,7 @@ export default function SettingsScreen() {
             />
             <Toggle label={weeklyTitle} value={settings.weeklySummary} onChange={(v) => void setWeeklySummary(v)} />
           </Row>
-          <Row last>
+          <Row>
             <Label
               title={tr({
                 es: 'Días de descanso',
@@ -380,6 +388,27 @@ export default function SettingsScreen() {
               value={settings.restDays}
               onChange={(v) => updateSettings({ restDays: v })}
             />
+          </Row>
+          <Row last>
+            <Label
+              title={strictTitle}
+              sub={tr({
+                es: 'Sin «5 min más» en el escudo · Lumi Plus',
+                en: 'No “5 more min” on the shield · Lumi Plus',
+                zh: '护盾上没有“再 5 分钟” · Lumi Plus',
+                hi: 'ढाल पर "5 मिनट और" नहीं · Lumi Plus',
+                fr: 'Pas de « 5 min de plus » sur le bouclier · Lumi Plus',
+              })}
+            />
+            {settings.isPlus ? (
+              <Toggle
+                label={strictTitle}
+                value={settings.strictShield}
+                onChange={(v) => updateSettings({ strictShield: v })}
+              />
+            ) : (
+              <TextLink label="Plus" onPress={() => router.push('/plus')} />
+            )}
           </Row>
         </List>
       </View>
