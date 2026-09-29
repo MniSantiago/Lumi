@@ -64,6 +64,8 @@ export default function HomeScreen() {
   const night = isNightTime(settings.nightStart, settings.nightEnd);
   const state = night ? nightState(settings.nightEnd) : dayState;
   const game = useGame();
+  // El primer día se explica la regla: sin pasar de la mitad del límite, hay postal.
+  const firstDay = game.ready && game.history.length <= 1 && !game.pendingReturn && !night && dayState.lit > 2;
   // Al tocar a Lumi dice otra cosa; con cada cambio de estado vuelve a su frase principal.
   const [talk, setTalk] = useState<{ key: string; i: number }>({ key: state.key, i: -1 });
   const line = talk.key === state.key && talk.i >= 0 ? state.chatter[talk.i % state.chatter.length] : state.bubble;
@@ -118,6 +120,17 @@ export default function HomeScreen() {
 
         <Card style={styles.meterCard}>
           <LightMeter lit={dayState.lit} note={meterNote(threshold, settings.limitMinutes)} />
+          {firstDay ? (
+            <AppText variant="caption">
+              {tr({
+                es: 'Tus apps ladronas gastan su luz. Si hoy no pasas de la mitad de tu límite, esta noche vuelve con una postal.',
+                en: 'Your thief apps drain her light. Stay under half your limit today and she’ll bring you a postcard tonight.',
+                zh: '“偷时间”的应用会消耗她的光。今天用量不超过上限的一半，今晚她就会带着明信片回来。',
+                hi: 'चोर ऐप्स उसकी रोशनी खर्च करते हैं। आज सीमा का आधा भी पार न हो, तो आज रात वो पोस्टकार्ड लेकर लौटेगी।',
+                fr: 'Tes applis voleuses usent sa lumière. Reste sous la moitié de ta limite aujourd’hui et elle te rapporte une carte ce soir.',
+              })}
+            </AppText>
+          ) : null}
           {__DEV__ ? <ThresholdSimulator value={threshold} /> : null}
         </Card>
 
