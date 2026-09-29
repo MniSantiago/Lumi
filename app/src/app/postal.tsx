@@ -87,7 +87,8 @@ function NoPostcard() {
 
 function TonightPostcard({ pending }: { pending: PendingReturn }) {
   const { settings } = useLumi();
-  const { saveReturnToAlbum, album } = useGame();
+  const { saveReturnToAlbum, album, streak } = useGame();
+  const milestone = copy.streakMilestone(streak);
   const tonight = useMemo(() => nightlyReturnFrom(pending), [pending]);
   const { destination } = tonight;
   const insets = useSafeAreaInsets();
@@ -187,6 +188,13 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
             ))}
           </View>
           <SparksCounter t={t} stage={timeline.sparks} total={tonight.sparks} unit={copy.sparksUnit} />
+          {milestone ? (
+            <FadeUp t={t} stage={timeline.sparks} lift={4}>
+              <Text style={styles.milestone} accessibilityLiveRegion="polite">
+                {milestone}
+              </Text>
+            </FadeUp>
+          ) : null}
         </View>
       </ScrollView>
 
@@ -333,6 +341,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   rewardRow: { flexDirection: 'row', justifyContent: 'center', gap: 10 },
+  milestone: {
+    fontFamily: Fonts.bodySemiBold,
+    fontSize: 14,
+    lineHeight: 20,
+    color: Colors.amberPale,
+    textAlign: 'center',
+    paddingHorizontal: 12,
+  },
   bottom: { paddingHorizontal: 28, paddingTop: 8 },
   actions: { gap: 10, minHeight: 110, justifyContent: 'center' },
   hint: {
