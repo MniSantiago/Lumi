@@ -34,6 +34,9 @@ services:
         sync: false
       - key: CORS_ORIGINS
         sync: false
+      # Opcional: URL pública de la API para los enlaces de los correos (si no, se deduce de la petición).
+      - key: PUBLIC_URL
+        sync: false
 
   - type: web
     name: lumi-landing

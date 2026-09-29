@@ -1,5 +1,6 @@
 import type { ReactNode } from 'react';
 import {
+  Platform,
   Pressable,
   ScrollView,
   StyleSheet,
@@ -44,13 +45,19 @@ export function Card({ children, style }: { children: ReactNode; style?: StylePr
 /**
  * Pantalla interior con scroll y cabecera de cuento, sobre la noche con un
  * resplandor lavanda arriba a la derecha (como `.inner-bg` del mockup).
- * Bajo las pestañas nativas, el inset inferior lo pone iOS.
+ * Bajo las pestañas nativas, el inset inferior lo pone iOS. En la web las
+ * pestañas flotan arriba: se deja su hueco (`WEB_TABS_INSET`).
  */
+/** En la web, las pestañas nativas son una barra flotante arriba (unos 64 px). */
+export const WEB_TABS_INSET = Platform.OS === 'web' ? 64 : 0;
+
 export function Screen({ title, subtitle, children }: { title: string; subtitle?: string; children: ReactNode }) {
   return (
     <View style={styles.screen}>
       <View pointerEvents="none" style={styles.innerBg} />
-      <ScrollView contentInsetAdjustmentBehavior="automatic" contentContainerStyle={styles.screenContent}>
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerStyle={[styles.screenContent, { paddingTop: WEB_TABS_INSET }]}>
         <View style={styles.header}>
           <AppText variant="display">{title}</AppText>
           {subtitle ? <AppText style={styles.subtitle}>{subtitle}</AppText> : null}

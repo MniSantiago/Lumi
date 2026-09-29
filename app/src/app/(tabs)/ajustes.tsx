@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { Alert, Linking, StyleSheet, Text, View } from 'react-native';
 
 import { exportMyData } from '@/account/export';
+import { apiAvailable } from '@/api/client';
 import { useSession } from '@/account/session';
 import { AppIcon, Label, List, Row, Stepper, Toggle } from '@/components/onboarding/controls';
 import { PillButton, SectionTitle, Screen, TextLink } from '@/components/ui';
@@ -531,16 +532,8 @@ export default function SettingsScreen() {
               })}
               onPress={() => router.push('/plus')}
             />
-            <Text style={styles.plusSmall}>
-              {tr({
-                es: 'Luego 49,99 $ al año.',
-                en: 'Then $49.99 a year.',
-                zh: '之后每年 $49.99。',
-                hi: 'फिर $49.99 सालाना।',
-                fr: 'Puis 49,99 $ par an.',
-              })}{' '}
-              {paywallCopy.noPressure}
-            </Text>
+            {/* El precio lo enseña el paywall, localizado por la App Store: aquí no se fija. */}
+            <Text style={styles.plusSmall}>{paywallCopy.noPressure}</Text>
           </>
         )}
       </View>
@@ -589,8 +582,8 @@ function AccountSection() {
   const { settings } = useLumi();
   const game = useGame();
   if (loading) return null;
-  const downloadRow = (
-    <Row>
+  const downloadRow = (last = false) => (
+    <Row last={last}>
       <Label
         title={tr({
           es: 'Tus datos',
@@ -638,10 +631,12 @@ function AccountSection() {
       />
     </Row>
   );
+  // Sin servidor configurado, solo queda descargar los datos de este iPhone.
+  if (!apiAvailable) return <List>{downloadRow(true)}</List>;
   if (!user) {
     return (
       <List>
-        {downloadRow}
+        {downloadRow()}
         <Row last>
           <Label
             title={tr({
@@ -727,7 +722,7 @@ function AccountSection() {
           />
         )}
       </Row>
-      {downloadRow}
+      {downloadRow()}
       <Row>
         <Label
           title={tr({

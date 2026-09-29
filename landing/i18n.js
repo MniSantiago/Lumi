@@ -27,6 +27,11 @@
     });
   }
 
+  // Selector del pie: marca el idioma actual.
+  document.querySelectorAll('[data-langs] a').forEach((a) => {
+    if (a.getAttribute('hreflang')?.startsWith(lang)) a.setAttribute('aria-current', 'true');
+  });
+
   // Páginas legales: un bloque por idioma.
   const blocks = document.querySelectorAll('[data-lang]');
   blocks.forEach((b) => {

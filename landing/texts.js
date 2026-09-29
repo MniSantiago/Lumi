@@ -64,7 +64,7 @@ window.LUMI_ROWS = [
   ['Lumi dormida hecha una bolita, con las antenas apenas encendidas', 'Lumi asleep curled up in a ball, her antennae barely lit', 'Lumi 蜷成一团睡着了，触角只亮着一点点', 'Lumi गेंद की तरह सिकुड़कर सोई हुई, एंटीना बस हल्के-से जले हुए', 'Lumi endormie en boule, les antennes à peine allumées'],
   ['Lumi se estaba echando la siesta… ¿de verdad entramos?', 'Lumi was taking a nap… are we really going in?', 'Lumi 正在打盹呢……真的要进去吗？', 'Lumi झपकी ले रही थी… सच में अंदर जाएँ?', 'Lumi faisait la sieste… on y va vraiment ?'],
   ['Ya habéis pasado de tu hora de hoy. Si lo dejas ahora, mañana se despierta con más luz.', 'You’ve gone past today’s time. If you stop now, she’ll wake up brighter tomorrow.', '今天的时间已经用完了。现在放下，她明天醒来会更亮。', 'आज का समय पूरा हो चुका है। अभी छोड़ दो, तो कल वो और ज़्यादा रोशनी के साथ जागेगी।', 'Vous avez dépassé ton temps du jour. Si tu arrêtes maintenant, elle se réveillera plus lumineuse demain.'],
-  ['Vale, lo dejo', 'Okay, I’ll stop', '好，我放下', 'ठीक है, छोड़ता हूँ', 'D’accord, j’arrête'],
+  ['Vale, lo dejo', 'Okay, I’ll stop', '好，我放下', 'ठीक है, छोड़ देते हैं', 'D’accord, j’arrête'],
   ['5 min más', '5 more min', '再 5 分钟', '5 मिनट और', '5 min de plus'],
   ['Gracias. Me quedo soñando contigo 💤', 'Thank you. I’ll keep dreaming of you 💤', '谢谢你。我继续梦见你 💤', 'शुक्रिया। मैं तुम्हारे सपने देखती रहूँगी 💤', 'Merci. Je continue à rêver de toi 💤'],
   ['Vale, 5 minutitos. Aquí te espero 🌙', 'Okay, 5 little minutes. I’ll wait here 🌙', '好，5 分钟。我在这儿等你 🌙', 'ठीक है, 5 मिनट। मैं यहीं इंतज़ार करूँगी 🌙', 'D’accord, 5 petites minutes. Je t’attends ici 🌙'],
@@ -106,7 +106,7 @@ window.LUMI_ROWS = [
   ['Si lo dejas a medias, se rompe la racha.', 'If you stop halfway, the streak breaks.', '半途而废，连续记录就断了。', 'बीच में छोड़ा, तो सिलसिला टूट जाता है।', 'Si tu t’arrêtes en cours, la série est cassée.'],
   ['Si te pasas, se duerme. Las rachas perdonan los días de descanso.', 'If you overdo it, she falls asleep. Streaks forgive rest days.', '刷过头了，她就睡着。连续记录会原谅休息日。', 'ज़्यादा हो जाए, तो वो सो जाती है। सिलसिले आराम के दिनों को माफ़ कर देते हैं।', 'Si tu exagères, elle s’endort. Les séries pardonnent les jours de repos.'],
   ['Una pantalla que te dice que no.', 'A screen that tells you no.', '一块对你说“不”的屏幕。', 'एक स्क्रीन जो तुम्हें ना कहती है।', 'Un écran qui te dit non.'],
-  ['Una carita que te pregunta si de verdad.', 'A little face asking if you really mean it.', '一张小脸问你：真的吗？', 'एक नन्हा चेहरा जो पूछता है: सच में?', 'Une petite frimousse qui te demande si tu es sûr.'],
+  ['Una carita que te pregunta si de verdad.', 'A little face asking if you really mean it.', '一张小脸问你：真的吗？', 'एक नन्हा चेहरा जो पूछता है: सच में?', 'Une petite frimousse qui te demande : vraiment ?'],
   ['Los bloqueadores y los temporizadores le funcionan a mucha gente. Lumi es para quien prefiere que le cuiden a que le vigilen.', 'Blockers and timers work for lots of people. Lumi is for those who’d rather be cared for than watched.', '屏蔽器和计时器对很多人有用。Lumi 是给那些更想被照顾、而不是被监视的人。', 'ब्लॉकर और टाइमर बहुत लोगों के काम आते हैं। Lumi उनके लिए है जिन्हें निगरानी से ज़्यादा देखभाल पसंद है।', 'Les bloqueurs et les minuteurs marchent pour beaucoup de gens. Lumi est pour celles et ceux qui préfèrent qu’on prenne soin d’eux plutôt qu’on les surveille.'],
 
   // ── Privacidad ──
@@ -169,6 +169,12 @@ window.LUMI_ROWS = [
   ['Ese correo no parece completo. Revisa que tenga @ y dominio, por ejemplo tu@correo.com.', 'That email doesn’t look complete. Check it has an @ and a domain, for example you@email.com.', '这个邮箱地址好像不完整。请检查是否有 @ 和域名，例如 you@email.com。', 'यह ईमेल पूरा नहीं लगता। देखो कि उसमें @ और डोमेन है, जैसे you@email.com।', 'Cet e-mail semble incomplet. Vérifie qu’il a un @ et un domaine, par exemple toi@email.com.'],
   ['La lista de espera abre muy pronto y todavía no guarda correos. Vuelve en unos días y Lumi te apunta.', 'The waitlist opens very soon and doesn’t save emails yet. Come back in a few days and Lumi will sign you up.', '等候名单很快开放，目前还不能保存邮箱。过几天再来，Lumi 会帮你登记。', 'प्रतीक्षा सूची बहुत जल्द खुलेगी और अभी ईमेल सहेजती नहीं। कुछ दिनों में लौटो, Lumi तुम्हारा नाम लिख लेगी।', 'La liste d’attente ouvre très bientôt et n’enregistre pas encore les e-mails. Reviens dans quelques jours et Lumi t’inscrira.'],
   ['No se ha podido guardar tu correo. Comprueba la conexión y vuelve a intentarlo.', 'We couldn’t save your email. Check your connection and try again.', '无法保存你的邮箱。请检查网络后重试。', 'तुम्हारा ईमेल सहेजा नहीं जा सका। कनेक्शन देखकर फिर कोशिश करो।', 'Impossible d’enregistrer ton e-mail. Vérifie ta connexion et réessaie.'],
+
+  // ── Página 404 ──
+  ['Página no encontrada · Lumi', 'Page not found · Lumi', '找不到页面 · Lumi', 'पेज नहीं मिला · Lumi', 'Page introuvable · Lumi'],
+  ['Esta página se ha ido de expedición', 'This page has gone on an expedition', '这个页面出去探险了', 'यह पेज सफ़र पर निकल गया है', 'Cette page est partie en expédition'],
+  ['No la encontramos por aquí. Seguro que vuelve con una postal.', 'We can’t find it around here. It’ll surely come back with a postcard.', '我们在这里找不到它。它一定会带着明信片回来。', 'हमें यह यहाँ नहीं मिला। पक्का पोस्टकार्ड लेकर लौटेगा।', 'On ne la trouve pas par ici. Elle reviendra sûrement avec une carte postale.'],
+  ['Volver al inicio', 'Back to home', '返回首页', 'होम पर लौटो', 'Retour à l’accueil'],
 
   // ── Páginas legales ──
   ['Última actualización:', 'Last updated:', '最后更新：', 'आख़िरी अपडेट:', 'Dernière mise à jour :'],

@@ -33,7 +33,7 @@ export const shieldCopy = {
     es: 'Vale, lo dejo',
     en: 'Okay, I’ll stop',
     zh: '好，我放下',
-    hi: 'ठीक है, छोड़ता हूँ',
+    hi: 'ठीक है, छोड़ देते हैं',
     fr: 'D’accord, j’arrête',
   }),
   leaveThanks: tr({

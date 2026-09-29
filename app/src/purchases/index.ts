@@ -11,8 +11,9 @@ import { tr } from '@/i18n';
  *   versión de la tienda, con `EXPO_PUBLIC_REVENUECAT_IOS_KEY`. Los precios
  *   llegan ya localizados por la App Store y `settings.isPlus` sigue al
  *   entitlement "plus" (ver `PlusSync`).
- * - Mock: en Expo Go, en web o sin clave. Precios fijos y compras que salen
- *   bien tras ~800 ms; no cobra nada.
+ * - Mock: en desarrollo, Expo Go y web. Precios fijos y compras que salen
+ *   bien tras ~800 ms; no cobra nada. En una build de la tienda sin clave, las
+ *   compras quedan no disponibles (nunca el mock).
  *
  * Las chispas nunca se venden: aquí solo hay suscripciones a Plus.
  */
@@ -53,9 +54,16 @@ export interface PurchasesSource {
 const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 function createMockPurchases(): PurchasesSource {
-  const price = (n: string) => tr({ es: `${n.replace('.', ',')} $`, en: `$${n}`, zh: `US$${n}`, hi: `$${n}`, fr: `${n.replace('.', ',')} $` });
+  const price = (n: string) =>
+    tr({ es: `${n.replace('.', ',')} $`, en: `$${n}`, zh: `US$${n}`, hi: `$${n}`, fr: `${n.replace('.', ',')} $` });
   const perMonth = (n: string) =>
-    tr({ es: `${price(n)}/mes`, en: `${price(n)}/mo`, zh: `${price(n)}/月`, hi: `${price(n)}/महीना`, fr: `${price(n)}/mois` });
+    tr({
+      es: `${price(n)}/mes`,
+      en: `${price(n)}/mo`,
+      zh: `${price(n)}/月`,
+      hi: `${price(n)}/महीना`,
+      fr: `${price(n)}/mois`,
+    });
   const packages: PlusPackage[] = [
     {
       id: 'annual',
@@ -101,6 +109,25 @@ const inExpoGo = Constants.executionEnvironment === ExecutionEnvironment.StoreCl
 /** `true` si las compras son de verdad (RevenueCat); `false` con el mock. */
 export const realStore = Platform.OS === 'ios' && !inExpoGo && !!REVENUECAT_IOS_KEY;
 
+/**
+ * Una build de iOS para la tienda sin la clave de RevenueCat no puede usar el
+ * mock (Plus saldría gratis): las compras quedan no disponibles. El mock es
+ * solo para desarrollo, Expo Go y la web.
+ */
+const storeBuildWithoutKey = Platform.OS === 'ios' && !inExpoGo && !__DEV__ && !REVENUECAT_IOS_KEY;
+
 export const purchases: PurchasesSource = realStore
   ? createRevenueCatPurchases(REVENUECAT_IOS_KEY)
-  : createMockPurchases();
+  : storeBuildWithoutKey
+    ? createUnavailablePurchases()
+    : createMockPurchases();
+
+/** Sin tienda: no hay planes y comprar o restaurar falla (el paywall lo explica). */
+function createUnavailablePurchases(): PurchasesSource {
+  const fail = () => Promise.reject(new Error('Compras no configuradas (falta EXPO_PUBLIC_REVENUECAT_IOS_KEY)'));
+  return {
+    getOfferings: async () => [],
+    purchase: fail,
+    restore: fail,
+  };
+}

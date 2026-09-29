@@ -4,6 +4,7 @@ import { router, type Href } from 'expo-router';
 import { useRef } from 'react';
 import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
 
+import { apiAvailable } from '@/api/client';
 import { Fireflies } from '@/components/fireflies';
 import { LumiAvatar } from '@/components/lumi-avatar';
 import { SecondaryLink } from '@/components/account/form';
@@ -111,16 +112,18 @@ export default function MeetLumiStep() {
           autoCapitalize="words"
           returnKeyType="done"
         />
-        <SecondaryLink
-          label={tr({
-            es: '¿Ya tenías a Lumi? Entra en tu cuenta',
-            en: 'Already had Lumi? Sign in',
-            zh: '已经有 Lumi 了？登录账户',
-            hi: 'पहले से Lumi है? अपने खाते में जाओ',
-            fr: 'Tu avais déjà Lumi ? Connecte-toi',
-          })}
-          onPress={() => router.push('/cuenta?modo=entrar')}
-        />
+        {apiAvailable ? (
+          <SecondaryLink
+            label={tr({
+              es: '¿Ya tenías a Lumi? Entra en tu cuenta',
+              en: 'Already had Lumi? Sign in',
+              zh: '已经有 Lumi 了？登录账户',
+              hi: 'पहले से Lumi है? अपने खाते में जाओ',
+              fr: 'Tu avais déjà Lumi ? Connecte-toi',
+            })}
+            onPress={() => router.push('/cuenta?modo=entrar')}
+          />
+        ) : null}
       </View>
     </StepShell>
   );

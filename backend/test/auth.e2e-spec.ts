@@ -336,6 +336,55 @@ describe('Cuentas (e2e)', () => {
     ]);
   });
 
+  it('se da de baja de la lista de espera con el enlace del correo', async () => {
+    await http()
+      .post('/waitlist')
+      .set('Accept-Language', 'fr')
+      .send({ email: 'baja@correo.com' })
+      .expect(204);
+    const welcome = mail.sent
+      .filter((m) => m.to === 'baja@correo.com')
+      .at(-1)!.mail;
+    expect(welcome.subject).toBe('Tu es sur la liste de Lumi ! ✨');
+    const link = welcome.text.match(/https?:\/\/\S+/)![0];
+    expect(welcome.headers?.['List-Unsubscribe']).toBe(`<${link}>`);
+    const url = new URL(link);
+    const path = `${url.pathname}${url.search}`;
+
+    // Abrir el enlace solo pide confirmación: no borra nada.
+    const page = await http()
+      .get(path)
+      .set('Accept-Language', 'fr')
+      .expect(200);
+    expect(page.headers['content-type']).toContain('text/html');
+    expect(page.text).toContain('On te retire de la liste ?');
+    const count = async () =>
+      (
+        await pool.query(
+          "select count(*)::int as n from waitlist_entries where email = 'baja@correo.com'",
+        )
+      ).rows[0].n;
+    expect(await count()).toBe(1);
+
+    // Con un token cambiado, nada.
+    await http()
+      .post(path.replace(/token=[^&]+/, 'token=falso'))
+      .expect(200);
+    expect(await count()).toBe(1);
+
+    // El botón del formulario (o el clic único del cliente de correo) la borra.
+    const done = await http()
+      .post('/waitlist/unsubscribe')
+      .type('form')
+      .send({
+        email: url.searchParams.get('email'),
+        token: url.searchParams.get('token'),
+      })
+      .expect(200);
+    expect(done.text).toContain('Ya no estás en la lista');
+    expect(await count()).toBe(0);
+  });
+
   it('guarda y devuelve el progreso de la cuenta', async () => {
     const { body } = await register('progreso@correo.com').expect(200);
     const auth = { Authorization: `Bearer ${body.accessToken}` };
