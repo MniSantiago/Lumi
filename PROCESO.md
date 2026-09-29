@@ -162,7 +162,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 56 | #58 | Postal: celebra la primera postal |
 | 57 | #59 | Cuenta: correos y contraseñas largos ya no se cortan; confirmaciones en la web |
 | 58 | #60 | Horario de noche: dormir y despertar nunca a la misma hora |
-| — | #15 | **Borrador:** Screen Time nativo (encima de #47, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
+| — | #15 | **Borrador:** Screen Time nativo (encima de #60; fusionar cuando compile en un iPhone. Falta el escudo de noche en iOS, ver #57) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
 Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1` (ver `app/app.config.ts`); sin esas variables, la app es la de siempre.
