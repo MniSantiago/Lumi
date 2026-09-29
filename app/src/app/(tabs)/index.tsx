@@ -24,6 +24,7 @@ import { screenTime } from '@/screen-time';
 
 function greeting(date = new Date()) {
   const h = date.getHours();
+  if (h < 5) return tr({ es: 'Ya es tarde', en: 'It’s late', zh: '夜深了', hi: 'रात काफ़ी हो गई', fr: 'Il est tard' });
   if (h >= 6 && h < 13)
     return tr({ es: 'Buenos días', en: 'Good morning', zh: '早上好', hi: 'सुप्रभात', fr: 'Bonjour' });
   if (h >= 13 && h < 20)
