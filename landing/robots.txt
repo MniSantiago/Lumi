@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /404.html
+
+# Al tener dominio, añadir: Sitemap: https://<dominio>/sitemap.xml

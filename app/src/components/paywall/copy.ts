@@ -257,6 +257,13 @@ export const paywallCopy = {
     fr: 'Lumi ne sera pas triste si tu ne l’essaies pas.',
   }),
 
+  plansUnavailable: tr({
+    es: 'Lumi Plus no está disponible ahora mismo. Vuelve a intentarlo más tarde.',
+    en: 'Lumi Plus isn’t available right now. Try again later.',
+    zh: 'Lumi Plus 暂时无法使用。请稍后再试。',
+    hi: 'Lumi Plus अभी उपलब्ध नहीं है। बाद में फिर कोशिश करो।',
+    fr: 'Lumi Plus n’est pas disponible pour le moment. Réessaie plus tard.',
+  }),
   loadingPlans: tr({
     es: 'Buscando los planes…',
     en: 'Loading plans…',

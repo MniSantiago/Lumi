@@ -148,7 +148,7 @@ export default function WeeklySummaryScreen() {
           en: `My week with ${summary.lumiName}, ${summary.range}: ${summary.shone} of 7 days shining. ${summary.line}`,
           zh: `我和${summary.lumiName}的一周（${summary.range}）：7 天里亮了 ${summary.shone} 天。${summary.line}`,
           hi: `${summary.lumiName} के साथ मेरा हफ़्ता, ${summary.range}: 7 में से ${summary.shone} दिन चमकी। ${summary.line}`,
-          fr: `Ma semaine avec ${summary.lumiName}, ${summary.range} : ${summary.shone} jours sur 7 à briller. ${summary.line}`,
+          fr: `Ma semaine avec ${summary.lumiName}, ${summary.range} : ${summary.shone} ${summary.shone === 1 ? 'jour' : 'jours'} sur 7 à briller. ${summary.line}`,
         })
       : tr({
           es: `Mi semana con ${summary.lumiName}, ${summary.range}. ${summary.line}`,

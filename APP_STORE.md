@@ -10,8 +10,8 @@ Lo que Apple pide para publicar Lumi y en qué estado está. ✅ hecho · 🟡 e
 |---|---|---|---|
 | 🔒 | **Entitlement de Family Controls (Distribution)** | ⬜ | Sin él no se puede publicar el bloqueo real. Se pide en developer.apple.com con la cuenta de pago (99 $/año). Tarda semanas: pedirlo ya. |
 | ⬜ | **Módulo nativo de Screen Time** | 🟡 | Integrado con `react-native-device-activity` (`app/src/screen-time/native.ts`), **sin compilar todavía**. Se activa con `LUMI_SCREEN_TIME=1` y `APPLE_TEAM_ID` al compilar (`app/app.config.ts`). Apple tiene que aprobar Family Controls para 4 bundle IDs: `com.gonzalez.lumi`, `com.gonzalez.lumi.ActivityMonitorExtension`, `com.gonzalez.lumi.ShieldAction` y `com.gonzalez.lumi.ShieldConfiguration` (comprobados con `expo prebuild`), más el App Group `group.com.gonzalez.lumi`. Con Screen Time, la app pide iOS 18 como mínimo (igual que sus extensiones). |
-| ⬜ | **Compras reales (StoreKit)** | 🟡 | Código listo con RevenueCat (`app/src/purchases/revenuecat.ts`). Falta: crear los productos en App Store Connect, configurar RevenueCat (entitlement `plus`, paquetes `$rc_annual` y `$rc_monthly`), poner `EXPO_PUBLIC_REVENUECAT_IOS_KEY` en EAS y probar con un development build en sandbox. |
-| ⬜ | **Backend desplegado con HTTPS** | 🟡 | Código listo (`backend/`, `Dockerfile`). Falta desplegarlo (Railway, Render o Fly.io) y poner `EXPO_PUBLIC_API_URL` en EAS (ver §6). |
+| ⬜ | **Compras reales (StoreKit)** | 🟡 | Código listo con RevenueCat (`app/src/purchases/revenuecat.ts`). Falta: crear los productos en App Store Connect, configurar RevenueCat (entitlement `plus`, paquetes `$rc_annual` y `$rc_monthly`), poner `EXPO_PUBLIC_REVENUECAT_IOS_KEY` en EAS y probar con un development build en sandbox. Sin la clave, una build de la tienda enseña «Lumi Plus no está disponible ahora mismo» (nunca las compras de prueba). |
+| ⬜ | **Backend desplegado con HTTPS** | 🟡 | Código listo (`backend/`, `Dockerfile`). Falta desplegarlo (Railway, Render o Fly.io) y poner `EXPO_PUBLIC_API_URL` en EAS (ver §6). Sin esa variable, la build de producción oculta la cuenta (la app funciona igual), así que no se puede olvidar sin que se note: comprobar que Ajustes › Cuenta aparece antes de enviar. |
 | ⬜ | **Dominio y correo** | ⬜ | Verificar el dominio en Resend (SPF y DKIM), poner `MAIL_FROM` y rellenar `contactEmail` en `app/src/legal/content.json` (sale en Ayuda). |
 
 ## 2. Cuenta de usuario (guía 5.1.1)
@@ -105,12 +105,27 @@ La app y la web hablan el idioma del dispositivo: **español, inglés, chino (si
 # Variables de la app en EAS (entorno production)
 npx eas-cli@latest env:create --environment production --name EXPO_PUBLIC_API_URL --value https://api.<dominio> --visibility plaintext
 npx eas-cli@latest env:create --environment production --name EXPO_PUBLIC_REVENUECAT_IOS_KEY --value appl_… --visibility plaintext
+# El dominio de la landing: sale en la tarjeta del resumen y en las postales compartidas (sin él, no se enseña)
+npx eas-cli@latest env:create --environment production --name EXPO_PUBLIC_SITE_DOMAIN --value <dominio> --visibility plaintext
 
 # Build y envío
 npx eas-cli@latest build --platform ios --profile production
 npx eas-cli@latest submit --platform ios --profile production
 ```
 
-Backend (variables en la plataforma): `NODE_ENV=production`, `DATABASE_URL`, `JWT_SECRET` (32+ caracteres), `RESEND_API_KEY`, `MAIL_FROM`, `CORS_ORIGINS` (el dominio de la landing). Al arrancar aplica las migraciones. Activa las copias de seguridad de Postgres en la plataforma.
+Backend (variables en la plataforma): `NODE_ENV=production`, `DATABASE_URL`, `JWT_SECRET` (32+ caracteres), `RESEND_API_KEY`, `MAIL_FROM`, `CORS_ORIGINS` (el dominio de la landing) y, opcional, `PUBLIC_URL` (la URL de la API, para los enlaces de los correos). Al arrancar aplica las migraciones. Activa las copias de seguridad de Postgres en la plataforma.
 
 Landing: pon la URL del backend en `WAITLIST_ENDPOINT` (`landing/main.js`) como `https://api.<dominio>/waitlist`.
+
+## 7. Comprobación final antes de enviar
+
+Con la build de producción (TestFlight) en un iPhone real:
+
+1. **Idioma:** con el iPhone en inglés (o en Ajustes de iOS › Lumi › Idioma), la app, los avisos y los correos salen en inglés. Repetir con otro idioma.
+2. **Cuenta:** Ajustes › Cuenta aparece (si no, falta `EXPO_PUBLIC_API_URL`). Crear una cuenta, recibir el código, entrar desde otro iPhone y borrarla.
+3. **Cuenta de prueba:** `review@<dominio>` entra con la contraseña de las notas de revisión (`npm run review:account` la crea).
+4. **Plus:** el paywall enseña los precios de la App Store (si dice «no está disponible», falta `EXPO_PUBLIC_REVENUECAT_IOS_KEY`). Comprar en sandbox, restaurar y encender el escudo estricto.
+5. **Escudo y avisos:** elegir apps con el selector de Apple, llegar al límite y ver a Lumi en el escudo; la postal nocturna y el aviso del domingo llegan.
+6. **Legales:** Privacidad, Términos y Ayuda se abren en la app y en la web, en el idioma del dispositivo, con el correo de contacto relleno.
+7. **Ficha:** `python3 tools/check_ficha.py` en verde, capturas de 6,9" y las URLs con el dominio real (también las `hreflang` de la landing, en absoluto).
+8. **Lista de espera:** apuntarse en la landing, recibir el correo de bienvenida en el idioma de la web y darse de baja con su enlace.

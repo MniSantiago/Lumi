@@ -128,7 +128,7 @@ export default function CollectionScreen() {
               en: `${ownedItems} of ${ITEM_CATALOG.length} things`,
               zh: `${ownedItems} / ${ITEM_CATALOG.length} 件物品`,
               hi: `${ITEM_CATALOG.length} में से ${ownedItems} चीज़ें`,
-              fr: `${ownedItems} objets sur ${ITEM_CATALOG.length}`,
+              fr: `${ownedItems} ${ownedItems <= 1 ? 'objet' : 'objets'} sur ${ITEM_CATALOG.length}`,
             })}
           />
         ) : (
@@ -140,7 +140,7 @@ export default function CollectionScreen() {
               en: `${ownedFriends} of ${FRIEND_CATALOG.length} creature friends`,
               zh: `${ownedFriends} / ${FRIEND_CATALOG.length} 个小伙伴`,
               hi: `${FRIEND_CATALOG.length} में से ${ownedFriends} जीव दोस्त`,
-              fr: `${ownedFriends} amis sur ${FRIEND_CATALOG.length}`,
+              fr: `${ownedFriends} ${ownedFriends <= 1 ? 'ami' : 'amis'} sur ${FRIEND_CATALOG.length}`,
             })}
           />
         )}

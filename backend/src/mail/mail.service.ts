@@ -34,6 +34,7 @@ export class MailService {
       subject: mail.subject,
       html: mail.html,
       text: mail.text,
+      headers: mail.headers,
     });
     // No rompemos la petición del usuario por un fallo de correo: queda en el log.
     if (error)

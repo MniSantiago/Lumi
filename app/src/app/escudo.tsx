@@ -11,6 +11,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { haptic } from '@/haptics';
 import { Fireflies } from '@/components/fireflies';
 import { AppTag, ShieldButton } from '@/components/shield/shield-parts';
 import { SleepingLumi } from '@/components/shield/sleeping-lumi';
@@ -68,6 +69,7 @@ export default function ShieldScreen() {
     if (busy.current) return;
     busy.current = true;
     setPhase('leaving');
+    haptic.success();
     finish(shieldCopy.leaveThanks, 1);
   };
 
@@ -75,6 +77,7 @@ export default function ShieldScreen() {
     if (busy.current) return;
     busy.current = true;
     setPhase('snoozing');
+    haptic.light();
     const count = await grantSnooze();
     finish(shieldCopy.snoozeGranted(count), 0.45);
   };

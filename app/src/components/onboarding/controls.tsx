@@ -2,6 +2,7 @@ import { SymbolView } from 'expo-symbols';
 import { useState, type ReactNode, type Ref } from 'react';
 import { Pressable, StyleSheet, Switch, Text, TextInput, View, type TextInputProps } from 'react-native';
 
+import { haptic } from '@/haptics';
 import { Colors, Fonts, Radius } from '@/constants/theme';
 import type { ThiefApp } from '@/lumi/data';
 
@@ -95,11 +96,27 @@ export function Stepper({
         if (e.nativeEvent.actionName === 'increment' && canIncrease) onIncrease();
         if (e.nativeEvent.actionName === 'decrement' && canDecrease) onDecrease();
       }}>
-      <StepButton label="−" a11y={decreaseLabel} disabled={!canDecrease} onPress={onDecrease} />
+      <StepButton
+        label="−"
+        a11y={decreaseLabel}
+        disabled={!canDecrease}
+        onPress={() => {
+          haptic.selection();
+          onDecrease();
+        }}
+      />
       <Text style={styles.stepValue} maxFontSizeMultiplier={1.6}>
         {value}
       </Text>
-      <StepButton label="+" a11y={increaseLabel} disabled={!canIncrease} onPress={onIncrease} />
+      <StepButton
+        label="+"
+        a11y={increaseLabel}
+        disabled={!canIncrease}
+        onPress={() => {
+          haptic.selection();
+          onIncrease();
+        }}
+      />
     </View>
   );
 }

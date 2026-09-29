@@ -1,4 +1,3 @@
-import * as Haptics from 'expo-haptics';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -6,10 +5,11 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { haptic } from '@/haptics';
 import { Fireflies } from '@/components/fireflies';
 import { LightMeter } from '@/components/light-meter';
 import { LumiAvatar } from '@/components/lumi-avatar';
-import { AppText, Card, Pill } from '@/components/ui';
+import { AppText, Card, Pill, WEB_TABS_INSET } from '@/components/ui';
 import { Colors, Fonts, Radius, Spacing } from '@/constants/theme';
 import { useGame, type GameApi } from '@/game/store';
 import type { Destination } from '@/game/types';
@@ -46,7 +46,7 @@ export default function HomeScreen() {
   const [talk, setTalk] = useState<{ key: string; i: number }>({ key: state.key, i: -1 });
   const line = talk.key === state.key && talk.i >= 0 ? state.chatter[talk.i % state.chatter.length] : state.bubble;
   const onPokeLumi = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+    haptic.light();
     setTalk((prev) => ({ key: state.key, i: prev.key === state.key ? prev.i + 1 : 0 }));
   };
 
@@ -68,7 +68,7 @@ export default function HomeScreen() {
       <View
         style={[
           styles.content,
-          { paddingTop: insets.top + Spacing.two, paddingBottom: insets.bottom + Spacing.three },
+          { paddingTop: insets.top + Spacing.two + WEB_TABS_INSET, paddingBottom: insets.bottom + Spacing.three },
         ]}>
         <View style={styles.header}>
           <View>

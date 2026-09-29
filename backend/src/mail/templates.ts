@@ -5,7 +5,13 @@
 
 import { currentLang, tr } from '../i18n.js';
 
-export type MailContent = { subject: string; html: string; text: string };
+export type MailContent = {
+  subject: string;
+  html: string;
+  text: string;
+  /** Cabeceras extra (p. ej. List-Unsubscribe en la lista de espera). */
+  headers?: Record<string, string>;
+};
 
 const esc = (s: string) =>
   s
@@ -164,7 +170,7 @@ export function passwordChangedMail(name: string): MailContent {
     en: 'We’ve signed you out on your other devices.',
     zh: '我们已让你的其他设备退出登录。',
     hi: 'हमने तुम्हारे दूसरे डिवाइस से साइन आउट कर दिया है।',
-    fr: 'Nous t’avons déconnecté de tes autres appareils.',
+    fr: 'Nous avons fermé ta session sur tes autres appareils.',
   });
   return {
     subject: tr({
@@ -244,7 +250,8 @@ export function accountDeletedMail(name: string): MailContent {
   };
 }
 
-export function waitlistWelcomeMail(): MailContent {
+/** `unsubscribeUrl`: enlace firmado para darse de baja (ver `waitlist/unsubscribe.ts`). */
+export function waitlistWelcomeMail(unsubscribeUrl?: string): MailContent {
   const title = tr({
     es: '¡Ya estás en la lista!',
     en: 'You’re on the list!',
@@ -266,15 +273,39 @@ export function waitlistWelcomeMail(): MailContent {
     hi: 'तब तक, उसकी एक तरकीब: रात के खाने के समय फ़ोन दूसरे कमरे में रख दो। वो ख़ूब चमकती है।',
     fr: 'En attendant, une de ses astuces : laisse ton téléphone dans une autre pièce pendant le dîner. Elle brille énormément.',
   });
+  const subject = tr({
+    es: '¡Ya estás en la lista de Lumi! ✨',
+    en: 'You’re on Lumi’s list! ✨',
+    zh: '你已加入 Lumi 的名单！✨',
+    hi: 'तुम Lumi की सूची में हो! ✨',
+    fr: 'Tu es sur la liste de Lumi ! ✨',
+  });
+  const leave = tr({
+    es: 'Darme de baja de la lista',
+    en: 'Unsubscribe from the list',
+    zh: '退出名单',
+    hi: 'सूची से नाम हटाओ',
+    fr: 'Me désinscrire de la liste',
+  });
   return {
-    subject: tr({
-      es: '¡Ya estás en la lista de Lumi! ✨',
-      en: 'You’re on Lumi’s list! ✨',
-      zh: '你已加入 Lumi 的名单！✨',
-      hi: 'तुम Lumi की सूची में हो! ✨',
-      fr: 'Tu es sur la liste de Lumi ! ✨',
-    }),
-    html: layout(title, [hop, tip]),
-    text: `${title}\n\n${hop}\n\n${tip}`,
+    subject,
+    html: layout(title, [
+      hop,
+      tip,
+      ...(unsubscribeUrl
+        ? [
+            `<a href="${esc(unsubscribeUrl)}" style="color:#A69FD8;font-size:13px">${leave}</a>`,
+          ]
+        : []),
+    ]),
+    text: `${title}\n\n${hop}\n\n${tip}${unsubscribeUrl ? `\n\n${leave}: ${unsubscribeUrl}` : ''}`,
+    ...(unsubscribeUrl
+      ? {
+          headers: {
+            'List-Unsubscribe': `<${unsubscribeUrl}>`,
+            'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+          },
+        }
+      : {}),
   };
 }
