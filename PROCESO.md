@@ -248,4 +248,4 @@ Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1`
   - *Landing:* el texto va en español en `index.html` o `main.js` y su fila en `landing/texts.js` con las cuatro traducciones.
   - *Backend:* los errores se escriben en español y se traducen en `backend/src/i18n.ts` (`MESSAGES`); los correos usan `tr()` en `mail/templates.ts`. El idioma llega en `Accept-Language`.
   - *Ficha:* `FICHA_APP_STORE.md` y `ficha/<idioma>.md`; `python3 tools/check_ficha.py`.
-  - *Un idioma nuevo:* añadirlo a `LANGS` en `app/src/i18n` y `backend/src/i18n.ts` (TypeScript señala cada texto que falta), crear sus archivos de contenido y legales, una columna en `landing/texts.js`, su bloque en `CHROME` de `legal.py`, su ficha y su `locales` en `app/app.json`.
+  - *Un idioma nuevo:* añadirlo a `LANGS` en `app/src/i18n` y `backend/src/i18n.ts` (TypeScript señala cada texto que falta), crear sus archivos de contenido y legales, una columna en `landing/texts.js` (y el idioma en `LANGS` de `landing/i18n.js`), su bloque en `CHROME` de `legal.py`, su ficha y su `locales` en `app/app.json`.
