@@ -1,6 +1,6 @@
 # Lumi: registro del proceso
 
-Última sesión: lunes 28 de septiembre de 2026 (noche): bloques de UX y preparación para producción.
+Última sesión: lunes 28 al martes 29 de septiembre de 2026 (noche): bloques de UX y preparación para producción (PR hasta #61).
 Para retomar: abre un chat en el proyecto "Cozy experience" (o pega este archivo y `BRIEF.md`) y di en qué paso vamos.
 
 ---
@@ -23,8 +23,10 @@ Para retomar: abre un chat en el proyecto "Cozy experience" (o pega este archivo
 | Backend (NestJS, Postgres, Resend): cuentas, recuperación de contraseña, borrado de cuenta y lista de espera | Hecho, sin desplegar | `backend/` |
 | Cuenta opcional en la app (cliente Orval) | Hecha | `app/src/account/`, `app/src/api/` |
 | Checklist de la App Store | Hecho | `APP_STORE.md` |
+| Horario de noche: Lumi duerme, escudo de noche y bonus por noche tranquila | Hecho (en iOS falta el escudo de noche nativo y leer los «5 min más» de la extensión, ver #15) | `app/src/lumi/time.ts`, `app/src/shield/`, `app/src/game/engine.ts` |
+| Capturas de la App Store con titular en 5 idiomas | Herramienta lista; faltan las capturas del simulador | `landing/tools/capturas.sh` |
 | Entitlement de Family Controls | **Pendiente** (paso 4) | |
-| Compras reales (RevenueCat) | **Pendiente** | `app/src/purchases/` es un mock |
+| Compras reales (RevenueCat) | Código listo; **pendiente** crear productos, poner la clave en EAS y probar en sandbox | `app/src/purchases/revenuecat.ts` (sin clave, una build de la tienda dice que Plus no está disponible) |
 | Validación (vídeos de TikTok) | **Pendiente** (paso 5) | `landing/videos.md` |
 | Repositorio Git | En GitHub: `origin` = github.com/MniSantiago/Lumi | Raíz de esta carpeta |
 
