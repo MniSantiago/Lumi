@@ -130,7 +130,9 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 28 | #30 | Idiomas 3: errores y correos del backend |
 | 29 | #31 | Idiomas 4: legales, ayuda y landing |
 | 30 | #32 | Ficha de la App Store en 5 idiomas y CI de la ficha |
-| — | #15 | **Borrador:** Screen Time nativo (sale de #14; fusionar cuando compile en un iPhone) |
+| 31 | #33 | Pulido: idioma en Ajustes, hora de 12 h, hreflang, cuenta de revisión y rachas |
+| 32 | #34 | Aviso del domingo con el resumen de la semana |
+| — | #15 | **Borrador:** Screen Time nativo (encima de #32, ya con idiomas; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
 Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1` (ver `app/app.config.ts`); sin esas variables, la app es la de siempre.
