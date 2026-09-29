@@ -241,3 +241,11 @@ Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1`
 - **Commits desde Claude:** en esta carpeta necesita permiso de borrado (Git borra sus archivos `.lock`); se concede por sesión.
 - **Repositorio:** en GitHub (`origin` = https://github.com/MniSantiago/Lumi). Todo se trabaja en ramas con PR contra `main`.
 - **Expo:** proyecto `@mnisantiago/lumi` (https://expo.dev/accounts/mnisantiago/projects/lumi), vinculado en `app/app.json`.
+- **Idiomas (es, en, zh, hi, fr; si no, inglés):**
+  - *Un texto nuevo en la app:* `tr({ es, en, zh, hi, fr })` de `@/i18n`, junto al código que lo usa. El tipo sale del español: si falta un idioma, no compila. Fechas y horas con `@/i18n/dates` (`dayMonth`, `clockTime`…), comillas con `quoted()`.
+  - *Contenido del juego:* `app/src/game/content/<idioma>.ts` (lugares, historias, objetos y amigos, con su gramática: `the`, `from`, `a`, `feminine`). Un test comprueba que todos tienen las mismas claves.
+  - *Legales y ayuda:* `app/src/legal/i18n/<idioma>.json`; después `python3 landing/tools/legal.py` (CI comprueba que la landing está al día).
+  - *Landing:* el texto va en español en `index.html` o `main.js` y su fila en `landing/texts.js` con las cuatro traducciones.
+  - *Backend:* los errores se escriben en español y se traducen en `backend/src/i18n.ts` (`MESSAGES`); los correos usan `tr()` en `mail/templates.ts`. El idioma llega en `Accept-Language`.
+  - *Ficha:* `FICHA_APP_STORE.md` y `ficha/<idioma>.md`; `python3 tools/check_ficha.py`.
+  - *Un idioma nuevo:* añadirlo a `LANGS` en `app/src/i18n` y `backend/src/i18n.ts` (TypeScript señala cada texto que falta), crear sus archivos de contenido y legales, una columna en `landing/texts.js`, su bloque en `CHROME` de `legal.py`, su ficha y su `locales` en `app/app.json`.
