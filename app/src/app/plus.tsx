@@ -1,6 +1,6 @@
 import { router } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { AccessibilityInfo, ActivityIndicator, ScrollView, StyleSheet, Text, View } from 'react-native';
+import { AccessibilityInfo, ActivityIndicator, Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, {
   Easing,
   FadeIn,
@@ -26,6 +26,7 @@ import { Colors, Fonts, Radius } from '@/constants/theme';
 import { useLumi } from '@/lumi/store';
 import { cancelTrialReminder, scheduleTrialReminder } from '@/notifications';
 import { purchases, type PlusPackage, type PlusPackageId } from '@/purchases';
+import { tr } from '@/i18n';
 
 const ease = { easing: Easing.out(Easing.cubic), reduceMotion: ReduceMotion.System };
 /** Cuánto dura el momento de éxito antes de cerrar la hoja. */
@@ -217,6 +218,19 @@ export default function PlusScreen() {
           {owned ? (
             <>
               <WideButton label={paywallCopy.close} onPress={close} />
+              <View style={styles.linksRow}>
+                {/* Cancelar o cambiar de plan se hace en Apple; lo dejamos a un toque. */}
+                <SmallLink
+                  label={tr({
+                    es: 'Gestionar suscripción',
+                    en: 'Manage subscription',
+                    zh: '管理订阅',
+                    hi: 'सदस्यता प्रबंधित करो',
+                    fr: 'Gérer l’abonnement',
+                  })}
+                  onPress={() => void Linking.openURL('https://apps.apple.com/account/subscriptions')}
+                />
+              </View>
               {__DEV__ ? (
                 <View style={styles.linksRow}>
                   <SmallLink label={paywallCopy.devRemove} onPress={onDevRemove} />

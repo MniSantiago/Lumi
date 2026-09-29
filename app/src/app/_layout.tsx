@@ -84,6 +84,7 @@ function RootStack() {
         <Stack.Screen name="plus" options={{ presentation: 'modal' }} />
         <Stack.Screen name="apps" options={{ presentation: 'modal' }} />
         <Stack.Screen name="nombres" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="chispas" options={{ presentation: 'modal' }} />
         <Stack.Screen name="cuenta/contrasena" options={{ presentation: 'modal' }} />
         <Stack.Screen name="cuenta/eliminar" options={{ presentation: 'modal' }} />
         <Stack.Screen name="resumen" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />

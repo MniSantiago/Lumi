@@ -11,8 +11,10 @@ export type DateKey = string;
 export type Destination = {
   id: string;
   name: string;
-  /** Artículo del nombre, para "del Bosque", "de la Colina", "de las Cuevas". */
-  article: 'el' | 'la' | 'los' | 'las';
+  /** Con artículo: "el Bosque de Musgo" (en chino e hindi, solo el nombre). */
+  the: string;
+  /** De procedencia: "del Bosque de Musgo" (en hindi, la forma que va antes de "से"). */
+  from: string;
   /** Degradado CSS (`experimental_backgroundImage`) de la miniatura y la postal. */
   art: string;
   chapter: number;
@@ -37,8 +39,10 @@ export type CatalogEntry = {
   name: string;
   /** Clave del dibujo en `components/collection-icon.tsx`. */
   icon: string;
-  /** Artículo indefinido para las frases ("una seta brillante"). */
-  article: 'un' | 'una' | 'unos' | 'unas';
+  /** Con artículo indefinido, para las frases: "una seta brillante". */
+  a: string;
+  /** Género gramatical, para concordar ("¡Amiga nueva!"). */
+  feminine: boolean;
 };
 
 export type ExpeditionResult = {

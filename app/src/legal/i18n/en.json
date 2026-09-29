@@ -1,0 +1,144 @@
+{
+  "privacidad": {
+    "title": "Privacy",
+    "intro": "Lumi is made to help you spend less time on your phone, not to learn more about you. Here’s what it uses and why.",
+    "updated": "September 2026",
+    "sections": [
+      {
+        "heading": "What Lumi doesn’t see",
+        "body": [
+          "Lumi uses Apple’s Screen Time (Family Controls and Device Activity). It only receives notices like “you’re halfway through your limit”.",
+          "It doesn’t know what videos you watch, what you write or who you talk to. iOS wouldn’t allow it anyway."
+        ]
+      },
+      {
+        "heading": "What’s stored on your iPhone",
+        "body": [
+          "Your name, Lumi’s name, your daily limit, your night schedule, the apps you picked and your progress: days, postcards, things and sparks.",
+          "All of this lives on your device. If you don’t create an account, it isn’t sent to any server. If you delete the app, it’s deleted with it."
+        ]
+      },
+      {
+        "heading": "If you create an account (optional)",
+        "body": [
+          "We store your email, your encrypted password (never in plain text), your name and Lumi’s, so you don’t lose your progress if you change iPhones.",
+          "We only use your email for account matters: confirming it’s yours, recovering your password and letting you know about security changes. We send these emails with Resend.",
+          "You can delete your account whenever you want from Settings › Account › Delete account. It’s erased immediately with all its data."
+        ]
+      },
+      {
+        "heading": "Notifications",
+        "body": [
+          "If you turn them on, Lumi schedules the nightly postcard notification and the reminder before the free trial ends on your iPhone. They’re local notifications: they don’t go through any server."
+        ]
+      },
+      {
+        "heading": "Purchases",
+        "body": [
+          "Lumi Plus subscriptions are charged by Apple. We never see your card. To know whether you have Plus active, we use an anonymous purchase identifier."
+        ]
+      },
+      {
+        "heading": "Waitlist",
+        "body": [
+          "If you sign up on the website, we store your email and where you came from (for example, a TikTok video) only to let you know when Lumi is ready. We don’t sell or share it, and you can ask us to delete it whenever you want."
+        ]
+      },
+      {
+        "heading": "Your rights",
+        "body": [
+          "From Settings › Account you can download all your data in a file (Your data › Download), correct your names and delete your account. You can also ask us by writing to the support email shown on Lumi’s App Store page."
+        ]
+      }
+    ]
+  },
+  "terminos": {
+    "title": "Terms",
+    "intro": "The house rules for living with Lumi, in short.",
+    "updated": "September 2026",
+    "sections": [
+      {
+        "heading": "What Lumi is",
+        "body": [
+          "Lumi is a virtual pet that helps you use the apps you choose less. It isn’t a medical tool and doesn’t replace a professional if your phone use really worries you."
+        ]
+      },
+      {
+        "heading": "Free and Lumi Plus",
+        "body": [
+          "The important parts of Lumi are free and will stay that way: your Lumi and her shield, the daily limit, expeditions and postcards, the widget and night mode.",
+          "Lumi Plus is an optional subscription (yearly or monthly) with a 7-day free trial. It renews automatically until you cancel it.",
+          "You can cancel it whenever you want from your iPhone’s Settings › your name › Subscriptions, at least 24 hours before renewal. If you cancel during the trial, you won’t be charged.",
+          "Refunds are handled by Apple according to its terms."
+        ]
+      },
+      {
+        "heading": "Fair use",
+        "body": [
+          "Lumi is for your personal use. Don’t try to copy, resell or modify the app or its illustrations."
+        ]
+      },
+      {
+        "heading": "Changes",
+        "body": [
+          "If we change these terms in an important way, we’ll tell you in the app before they apply."
+        ]
+      }
+    ]
+  },
+  "ayuda": {
+    "title": "Help",
+    "intro": "The most common questions about Lumi. If you can’t find yours, write to us.",
+    "updated": "September 2026",
+    "sections": [
+      {
+        "heading": "Why is Lumi tired if I’ve barely used my phone?",
+        "body": [
+          "Lumi only counts time in the thief apps you picked, all added together. You can change them in Settings › Thief apps and raise or lower your limit in Settings › Limit and night."
+        ]
+      },
+      {
+        "heading": "Does Lumi see what I do in my apps?",
+        "body": [
+          "No. It uses Apple’s Screen Time and only receives notices like “you’re halfway through your limit”. It doesn’t know what you watch, write or who you talk to."
+        ]
+      },
+      {
+        "heading": "I’m not getting the nightly postcard",
+        "body": [
+          "Check that Lumi’s notifications are on in your iPhone’s Settings › Notifications › Lumi, and that the nightly postcard is on in Settings › Limit and night inside the app."
+        ]
+      },
+      {
+        "heading": "Do I need an account?",
+        "body": [
+          "No. Everything works without an account. Creating one (Settings › Account) keeps your progress if you change iPhones."
+        ]
+      },
+      {
+        "heading": "I forgot my password",
+        "body": [
+          "In Settings › Account › Start › I already have an account, tap “Forgot your password?”. We’ll email you a 6-digit code to choose a new one."
+        ]
+      },
+      {
+        "heading": "How do I delete my account?",
+        "body": [
+          "In Settings › Account › Delete account. It’s erased immediately with all its data. Lumi and her progress on your iPhone stay with you."
+        ]
+      },
+      {
+        "heading": "How do I cancel Lumi Plus?",
+        "body": [
+          "Subscriptions are managed by Apple: your iPhone’s Settings › your name › Subscriptions › Lumi. If you cancel during the free trial, you won’t be charged. Deleting your account or the app doesn’t cancel the subscription."
+        ]
+      },
+      {
+        "heading": "I changed iPhones and Lumi Plus is gone",
+        "body": [
+          "On the Lumi Plus screen, tap “Restore purchases” with the same Apple ID you subscribed with."
+        ]
+      }
+    ]
+  }
+}

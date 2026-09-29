@@ -57,4 +57,7 @@ npm run test:e2e  # contra Postgres real: DATABASE_URL=postgres://lumi:lumi@loca
 
 ## Desplegar
 
+**En Render (recomendado para empezar):** `render.yaml` en la raíz crea la base de datos, la API y la landing. En Render: New › Blueprint › este repositorio. Después, en `lumi-api`, rellena `RESEND_API_KEY`, `MAIL_FROM` y `CORS_ORIGINS` (la URL de la landing). `JWT_SECRET` se genera solo.
+
+**En otra plataforma:** 
 `Dockerfile` listo para cualquier plataforma con contenedores (Railway, Render, Fly.io…). Al arrancar aplica las migraciones pendientes. Variables: ver `.env.example`. En producción son obligatorias `DATABASE_URL`, `JWT_SECRET` (32+ caracteres) y `RESEND_API_KEY`, y `/docs` no se publica.

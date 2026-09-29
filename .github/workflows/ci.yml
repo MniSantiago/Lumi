@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   app:
-    name: App (tsc y lint)
+    name: App (tsc, lint y tests)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -26,6 +26,7 @@ jobs:
       - run: npm ci
       - run: npx tsc --noEmit
       - run: npx expo lint
+      - run: npm test -- --ci
 
   backend:
     name: Backend (lint, tests y e2e)
@@ -67,3 +68,14 @@ jobs:
       # El cliente de la app se genera de este archivo: si cambia la API sin regenerarlo, falla.
       - name: openapi.json al día
         run: npm run openapi && git diff --exit-code openapi.json
+
+  docs:
+    name: Ficha y legales (límites y páginas generadas)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # Los límites de caracteres de Apple en las fichas de los 5 idiomas.
+      - run: python3 tools/check_ficha.py
+      # Las páginas legales de la landing se generan de los textos de la app: tienen que estar al día.
+      - name: Páginas legales al día
+        run: python3 landing/tools/legal.py && git diff --exit-code landing

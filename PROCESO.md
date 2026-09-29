@@ -18,7 +18,8 @@ Para retomar: abre un chat en el proyecto "Cozy experience" (o pega este archivo
 | Onboarding, postal nocturna, escudo, paywall y resumen semanal | Hecho en la app (datos de ejemplo y uso simulado) | `app/src/app/` |
 | Motor del ciclo diario (expediciones, postales, recompensas) | Hecho | `app/src/game/` |
 | Landing con lista de espera y plan de vídeos | Hecha; falta dominio y conectar `WAITLIST_ENDPOINT` al backend | `landing/` |
-| Privacidad, Términos y Ayuda (en la app y en la landing) | Borrador; falta revisarlo y poner correo de contacto | `app/src/legal/content.json` |
+| Privacidad, Términos y Ayuda (en la app y en la landing) | Borrador en 5 idiomas; falta revisarlo y poner correo de contacto | `app/src/legal/i18n/` |
+| Idiomas: español, inglés, chino, hindi y francés (app, backend, landing y ficha) | Hecho; falta revisión nativa de hindi y chino | `app/src/i18n/`, `backend/src/i18n.ts`, `landing/texts.js`, `ficha/` |
 | Backend (NestJS, Postgres, Resend): cuentas, recuperación de contraseña, borrado de cuenta y lista de espera | Hecho, sin desplegar | `backend/` |
 | Cuenta opcional en la app (cliente Orval) | Hecha | `app/src/account/`, `app/src/api/` |
 | Checklist de la App Store | Hecho | `APP_STORE.md` |
@@ -82,15 +83,57 @@ Lumi/
 - **Recorte de los estados** (`tools/cutout_states.py`): cuerpo y núcleo de los orbes opacos (con cierre morfológico y relleno de huecos), blancos encerrados como luz y halo con "color a alfa" conservando el tono a brillo máximo.
 - Ajustes guardados en el dispositivo (AsyncStorage). Todo lo demás son datos de ejemplo (`app/src/lumi/data.ts`).
 
-### Sesión 3 (28 sep, noche): UX y producción
+### Sesión 3 (28-29 sep, noche): UX y producción
 
-Trabajo en bloques, cada uno con su PR:
-1. **Ajustes editables:** nombres, apps ladronas y horario de noche sin repetir el onboarding.
-2. **Privacidad y Términos** en la app (el paywall ya abre sus enlaces) y en la landing, desde un solo `content.json`.
-3. **Hogar:** tocar a Lumi (saltito, vibración y frases por estado) y un medidor que usa el límite real del usuario.
-4. **Backend NestJS** (`backend/`): registro, login, refresh con rotación, verificación del correo, recuperación de contraseña con Resend, borrado de cuenta, lista de espera y OpenAPI. Tests e2e contra Postgres.
-5. **Cuenta opcional en la app** con cliente Orval (`npm run api:generate`), tokens en el llavero y pantallas de cuenta.
-6. **App Store:** privacy manifest, entorno de producción en EAS, página de Ayuda (URL de soporte) y `APP_STORE.md`.
+Trabajo en bloques, cada uno con su PR (ver «PRs de la sesión 3» abajo para el orden de merge):
+
+- **UX de la app:** ajustes editables (nombres, apps, horario), tocar a Lumi y medidor con el límite real, postales por descubrir en la Colección, recuperar a Lumi desde el onboarding en un iPhone nuevo, permiso de avisos en contexto, pantalla de error amable, valoraciones en un buen momento y «Gestionar suscripción».
+- **Legal y privacidad:** Privacidad, Términos y Ayuda desde un solo `content.json` (app y landing), «Descargar mis datos» y privacy manifest.
+- **Backend NestJS** (`backend/`): cuentas opcionales, verificación y recuperación con códigos por correo (Resend), refresh con rotación, borrado de cuenta, copia del progreso, exportación, lista de espera con bienvenida, limpieza diaria y endurecimiento de seguridad. Tests e2e contra Postgres.
+- **App ↔ backend:** cliente con Orval (`npm run api:generate`), sesión en el llavero, sincronización del progreso entre iPhones.
+- **Idiomas:** la app, los correos y errores del backend, la landing, los legales y la ficha de la App Store siguen el idioma del dispositivo: español, inglés, chino simplificado, hindi y francés (si no, inglés). `tr()` tipado desde el español: si falta una traducción, no compila.
+- **Producción:** RevenueCat (código listo), Screen Time nativo con `react-native-device-activity` (borrador sin compilar), EAS por entornos, blueprint de Render, CI en GitHub Actions y tests del motor del juego (jest-expo).
+
+#### PRs de la sesión 3 (orden de merge)
+
+Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia la base del siguiente a `main`.
+
+| Orden | PR | Qué |
+|---|---|---|
+| 1 | #1 | Ajustes editables |
+| 2 | #2 | Privacidad y Términos |
+| 3 | #4 | Backend NestJS (sale de `main`) |
+| 4 | #5 | Cuenta opcional en la app (Orval) |
+| 5 | #6 | Preparar la App Store |
+| 6 | #7 | Sincronizar el progreso |
+| 7 | #8 | Pantalla de error |
+| 8 | #9 | Compras con RevenueCat |
+| 9 | #10 | Recuperar a Lumi desde el onboarding |
+| 10 | #11 | CI |
+| 11 | #12 | Bienvenida a la lista de espera y limpieza |
+| 12 | #13 | Postales por descubrir |
+| 13 | #14 | Descargar mis datos |
+| 14 | #16 | Blueprint de Render |
+| 15 | #17 | Seguridad del backend |
+| 16 | #18 | Permiso de avisos en contexto |
+| 17 | #19 | Tests de la app |
+| 18 | #20 | Valoraciones y gestionar suscripción |
+| 19 | #3 | Hogar: tocar a Lumi y medidor |
+| 20 | #21 | Este resumen |
+| 21 | #23 | No usar un dominio que no es nuestro |
+| 22 | #24 | Expediciones sin destripar la postal |
+| 23 | #25 | Ficha de la App Store (borrador) |
+| 24 | #26 | Chispas: qué son y cómo se consiguen |
+| 25 | #27 | Operación: canales de EAS Update y logs de peticiones |
+| 26 | #28 | Idiomas 1: base i18n, contenido del juego y textos de Lumi |
+| 27 | #29 | Idiomas 2: todas las pantallas |
+| 28 | #30 | Idiomas 3: errores y correos del backend |
+| 29 | #31 | Idiomas 4: legales, ayuda y landing |
+| 30 | #32 | Ficha de la App Store en 5 idiomas y CI de la ficha |
+| — | #15 | **Borrador:** Screen Time nativo (sale de #14; fusionar cuando compile en un iPhone) |
+| — | #22 | **Borrador:** widget de Lumi (encima de #15) |
+
+Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1` (ver `app/app.config.ts`); sin esas variables, la app es la de siempre.
 
 ### Prompts de Higgsfield (reutilizables)
 

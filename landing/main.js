@@ -1,5 +1,8 @@
 /* Lumi, landing con lista de espera. Sin dependencias ni build. */
 
+/** Traducción (i18n.js); sin él, el texto en español. */
+const t = (es) => (window.lumiT ? window.lumiT(es) : es);
+
 /**
  * Dónde se envían los registros. POST con JSON.
  * - Formspree: 'https://formspree.io/f/XXXXXXX'
@@ -66,7 +69,7 @@ async function share(container) {
   url.searchParams.set('ref', 'invitacion');
   const data = {
     title: 'Lumi',
-    text: 'He encontrado una mascota que brilla cuando sueltas el móvil. Creo que tú también necesitas un Lumi.',
+    text: t('He encontrado una mascota que brilla cuando sueltas el móvil. Creo que tú también necesitas un Lumi.'),
     url: url.toString(),
   };
   const msg = container.querySelector('.share-msg');
@@ -76,11 +79,11 @@ async function share(container) {
       await navigator.share(data);
     } else {
       await navigator.clipboard.writeText(`${data.text} ${data.url}`);
-      msg.textContent = 'Enlace copiado. Pégaselo a quien quieras.';
+      msg.textContent = t('Enlace copiado. Pégaselo a quien quieras.');
     }
   } catch (err) {
     if (err && err.name === 'AbortError') return;
-    msg.textContent = `Copia este enlace: ${data.url}`;
+    msg.textContent = `${t('Copia este enlace:')} ${data.url}`;
   }
 }
 
@@ -95,7 +98,7 @@ async function onSubmit(event) {
 
   if (!EMAIL_RE.test(email)) {
     emailInput.setAttribute('aria-invalid', 'true');
-    setMessage(form, 'Ese correo no parece completo. Revisa que tenga @ y dominio, por ejemplo tu@correo.com.');
+    setMessage(form, t('Ese correo no parece completo. Revisa que tenga @ y dominio, por ejemplo tu@correo.com.'));
     emailInput.focus();
     return;
   }
@@ -105,7 +108,7 @@ async function onSubmit(event) {
 
   if (!WAITLIST_ENDPOINT) {
     console.warn('[Lumi] WAITLIST_ENDPOINT está vacío en main.js: el correo no se ha guardado.');
-    setMessage(form, 'La lista de espera abre muy pronto y todavía no guarda correos. Vuelve en unos días y Lumi te apunta.', 'info');
+    setMessage(form, t('La lista de espera abre muy pronto y todavía no guarda correos. Vuelve en unos días y Lumi te apunta.'), 'info');
     return;
   }
 
@@ -128,7 +131,13 @@ async function onSubmit(event) {
   try {
     const res = await fetch(WAITLIST_ENDPOINT, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', Accept: 'application/json', ...WAITLIST_HEADERS },
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        // El correo de bienvenida sale en el idioma de la web.
+        'Accept-Language': window.LUMI_LANG || 'es',
+        ...WAITLIST_HEADERS,
+      },
       body: JSON.stringify(payload),
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
@@ -139,7 +148,7 @@ async function onSubmit(event) {
     track('waitlist_error', { form: form.dataset.form });
     button.disabled = false;
     button.textContent = label;
-    setMessage(form, 'No se ha podido guardar tu correo. Comprueba la conexión y vuelve a intentarlo.');
+    setMessage(form, t('No se ha podido guardar tu correo. Comprueba la conexión y vuelve a intentarlo.'));
   }
 }
 
@@ -168,10 +177,10 @@ function setState(name, focus = false) {
   phone.dataset.lit = name;
   const img = phone.querySelector('[data-home-lumi]');
   img.src = `img/lumi-${name}.webp`;
-  img.alt = s.alt;
-  phone.querySelector('[data-meter-label]').textContent = s.meter;
-  phone.querySelector('[data-bubble]').textContent = s.bubble;
-  phone.querySelector('[data-caption]').innerHTML = s.caption;
+  img.alt = t(s.alt);
+  phone.querySelector('[data-meter-label]').textContent = t(s.meter);
+  phone.querySelector('[data-bubble]').textContent = t(s.bubble);
+  phone.querySelector('[data-caption]').innerHTML = t(s.caption);
   phone.querySelectorAll('.meter i').forEach((bar, i) => bar.classList.toggle('lit', i < s.lit));
   radios.forEach((r) => {
     const on = r.dataset.state === name;
@@ -201,12 +210,12 @@ shield.querySelectorAll('[data-shield-choice]').forEach((btn) => {
     const reply = shield.querySelector('[data-shield-reply]');
     const choice = btn.dataset.shieldChoice;
     if (choice === 'leave') {
-      reply.textContent = 'Gracias. Me quedo soñando contigo 💤';
+      reply.textContent = t('Gracias. Me quedo soñando contigo 💤');
       shield.classList.add('chose-leave');
     } else {
       snoozes += 1;
-      reply.textContent = snoozes === 1 ? 'Vale, 5 minutitos. Aquí te espero 🌙' : 'Otros 5, vale. Te espero despierta 🌙';
-      btn.textContent = 'Vale… 5 min, pero te espero despierta';
+      reply.textContent = t(snoozes === 1 ? 'Vale, 5 minutitos. Aquí te espero 🌙' : 'Otros 5, vale. Te espero despierta 🌙');
+      btn.textContent = t('Vale… 5 min, pero te espero despierta');
       shield.classList.remove('chose-leave');
     }
     track('shield_demo', { choice, snoozes });

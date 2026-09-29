@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Colors } from '@/constants/theme';
+import { tr } from '@/i18n';
 import { LUMI_STATES } from '@/lumi/states';
 
 /**
@@ -15,18 +16,39 @@ export function CrashScreen({ error, retry }: ErrorBoundaryProps) {
   return (
     <SafeAreaView style={styles.root}>
       <View style={styles.body}>
-        <Image source={LUMI_STATES.apagadita.image} style={styles.lumi} contentFit="contain" accessibilityIgnoresInvertColors />
+        <Image
+          source={LUMI_STATES.apagadita.image}
+          style={styles.lumi}
+          contentFit="contain"
+          accessibilityIgnoresInvertColors
+        />
         <Text style={styles.title} accessibilityRole="header">
-          Ups, Lumi se ha tropezado
+          {tr({
+            es: 'Ups, Lumi se ha tropezado',
+            en: 'Oops, Lumi tripped',
+            zh: '哎呀，Lumi 绊了一跤',
+            hi: 'उफ़, Lumi लड़खड़ा गई',
+            fr: 'Oups, Lumi a trébuché',
+          })}
         </Text>
-        <Text style={styles.text}>Algo no ha ido bien en esta pantalla. Tu progreso está a salvo.</Text>
+        <Text style={styles.text}>
+          {tr({
+            es: 'Algo no ha ido bien en esta pantalla. Tu progreso está a salvo.',
+            en: 'Something went wrong on this screen. Your progress is safe.',
+            zh: '这个页面出了点问题。你的进度是安全的。',
+            hi: 'इस स्क्रीन पर कुछ गड़बड़ हो गई। तुम्हारी प्रगति सुरक्षित है।',
+            fr: 'Un problème est survenu sur cet écran. Ta progression est en sécurité.',
+          })}
+        </Text>
         {__DEV__ ? <Text style={styles.dev}>{error.message}</Text> : null}
       </View>
       <Pressable
         accessibilityRole="button"
         onPress={() => void retry()}
         style={({ pressed }) => [styles.button, pressed && { opacity: 0.85 }]}>
-        <Text style={styles.buttonText}>Volver a intentarlo</Text>
+        <Text style={styles.buttonText}>
+          {tr({ es: 'Volver a intentarlo', en: 'Try again', zh: '再试一次', hi: 'फिर कोशिश करो', fr: 'Réessayer' })}
+        </Text>
       </Pressable>
     </SafeAreaView>
   );
@@ -39,6 +61,12 @@ const styles = StyleSheet.create({
   title: { fontSize: 22, fontWeight: '700', color: Colors.text, textAlign: 'center' },
   text: { fontSize: 15, lineHeight: 21, color: Colors.textSecondary, textAlign: 'center', maxWidth: 300 },
   dev: { fontSize: 12, color: Colors.peach, textAlign: 'center', marginTop: 8 },
-  button: { height: 54, borderRadius: 999, backgroundColor: Colors.amber, alignItems: 'center', justifyContent: 'center' },
+  button: {
+    height: 54,
+    borderRadius: 999,
+    backgroundColor: Colors.amber,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   buttonText: { fontSize: 16, fontWeight: '700', color: Colors.onAmber },
 });

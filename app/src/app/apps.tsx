@@ -8,11 +8,22 @@ import { THIEF_APP_CATALOG } from '@/lumi/data';
 import { useLumi } from '@/lumi/store';
 import { realScreenTime } from '@/screen-time';
 import { applyScreenTimePlan } from '@/screen-time/native';
+import { tr } from '@/i18n';
 
 /**
  * Editar las apps ladronas desde Ajustes. Es la misma lista del onboarding
  * (maqueta del `FamilyActivityPicker`); cada toque se guarda al momento.
  */
+const sheetTitle = tr({ es: 'Apps ladronas', en: 'Thief apps', zh: '偷时间的 App', hi: 'चोर ऐप्स', fr: 'Applis voleuses' });
+const sheetSubtitle = (name: string) =>
+  tr({
+    es: `Las que le roban la luz a ${name}. Los cambios se guardan solos.`,
+    en: `The ones that steal ${name}’s light. Changes save automatically.`,
+    zh: `偷走${name}的光的 App。修改会自动保存。`,
+    hi: `जो ${name} की रोशनी चुराती हैं। बदलाव अपने आप सहेजे जाते हैं।`,
+    fr: `Celles qui volent la lumière de ${name}. Les changements s’enregistrent tout seuls.`,
+  });
+
 export default function ThiefAppsSheet() {
   const { settings, updateSettings } = useLumi();
   const name = settings.lumiName;
@@ -23,20 +34,36 @@ export default function ThiefAppsSheet() {
     // Siempre queda al menos una: sin apps ladronas, Lumi no tendría nada que medir.
     if (count === 1 && selected.has(id)) return;
     updateSettings({
-      thiefApps: THIEF_APP_CATALOG.filter((a) => (a.id === id ? !selected.has(id) : selected.has(a.id))).map((a) => a.id),
+      thiefApps: THIEF_APP_CATALOG.filter((a) => (a.id === id ? !selected.has(id) : selected.has(a.id))).map(
+        (a) => a.id,
+      ),
     });
   };
 
   if (realScreenTime) {
     return (
-      <Sheet title="Apps ladronas" subtitle={`Las que le roban la luz a ${name}. Los cambios se guardan solos.`}>
+      <Sheet title={sheetTitle} subtitle={sheetSubtitle(name)}>
         <ThiefAppsPicker lumiName={name} onChange={() => void applyScreenTimePlan(settings).catch(() => {})} />
       </Sheet>
     );
   }
 
   return (
-    <Sheet title="Apps ladronas" subtitle={`Las que le roban la luz a ${name}. Los cambios se guardan solos.`}>
+    <Sheet
+      title={tr({
+        es: 'Apps ladronas',
+        en: 'Thief apps',
+        zh: '偷时间的 App',
+        hi: 'चोर ऐप्स',
+        fr: 'Applis voleuses',
+      })}
+      subtitle={tr({
+        es: `Las que le roban la luz a ${name}. Los cambios se guardan solos.`,
+        en: `The ones that steal ${name}’s light. Changes save automatically.`,
+        zh: `偷走${name}的光的 App。修改会自动保存。`,
+        hi: `जो ${name} की रोशनी चुराती हैं। बदलाव अपने आप सहेजे जाते हैं।`,
+        fr: `Celles qui volent la lumière de ${name}. Les changements s’enregistrent tout seuls.`,
+      })}>
       <List>
         {THIEF_APP_CATALOG.map((app, i) => (
           <SelectRow
@@ -50,8 +77,20 @@ export default function ThiefAppsSheet() {
       </List>
       <Text style={styles.note} accessibilityLiveRegion="polite">
         {count === 1
-          ? 'Necesita al menos una. Elige otra antes de quitar esta.'
-          : `${count} apps elegidas. En tu iPhone, esta lista será el selector de Apple.`}
+          ? tr({
+              es: 'Necesita al menos una. Elige otra antes de quitar esta.',
+              en: 'She needs at least one. Pick another before removing this one.',
+              zh: '至少需要一个。先选另一个再移除这个。',
+              hi: 'कम से कम एक चाहिए। इसे हटाने से पहले कोई और चुनो।',
+              fr: 'Il en faut au moins une. Choisis-en une autre avant d’enlever celle-ci.',
+            })
+          : tr({
+              es: `${count} apps elegidas. En tu iPhone, esta lista será el selector de Apple.`,
+              en: `${count} apps picked. On your iPhone, this list will be Apple’s picker.`,
+              zh: `已选 ${count} 个 App。在你的 iPhone 上，这个列表会是 Apple 的选择器。`,
+              hi: `${count} ऐप्स चुनीं। तुम्हारे iPhone पर यह सूची Apple का चयनकर्ता होगी।`,
+              fr: `${count} applis choisies. Sur ton iPhone, cette liste sera le sélecteur d’Apple.`,
+            })}
       </Text>
     </Sheet>
   );

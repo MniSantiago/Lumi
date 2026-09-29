@@ -1,20 +1,13 @@
 import { router } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import { useEffect, useState, type ReactNode, type RefObject } from 'react';
-import {
-  Keyboard,
-  KeyboardAvoidingView,
-  Pressable,
-  ScrollView,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native';
+import { Keyboard, KeyboardAvoidingView, Pressable, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, { FadeInDown, ReduceMotion } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { AppText } from '@/components/ui';
 import { Colors, Fonts, Radius, Spacing } from '@/constants/theme';
+import { tr } from '@/i18n';
 
 export const STEP_COUNT = 3;
 
@@ -104,11 +97,21 @@ function ProgressSegments({ step }: { step: number }) {
       style={styles.segments}
       accessible
       accessibilityRole="progressbar"
-      accessibilityLabel={`Paso ${step} de ${STEP_COUNT}`}>
+      accessibilityLabel={tr({
+        es: `Paso ${step} de ${STEP_COUNT}`,
+        en: `Step ${step} of ${STEP_COUNT}`,
+        zh: `第 ${step} 步，共 ${STEP_COUNT} 步`,
+        hi: `${STEP_COUNT} में से चरण ${step}`,
+        fr: `Étape ${step} sur ${STEP_COUNT}`,
+      })}>
       {Array.from({ length: STEP_COUNT }, (_, i) => (
         <View
           key={i}
-          style={[styles.segment, i < step ? styles.segmentOn : styles.segmentOff, i === step - 1 && styles.segmentCurrent]}
+          style={[
+            styles.segment,
+            i < step ? styles.segmentOn : styles.segmentOff,
+            i === step - 1 && styles.segmentCurrent,
+          ]}
         />
       ))}
     </View>
@@ -119,17 +122,37 @@ function BackButton() {
   return (
     <Pressable
       accessibilityRole="button"
-      accessibilityLabel="Atrás"
+      accessibilityLabel={tr({
+        es: 'Atrás',
+        en: 'Back',
+        zh: '返回',
+        hi: 'पीछे',
+        fr: 'Retour',
+      })}
       hitSlop={8}
       onPress={() => router.back()}
       style={({ pressed }) => [styles.back, pressed && { opacity: 0.6 }]}>
-      <SymbolView name="chevron.left" size={16} weight="semibold" tintColor={Colors.lavenderPale} fallback={<Text style={styles.backFallback}>‹</Text>} />
+      <SymbolView
+        name="chevron.left"
+        size={16}
+        weight="semibold"
+        tintColor={Colors.lavenderPale}
+        fallback={<Text style={styles.backFallback}>‹</Text>}
+      />
     </Pressable>
   );
 }
 
 /** Botón principal a todo lo ancho, en el ámbar de la luz de Lumi. */
-export function PrimaryButton({ label, onPress, disabled }: { label: string; onPress: () => void; disabled?: boolean }) {
+export function PrimaryButton({
+  label,
+  onPress,
+  disabled,
+}: {
+  label: string;
+  onPress: () => void;
+  disabled?: boolean;
+}) {
   // Que el teclado no se quede abierto al pasar de paso.
   const handlePress = () => {
     Keyboard.dismiss();

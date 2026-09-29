@@ -21,6 +21,7 @@ import { CARD_ASPECT, SummaryCard, type CardTheme } from '@/components/summary/s
 import { buildWeekSummary } from '@/components/summary/week-summary';
 import { Colors, Fonts, Radius } from '@/constants/theme';
 import { useGame } from '@/game/store';
+import { tr } from '@/i18n';
 import { useLumi } from '@/lumi/store';
 
 /** Tamaño de la imagen que se comparte, en píxeles (story 9:16). */
@@ -38,16 +39,40 @@ const CAPTURE_SIZE = Platform.OS === 'ios' ? { width: CARD_W, height: CARD_H } :
 const CONTROLS_H = 172;
 
 const THEMES: { key: CardTheme; label: string }[] = [
-  { key: 'noche', label: 'Noche' },
-  { key: 'amanecer', label: 'Amanecer' },
+  { key: 'noche', label: tr({ es: 'Noche', en: 'Night', zh: '夜晚', hi: 'रात', fr: 'Nuit' }) },
+  { key: 'amanecer', label: tr({ es: 'Amanecer', en: 'Dawn', zh: '黎明', hi: 'भोर', fr: 'Aube' }) },
 ];
 
 const copy = {
-  share: 'Compartir en stories',
-  preparing: 'Preparando la imagen…',
-  close: 'Cerrar',
-  failed: 'No se ha podido crear la imagen. Prueba otra vez.',
-  unavailable: 'Este dispositivo no permite compartir imágenes desde aquí.',
+  share: tr({
+    es: 'Compartir en stories',
+    en: 'Share to stories',
+    zh: '分享到快拍',
+    hi: 'स्टोरी में शेयर करो',
+    fr: 'Partager en story',
+  }),
+  preparing: tr({
+    es: 'Preparando la imagen…',
+    en: 'Preparing the image…',
+    zh: '正在生成图片……',
+    hi: 'तस्वीर तैयार हो रही है…',
+    fr: 'Préparation de l’image…',
+  }),
+  close: tr({ es: 'Cerrar', en: 'Close', zh: '关闭', hi: 'बंद करो', fr: 'Fermer' }),
+  failed: tr({
+    es: 'No se ha podido crear la imagen. Prueba otra vez.',
+    en: 'Couldn’t create the image. Try again.',
+    zh: '无法生成图片。请再试一次。',
+    hi: 'तस्वीर नहीं बन सकी। फिर कोशिश करो।',
+    fr: 'Impossible de créer l’image. Réessaie.',
+  }),
+  unavailable: tr({
+    es: 'Este dispositivo no permite compartir imágenes desde aquí.',
+    en: 'This device can’t share images from here.',
+    zh: '此设备无法从这里分享图片。',
+    hi: 'यह डिवाइस यहाँ से तस्वीरें शेयर नहीं कर सकता।',
+    fr: 'Cet appareil ne permet pas de partager des images d’ici.',
+  }),
 };
 
 /** Resumen semanal: la tarjeta vertical para stories y TikTok, y el botón para compartirla como imagen. */
@@ -118,8 +143,20 @@ export default function WeeklySummaryScreen() {
 
   const a11ySummary =
     summary.shone > 0
-      ? `Mi semana con ${summary.lumiName}, ${summary.range}: ${summary.shone} de 7 días brillando. ${summary.line}`
-      : `Mi semana con ${summary.lumiName}, ${summary.range}. ${summary.line}`;
+      ? tr({
+          es: `Mi semana con ${summary.lumiName}, ${summary.range}: ${summary.shone} de 7 días brillando. ${summary.line}`,
+          en: `My week with ${summary.lumiName}, ${summary.range}: ${summary.shone} of 7 days shining. ${summary.line}`,
+          zh: `我和${summary.lumiName}的一周（${summary.range}）：7 天里亮了 ${summary.shone} 天。${summary.line}`,
+          hi: `${summary.lumiName} के साथ मेरा हफ़्ता, ${summary.range}: 7 में से ${summary.shone} दिन चमकी। ${summary.line}`,
+          fr: `Ma semaine avec ${summary.lumiName}, ${summary.range} : ${summary.shone} jours sur 7 à briller. ${summary.line}`,
+        })
+      : tr({
+          es: `Mi semana con ${summary.lumiName}, ${summary.range}. ${summary.line}`,
+          en: `My week with ${summary.lumiName}, ${summary.range}. ${summary.line}`,
+          zh: `我和${summary.lumiName}的一周（${summary.range}）。${summary.line}`,
+          hi: `${summary.lumiName} के साथ मेरा हफ़्ता, ${summary.range}। ${summary.line}`,
+          fr: `Ma semaine avec ${summary.lumiName}, ${summary.range}. ${summary.line}`,
+        });
 
   return (
     <View style={styles.screen}>
