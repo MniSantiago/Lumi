@@ -54,7 +54,7 @@ export default function HomeScreen() {
 
         <Card style={styles.meterCard}>
           <LightMeter lit={state.lit} note={state.meterNote} />
-          {__DEV__ ? <ThresholdSimulator value={threshold} /> : null}
+          {__DEV__ && screenTime.simulate ? <ThresholdSimulator value={threshold} /> : null}
         </Card>
 
         <View style={styles.stage}>

@@ -2,9 +2,12 @@ import { StyleSheet, Text } from 'react-native';
 
 import { List, SelectRow } from '@/components/onboarding/controls';
 import { Sheet } from '@/components/sheet';
+import { ThiefAppsPicker } from '@/components/thief-apps-picker';
 import { Colors, Fonts } from '@/constants/theme';
 import { THIEF_APP_CATALOG } from '@/lumi/data';
 import { useLumi } from '@/lumi/store';
+import { realScreenTime } from '@/screen-time';
+import { applyScreenTimePlan } from '@/screen-time/native';
 
 /**
  * Editar las apps ladronas desde Ajustes. Es la misma lista del onboarding
@@ -23,6 +26,14 @@ export default function ThiefAppsSheet() {
       thiefApps: THIEF_APP_CATALOG.filter((a) => (a.id === id ? !selected.has(id) : selected.has(a.id))).map((a) => a.id),
     });
   };
+
+  if (realScreenTime) {
+    return (
+      <Sheet title="Apps ladronas" subtitle={`Las que le roban la luz a ${name}. Los cambios se guardan solos.`}>
+        <ThiefAppsPicker lumiName={name} onChange={() => void applyScreenTimePlan(settings).catch(() => {})} />
+      </Sheet>
+    );
+  }
 
   return (
     <Sheet title="Apps ladronas" subtitle={`Las que le roban la luz a ${name}. Los cambios se guardan solos.`}>

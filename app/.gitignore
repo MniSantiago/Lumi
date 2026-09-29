@@ -42,3 +42,6 @@ example
 # generated native folders
 /ios
 /android
+
+# Extensiones de Screen Time: las copia react-native-device-activity en cada prebuild
+/targets/

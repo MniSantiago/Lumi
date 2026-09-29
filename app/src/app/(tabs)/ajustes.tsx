@@ -11,6 +11,8 @@ import { useGame } from '@/game/store';
 import { thiefAppById, type ThiefApp } from '@/lumi/data';
 import { formatLimit, LIMIT_OPTIONS, useLumi } from '@/lumi/store';
 import { stepTime } from '@/lumi/time';
+import { realScreenTime } from '@/screen-time';
+import { thiefAppsCount } from '@/screen-time/native';
 import { cancelNightlyReturn, ensureNotificationPermission, permissionDeniedCopy } from '@/notifications';
 
 export default function SettingsScreen() {
@@ -63,19 +65,27 @@ export default function SettingsScreen() {
         <SectionTitle action={<TextLink label="Editar" onPress={() => router.push('/apps')} />}>
           Apps ladronas
         </SectionTitle>
-        <List>
-          {apps.length === 0 ? (
+        {realScreenTime ? (
+          <List>
             <Row last>
-              <Label title="Ninguna todavía" sub="Elige las apps que más te roban la atención" />
+              <Label title={`${thiefAppsCount()} apps y categorías`} sub="Elegidas con el selector de Apple" />
             </Row>
-          ) : null}
-          {apps.map((app, i) => (
-            <Row key={app.id} last={i === apps.length - 1}>
-              <AppIcon app={app} />
-              <Label title={app.name} sub={app.note} />
-            </Row>
-          ))}
-        </List>
+          </List>
+        ) : (
+          <List>
+            {apps.length === 0 ? (
+              <Row last>
+                <Label title="Ninguna todavía" sub="Elige las apps que más te roban la atención" />
+              </Row>
+            ) : null}
+            {apps.map((app, i) => (
+              <Row key={app.id} last={i === apps.length - 1}>
+                <AppIcon app={app} />
+                <Label title={app.name} sub={app.note} />
+              </Row>
+            ))}
+          </List>
+        )}
       </View>
 
       <View style={{ gap: 10 }}>
