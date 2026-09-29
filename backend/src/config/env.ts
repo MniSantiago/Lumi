@@ -53,7 +53,11 @@ export function validateEnv(raw: Record<string, unknown>): Env {
     DATABASE_URL: str('DATABASE_URL'),
     JWT_SECRET: jwtSecret,
     RESEND_API_KEY: resendKey,
-    MAIL_FROM: str('MAIL_FROM', 'Lumi <hola@lumi.app>'),
+    // En producción, un remitente de un dominio verificado en Resend. En desarrollo, el de pruebas de Resend.
+    MAIL_FROM: str(
+      'MAIL_FROM',
+      prod ? undefined : 'Lumi <onboarding@resend.dev>',
+    ),
     CORS_ORIGINS: str('CORS_ORIGINS', '')
       .split(',')
       .map((o) => o.trim())
