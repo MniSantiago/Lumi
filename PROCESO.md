@@ -141,6 +141,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 37 | #39 | Lista de espera: darse de baja con un enlace en cada correo |
 | 38 | #40 | Vibración suave en los momentos clave |
 | 39 | #41 | Builds de la tienda seguras: sin API se oculta la cuenta, sin RevenueCat no hay Plus gratis |
+| 40 | #42 | Idiomas: sin suponer el género del usuario (hindi y francés) |
 | — | #15 | **Borrador:** Screen Time nativo (encima de #36, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
