@@ -69,6 +69,15 @@ export const nightlyCopy = {
       hi: `🌙 कल रात अच्छी नींद के लिए +${n}`,
       fr: `🌙 +${n} pour avoir bien dormi cette nuit`,
     }),
+  /** Esta vuelta la ha hecho crecer a la etapa `stageName`. */
+  grewUp: (lumiName: string, stageName: string) =>
+    tr({
+      es: `🌟 ¡${lumiName} ha crecido! Nueva etapa: ${stageName}.`,
+      en: `🌟 ${lumiName} has grown! New stage: ${stageName}.`,
+      zh: `🌟 ${lumiName}长大了！新阶段：${stageName}。`,
+      hi: `🌟 ${lumiName} बड़ी हो गई! नया पड़ाव: ${stageName}।`,
+      fr: `🌟 ${lumiName} a grandi ! Nouvelle étape : ${stageName}.`,
+    }),
   firstPostcard: tr({
     es: '✨ ¡Tu primera postal! La primera de muchas.',
     en: '✨ Your first postcard! The first of many.',
