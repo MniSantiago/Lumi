@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { TextInput, View } from 'react-native';
 
 import { useSession } from '@/account/session';
@@ -14,6 +14,8 @@ import { tr } from '@/i18n';
  * 1. el correo, al que llega un código de 6 cifras;
  * 2. el código y la contraseña nueva. Al terminar, entra directamente.
  */
+const RESEND_WAIT_S = 30;
+
 export default function ForgotPasswordSheet() {
   const { signIn } = useSession();
   const [step, setStep] = useState<'email' | 'code'>('email');
@@ -22,11 +24,35 @@ export default function ForgotPasswordSheet() {
   const [password, setPassword] = useState('');
   const passwordRef = useRef<TextInput>(null);
   const { busy, error, setError, run } = useSubmit();
+  const [wait, setWait] = useState(0);
+  const [notice, setNotice] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (wait <= 0) return;
+    const t = setTimeout(() => setWait((w) => w - 1), 1000);
+    return () => clearTimeout(t);
+  }, [wait]);
 
   const sendCode = () =>
     run(async () => {
       await forgotPassword({ email });
       setStep('code');
+      setWait(RESEND_WAIT_S);
+    });
+
+  const resend = () =>
+    run(async () => {
+      await forgotPassword({ email });
+      setWait(RESEND_WAIT_S);
+      setNotice(
+        tr({
+          es: 'Te hemos enviado un código nuevo.',
+          en: 'We sent you a new code.',
+          zh: '我们已发送新的验证码。',
+          hi: 'हमने तुम्हें नया कोड भेजा है।',
+          fr: 'On t’a envoyé un nouveau code.',
+        }),
+      );
     });
 
   const reset = () =>
@@ -117,7 +143,7 @@ export default function ForgotPasswordSheet() {
       })}
       footer={
         <>
-          <FormError message={error} />
+          {error ? <FormError message={error} /> : <FormError message={notice} info />}
           <PrimaryButton
             label={
               busy
@@ -195,14 +221,24 @@ export default function ForgotPasswordSheet() {
           onSubmitEditing={reset}
         />
         <SecondaryLink
-          label={tr({
-            es: 'Reenviar el código',
-            en: 'Resend the code',
-            zh: '重新发送验证码',
-            hi: 'कोड फिर भेजो',
-            fr: 'Renvoyer le code',
-          })}
-          onPress={() => run(() => forgotPassword({ email }))}
+          label={
+            wait > 0
+              ? tr({
+                  es: `Reenviar el código en ${wait} s`,
+                  en: `Resend the code in ${wait}s`,
+                  zh: `${wait} 秒后可重新发送`,
+                  hi: `${wait} सेकंड में कोड फिर भेजो`,
+                  fr: `Renvoyer le code dans ${wait} s`,
+                })
+              : tr({
+                  es: 'Reenviar el código',
+                  en: 'Resend the code',
+                  zh: '重新发送验证码',
+                  hi: 'कोड फिर भेजो',
+                  fr: 'Renvoyer le code',
+                })
+          }
+          onPress={() => wait <= 0 && resend()}
         />
       </View>
     </Sheet>
