@@ -75,6 +75,27 @@ for (const [locale, homeWord] of Object.entries(LOCALES)) {
   console.log(`✓ ${locale}: ${ROUTES.length} pantallas`);
 }
 
+// El primer arranque de verdad: onboarding completo hasta el Hogar (en español).
+{
+  const page = await (await browser.newContext({ locale: 'es-ES', viewport: { width: 390, height: 844 } })).newPage();
+  page.on('pageerror', (e) => failures.push(`onboarding: ${e.message}`));
+  try {
+    await page.goto(`${base}/onboarding`);
+    await page.getByPlaceholder('Tu nombre').fill('Ana');
+    await page.getByRole('button', { name: 'Continuar' }).click();
+    await page.getByRole('checkbox').first().click();
+    await page.getByRole('button', { name: 'Continuar' }).click();
+    await page.getByRole('button', { name: /Despertar a/ }).click();
+    await page.waitForURL((url) => url.pathname === '/', { timeout: 10_000 });
+    const onboarded = await page.evaluate(() => JSON.parse(localStorage.getItem('lumi.settings.v1') ?? '{}').onboarded);
+    if (!onboarded) failures.push('onboarding: al terminar no queda guardado');
+    await page.getByText('Hogar').first().waitFor({ timeout: 10_000 });
+    console.log('✓ onboarding completo hasta el Hogar');
+  } catch (e) {
+    failures.push(`onboarding: ${e.message.split('\n')[0]}`);
+  }
+}
+
 await browser.close();
 server.close();
 if (failures.length) {
