@@ -149,7 +149,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 43 | #45 | Tus números: las últimas 4 semanas (Plus) y plurales en francés |
 | 44 | #46 | Postales compartidas con enlace a Lumi (si hay dominio) |
 | 45 | #47 | Pulido: página 404 de la landing, robots.txt y el dominio en EAS |
-| — | #15 | **Borrador:** Screen Time nativo (encima de #36, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
+| — | #15 | **Borrador:** Screen Time nativo (encima de #47, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
 Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1` (ver `app/app.config.ts`); sin esas variables, la app es la de siempre.
