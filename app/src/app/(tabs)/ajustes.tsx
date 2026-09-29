@@ -513,16 +513,8 @@ export default function SettingsScreen() {
               })}
               onPress={() => router.push('/plus')}
             />
-            <Text style={styles.plusSmall}>
-              {tr({
-                es: 'Luego 49,99 $ al año.',
-                en: 'Then $49.99 a year.',
-                zh: '之后每年 $49.99。',
-                hi: 'फिर $49.99 सालाना।',
-                fr: 'Puis 49,99 $ par an.',
-              })}{' '}
-              {paywallCopy.noPressure}
-            </Text>
+            {/* El precio lo enseña el paywall, localizado por la App Store: aquí no se fija. */}
+            <Text style={styles.plusSmall}>{paywallCopy.noPressure}</Text>
           </>
         )}
       </View>
