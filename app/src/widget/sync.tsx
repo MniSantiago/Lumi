@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 
 import { useGame } from '@/game/store';
 import { useLumi } from '@/lumi/store';
+import { tr } from '@/i18n';
 
 import type { LumiWidgetProps } from './lumi-widget';
 
@@ -29,12 +30,30 @@ export function WidgetSync() {
   const game = useGame();
   const exploring = !!game.currentDestination && !game.todayRecord.closed;
   const status = game.pendingReturn
-    ? 'Ha vuelto con una postal'
+    ? tr({
+        es: 'Ha vuelto con una postal',
+        en: 'Back with a postcard',
+        zh: '带着明信片回来了',
+        hi: 'पोस्टकार्ड लेकर लौट आई',
+        fr: 'Rentrée avec une carte',
+      })
     : exploring
-      ? `De expedición, vuelve a las ${game.returnsAt}`
+      ? tr({
+          es: `De expedición, vuelve a las ${game.returnsAt}`,
+          en: `Exploring, back at ${game.returnsAt}`,
+          zh: `探险中，${game.returnsAt}回来`,
+          hi: `सफ़र पर, ${game.returnsAt} बजे लौटेगी`,
+          fr: `En expédition, retour à ${game.returnsAt}`,
+        })
       : state.key === 'apagadita'
-        ? 'Se ha echado la siesta'
-        : 'Descansa en la madriguera';
+        ? tr({ es: 'Se ha echado la siesta', en: 'Taking a nap', zh: '在睡午觉', hi: 'झपकी ले रही है', fr: 'Fait la sieste' })
+        : tr({
+            es: 'Descansa en la madriguera',
+            en: 'Resting in her burrow',
+            zh: '在小窝里休息',
+            hi: 'अपने घर में आराम कर रही है',
+            fr: 'Se repose dans son terrier',
+          });
 
   useEffect(() => {
     if (!enabled || !ready || !settings.onboarded) return;
