@@ -6,6 +6,8 @@
  * - Lumi sale de expedición si el umbral máximo del día queda por debajo del 50 %.
  * - El día se cierra a las 21:00 (o al abrir la app otro día): si salió, vuelve
  *   con postal, objetos y chispas. Nunca se pierde nada.
+ * - Noche tranquila: si la noche anterior no se usó «5 min más» en el escudo de
+ *   noche, la expedición trae `NIGHT_BONUS` chispas de más.
  * - Rachas con perdón: un día sin expedición (se quedó en casa o no se abrió la
  *   app) se cuenta como descanso si los días de descanso están activados y
  *   quedan en la semana (máximo 2, de lunes a domingo).
@@ -18,6 +20,8 @@ import type { Threshold } from '@/lumi/states';
 
 export const RETURNS_AT = '21:00';
 export const MAX_REST_DAYS_PER_WEEK = 2;
+/** Chispas extra por dormir bien (sin «5 min más» en el horario de noche). */
+export const NIGHT_BONUS = 5;
 /** Días brillantes por etapa de evolución. */
 export const BRIGHT_DAYS_PER_STAGE = 7;
 export const EVOLUTION_STAGES = 4;
@@ -48,6 +52,8 @@ export type GameState = {
   friends: string[];
   sparks: number;
   pending: StoredPending | null;
+  /** Mañanas (fecha del día que empieza) tras una noche en la que se pidió «5 min más». */
+  restlessNights: DateKey[];
 };
 
 export type EngineContext = { isPlus: boolean; restDays: boolean };
@@ -60,6 +66,7 @@ export const EMPTY_STATE: GameState = {
   friends: [],
   sparks: 0,
   pending: null,
+  restlessNights: [],
 };
 
 const uniq = (list: string[]) => [...new Set(list)];
@@ -102,7 +109,7 @@ export function closeDay(state: GameState, date: DateKey, ctx: EngineContext, no
 
   const destination = day.destinationId ? destinationById(day.destinationId) : undefined;
   if (destination && day.maxThreshold < 50) {
-    const result = rollExpedition(destination, {
+    const rolled = rollExpedition(destination, {
       owned: { items: state.items, friends: state.friends },
       threshold: day.maxThreshold,
       seed: seedFromDate(date),
@@ -111,6 +118,9 @@ export function closeDay(state: GameState, date: DateKey, ctx: EngineContext, no
         (d) => d.date !== date && d.expedition?.destinationId === destination.id,
       ).length,
     });
+    // Solo cuenta si la app ya estaba la noche anterior (el día de antes existe).
+    const nightBonus = state.days[addDays(date, -1)] && !state.restlessNights.includes(date) ? NIGHT_BONUS : 0;
+    const result: ExpeditionResult = nightBonus ? { ...rolled, sparks: rolled.sparks + nightBonus, nightBonus } : rolled;
     const pending: StoredPending = {
       date,
       destinationId: destination.id,
@@ -248,4 +258,10 @@ export function expeditionProgress(today: DateKey, wakeAt: string, now: Date): n
   const end = atTime(today, RETURNS_AT).getTime();
   if (end <= start) return 0;
   return Math.min(1, Math.max(0, (now.getTime() - start) / (end - start)));
+}
+
+/** Apunta que la noche que acaba en `morning` fue movida (se pidió «5 min más»). Guarda las últimas 14. */
+export function markRestlessNight(state: GameState, morning: DateKey): GameState {
+  if (state.restlessNights.includes(morning)) return state;
+  return { ...state, restlessNights: [...state.restlessNights, morning].sort().slice(-14) };
 }

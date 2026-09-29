@@ -112,6 +112,13 @@
         ]
       },
       {
+        "heading": "What happens at night?",
+        "body": [
+          "During your night hours (Settings › Limit and night) Lumi sleeps and your thief apps are covered by her shield until wake-up time, even if you haven’t reached your limit.",
+          "You can ask for “5 more min” if you need to (unless the strict shield is on). If you don’t all night, her next expedition brings 5 extra sparks."
+        ]
+      },
+      {
         "heading": "I’m not getting the nightly postcard",
         "body": [
           "Check that Lumi’s notifications are on in your iPhone’s Settings › Notifications › Lumi, and that the nightly postcard is on in Settings › Limit and night inside the app."

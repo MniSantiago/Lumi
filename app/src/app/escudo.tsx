@@ -16,6 +16,7 @@ import { Fireflies } from '@/components/fireflies';
 import { AppTag, ShieldButton } from '@/components/shield/shield-parts';
 import { SleepingLumi } from '@/components/shield/sleeping-lumi';
 import { Colors, Fonts } from '@/constants/theme';
+import { useGame } from '@/game/store';
 import { clockTime } from '@/i18n/dates';
 import { thiefAppById, type ThiefApp } from '@/lumi/data';
 import { LUMI_STATES } from '@/lumi/states';
@@ -37,6 +38,7 @@ type Phase = 'ask' | 'leaving' | 'snoozing';
 export default function ShieldScreen() {
   const insets = useSafeAreaInsets();
   const { settings } = useLumi();
+  const { markRestlessNight } = useGame();
   const params = useLocalSearchParams<{ app?: string; motivo?: 'noche' | 'limite' }>();
   const app = resolveApp(params.app, settings.thiefApps);
   // En el horario de noche el escudo sale por la hora, no por el límite (`?motivo=noche` lo fuerza).
@@ -83,6 +85,7 @@ export default function ShieldScreen() {
     busy.current = true;
     setPhase('snoozing');
     haptic.light();
+    if (night) markRestlessNight();
     const count = await grantSnooze();
     finish(shieldCopy.snoozeGranted(count), 0.45);
   };

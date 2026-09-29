@@ -26,9 +26,12 @@ export function LumiAvatar({
   size = 200,
   onPress,
   accessibilityHint,
+  halo,
 }: {
   state: LumiState;
   size?: number;
+  /** Degradado del halo (el color de su etapa de evolución); por defecto, ámbar. */
+  halo?: string;
   onPress?: () => void;
   accessibilityHint?: string;
 }) {
@@ -67,7 +70,12 @@ export function LumiAvatar({
   const content = (
     <>
       <Animated.View
-        style={[styles.halo, { width: size * 1.1, height: size * 1.1, bottom: size * 0.02 }, haloStyle]}
+        style={[
+          styles.halo,
+          { width: size * 1.1, height: size * 1.1, bottom: size * 0.02 },
+          halo ? { experimental_backgroundImage: halo } : null,
+          haloStyle,
+        ]}
       />
       <Animated.View style={[{ width: size, height: size }, bodyStyle]}>
         <Image
