@@ -80,7 +80,7 @@ export default function DeleteAccountSheet() {
             ghost
             onPress={confirm}
             loading={busy}
-            disabled={!password}
+            disabled={busy || !password}
           />
         </>
       }>
