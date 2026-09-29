@@ -280,9 +280,10 @@ export default function ProgressScreen() {
           {EVOLUTION.stages.map((stage, i) => {
             const reached = i <= evolution.stage;
             return (
-              <View key={stage.name} style={[styles.evoStage, !reached && { opacity: 0.4 }]}>
-                <View style={[styles.orb, { experimental_backgroundImage: stage.orb }]} />
-                <Text style={styles.evoLabel}>{stage.name}</Text>
+              <View key={stage.name} style={styles.evoStage}>
+                {/* Sin alcanzar: la esfera apagada; el nombre, legible (contraste AA). */}
+                <View style={[styles.orb, { experimental_backgroundImage: stage.orb }, !reached && { opacity: 0.4 }]} />
+                <Text style={[styles.evoLabel, !reached && { color: Colors.textTertiary }]}>{stage.name}</Text>
               </View>
             );
           })}
