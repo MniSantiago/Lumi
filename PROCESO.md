@@ -1,6 +1,6 @@
 # Lumi: registro del proceso
 
-Última sesión: lunes 28 al martes 29 de septiembre de 2026 (noche): bloques de UX y preparación para producción (PR hasta #69).
+Última sesión: lunes 28 al martes 29 de septiembre de 2026 (noche): bloques de UX y preparación para producción (PR hasta #70).
 Para retomar: abre un chat en el proyecto "Cozy experience" (o pega este archivo y `BRIEF.md`) y di en qué paso vamos.
 
 ---
@@ -173,6 +173,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 65 | #67 | Aviso de buenas noches (opcional) a la hora de dormir |
 | 66 | #68 | Cuenta: cuándo se guardó por última vez tu progreso |
 | 67 | #69 | Landing: la FAQ del bloqueo incluye el horario de noche |
+| 68 | #70 | Olvidé la contraseña: reenviar el código con espera y confirmación |
 | — | #15 | **Borrador:** Screen Time nativo, con escudo de noche y noches movidas (encima de #67; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
