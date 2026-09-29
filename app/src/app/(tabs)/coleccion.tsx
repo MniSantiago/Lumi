@@ -141,7 +141,7 @@ export default function CollectionScreen() {
                 en: `${postcards.length} of ${DESTINATIONS.length} places`,
                 zh: `${postcards.length} / ${DESTINATIONS.length} 个地方`,
                 hi: `${DESTINATIONS.length} में से ${postcards.length} जगहें`,
-                fr: `${postcards.length} lieux sur ${DESTINATIONS.length}`,
+                fr: `${postcards.length} ${postcards.length <= 1 ? 'lieu' : 'lieux'} sur ${DESTINATIONS.length}`,
               })}
             </Text>
             {postcards.length === 0 ? (
