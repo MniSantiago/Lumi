@@ -11,7 +11,7 @@ concurrency:
 
 jobs:
   app:
-    name: App (tsc y lint)
+    name: App (tsc, lint y tests)
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -26,6 +26,7 @@ jobs:
       - run: npm ci
       - run: npx tsc --noEmit
       - run: npx expo lint
+      - run: npm test -- --ci
 
   backend:
     name: Backend (lint, tests y e2e)
