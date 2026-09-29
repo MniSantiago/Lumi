@@ -6,6 +6,7 @@ import { apiAvailable } from '@/api/client';
 import { useSession } from '@/account/session';
 import { AppIcon, Label, List, Row, Stepper, Toggle } from '@/components/onboarding/controls';
 import { PillButton, SectionTitle, Screen, TextLink } from '@/components/ui';
+import { confirmAction } from '@/confirm';
 import { Colors, Fonts } from '@/constants/theme';
 import { paywallCopy, plusFeatures } from '@/components/paywall/copy';
 import { useGame } from '@/game/store';
@@ -654,23 +655,19 @@ function AccountSection() {
     );
   }
   const askSignOut = () =>
-    Alert.alert(
-      tr({ es: '¿Cerrar sesión?', en: 'Sign out?', zh: '退出登录？', hi: 'साइन आउट करें?', fr: 'Se déconnecter ?' }),
-      tr({
+    confirmAction({
+      title: tr({ es: '¿Cerrar sesión?', en: 'Sign out?', zh: '退出登录？', hi: 'साइन आउट करें?', fr: 'Se déconnecter ?' }),
+      message: tr({
         es: 'Lumi y su progreso se quedan en este iPhone.',
         en: 'Lumi and her progress stay on this iPhone.',
         zh: 'Lumi 和她的进度会留在这台 iPhone 上。',
         hi: 'Lumi और उसकी प्रगति इसी iPhone पर रहेगी।',
         fr: 'Lumi et sa progression restent sur cet iPhone.',
       }),
-      [
-        { text: tr({ es: 'Cancelar', en: 'Cancel', zh: '取消', hi: 'रद्द करो', fr: 'Annuler' }), style: 'cancel' },
-        {
-          text: tr({ es: 'Cerrar sesión', en: 'Sign out', zh: '退出登录', hi: 'साइन आउट', fr: 'Se déconnecter' }),
-          onPress: () => void signOut(),
-        },
-      ],
-    );
+      cancel: tr({ es: 'Cancelar', en: 'Cancel', zh: '取消', hi: 'रद्द करो', fr: 'Annuler' }),
+      confirm: tr({ es: 'Cerrar sesión', en: 'Sign out', zh: '退出登录', hi: 'साइन आउट', fr: 'Se déconnecter' }),
+      onConfirm: () => void signOut(),
+    });
   return (
     <List>
       <Row>

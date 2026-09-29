@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 import { useSession } from '@/account/session';
 import { deleteAccount } from '@/api/generated';
@@ -7,6 +7,7 @@ import { FormError, passwordInput, useSubmit } from '@/components/account/form';
 import { Field } from '@/components/onboarding/controls';
 import { closeSheet, Sheet } from '@/components/sheet';
 import { WideButton } from '@/components/paywall/paywall-parts';
+import { confirmAction } from '@/confirm';
 import { Colors, Fonts } from '@/constants/theme';
 import { useLumi } from '@/lumi/store';
 import { tr } from '@/i18n';
@@ -23,35 +24,31 @@ export default function DeleteAccountSheet() {
   const { busy, error, run } = useSubmit();
 
   const confirm = () =>
-    Alert.alert(
-      tr({
+    confirmAction({
+      title: tr({
         es: '¿Eliminar tu cuenta?',
         en: 'Delete your account?',
         zh: '删除你的账户？',
         hi: 'अपना खाता हटाएँ?',
         fr: 'Supprimer ton compte ?',
       }),
-      tr({
+      message: tr({
         es: 'No se puede deshacer.',
         en: 'This can’t be undone.',
         zh: '此操作无法撤销。',
         hi: 'इसे वापस नहीं किया जा सकता।',
         fr: 'C’est irréversible.',
       }),
-      [
-        { text: tr({ es: 'Cancelar', en: 'Cancel', zh: '取消', hi: 'रद्द करो', fr: 'Annuler' }), style: 'cancel' },
-        {
-          text: tr({ es: 'Eliminar', en: 'Delete', zh: '删除', hi: 'हटाओ', fr: 'Supprimer' }),
-          style: 'destructive',
-          onPress: () =>
-            run(async () => {
-              await deleteAccount({ password });
-              await forget();
-              closeSheet();
-            }),
-        },
-      ],
-    );
+      cancel: tr({ es: 'Cancelar', en: 'Cancel', zh: '取消', hi: 'रद्द करो', fr: 'Annuler' }),
+      confirm: tr({ es: 'Eliminar', en: 'Delete', zh: '删除', hi: 'हटाओ', fr: 'Supprimer' }),
+      destructive: true,
+      onConfirm: () =>
+        run(async () => {
+          await deleteAccount({ password });
+          await forget();
+          closeSheet();
+        }),
+    });
 
   return (
     <Sheet
