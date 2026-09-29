@@ -134,4 +134,4 @@ Con la build de producción (TestFlight) en un iPhone real:
 
 1. Con la URL de la ficha, simular el aviso a la lista de espera: `APP_STORE_URL=… node dist/db/announce-launch.js` (cuenta por idioma, no envía nada).
 2. Enviarlo con `--send` (ver `backend/README.md`). Quien se dé de baja sale de la lista al momento.
-3. Poner la URL de la App Store en la landing (el botón de la lista de espera puede pasar a «Descargar»).
+3. Poner la URL de la ficha en `APP_STORE_URL` (`landing/main.js`): la landing pasa a modo lanzamiento (botón «Descargar en la App Store» en vez de la lista de espera, «Ya en el iPhone» y sin «¿Cuándo sale?»).
