@@ -18,6 +18,17 @@ class FakeMail {
   async send(to: string, mail: MailContent) {
     this.sent.push({ to, mail });
   }
+  /** El código de recuperación se envía sin esperar: hay que darle un momento. */
+  async waitForCode(to: string, after = 0) {
+    for (let i = 0; i < 50; i++) {
+      const found = this.sent
+        .slice(after)
+        .some((m) => m.to === to && /\d{6}/.test(m.mail.subject));
+      if (found) return this.lastCode(to);
+      await new Promise((r) => setTimeout(r, 20));
+    }
+    return '';
+  }
   lastCode(to: string) {
     const last = [...this.sent]
       .reverse()
@@ -123,6 +134,36 @@ describe('Cuentas (e2e)', () => {
     expect(bad.body.message).toBe(missing.body.message);
   });
 
+  it('pausa una cuenta tras 10 logins fallidos, aunque cambie la IP', async () => {
+    await register('bloqueo@correo.com').expect(200);
+    for (let i = 0; i < 10; i++) {
+      await http()
+        .post('/auth/login')
+        .send({ email: 'bloqueo@correo.com', password: 'mal-mal-mal' })
+        .expect(401);
+    }
+    const res = await http()
+      .post('/auth/login')
+      .send({ email: 'Bloqueo@correo.com', password: 'contraseña-larga' })
+      .expect(429);
+    expect(res.body.message).toMatch(/Demasiados intentos/);
+    // Recuperar la contraseña la desbloquea.
+    const before = mail.sent.length;
+    await http()
+      .post('/auth/forgot-password')
+      .send({ email: 'bloqueo@correo.com' })
+      .expect(204);
+    const code = await mail.waitForCode('bloqueo@correo.com', before);
+    await http()
+      .post('/auth/reset-password')
+      .send({ email: 'bloqueo@correo.com', code, password: 'otra-contraseña' })
+      .expect(204);
+    await http()
+      .post('/auth/login')
+      .send({ email: 'bloqueo@correo.com', password: 'otra-contraseña' })
+      .expect(200);
+  }, 20_000);
+
   it('rota el token de refresco y detecta la reutilización', async () => {
     const { body: first } = await register('refresh@correo.com').expect(200);
     const { body: second } = await http()
@@ -155,6 +196,7 @@ describe('Cuentas (e2e)', () => {
 
   it('recupera la contraseña con un código', async () => {
     const { body } = await register('olvido@correo.com').expect(200);
+    const before = mail.sent.length;
     await http()
       .post('/auth/forgot-password')
       .send({ email: 'olvido@correo.com' })
@@ -164,7 +206,7 @@ describe('Cuentas (e2e)', () => {
       .post('/auth/forgot-password')
       .send({ email: 'fantasma@correo.com' })
       .expect(204);
-    const code = mail.lastCode('olvido@correo.com');
+    const code = await mail.waitForCode('olvido@correo.com', before);
 
     await http()
       .post('/auth/reset-password')
@@ -194,11 +236,12 @@ describe('Cuentas (e2e)', () => {
 
   it('bloquea el código tras 5 intentos fallidos', async () => {
     await register('intentos@correo.com').expect(200);
+    const before = mail.sent.length;
     await http()
       .post('/auth/forgot-password')
       .send({ email: 'intentos@correo.com' })
       .expect(204);
-    const code = mail.lastCode('intentos@correo.com');
+    const code = await mail.waitForCode('intentos@correo.com', before);
     const wrong = code === '111111' ? '222222' : '111111';
     for (let i = 0; i < 5; i++) {
       await http()

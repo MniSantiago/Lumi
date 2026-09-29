@@ -5,6 +5,7 @@ import {
   Inject,
   PayloadTooLargeException,
   Put,
+  UnauthorizedException,
   UseGuards,
 } from '@nestjs/common';
 import {
@@ -18,7 +19,7 @@ import { eq, sql } from 'drizzle-orm';
 
 import { CurrentUserId, JwtAuthGuard } from '../auth/jwt-auth.guard.js';
 import { DB, type Database } from '../db/database.module.js';
-import { progress } from '../db/schema.js';
+import { progress, users } from '../db/schema.js';
 
 /** Tope de la copia guardada. Un año de días ocupa bastante menos. */
 const MAX_BYTES = 512 * 1024;
@@ -73,6 +74,12 @@ export class ProgressController {
     if (Buffer.byteLength(JSON.stringify(dto.data)) > MAX_BYTES) {
       throw new PayloadTooLargeException('El progreso es demasiado grande');
     }
+    // Un token de acceso aún vigente de una cuenta recién borrada: 401, no un 500 por la clave ajena.
+    const user = await this.db.query.users.findFirst({
+      where: eq(users.id, userId),
+      columns: { id: true },
+    });
+    if (!user) throw new UnauthorizedException();
     const [row] = await this.db
       .insert(progress)
       .values({ userId, data: dto.data })
