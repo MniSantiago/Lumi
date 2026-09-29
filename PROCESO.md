@@ -149,6 +149,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 43 | #45 | Tus números: las últimas 4 semanas (Plus) y plurales en francés |
 | 44 | #46 | Postales compartidas con enlace a Lumi (si hay dominio) |
 | 45 | #47 | Pulido: página 404 de la landing, robots.txt y el dominio en EAS |
+| 46 | #48 | Backend: exportar la lista de espera a CSV para el lanzamiento |
 | — | #15 | **Borrador:** Screen Time nativo (encima de #47, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
