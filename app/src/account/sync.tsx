@@ -6,6 +6,7 @@ import { useSession } from '@/account/session';
 import { getProgress, saveProgress } from '@/api/generated';
 import type { GameState } from '@/game/engine';
 import { toGameState, useGame } from '@/game/store';
+import { locale, tr } from '@/i18n';
 import { useLumi, type Settings } from '@/lumi/store';
 
 /**
@@ -18,7 +19,16 @@ import { useLumi, type Settings } from '@/lumi/store';
  *   Gana la última escritura: pensado para un iPhone a la vez.
  */
 
-const SYNCED = ['userName', 'lumiName', 'limitMinutes', 'thiefApps', 'nightStart', 'nightEnd', 'nightlyPostcard', 'restDays'] as const;
+const SYNCED = [
+  'userName',
+  'lumiName',
+  'limitMinutes',
+  'thiefApps',
+  'nightStart',
+  'nightEnd',
+  'nightlyPostcard',
+  'restDays',
+] as const;
 type SyncedSettings = Pick<Settings, (typeof SYNCED)[number]>;
 type Payload = { schema: 1; game: GameState; settings: SyncedSettings };
 
@@ -36,10 +46,29 @@ function readPayload(data: unknown): Payload | null {
 /** Hay algo que perder: más de un día jugado o postales guardadas (el primer día de una instalación nueva no cuenta). */
 const hasProgress = (g: GameState) => Object.keys(g.days).length > 1 || g.album.length > 0;
 
+function savedMessage(updatedAt: string | null | undefined) {
+  const on = updatedAt ? new Date(updatedAt).toLocaleDateString(locale) : null;
+  return on
+    ? tr({
+        es: `Tu cuenta tiene progreso guardado el ${on}. ¿Con cuál te quedas?`,
+        en: `Your account has progress saved on ${on}. Which one do you want to keep?`,
+        zh: `你的账户在 ${on} 保存过进度。要保留哪一个？`,
+        hi: `तुम्हारे खाते में ${on} को सहेजी गई प्रगति है। कौन-सी रखनी है?`,
+        fr: `Ton compte a une progression enregistrée le ${on}. Laquelle gardes-tu ?`,
+      })
+    : tr({
+        es: 'Tu cuenta tiene progreso guardado. ¿Con cuál te quedas?',
+        en: 'Your account has saved progress. Which one do you want to keep?',
+        zh: '你的账户有已保存的进度。要保留哪一个？',
+        hi: 'तुम्हारे खाते में सहेजी गई प्रगति है। कौन-सी रखनी है?',
+        fr: 'Ton compte a une progression enregistrée. Laquelle gardes-tu ?',
+      });
+}
+
 function ask(title: string, message: string, keepLocal: string, useRemote: string): Promise<'local' | 'remote'> {
   if (Platform.OS === 'web') {
     // En web (solo desarrollo) Alert no hace nada.
-    return Promise.resolve(globalThis.confirm?.(`${title}\n\n${message}\n\nAceptar: ${useRemote}`) ? 'remote' : 'local');
+    return Promise.resolve(globalThis.confirm?.(`${title}\n\n${message}\n\nOK: ${useRemote}`) ? 'remote' : 'local');
   }
   return new Promise((resolve) =>
     Alert.alert(
@@ -93,10 +122,28 @@ export function ProgressSync() {
       if (payload && alive) {
         const choice = hasProgress(latest.current.game)
           ? await ask(
-              'Tienes progreso guardado',
-              `Tu cuenta tiene progreso guardado${remote.updatedAt ? ` el ${new Date(remote.updatedAt).toLocaleDateString('es')}` : ''}. ¿Con cuál te quedas?`,
-              'El de este iPhone',
-              'El de la cuenta',
+              tr({
+                es: 'Tienes progreso guardado',
+                en: 'You have saved progress',
+                zh: '你有已保存的进度',
+                hi: 'तुम्हारी प्रगति सहेजी हुई है',
+                fr: 'Tu as une progression enregistrée',
+              }),
+              savedMessage(remote.updatedAt),
+              tr({
+                es: 'El de este iPhone',
+                en: 'This iPhone’s',
+                zh: '这台 iPhone 上的',
+                hi: 'इस iPhone वाली',
+                fr: 'Celle de cet iPhone',
+              }),
+              tr({
+                es: 'El de la cuenta',
+                en: 'The account’s',
+                zh: '账户里的',
+                hi: 'खाते वाली',
+                fr: 'Celle du compte',
+              }),
             )
           : 'remote';
         if (choice === 'remote') {

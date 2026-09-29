@@ -74,6 +74,22 @@ El uso de pantalla **no se recoge**: se queda en el iPhone (Screen Time por umbr
 | Cumplimiento de exportación | ✅ | `ITSAppUsesNonExemptEncryption: false` (solo HTTPS) |
 | Solo iPhone | ✅ | `supportsTablet: false` |
 
+### Idiomas
+
+La app y la web hablan el idioma del dispositivo: **español, inglés, chino (simplificado), hindi y francés**. Si el dispositivo usa otro idioma, salen en inglés.
+
+| Qué | Estado | Notas |
+|---|---|---|
+| Base (`app/src/i18n`): detección del idioma y `tr()` tipado | ✅ | Si falta una traducción, TypeScript no compila |
+| Contenido del juego (20 lugares, 60 historias, 36 objetos, 12 amigos) | ✅ | `app/src/game/content/<idioma>.ts` |
+| Textos de Lumi, avisos, escudo, paywall, fechas | ✅ | |
+| Todas las pantallas | ⬜ | |
+| `CFBundleLocalizations` (para que iOS muestre los idiomas en la ficha) y permisos traducidos | ⬜ | |
+| Legales, ayuda y landing | ⬜ | La landing sigue `navigator.language` |
+| Correos y errores del backend | ⬜ | La app manda `Accept-Language` |
+| Ficha de la App Store en los 5 idiomas | ⬜ | |
+| Revisión de las traducciones por hablantes nativos | ⬜ | Sobre todo hindi y chino |
+
 **Notas para la revisión:** versión completa en `FICHA_APP_STORE.md`.
 
 **Resumen:**
