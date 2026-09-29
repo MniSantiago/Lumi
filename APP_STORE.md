@@ -80,6 +80,8 @@ El uso de pantalla **no se recoge**: se queda en el iPhone (Screen Time por umbr
 
 ## 6. Configuración de producción
 
+**Backend y landing en Render:** `render.yaml` (New › Blueprint). Rellena `RESEND_API_KEY`, `MAIL_FROM` y `CORS_ORIGINS` en `lumi-api`. Con la URL de la API, pon `WAITLIST_ENDPOINT` en `landing/main.js` y `EXPO_PUBLIC_API_URL` en EAS.
+
 ```bash
 # Variables de la app en EAS (entorno production)
 npx eas-cli@latest env:create --environment production --name EXPO_PUBLIC_API_URL --value https://api.<dominio> --visibility plaintext
