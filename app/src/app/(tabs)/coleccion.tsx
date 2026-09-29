@@ -32,6 +32,8 @@ export default function CollectionScreen() {
       const destination = destinationById(entry.destinationId);
       return destination ? [destination] : [];
     });
+  // Lo que falta, en orden de capítulo, como postales cerradas: se ve lo que queda por descubrir.
+  const missing = DESTINATIONS.filter((d) => !postcards.some((p) => p.id === d.id)).sort((a, b) => a.chapter - b.chapter);
   const ownedItems = ITEM_CATALOG.filter((i) => game.items.includes(i.id)).length;
   const ownedFriends = FRIEND_CATALOG.filter((f) => game.friends.includes(f.id)).length;
 
@@ -61,9 +63,9 @@ export default function CollectionScreen() {
             </Text>
             {postcards.length === 0 ? (
               <Text style={styles.empty}>Aún no hay postales. Esta noche, quizá la primera ✨</Text>
-            ) : (
-              <View style={styles.postGrid}>
-                {postcards.map((d) => (
+            ) : null}
+            <View style={styles.postGrid}>
+              {postcards.map((d) => (
                   <Pressable
                     key={d.id}
                     style={styles.postCell}
@@ -72,9 +74,13 @@ export default function CollectionScreen() {
                     onPress={() => router.push({ pathname: '/postal', params: { id: d.id } })}>
                     <PostcardView title={d.name} caption={`Capítulo ${d.chapter}`} art={d.art} artHeight={100} />
                   </Pressable>
-                ))}
-              </View>
-            )}
+              ))}
+              {missing.map((d) => (
+                <View key={d.id} style={styles.postCell}>
+                  <SealedPostcard chapter={d.chapter} plus={d.plus} />
+                </View>
+              ))}
+            </View>
           </>
         ) : section === 'objetos' ? (
           <ItemGrid
@@ -91,6 +97,19 @@ export default function CollectionScreen() {
         )}
       </View>
     </Screen>
+  );
+}
+
+/** Postal aún sin descubrir: mismo tamaño que una de verdad, sin desvelar el lugar. */
+function SealedPostcard({ chapter, plus }: { chapter: number; plus: boolean }) {
+  return (
+    <View style={styles.sealed} accessible accessibilityLabel={`Postal sin descubrir, capítulo ${chapter}${plus ? ', de Lumi Plus' : ''}`}>
+      <View style={styles.sealedArt}>
+        <Text style={styles.sealedMark}>?</Text>
+      </View>
+      <Text style={styles.sealedTitle}>Por descubrir</Text>
+      <Text style={styles.sealedCaption}>{plus ? `Capítulo ${chapter} · Plus` : `Capítulo ${chapter}`}</Text>
+    </View>
   );
 }
 
@@ -138,9 +157,30 @@ const styles = StyleSheet.create({
   tabOn: { backgroundColor: Colors.indigoLight },
   tabText: { fontFamily: Fonts.bodySemiBold, fontSize: 13, color: Colors.textTertiary },
   count: { fontFamily: Fonts.body, fontSize: 13, color: Colors.textTertiary, marginBottom: 12 },
-  empty: { fontFamily: Fonts.body, fontSize: 14, lineHeight: 20, color: Colors.textSecondary },
+  empty: { fontFamily: Fonts.body, fontSize: 14, lineHeight: 20, color: Colors.textSecondary, marginBottom: 14 },
   postGrid: { flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -GRID_GAP / 2, rowGap: 14 },
   postCell: { width: '50%', paddingHorizontal: GRID_GAP / 2 },
+  sealed: {
+    borderRadius: 14,
+    borderCurve: 'continuous',
+    borderWidth: 1.5,
+    borderStyle: 'dashed',
+    borderColor: 'rgba(201, 191, 242, 0.28)',
+    paddingTop: 6,
+    paddingHorizontal: 6,
+    paddingBottom: 10,
+  },
+  sealedArt: {
+    height: 100,
+    borderRadius: 9,
+    borderCurve: 'continuous',
+    backgroundColor: 'rgba(201, 191, 242, 0.06)',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  sealedMark: { fontFamily: Fonts.displayBold, fontSize: 30, color: 'rgba(201, 191, 242, 0.35)' },
+  sealedTitle: { fontFamily: Fonts.displayBold, fontSize: 13, lineHeight: 16, color: Colors.textTertiary, marginTop: 6, marginHorizontal: 2 },
+  sealedCaption: { fontFamily: Fonts.body, fontSize: 10.5, lineHeight: 14, color: Colors.textTertiary, marginTop: 2, marginHorizontal: 2 },
   itemGrid: { flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -ITEM_GAP / 2, rowGap: ITEM_GAP },
   itemCell: { width: '33.333%', paddingHorizontal: ITEM_GAP / 2 },
   item: {

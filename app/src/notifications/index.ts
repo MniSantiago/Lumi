@@ -69,15 +69,31 @@ export async function ensureNotificationPermission(): Promise<boolean> {
   return inFlight;
 }
 
+/** Hay permiso de avisos, sin preguntar. */
+async function canNotify(): Promise<boolean> {
+  if (!supported) return false;
+  try {
+    return isAllowed(await Notifications.getPermissionsAsync());
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Programa un aviso. Por defecto no pide permiso: pedirlo de golpe, sin
+ * contexto, suele acabar en "No permitir". Se pide donde se explica
+ * (onboarding, Ajustes, la prueba de Plus) con `ask`.
+ */
 async function scheduleAt(
   identifier: string,
   at: Date,
   content: { title: string; body: string },
   route: NotificationRoute,
+  { ask = false }: { ask?: boolean } = {},
 ) {
   await cancel(identifier);
   if (at.getTime() <= Date.now()) return;
-  if (!(await ensureNotificationPermission())) return;
+  if (!(ask ? await ensureNotificationPermission() : await canNotify())) return;
   try {
     await Notifications.scheduleNotificationAsync({
       identifier,
@@ -109,7 +125,8 @@ export async function cancelNightlyReturn(): Promise<void> {
 
 /** Recordatorio 2 días antes de que acabe la prueba de Lumi Plus. */
 export async function scheduleTrialReminder(args: { lumiName: string; at: Date }): Promise<void> {
-  await scheduleAt(TRIAL_ID, args.at, trialReminderContent(args.lumiName), '/plus');
+  // El paywall acaba de prometer este aviso: aquí sí tiene sentido pedir permiso.
+  await scheduleAt(TRIAL_ID, args.at, trialReminderContent(args.lumiName), '/plus', { ask: true });
 }
 
 export async function cancelTrialReminder(): Promise<void> {
@@ -126,7 +143,9 @@ export async function debugScheduleNightlyIn(
 ): Promise<void> {
   const destination = { name: 'Bosque de Musgo', article: 'el' as const, ...args.destination };
   const at = new Date(Date.now() + seconds * 1000);
-  await scheduleAt(NIGHTLY_ID, at, nightlyReturnContent(args.lumiName ?? 'Lumi', destination, at), '/postal');
+  await scheduleAt(NIGHTLY_ID, at, nightlyReturnContent(args.lumiName ?? 'Lumi', destination, at), '/postal', {
+    ask: true,
+  });
 }
 
 function routeOf(response: Notifications.NotificationResponse): NotificationRoute | null {

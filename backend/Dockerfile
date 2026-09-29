@@ -1,12 +1,14 @@
 # API de Lumi. Construye con: docker build -t lumi-api backend/
-FROM node:22-alpine AS build
+FROM node:24-alpine AS build
 WORKDIR /app
+# El lockfile es de npm 11.
+RUN npm install -g npm@11
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
 RUN npm run build && npm prune --omit=dev
 
-FROM node:22-alpine
+FROM node:24-alpine
 WORKDIR /app
 ENV NODE_ENV=production
 COPY --from=build /app/package.json ./

@@ -16,6 +16,7 @@ import type { Destination } from '@/game/types';
 import { useLumi } from '@/lumi/store';
 import { nightlyCopy as copy, shareReread, shareTonight } from '@/nightly/copy';
 import { nightlyReturnFrom } from '@/nightly/tonight';
+import { maybeAskForReview } from '@/review';
 
 /** Cuánto se queda la despedida en pantalla antes de cerrar. */
 const GOODBYE_MS = 1500;
@@ -67,7 +68,7 @@ function NoPostcard() {
 
 function TonightPostcard({ pending }: { pending: PendingReturn }) {
   const { settings } = useLumi();
-  const { saveReturnToAlbum } = useGame();
+  const { saveReturnToAlbum, album } = useGame();
   const tonight = useMemo(() => nightlyReturnFrom(pending), [pending]);
   const { destination } = tonight;
   const insets = useSafeAreaInsets();
@@ -108,6 +109,9 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
     busy.current = true;
     saveReturnToAlbum();
     setSaved(true);
+    // Una postal de un sitio ya visitado sustituye a la anterior: el álbum no crece.
+    const isNew = !album.some((a) => a.destinationId === pending.destination.id);
+    void maybeAskForReview(album.length + (isNew ? 1 : 0));
     AccessibilityInfo.announceForAccessibility(copy.saved);
     timer.current = setTimeout(close, GOODBYE_MS);
   };

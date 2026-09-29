@@ -21,6 +21,7 @@ import {
   AuthSessionDto,
   ChangePasswordDto,
   DeleteAccountDto,
+  ExportDto,
   UpdateMeDto,
   UserDto,
 } from './dto.js';
@@ -43,6 +44,13 @@ export class MeController {
   @ApiOkResponse({ type: UserDto })
   updateMe(@CurrentUserId() userId: string, @Body() dto: UpdateMeDto) {
     return this.auth.updateMe(userId, dto);
+  }
+
+  @Get('export')
+  @Throttle({ default: { limit: 5, ttl: 60_000 } })
+  @ApiOkResponse({ type: ExportDto })
+  exportData(@CurrentUserId() userId: string) {
+    return this.auth.exportData(userId);
   }
 
   @Post('password')

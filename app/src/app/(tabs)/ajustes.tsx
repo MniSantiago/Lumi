@@ -1,8 +1,9 @@
 import { router } from 'expo-router';
-import { Alert, Linking, StyleSheet, Switch, Text, View } from 'react-native';
+import { Alert, Linking, StyleSheet, Text, View } from 'react-native';
 
+import { exportMyData } from '@/account/export';
 import { useSession } from '@/account/session';
-import { AppIcon, Label, List, Row, Stepper } from '@/components/onboarding/controls';
+import { AppIcon, Label, List, Row, Stepper, Toggle } from '@/components/onboarding/controls';
 import { PillButton, SectionTitle, Screen, TextLink } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
 import { plusFeatures } from '@/components/paywall/copy';
@@ -205,10 +206,26 @@ export default function SettingsScreen() {
 /** Cuenta opcional: guardar el progreso, verificar el correo, contraseña, cerrar sesión y eliminarla. */
 function AccountSection() {
   const { loading, user, signOut } = useSession();
+  const { settings } = useLumi();
+  const game = useGame();
   if (loading) return null;
+  const downloadRow = (
+    <Row>
+      <Label title="Tus datos" sub="Todo lo que Lumi guarda de ti, en un archivo" />
+      <TextLink
+        label="Descargar"
+        onPress={() =>
+          void exportMyData({ settings, game: game.snapshot, user }).catch(() =>
+            Alert.alert('No se ha podido exportar', 'Vuelve a intentarlo en un momento.'),
+          )
+        }
+      />
+    </Row>
+  );
   if (!user) {
     return (
       <List>
+        {downloadRow}
         <Row last>
           <Label title="Guarda tu progreso" sub="Opcional. Para no perder a Lumi si cambias de iPhone" />
           <TextLink label="Empezar" onPress={() => router.push('/cuenta')} />
@@ -227,6 +244,7 @@ function AccountSection() {
         <Label title={user.email} sub={user.emailVerified ? 'Correo confirmado' : 'Falta confirmar el correo'} />
         {user.emailVerified ? null : <TextLink label="Confirmar" onPress={() => router.push('/cuenta/verificar')} />}
       </Row>
+      {downloadRow}
       <Row>
         <Label title="Contraseña" />
         <TextLink label="Cambiar" onPress={() => router.push('/cuenta/contrasena')} />
@@ -240,19 +258,6 @@ function AccountSection() {
         <TextLink label="Eliminar" onPress={() => router.push('/cuenta/eliminar')} />
       </Row>
     </List>
-  );
-}
-
-function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: boolean) => void; label: string }) {
-  return (
-    <Switch
-      accessibilityLabel={label}
-      value={value}
-      onValueChange={onChange}
-      trackColor={{ true: Colors.violet, false: 'rgba(201, 191, 242, 0.25)' }}
-      thumbColor="#FFFFFF"
-      ios_backgroundColor="rgba(201, 191, 242, 0.25)"
-    />
   );
 }
 
