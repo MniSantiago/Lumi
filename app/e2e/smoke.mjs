@@ -1,0 +1,117 @@
+/**
+ * Prueba de humo de la app en la web: recorre todas las pantallas en los 5
+ * idiomas y falla si alguna lanza un error al pintarse o si el idioma del
+ * navegador no se aplica.
+ *
+ * Uso (desde app/):
+ *   EXPO_PUBLIC_API_URL=http://localhost:9 npx expo export --platform web
+ *   npm i --no-save playwright && npx playwright install chromium
+ *   node e2e/smoke.mjs            # CHROMIUM_PATH=… para usar otro Chromium
+ */
+import { createReadStream, existsSync, statSync } from 'node:fs';
+import { createServer } from 'node:http';
+import { extname, join, normalize } from 'node:path';
+
+import { chromium } from 'playwright';
+
+const DIST = new URL('../dist/', import.meta.url).pathname;
+const TYPES = { '.html': 'text/html', '.js': 'text/javascript', '.css': 'text/css', '.json': 'application/json' };
+
+/** Estático con vuelta a index.html, como un hosting de SPA. */
+const server = createServer((req, res) => {
+  const path = normalize(decodeURIComponent(new URL(req.url, 'http://x').pathname)).replace(/^(\.\.[/\\])+/, '');
+  const candidates = [join(DIST, path), join(DIST, `${path}.html`), join(DIST, 'index.html')];
+  const file = candidates.find((f) => existsSync(f) && statSync(f).isFile());
+  res.writeHead(200, { 'content-type': TYPES[extname(file)] ?? 'application/octet-stream' });
+  createReadStream(file).pipe(res);
+});
+
+const ROUTES = [
+  '/',
+  '/expediciones',
+  '/coleccion',
+  '/progreso',
+  '/ajustes',
+  '/apps',
+  '/chispas',
+  '/nombres',
+  '/plus',
+  '/postal',
+  '/resumen',
+  '/escudo',
+  '/escudo?motivo=noche',
+  '/cuenta',
+  '/cuenta/olvido',
+  '/legal/privacidad',
+  '/legal/terminos',
+  '/legal/ayuda',
+  '/onboarding',
+  '/onboarding/apps',
+  '/onboarding/limite',
+];
+/** Una palabra que tiene que salir en el Hogar en cada idioma (la pestaña). */
+const LOCALES = { 'es-ES': 'Hogar', 'en-US': 'Home', 'zh-CN': '家', 'hi-IN': 'घर', 'fr-FR': 'Maison' };
+
+const NON_LATIN = new Set(['zh-CN', 'hi-IN']);
+/** Nombres propios y marcas que se escriben igual en todos los idiomas. */
+const LATIN_OK = new Set(
+  'Lumi lumi Plus PLUS Ana TikTok Instagram YouTube Shorts Reddit Snapchat Facebook Twitch iOS iPhone Apple App Store Screen Time Family Controls Device Activity Zzz min Resend'.split(
+    ' ',
+  ),
+);
+
+await new Promise((ok) => server.listen(0, ok));
+const base = `http://localhost:${server.address().port}`;
+const browser = await chromium.launch(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {});
+const failures = [];
+
+for (const [locale, homeWord] of Object.entries(LOCALES)) {
+  const page = await (await browser.newContext({ locale, viewport: { width: 390, height: 844 } })).newPage();
+  let route = '';
+  page.on('pageerror', (e) => failures.push(`${locale} ${route}: ${e.message}`));
+  await page.goto(base);
+  await page.evaluate(() =>
+    localStorage.setItem('lumi.settings.v1', JSON.stringify({ onboarded: true, userName: 'Ana', lumiName: 'Lumi' })),
+  );
+  for (route of ROUTES) {
+    await page.goto(base + route);
+    await page.waitForTimeout(700);
+    const text = await page.evaluate(() => document.body.innerText);
+    if (!text.trim()) failures.push(`${locale} ${route}: pantalla vacía`);
+    if (route === '/' && !text.includes(homeWord)) failures.push(`${locale} /: no sale «${homeWord}»`);
+    // En chino e hindi, una palabra en alfabeto latino suele ser un texto sin traducir.
+    if (NON_LATIN.has(locale)) {
+      const leftovers = [...new Set(text.match(/[A-Za-zÀ-ÿ’']{3,}/g) ?? [])].filter((w) => !LATIN_OK.has(w));
+      if (leftovers.length) failures.push(`${locale} ${route}: ¿sin traducir? ${leftovers.slice(0, 8).join(' ')}`);
+    }
+  }
+  console.log(`✓ ${locale}: ${ROUTES.length} pantallas`);
+}
+
+// El primer arranque de verdad: onboarding completo hasta el Hogar (en español).
+{
+  const page = await (await browser.newContext({ locale: 'es-ES', viewport: { width: 390, height: 844 } })).newPage();
+  page.on('pageerror', (e) => failures.push(`onboarding: ${e.message}`));
+  try {
+    await page.goto(`${base}/onboarding`);
+    await page.getByPlaceholder('Tu nombre').fill('Ana');
+    await page.getByRole('button', { name: 'Continuar' }).click();
+    await page.getByRole('checkbox').first().click();
+    await page.getByRole('button', { name: 'Continuar' }).click();
+    await page.getByRole('button', { name: /Despertar a/ }).click();
+    await page.waitForURL((url) => url.pathname === '/', { timeout: 10_000 });
+    const onboarded = await page.evaluate(() => JSON.parse(localStorage.getItem('lumi.settings.v1') ?? '{}').onboarded);
+    if (!onboarded) failures.push('onboarding: al terminar no queda guardado');
+    await page.getByText('Hogar').first().waitFor({ timeout: 10_000 });
+    console.log('✓ onboarding completo hasta el Hogar');
+  } catch (e) {
+    failures.push(`onboarding: ${e.message.split('\n')[0]}`);
+  }
+}
+
+await browser.close();
+server.close();
+if (failures.length) {
+  console.error(failures.join('\n'));
+  process.exit(1);
+}

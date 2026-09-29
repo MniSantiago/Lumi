@@ -1,5 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState, useSyncExternalStore } from 'react';
 import { Alert, AppState, Platform } from 'react-native';
 
 import { useSession } from '@/account/session';
@@ -34,6 +34,25 @@ type Payload = { schema: 1; game: GameState; settings: SyncedSettings };
 
 const UPLOAD_DELAY_MS = 3000;
 const linkedKey = (userId: string) => `lumi.sync.linked.${userId}`;
+const backupKey = (userId: string) => `lumi.sync.at.${userId}`;
+
+/** Cuándo se guardó por última vez la copia en la cuenta (lo enseña Ajustes › Cuenta). */
+let lastBackup: number | null = null;
+const backupListeners = new Set<() => void>();
+function setLastBackup(at: number | null, userId?: string) {
+  lastBackup = at;
+  backupListeners.forEach((l) => l());
+  if (at && userId) void AsyncStorage.setItem(backupKey(userId), String(at)).catch(() => {});
+}
+export function useLastBackup(): number | null {
+  return useSyncExternalStore(
+    (l) => {
+      backupListeners.add(l);
+      return () => backupListeners.delete(l);
+    },
+    () => lastBackup,
+  );
+}
 
 const pickSettings = (s: Settings) => Object.fromEntries(SYNCED.map((k) => [k, s[k]])) as SyncedSettings;
 
@@ -103,12 +122,15 @@ export function ProgressSync() {
       void AsyncStorage.removeItem(linkedKey(previousUser.current)).catch(() => {});
     }
     previousUser.current = userId;
+    setLastBackup(null);
     // `linked` puede quedarse con la cuenta anterior un momento: `upload` comprueba que coincida.
     if (!userId || !ready || !game.ready) return;
 
     let alive = true;
     (async () => {
       if (await AsyncStorage.getItem(linkedKey(userId)).catch(() => null)) {
+        const at = Number(await AsyncStorage.getItem(backupKey(userId)).catch(() => null));
+        if (alive && at) setLastBackup(at);
         if (alive) setLinked(userId);
         return;
       }
@@ -149,6 +171,7 @@ export function ProgressSync() {
         if (choice === 'remote') {
           game.restore(payload.game);
           updateSettings(payload.settings);
+          if (remote.updatedAt && alive) setLastBackup(new Date(remote.updatedAt).getTime(), userId);
         }
       }
       await AsyncStorage.setItem(linkedKey(userId), '1').catch(() => {});
@@ -172,6 +195,7 @@ export function ProgressSync() {
     try {
       await saveProgress({ data: payload });
       lastUploaded.current = body;
+      setLastBackup(Date.now(), currentUser);
     } catch {
       // Se reintenta con el siguiente cambio o al volver a la app.
     }

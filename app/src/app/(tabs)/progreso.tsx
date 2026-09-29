@@ -280,9 +280,10 @@ export default function ProgressScreen() {
           {EVOLUTION.stages.map((stage, i) => {
             const reached = i <= evolution.stage;
             return (
-              <View key={stage.name} style={[styles.evoStage, !reached && { opacity: 0.4 }]}>
-                <View style={[styles.orb, { experimental_backgroundImage: stage.orb }]} />
-                <Text style={styles.evoLabel}>{stage.name}</Text>
+              <View key={stage.name} style={styles.evoStage}>
+                {/* Sin alcanzar: la esfera apagada; el nombre, legible (contraste AA). */}
+                <View style={[styles.orb, { experimental_backgroundImage: stage.orb }, !reached && { opacity: 0.4 }]} />
+                <Text style={[styles.evoLabel, !reached && { color: Colors.textTertiary }]}>{stage.name}</Text>
               </View>
             );
           })}
@@ -337,6 +338,30 @@ function LifetimeStats({ game, isPlus }: { game: GameApi; isPlus: boolean }) {
     {
       value: `${game.friends.length}/${FRIEND_CATALOG.length}`,
       label: tr({ es: 'amigos', en: 'friends', zh: '朋友', hi: 'दोस्त', fr: 'amis' }),
+    },
+    {
+      value: game.history.filter((d) => d.expedition?.nightBonus).length,
+      label: tr({
+        es: 'noches tranquilas',
+        en: 'calm nights',
+        zh: '安稳的夜晚',
+        hi: 'शांत रातें',
+        fr: 'nuits tranquilles',
+      }),
+    },
+    {
+      value: game.sparks,
+      label: tr({ es: 'chispas', en: 'sparks', zh: '火花', hi: 'चिंगारियाँ', fr: 'étincelles' }),
+    },
+    {
+      value: game.history.filter((d) => d.restDay).length,
+      label: tr({
+        es: 'días de descanso',
+        en: 'rest days',
+        zh: '休息日',
+        hi: 'आराम के दिन',
+        fr: 'jours de repos',
+      }),
     },
   ];
   return (

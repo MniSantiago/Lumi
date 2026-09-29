@@ -28,6 +28,27 @@ jobs:
       - run: npx expo lint
       - run: npm test -- --ci
 
+  web:
+    name: App en la web (humo, 5 idiomas)
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+      - run: npm ci
+      # Con API para que se pinten también las pantallas de la cuenta (no hace falta que responda).
+      - run: npx expo export --platform web
+        env:
+          EXPO_PUBLIC_API_URL: http://localhost:9
+      - run: npm i --no-save playwright && npx playwright install --with-deps chromium
+      - run: npm run smoke
+
   backend:
     name: Backend (lint, tests y e2e)
     runs-on: ubuntu-latest

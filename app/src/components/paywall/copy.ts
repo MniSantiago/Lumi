@@ -68,11 +68,11 @@ export const plusFeatures = [
       fr: 'Tes chiffres',
     }),
     sub: tr({
-      es: 'Todo lo que habéis brillado juntos: días, racha más larga, lugares, objetos y amigos.',
-      en: 'Everything you’ve shone together: days, longest streak, places, things and friends.',
-      zh: '你们一起发过的所有光：天数、最长连续、地点、物品和朋友。',
-      hi: 'तुम दोनों कितना चमके: दिन, सबसे लंबा सिलसिला, जगहें, चीज़ें और दोस्त।',
-      fr: 'Tout ce que vous avez brillé ensemble : jours, plus longue série, lieux, objets et amis.',
+      es: 'Todo lo que habéis brillado juntos, semana a semana: días, rachas, noches tranquilas, lugares, objetos y amigos.',
+      en: 'Everything you’ve shone together, week by week: days, streaks, calm nights, places, things and friends.',
+      zh: '你们一起发过的所有光，一周一周：天数、连续记录、安稳的夜晚、地点、物品和朋友。',
+      hi: 'तुम दोनों हफ़्ता-दर-हफ़्ता कितना चमके: दिन, सिलसिले, शांत रातें, जगहें, चीज़ें और दोस्त।',
+      fr: 'Tout ce que vous avez brillé ensemble, semaine après semaine : jours, séries, nuits tranquilles, lieux, objets et amis.',
     }),
   },
 ] as const;

@@ -11,6 +11,7 @@ import {
   emptyDay,
   evolutionFor,
   markRestlessNight as markRestless,
+  morningAfter,
   expeditionProgress,
   restDaysInWeek,
   RETURNS_AT,
@@ -24,7 +25,6 @@ import {
 } from '@/game/engine';
 import type { AlbumEntry, DateKey, DayRecord, Destination, ExpeditionResult } from '@/game/types';
 import { useLumi } from '@/lumi/store';
-import { toMinutes } from '@/lumi/time';
 import { cancelNightlyReturn, scheduleNightlyReturn } from '@/notifications';
 import { screenTime } from '@/screen-time';
 import { clockTime } from '@/i18n/dates';
@@ -220,11 +220,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
 
   const nightEnd = settings.nightEnd;
   const markRestlessNight = useCallback(() => {
-    const n = clock.now();
-    const key = clock.dateKey(n);
-    // Antes de la hora de despertar, la noche acaba hoy; si no, mañana.
-    const morning = n.getHours() * 60 + n.getMinutes() < toMinutes(nightEnd) ? key : clock.addDays(key, 1);
-    setState((s) => markRestless(s, morning));
+    setState((s) => markRestless(s, morningAfter(clock.now(), nightEnd)));
   }, [nightEnd]);
 
   const restore = useCallback((next: GameState) => setState(toGameState(next)), []);

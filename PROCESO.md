@@ -1,6 +1,6 @@
 # Lumi: registro del proceso
 
-Última sesión: lunes 28 al martes 29 de septiembre de 2026 (noche): bloques de UX y preparación para producción (PR hasta #61).
+Última sesión: lunes 28 al martes 29 de septiembre de 2026 (noche): bloques de UX y preparación para producción (PR hasta #73).
 Para retomar: abre un chat en el proyecto "Cozy experience" (o pega este archivo y `BRIEF.md`) y di en qué paso vamos.
 
 ---
@@ -168,7 +168,16 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 60 | #62 | Colección: cada objeto y amigo cuenta de dónde vino |
 | 61 | #63 | Postal: celebra cuando Lumi crece de etapa |
 | 62 | #64 | Hogar: el halo de Lumi cambia de color con su evolución |
-| — | #15 | **Borrador:** Screen Time nativo, con escudo de noche y noches movidas (encima de #64; fusionar cuando compile en un iPhone) |
+| 63 | #65 | CI: prueba de humo en la web (5 idiomas) y arreglo de contraste |
+| 64 | #66 | Tus números: noches tranquilas, chispas y días de descanso |
+| 65 | #67 | Aviso de buenas noches (opcional) a la hora de dormir |
+| 66 | #68 | Cuenta: cuándo se guardó por última vez tu progreso |
+| 67 | #69 | Landing: la FAQ del bloqueo incluye el horario de noche |
+| 68 | #70 | Olvidé la contraseña: reenviar el código con espera y confirmación |
+| 69 | #71 | Cuenta: «Mostrar» la contraseña; notas para Apple en inglés |
+| 70 | #72 | Chispas sin prometer la decoración; contraste en Expediciones |
+| 71 | #73 | Motor: morningAfter con tests (noche tranquila) |
+| — | #15 | **Borrador:** Screen Time nativo, con escudo de noche y noches movidas (encima de #73; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
 Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1` (ver `app/app.config.ts`); sin esas variables, la app es la de siempre.
@@ -215,6 +224,15 @@ Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1`
 ## 5. Pasos pendientes
 
 > Lo necesario para publicar está en `APP_STORE.md`. Lo más urgente: pedir el entitlement de Family Controls y desplegar el backend.
+
+**Lo que queda en tus manos (tras la noche del 28 al 29 de septiembre):**
+
+1. Revisar y fusionar la cadena de PR en orden (tabla de «Sesión 3» en la sección 3), hasta #73.
+2. Pedir el entitlement de Family Controls y probar el borrador #15 (con el escudo de noche nativo) y el #22 (widget) en un iPhone.
+3. Desplegar el backend, poner el dominio y `EXPO_PUBLIC_API_URL`, y crear la cuenta de revisión (`APP_STORE.md` §6-§7).
+4. Hacer las capturas del simulador en los 5 idiomas y pasarlas por `sh landing/tools/capturas.sh`.
+5. Que alguien con criterio legal revise Privacidad y Términos (sección de menores, #54) y que hablantes nativos revisen hindi y chino.
+6. Decidir si la lista de espera pasa a doble confirmación (doble opt-in) antes del aviso de lanzamiento.
 
 ### Paso 2. Generar los 4 estados de Lumi (hecho: app, landing y mockup HTML)
 
