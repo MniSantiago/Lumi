@@ -52,5 +52,14 @@ entitlement de Family Controls. En Expo Go solo funciona el mock.
 ```bash
 npm run typecheck
 npm run lint
+npm test                 # tests unitarios (motor del juego, fechas, idiomas…)
 npx expo-doctor
+```
+
+Prueba de humo en la web (la misma que corre el CI): recorre 21 pantallas en los 5 idiomas y el onboarding completo.
+
+```bash
+EXPO_PUBLIC_API_URL=http://localhost:9 npx expo export --platform web
+npm i --no-save playwright && npx playwright install chromium
+npm run smoke
 ```
