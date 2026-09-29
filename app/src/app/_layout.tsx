@@ -77,11 +77,6 @@ function RootStack() {
       <Stack.Protected guard={!settings.onboarded}>
         <Stack.Screen name="onboarding" />
       </Stack.Protected>
-      {/* Siempre disponibles: también desde el onboarding (recuperar a Lumi en un iPhone nuevo, leer la privacidad). */}
-      <Stack.Screen name="legal/[doc]" options={{ presentation: 'modal' }} />
-      <Stack.Screen name="cuenta/index" options={{ presentation: 'modal' }} />
-      <Stack.Screen name="cuenta/verificar" options={{ presentation: 'modal' }} />
-      <Stack.Screen name="cuenta/olvido" options={{ presentation: 'modal' }} />
       <Stack.Protected guard={settings.onboarded}>
         <Stack.Screen name="(tabs)" />
         <Stack.Screen name="escudo" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
@@ -93,6 +88,14 @@ function RootStack() {
         <Stack.Screen name="cuenta/eliminar" options={{ presentation: 'modal' }} />
         <Stack.Screen name="resumen" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
       </Stack.Protected>
+      {/*
+        Siempre disponibles: también desde el onboarding (recuperar a Lumi en un iPhone nuevo, leer la privacidad).
+        Al final: la primera pantalla disponible es la que se abre al cambiar el guard, y tiene que ser el onboarding o las pestañas.
+      */}
+      <Stack.Screen name="legal/[doc]" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="cuenta/index" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="cuenta/verificar" options={{ presentation: 'modal' }} />
+      <Stack.Screen name="cuenta/olvido" options={{ presentation: 'modal' }} />
     </Stack>
   );
 }
