@@ -14,6 +14,7 @@ import { LumiProvider, useLumi } from '@/lumi/store';
 import { useNotificationRouting, useBedtimeReminder, useWeeklySummaryReminder } from '@/notifications';
 import { PlusSync } from '@/purchases/plus-sync';
 import { ScreenTimePlan } from '@/screen-time/plan';
+import { WidgetSync } from '@/widget/sync';
 
 SplashScreen.preventAutoHideAsync();
 
@@ -48,6 +49,7 @@ export default function RootLayout() {
             <ProgressSync />
             <PlusSync />
             <ScreenTimePlan />
+            <WidgetSync />
           </GameProvider>
         </SessionProvider>
       </LumiProvider>
