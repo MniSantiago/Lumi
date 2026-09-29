@@ -54,7 +54,7 @@ LO IMPORTANTE ES GRATIS
 Tu Lumi y su escudo, el límite diario, las expediciones y postales, el widget y el modo noche son gratis. Siempre.
 
 LUMI PLUS (OPCIONAL)
-Para quien quiere ir un poco más lejos: más especies y colores de luz, zonas exclusivas y capítulos de historia, varios horarios y estadísticas, y decoración para su madriguera. Suscripción anual o mensual con 7 días gratis en el plan anual. Se renueva sola hasta que la canceles en Ajustes › tu nombre › Suscripciones, al menos 24 horas antes de la renovación.
+Para quien quiere ir un poco más lejos: zonas exclusivas con sus propias historias, un escudo estricto sin «5 min más» y tus números de siempre (racha más larga, lugares, objetos y amigos). Suscripción anual o mensual con 7 días gratis en el plan anual. Se renueva sola hasta que la canceles en Ajustes › tu nombre › Suscripciones, al menos 24 horas antes de la renovación.
 
 Términos: https://<dominio>/terminos.html
 Privacidad: https://<dominio>/privacidad.html

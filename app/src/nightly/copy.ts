@@ -6,6 +6,9 @@ import type { CatalogEntry, Destination } from '@/game/types';
 import { tr } from '@/i18n';
 import type { NightlyReturn } from '@/nightly/tonight';
 
+/** Rachas que se celebran en la postal. */
+export const STREAK_MILESTONES = [3, 7, 14, 30, 50, 100, 200, 365];
+
 export const nightlyCopy = {
   header: (lumiName: string) =>
     tr({
@@ -45,6 +48,17 @@ export const nightlyCopy = {
     friend.feminine
       ? tr({ es: '¡Amiga nueva!', en: 'New friend!', zh: '新朋友！', hi: 'नई दोस्त!', fr: 'Nouvelle amie !' })
       : tr({ es: '¡Amigo nuevo!', en: 'New friend!', zh: '新朋友！', hi: 'नया दोस्त!', fr: 'Nouvel ami !' }),
+  /** Solo en las rachas redondas; el resto de noches, nada (sin presión). */
+  streakMilestone: (days: number) =>
+    STREAK_MILESTONES.includes(days)
+      ? tr({
+          es: `✨ ${days} días seguidos brillando. ¡Qué racha más bonita!`,
+          en: `✨ ${days} days shining in a row. What a lovely streak!`,
+          zh: `✨ 连续发光 ${days} 天。好棒的连续记录！`,
+          hi: `✨ लगातार ${days} दिन चमक। कितना प्यारा सिलसिला!`,
+          fr: `✨ ${days} jours de lumière d’affilée. Quelle jolie série !`,
+        })
+      : null,
   sparksUnit: tr({ es: 'chispas', en: 'sparks', zh: '火花', hi: 'चिंगारियाँ', fr: 'étincelles' }),
   skipHint: tr({
     es: 'Toca para verlo todo',

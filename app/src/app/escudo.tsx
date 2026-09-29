@@ -88,7 +88,8 @@ export default function ShieldScreen() {
     transform: [{ translateY: 8 * (1 - reveal.value) }],
   }));
 
-  const note = shieldCopy.snoozeNote(snoozesUsed);
+  const strict = settings.isPlus && settings.strictShield;
+  const note = strict ? shieldCopy.strictNote : shieldCopy.snoozeNote(snoozesUsed);
 
   return (
     <View style={styles.screen}>
@@ -121,12 +122,14 @@ export default function ShieldScreen() {
           style={[styles.actions, questionStyle]}
           pointerEvents={phase === 'ask' ? 'auto' : 'none'}>
           <ShieldButton label={shieldCopy.leave} onPress={onLeave} disabled={phase !== 'ask'} />
-          <ShieldButton
-            ghost
-            label={shieldCopy.snooze(snoozesUsed)}
-            onPress={onSnooze}
-            disabled={phase !== 'ask'}
-          />
+          {strict ? null : (
+            <ShieldButton
+              ghost
+              label={shieldCopy.snooze(snoozesUsed)}
+              onPress={onSnooze}
+              disabled={phase !== 'ask'}
+            />
+          )}
           {note ? <Text style={styles.note}>{note}</Text> : null}
         </Animated.View>
       </View>

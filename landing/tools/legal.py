@@ -33,6 +33,7 @@ PAGE = """<!doctype html>
 <title>{title} · Lumi</title>
 <meta name="description" content="{intro}">
 <meta name="theme-color" content="#13112E">
+{alternates}
 <link rel="icon" type="image/png" href="img/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -98,6 +99,11 @@ def render(key: str, texts: dict, contact_email: str) -> str:
     return PAGE.format(
         title=escape(es["title"]),
         intro=escape(es["intro"]),
+        alternates="\n".join(
+            f'<link rel="alternate" hreflang="{h}" href="{key}.html?lang={l}">'
+            for h, l in [("es", "es"), ("en", "en"), ("zh-Hans", "zh"), ("hi", "hi"), ("fr", "fr")]
+        )
+        + f'\n<link rel="alternate" hreflang="x-default" href="{key}.html">',
         blocks="\n".join(block(lang, texts[lang][key], key, contact_email) for lang in LANGS),
     )
 

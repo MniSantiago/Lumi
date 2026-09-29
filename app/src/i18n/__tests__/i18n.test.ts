@@ -1,4 +1,4 @@
-import { describe, expect, it } from '@jest/globals';
+import { describe, expect, it, jest } from '@jest/globals';
 
 import en from '@/game/content/en';
 import es from '@/game/content/es';
@@ -8,6 +8,7 @@ import zh from '@/game/content/zh';
 import { DESTINATIONS } from '@/game/destinations';
 import { FRIEND_CATALOG, ITEM_CATALOG } from '@/game/catalog';
 import { detectLang, lang } from '@/i18n';
+import { clockTime } from '@/i18n/dates';
 import { LEGAL_TEXTS } from '@/legal/content';
 
 describe('detectLang', () => {
@@ -60,5 +61,23 @@ describe('textos legales', () => {
     const shape = (docs: (typeof LEGAL_TEXTS)['es']) =>
       Object.fromEntries(Object.entries(docs).map(([k, d]) => [k, d.sections.map((s) => s.body.length)]));
     for (const docs of Object.values(LEGAL_TEXTS)) expect(shape(docs)).toEqual(shape(LEGAL_TEXTS.es));
+  });
+});
+
+describe('clockTime', () => {
+  it('en español se queda con el reloj de 24 horas', () => {
+    expect(clockTime('21:00')).toBe('21:00');
+    expect(clockTime('07:30')).toBe('07:30');
+  });
+
+  it('en inglés usa AM y PM', () => {
+    jest.resetModules();
+    jest.doMock('expo-localization', () => ({ getLocales: () => [{ languageCode: 'en' }] }));
+    // eslint-disable-next-line @typescript-eslint/no-require-imports -- el módulo tiene que cargarse después del mock
+    const dates = require('@/i18n/dates') as typeof import('@/i18n/dates');
+    expect(dates.clockTime('21:00')).toBe('9:00 PM');
+    expect(dates.clockTime('00:30')).toBe('12:30 AM');
+    expect(dates.clockTime('12:00')).toBe('12:00 PM');
+    jest.dontMock('expo-localization');
   });
 });

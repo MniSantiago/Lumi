@@ -52,7 +52,7 @@ THE IMPORTANT STUFF IS FREE
 Your Lumi and her shield, the daily limit, expeditions and postcards, the widget and night mode are free. Always.
 
 LUMI PLUS (OPTIONAL)
-For those who want to go a little further: more species and light colors, exclusive places and story chapters, multiple schedules and stats, and decor for her burrow. Yearly or monthly subscription with a 7-day free trial on the yearly plan. It renews automatically until you cancel it in Settings › your name › Subscriptions, at least 24 hours before renewal.
+For those who want to go a little further: exclusive places with their own stories, a strict shield without “5 more min”, and your all-time numbers (longest streak, places, things and friends). Yearly or monthly subscription with a 7-day free trial on the yearly plan. It renews automatically until you cancel it in Settings › your name › Subscriptions, at least 24 hours before renewal.
 
 Terms: https://<domain>/terminos.html?lang=en
 Privacy: https://<domain>/privacidad.html?lang=en

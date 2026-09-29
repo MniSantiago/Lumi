@@ -14,7 +14,13 @@ import { tr } from '@/i18n';
  * Editar las apps ladronas desde Ajustes. Es la misma lista del onboarding
  * (maqueta del `FamilyActivityPicker`); cada toque se guarda al momento.
  */
-const sheetTitle = tr({ es: 'Apps ladronas', en: 'Thief apps', zh: '偷时间的 App', hi: 'चोर ऐप्स', fr: 'Applis voleuses' });
+const sheetTitle = tr({
+  es: 'Apps ladronas',
+  en: 'Thief apps',
+  zh: '偷时间的 App',
+  hi: 'चोर ऐप्स',
+  fr: 'Applis voleuses',
+});
 const sheetSubtitle = (name: string) =>
   tr({
     es: `Las que le roban la luz a ${name}. Los cambios se guardan solos.`,
@@ -43,7 +49,12 @@ export default function ThiefAppsSheet() {
   if (realScreenTime) {
     return (
       <Sheet title={sheetTitle} subtitle={sheetSubtitle(name)}>
-        <ThiefAppsPicker lumiName={name} onChange={() => void applyScreenTimePlan(settings).catch(() => {})} />
+        <ThiefAppsPicker
+          lumiName={name}
+          onChange={() =>
+            void applyScreenTimePlan({ ...settings, strict: settings.isPlus && settings.strictShield }).catch(() => {})
+          }
+        />
       </Sheet>
     );
   }

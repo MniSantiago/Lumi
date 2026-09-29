@@ -1,12 +1,12 @@
 import * as Notifications from 'expo-notifications';
 import { router, usePathname, useRootNavigationState, type Href } from 'expo-router';
 import { useEffect, useRef, useState } from 'react';
-import { Platform } from 'react-native';
+import { AppState, Platform } from 'react-native';
 
 import { DESTINATIONS } from '@/game/destinations';
 import type { Destination } from '@/game/types';
 import { useLumi } from '@/lumi/store';
-import { nightlyReturnContent, trialReminderContent } from '@/notifications/copy';
+import { nightlyReturnContent, trialReminderContent, weeklySummaryContent } from '@/notifications/copy';
 
 export { permissionDeniedCopy } from '@/notifications/copy';
 
@@ -18,14 +18,18 @@ export { permissionDeniedCopy } from '@/notifications/copy';
  *   encender "Postal nocturna" en Ajustes. Nunca al abrir la app.
  * - Sin permiso, programar no hace nada (en silencio).
  * - Cada aviso tiene un identificador fijo: programar otra vez sustituye al anterior.
- * - Al tocar un aviso se abre `data.route` (`/postal` o `/plus`).
+ * - Al tocar un aviso se abre `data.route` (`/postal`, `/plus` o `/resumen`).
  */
 
 const NIGHTLY_ID = 'lumi.nightly-return';
 const TRIAL_ID = 'lumi.trial-reminder';
+const WEEKLY_ID = 'lumi.weekly-summary';
+
+/** El resumen de la semana: domingo (1 en expo-notifications) a las 19:00. */
+const WEEKLY_AT = { weekday: 1, hour: 19, minute: 0 };
 
 /** Rutas a las que puede llevar un aviso. */
-const ROUTES = ['/postal', '/plus'] as const;
+const ROUTES = ['/postal', '/plus', '/resumen'] as const;
 type NotificationRoute = (typeof ROUTES)[number];
 
 const supported = Platform.OS === 'ios' || Platform.OS === 'android';
@@ -136,6 +140,45 @@ export async function scheduleTrialReminder(args: { lumiName: string; at: Date }
 
 export async function cancelTrialReminder(): Promise<void> {
   await cancel(TRIAL_ID);
+}
+
+/** Aviso semanal con el resumen (se repite cada domingo). No pide permiso: solo se programa si ya lo hay. */
+export async function scheduleWeeklySummary(lumiName: string): Promise<void> {
+  await cancel(WEEKLY_ID);
+  if (!(await canNotify())) return;
+  try {
+    await Notifications.scheduleNotificationAsync({
+      identifier: WEEKLY_ID,
+      content: { ...weeklySummaryContent(lumiName), sound: 'default', data: { route: '/resumen' } },
+      trigger: { type: Notifications.SchedulableTriggerInputTypes.WEEKLY, ...WEEKLY_AT },
+    });
+  } catch {
+    // Un aviso que no se programa no debe romper nada.
+  }
+}
+
+export async function cancelWeeklySummary(): Promise<void> {
+  await cancel(WEEKLY_ID);
+}
+
+/**
+ * Montado en el layout raíz: mantiene el aviso del domingo al día con el
+ * ajuste y el nombre de Lumi (y con el idioma, que se lee al programarlo).
+ */
+export function useWeeklySummaryReminder(): void {
+  const { ready, settings } = useLumi();
+  const on = ready && settings.onboarded && settings.weeklySummary;
+  useEffect(() => {
+    if (!ready) return;
+    const sync = () => {
+      if (on) scheduleWeeklySummary(settings.lumiName).catch(() => {});
+      else cancelWeeklySummary().catch(() => {});
+    };
+    sync();
+    // Al volver a la app: por si se ha dado permiso de avisos mientras tanto (en Ajustes de iOS o al encender otro aviso).
+    const sub = AppState.addEventListener('change', (state) => state === 'active' && sync());
+    return () => sub.remove();
+  }, [ready, on, settings.lumiName]);
 }
 
 /**

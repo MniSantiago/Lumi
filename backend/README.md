@@ -16,6 +16,17 @@ npm run start:dev             # http://localhost:3000, documentación en /docs
 
 Sin `RESEND_API_KEY`, los correos no se envían: salen en el log, con el código de 6 cifras.
 
+Los errores y los correos salen en el idioma de `Accept-Language` (es, en, zh, hi o fr; sin cabecera, español).
+
+### Cuenta de prueba para la revisión de Apple
+
+```bash
+REVIEW_EMAIL=review@<dominio> REVIEW_PASSWORD=<contraseña> npm run review:account
+# en producción, ya compilado: node dist/db/review-account.js
+```
+
+La crea con el correo ya verificado. Si existe, le cambia la contraseña y cierra sus sesiones.
+
 ## Endpoints
 
 | Método | Ruta | Qué hace |

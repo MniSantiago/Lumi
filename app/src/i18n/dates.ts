@@ -1,4 +1,4 @@
-import { tr } from '@/i18n';
+import { lang, tr } from '@/i18n';
 
 /**
  * Fechas a mano, sin depender de los datos de Intl del motor (Hermes no los
@@ -88,3 +88,10 @@ export const weekdayName = (engineLabel: string) => {
   const i = ENGINE_LABELS.indexOf(engineLabel);
   return i < 0 ? engineLabel : WEEKDAYS[(i + 1) % 7];
 };
+
+/** '21:00' → '9:00 PM' donde se usa el reloj de 12 horas (inglés e hindi); igual en el resto. */
+export function clockTime(hhmm: string) {
+  if (lang !== 'en' && lang !== 'hi') return hhmm;
+  const [h, m] = hhmm.split(':').map(Number);
+  return `${h % 12 || 12}:${String(m || 0).padStart(2, '0')} ${h < 12 ? 'AM' : 'PM'}`;
+}

@@ -2,6 +2,7 @@ import Constants, { ExecutionEnvironment } from 'expo-constants';
 import { Platform } from 'react-native';
 
 import { createRevenueCatPurchases } from '@/purchases/revenuecat';
+import { tr } from '@/i18n';
 
 /**
  * Compras de Lumi Plus. La app solo conoce esta interfaz.
@@ -52,17 +53,27 @@ export interface PurchasesSource {
 const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
 
 function createMockPurchases(): PurchasesSource {
+  const price = (n: string) => tr({ es: `${n.replace('.', ',')} $`, en: `$${n}`, zh: `US$${n}`, hi: `$${n}`, fr: `${n.replace('.', ',')} $` });
+  const perMonth = (n: string) =>
+    tr({ es: `${price(n)}/mes`, en: `${price(n)}/mo`, zh: `${price(n)}/月`, hi: `${price(n)}/महीना`, fr: `${price(n)}/mois` });
   const packages: PlusPackage[] = [
     {
       id: 'annual',
-      title: 'Anual',
-      price: '49,99 $',
+      title: tr({ es: 'Anual', en: 'Yearly', zh: '年付', hi: 'सालाना', fr: 'Annuel' }),
+      price: price('49.99'),
       period: 'year',
       trialDays: 7,
-      perMonth: '4,17 $/mes',
+      perMonth: perMonth('4.17'),
       savingsPercent: 40,
     },
-    { id: 'monthly', title: 'Mensual', price: '6,99 $', period: 'month', trialDays: 0, perMonth: '6,99 $/mes' },
+    {
+      id: 'monthly',
+      title: tr({ es: 'Mensual', en: 'Monthly', zh: '月付', hi: 'मासिक', fr: 'Mensuel' }),
+      price: price('6.99'),
+      period: 'month',
+      trialDays: 0,
+      perMonth: perMonth('6.99'),
+    },
   ];
   // Solo en memoria: lo que "compras" en esta sesión se puede restaurar.
   let purchased = false;

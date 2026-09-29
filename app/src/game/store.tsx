@@ -25,6 +25,7 @@ import type { AlbumEntry, DateKey, DayRecord, Destination, ExpeditionResult } fr
 import { useLumi } from '@/lumi/store';
 import { cancelNightlyReturn, scheduleNightlyReturn } from '@/notifications';
 import { screenTime } from '@/screen-time';
+import { clockTime } from '@/i18n/dates';
 
 /**
  * Estado del ciclo diario: días, expediciones, álbum, inventario y chispas.
@@ -61,7 +62,7 @@ export type GameApi = {
   todayDestination: Destination | null;
   /** Adónde ha ido Lumi hoy (null si se queda en casa porque ya no le queda luz). */
   currentDestination: Destination | null;
-  /** Hora de vuelta de la expedición, 'HH:MM'. */
+  /** Hora de vuelta de la expedición, para enseñar ('21:00', '9:00 PM'). */
   returnsAt: string;
   /** Vuelta por ver: la postal nocturna que aún no se ha abierto. */
   pendingReturn: PendingReturn | null;
@@ -242,7 +243,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       todayRecord: day,
       todayDestination,
       currentDestination,
-      returnsAt: RETURNS_AT,
+      returnsAt: clockTime(RETURNS_AT),
       pendingReturn:
         state.pending && pendingDestination
           ? {
