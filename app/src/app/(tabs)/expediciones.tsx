@@ -175,13 +175,23 @@ export default function ExpeditionsScreen() {
               disabled={status !== 'plus'}
               onPress={() => router.push('/plus')}
               accessibilityRole={status === 'plus' ? 'button' : undefined}
-              style={[styles.zone, locked && { opacity: 0.55 }]}>
+              style={styles.zone}>
               <View
-                style={[styles.dot, status === 'visited' && styles.dotDone, status === 'current' && styles.dotNow]}
+                style={[
+                  styles.dot,
+                  status === 'visited' && styles.dotDone,
+                  status === 'current' && styles.dotNow,
+                  locked && styles.faded,
+                ]}
               />
-              <View style={[styles.thumb, { experimental_backgroundImage: zone.destination.art }]} />
+              {/* Bloqueada: se apagan el punto y la miniatura; el texto sigue legible (contraste AA). */}
+              <View
+                style={[styles.thumb, { experimental_backgroundImage: zone.destination.art }, locked && styles.faded]}
+              />
               <View style={styles.txt}>
-                <Text style={styles.zoneName}>{zone.destination.name}</Text>
+                <Text style={[styles.zoneName, locked && { color: Colors.textSecondary }]}>
+                  {zone.destination.name}
+                </Text>
                 <Text style={styles.zoneNote}>{zone.note}</Text>
               </View>
             </Pressable>
@@ -257,6 +267,7 @@ const styles = StyleSheet.create({
     borderColor: 'rgba(201, 191, 242, 0.3)',
   },
   zone: { flexDirection: 'row', alignItems: 'center', gap: 12 },
+  faded: { opacity: 0.5 },
   dot: {
     position: 'absolute',
     left: -24,

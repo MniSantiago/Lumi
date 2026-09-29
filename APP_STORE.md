@@ -113,11 +113,11 @@ La app y la web hablan el idioma del dispositivo: **español, inglés, chino (si
 | Ficha de la App Store en los 5 idiomas | ✅ | `FICHA_APP_STORE.md` (es) y `ficha/<idioma>.md`; límites comprobados con `tools/check_ficha.py` |
 | Revisión de las traducciones por hablantes nativos | ⬜ | Sobre todo hindi y chino |
 
-**Notas para la revisión:** versión completa en `FICHA_APP_STORE.md`.
+**Notas para la revisión:** versión completa, en inglés (lo que lee Apple), en `FICHA_APP_STORE.md`.
 
 **Resumen:**
 
-> Lumi es una mascota que ayuda a usar menos las apps que elige el usuario. Usa Family Controls solo para el propio usuario (no control parental): el usuario elige sus apps con FamilyActivityPicker, DeviceActivityMonitor avisa al 25/50/75/100 % de su límite y ShieldConfiguration muestra a Lumi al abrir una app pasado el límite. Ningún dato de uso sale del dispositivo. La cuenta es opcional (Ajustes › Cuenta) y se puede eliminar desde la app. Cuenta de prueba: review@… / …
+> Lumi es una mascota que ayuda a usar menos las apps que elige el usuario. Usa Family Controls solo para el propio usuario (no control parental): el usuario elige sus apps con FamilyActivityPicker, DeviceActivityMonitor avisa al 25/50/75/100 % de su límite y ShieldConfiguration muestra a Lumi al abrir una app pasado el límite o en el horario de noche. Ningún dato de uso sale del dispositivo. La cuenta es opcional (Ajustes › Cuenta) y se puede eliminar desde la app. Cuenta de prueba: review@… / …
 
 ## 6. Configuración de producción
 
