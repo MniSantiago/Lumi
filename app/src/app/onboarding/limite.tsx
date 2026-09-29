@@ -8,6 +8,7 @@ import { AppText, Card } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
 import { LUMI_STATES, type LumiState } from '@/lumi/states';
 import { formatLimit, LIMIT_OPTIONS } from '@/lumi/store';
+import { stepTime } from '@/lumi/time';
 
 /** Umbral en el que aparece cada estado (ver `stateForThreshold`). */
 const STAGES: { state: LumiState; pct: number }[] = [
@@ -16,18 +17,6 @@ const STAGES: { state: LumiState; pct: number }[] = [
   { state: LUMI_STATES.cansada, pct: 50 },
   { state: LUMI_STATES.apagadita, pct: 75 },
 ];
-
-const DAY = 24 * 60;
-const toMinutes = (hhmm: string) => {
-  const [h, m] = hhmm.split(':').map(Number);
-  return ((h || 0) * 60 + (m || 0)) % DAY;
-};
-const toHHMM = (minutes: number) => {
-  const t = ((minutes % DAY) + DAY) % DAY;
-  return `${String(Math.floor(t / 60)).padStart(2, '0')}:${String(t % 60).padStart(2, '0')}`;
-};
-/** Pasos de media hora que dan la vuelta a medianoche. */
-const stepTime = (hhmm: string, dir: -1 | 1) => toHHMM(toMinutes(hhmm) + dir * 30);
 
 /** Paso 3: límite diario suave y horario de noche. */
 export default function LimitStep() {

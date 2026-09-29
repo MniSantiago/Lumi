@@ -1,4 +1,4 @@
-import type { INestApplication } from '@nestjs/common';
+import type { NestExpressApplication } from '@nestjs/platform-express';
 import { Test } from '@nestjs/testing';
 import { sql } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/node-postgres';
@@ -27,7 +27,7 @@ class FakeMail {
 }
 
 describe('Cuentas (e2e)', () => {
-  let app: INestApplication;
+  let app: NestExpressApplication;
   let pool: pg.Pool;
   const mail = new FakeMail();
   const http = () => request(app.getHttpServer());
@@ -46,7 +46,7 @@ describe('Cuentas (e2e)', () => {
       .overrideProvider(MailService)
       .useValue(mail)
       .compile();
-    app = moduleRef.createNestApplication();
+    app = moduleRef.createNestApplication<NestExpressApplication>();
     configureApp(app);
     await app.init();
   });
@@ -291,6 +291,38 @@ describe('Cuentas (e2e)', () => {
     expect(rows).toEqual([
       { email: 'espera@correo.com', utm_campaign: 'escudo' },
     ]);
+  });
+
+  it('guarda y devuelve el progreso de la cuenta', async () => {
+    const { body } = await register('progreso@correo.com').expect(200);
+    const auth = { Authorization: `Bearer ${body.accessToken}` };
+    await http().get('/me/progress').expect(401);
+    const empty = await http().get('/me/progress').set(auth).expect(200);
+    expect(empty.body).toEqual({ data: null, updatedAt: null });
+
+    const data = {
+      schema: 1,
+      game: { sparks: 12, days: { '2026-09-28': { lit: 3 } } },
+    };
+    const saved = await http()
+      .put('/me/progress')
+      .set(auth)
+      .send({ data })
+      .expect(200);
+    expect(saved.body.data).toEqual(data);
+    expect(saved.body.updatedAt).toBeTruthy();
+
+    const next = { ...data, game: { ...data.game, sparks: 20 } };
+    await http().put('/me/progress').set(auth).send({ data: next }).expect(200);
+    const read = await http().get('/me/progress').set(auth).expect(200);
+    expect(read.body.data.game.sparks).toBe(20);
+
+    await http().put('/me/progress').set(auth).send({ data: 'no' }).expect(400);
+    // Cabe más de 100 kB (límite por defecto de Express).
+    const big = { schema: 1, blob: 'x'.repeat(200 * 1024) };
+    await http().put('/me/progress').set(auth).send({ data: big }).expect(200);
+    const huge = { schema: 1, blob: 'x'.repeat(600 * 1024) };
+    await http().put('/me/progress').set(auth).send({ data: huge }).expect(413);
   });
 
   it('responde al health check', async () => {

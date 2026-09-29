@@ -1,0 +1,44 @@
+import type { ErrorBoundaryProps } from 'expo-router';
+import { Image } from 'expo-image';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+
+import { Colors } from '@/constants/theme';
+import { LUMI_STATES } from '@/lumi/states';
+
+/**
+ * Si una pantalla falla, en vez de una pantalla en blanco: Lumi dormida y un
+ * botón para volver a intentarlo. El progreso está guardado, se dice.
+ * Usa la fuente del sistema por si el fallo fue al cargar las de la app.
+ */
+export function CrashScreen({ error, retry }: ErrorBoundaryProps) {
+  return (
+    <SafeAreaView style={styles.root}>
+      <View style={styles.body}>
+        <Image source={LUMI_STATES.apagadita.image} style={styles.lumi} contentFit="contain" accessibilityIgnoresInvertColors />
+        <Text style={styles.title} accessibilityRole="header">
+          Ups, Lumi se ha tropezado
+        </Text>
+        <Text style={styles.text}>Algo no ha ido bien en esta pantalla. Tu progreso está a salvo.</Text>
+        {__DEV__ ? <Text style={styles.dev}>{error.message}</Text> : null}
+      </View>
+      <Pressable
+        accessibilityRole="button"
+        onPress={() => void retry()}
+        style={({ pressed }) => [styles.button, pressed && { opacity: 0.85 }]}>
+        <Text style={styles.buttonText}>Volver a intentarlo</Text>
+      </Pressable>
+    </SafeAreaView>
+  );
+}
+
+const styles = StyleSheet.create({
+  root: { flex: 1, backgroundColor: Colors.nightDeep, padding: 24 },
+  body: { flex: 1, alignItems: 'center', justifyContent: 'center', gap: 10 },
+  lumi: { width: 150, height: 150, opacity: 0.8, marginBottom: 8 },
+  title: { fontSize: 22, fontWeight: '700', color: Colors.text, textAlign: 'center' },
+  text: { fontSize: 15, lineHeight: 21, color: Colors.textSecondary, textAlign: 'center', maxWidth: 300 },
+  dev: { fontSize: 12, color: Colors.peach, textAlign: 'center', marginTop: 8 },
+  button: { height: 54, borderRadius: 999, backgroundColor: Colors.amber, alignItems: 'center', justifyContent: 'center' },
+  buttonText: { fontSize: 16, fontWeight: '700', color: Colors.onAmber },
+});

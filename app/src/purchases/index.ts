@@ -1,15 +1,17 @@
+import Constants, { ExecutionEnvironment } from 'expo-constants';
+import { Platform } from 'react-native';
+
+import { createRevenueCatPurchases } from '@/purchases/revenuecat';
+
 /**
  * Compras de Lumi Plus. La app solo conoce esta interfaz.
  *
- * - `mockPurchases` (ahora): precios fijos y compras que salen bien tras
- *   ~800 ms. Funciona en Expo Go y no cobra nada.
- * - RevenueCat (pendiente): `react-native-purchases`, que trae código nativo y
- *   por tanto necesita development build (`npx expo run:ios` o
- *   `eas build --profile development`). `getOfferings` saldrá de
- *   `Purchases.getOfferings()` (offering "default", paquetes `$rc_annual` y
- *   `$rc_monthly`), con los precios ya localizados por la App Store.
- *   Entonces `settings.isPlus` dejará de ser un ajuste guardado: vendrá del
- *   entitlement "plus" de `CustomerInfo` (y de su listener), no de la pantalla.
+ * - RevenueCat (`purchases/revenuecat.ts`): en un development build o en la
+ *   versión de la tienda, con `EXPO_PUBLIC_REVENUECAT_IOS_KEY`. Los precios
+ *   llegan ya localizados por la App Store y `settings.isPlus` sigue al
+ *   entitlement "plus" (ver `PlusSync`).
+ * - Mock: en Expo Go, en web o sin clave. Precios fijos y compras que salen
+ *   bien tras ~800 ms; no cobra nada.
  *
  * Las chispas nunca se venden: aquí solo hay suscripciones a Plus.
  */
@@ -39,6 +41,12 @@ export interface PurchasesSource {
   /** Lanza un error si la tienda falla; si el usuario cancela, devuelve `cancelled`. */
   purchase(packageId: PlusPackageId): Promise<PurchaseResult>;
   restore(): Promise<RestoreResult>;
+  /** Estado real de la suscripción (solo con tienda de verdad). */
+  getIsPlus?(): Promise<boolean>;
+  /** Avisa cuando cambia (renovación, caducidad, compra en otro dispositivo). */
+  onPlusChange?(listener: (isPlus: boolean) => void): () => void;
+  /** Liga las compras a la cuenta de Lumi (o la suelta con null). */
+  setUser?(userId: string | null): Promise<void>;
 }
 
 const wait = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms));
@@ -76,4 +84,12 @@ function createMockPurchases(): PurchasesSource {
   };
 }
 
-export const purchases: PurchasesSource = createMockPurchases();
+const REVENUECAT_IOS_KEY = process.env.EXPO_PUBLIC_REVENUECAT_IOS_KEY ?? '';
+const inExpoGo = Constants.executionEnvironment === ExecutionEnvironment.StoreClient;
+
+/** `true` si las compras son de verdad (RevenueCat); `false` con el mock. */
+export const realStore = Platform.OS === 'ios' && !inExpoGo && !!REVENUECAT_IOS_KEY;
+
+export const purchases: PurchasesSource = realStore
+  ? createRevenueCatPurchases(REVENUECAT_IOS_KEY)
+  : createMockPurchases();

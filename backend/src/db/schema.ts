@@ -2,6 +2,7 @@ import { sql } from 'drizzle-orm';
 import {
   index,
   integer,
+  jsonb,
   pgEnum,
   pgTable,
   text,
@@ -97,6 +98,17 @@ export const waitlistEntries = pgTable(
   },
   (t) => [uniqueIndex('waitlist_entries_email_key').on(t.email)],
 );
+
+/** Copia del progreso de la app (juego y ajustes), para no perderlo al cambiar de iPhone. */
+export const progress = pgTable('progress', {
+  userId: uuid('user_id')
+    .primaryKey()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  data: jsonb('data').$type<Record<string, unknown>>().notNull(),
+  updatedAt: timestamp('updated_at', { withTimezone: true })
+    .notNull()
+    .defaultNow(),
+});
 
 export type User = typeof users.$inferSelect;
 export type EmailCodePurpose = (typeof emailCodePurpose.enumValues)[number];

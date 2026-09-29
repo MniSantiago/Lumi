@@ -395,6 +395,66 @@
           "me"
         ]
       }
+    },
+    "/me/progress": {
+      "get": {
+        "operationId": "getProgress",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProgressDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "progress"
+        ]
+      },
+      "put": {
+        "operationId": "saveProgress",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SaveProgressDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProgressDto"
+                }
+              }
+            }
+          }
+        },
+        "security": [
+          {
+            "bearer": []
+          }
+        ],
+        "tags": [
+          "progress"
+        ]
+      }
     }
   },
   "info": {
@@ -660,6 +720,38 @@
         },
         "required": [
           "password"
+        ]
+      },
+      "ProgressDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": true,
+            "nullable": true
+          },
+          "updatedAt": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "required": [
+          "data",
+          "updatedAt"
+        ]
+      },
+      "SaveProgressDto": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "additionalProperties": true,
+            "description": "Progreso de la app tal cual (el servidor no lo interpreta)"
+          }
+        },
+        "required": [
+          "data"
         ]
       }
     }
