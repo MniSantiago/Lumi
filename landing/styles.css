@@ -364,6 +364,7 @@ p { margin: 0; text-wrap: pretty; }
 
 /* ───────── Pie ───────── */
 .foot { padding: 32px 0 44px; background: var(--night-950); border-top: 1px solid var(--line); font-size: 14px; color: var(--ink-faint); }
+.foot .langs a[aria-current] { color: var(--ink); font-weight: 600; text-decoration: none; }
 .foot-inner { display: flex; flex-wrap: wrap; gap: 8px 24px; align-items: center; justify-content: space-between; }
 
 /* ───────── Páginas legales (privacidad.html y terminos.html) ───────── */
