@@ -119,7 +119,8 @@ async function onSubmit(event) {
     ...source,
     referrer: document.referrer || null,
     landing: location.pathname,
-    lang: navigator.language,
+    // El idioma en que se le enseñó la web (el mismo de los correos); si no, el del navegador.
+    lang: window.LUMI_LANG || navigator.language,
     created_at: new Date().toISOString(),
   };
 
