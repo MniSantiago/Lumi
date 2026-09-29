@@ -1,6 +1,6 @@
 # Lumi: registro del proceso
 
-Última sesión: lunes 28 al martes 29 de septiembre de 2026 (noche): bloques de UX y preparación para producción (PR hasta #71).
+Última sesión: lunes 28 al martes 29 de septiembre de 2026 (noche): bloques de UX y preparación para producción (PR hasta #72).
 Para retomar: abre un chat en el proyecto "Cozy experience" (o pega este archivo y `BRIEF.md`) y di en qué paso vamos.
 
 ---
@@ -175,6 +175,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 67 | #69 | Landing: la FAQ del bloqueo incluye el horario de noche |
 | 68 | #70 | Olvidé la contraseña: reenviar el código con espera y confirmación |
 | 69 | #71 | Cuenta: «Mostrar» la contraseña; notas para Apple en inglés |
+| 70 | #72 | Chispas: sin prometer la decoración que aún no existe |
 | — | #15 | **Borrador:** Screen Time nativo, con escudo de noche y noches movidas (encima de #71; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
@@ -225,7 +226,7 @@ Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1`
 
 **Lo que queda en tus manos (tras la noche del 28 al 29 de septiembre):**
 
-1. Revisar y fusionar la cadena de PR en orden (tabla de «Sesión 3» en la sección 3), hasta #71.
+1. Revisar y fusionar la cadena de PR en orden (tabla de «Sesión 3» en la sección 3), hasta #72.
 2. Pedir el entitlement de Family Controls y probar el borrador #15 (con el escudo de noche nativo) y el #22 (widget) en un iPhone.
 3. Desplegar el backend, poner el dominio y `EXPO_PUBLIC_API_URL`, y crear la cuenta de revisión (`APP_STORE.md` §6-§7).
 4. Hacer las capturas del simulador en los 5 idiomas y pasarlas por `sh landing/tools/capturas.sh`.
