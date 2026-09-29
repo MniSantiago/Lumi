@@ -48,11 +48,11 @@ function nightState(wakesAt: string): LumiState {
     ...LUMI_STATES.apagadita,
     label: tr({ es: 'Durmiendo', en: 'Sleeping', zh: '睡觉中', hi: 'सो रही है', fr: 'Endormie' }),
     bubble: tr({
-      es: `Zzz… Es hora de dormir. A las ${at} me despierto con más luz.`,
-      en: `Zzz… It’s bedtime. I’ll wake up brighter at ${at}.`,
-      zh: `Zzz……该睡觉了。${at}我会带着更多的光醒来。`,
-      hi: `Zzz… सोने का समय है। ${at} को और रोशनी के साथ जागूँगी।`,
-      fr: `Zzz… C’est l’heure de dormir. Je me réveille à ${at} avec plus de lumière.`,
+      es: `Zzz… Hasta las ${at}. Si dormimos del tirón, mañana traigo chispas de más.`,
+      en: `Zzz… Sleeping until ${at}. If we sleep right through, I’ll bring extra sparks tomorrow.`,
+      zh: `Zzz……睡到${at}。一觉睡到天亮的话，明天我会多带些火花回来。`,
+      hi: `Zzz… ${at} तक सोऊँगी। रात भर नींद पूरी हुई, तो कल ज़्यादा चिंगारियाँ लाऊँगी।`,
+      fr: `Zzz… Je dors jusqu’à ${at}. Si on dort d’une traite, demain je rapporte des étincelles en plus.`,
     }),
   };
 }
