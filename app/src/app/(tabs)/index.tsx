@@ -14,9 +14,11 @@ import { Colors, Fonts, Radius, Spacing } from '@/constants/theme';
 import { useGame, type GameApi } from '@/game/store';
 import type { Destination } from '@/game/types';
 import { tr } from '@/i18n';
+import { clockTime } from '@/i18n/dates';
 import { meterNote } from '@/lumi/meter';
-import { THRESHOLDS, type Threshold } from '@/lumi/states';
+import { LUMI_STATES, THRESHOLDS, type LumiState, type Threshold } from '@/lumi/states';
 import { useLumi } from '@/lumi/store';
+import { isNightTime } from '@/lumi/time';
 import { nightlyCopy } from '@/nightly/copy';
 import { screenTime } from '@/screen-time';
 
@@ -38,9 +40,27 @@ const broughtFrom = (d: Destination) =>
     fr: `Rapporte des souvenirs ${d.from}`,
   });
 
+/** Lumi durmiendo en el horario de noche: la ilustración de apagadita con su frase de buenas noches. */
+function nightState(wakesAt: string): LumiState {
+  const at = clockTime(wakesAt);
+  return {
+    ...LUMI_STATES.apagadita,
+    label: tr({ es: 'Durmiendo', en: 'Sleeping', zh: '睡觉中', hi: 'सो रही है', fr: 'Endormie' }),
+    bubble: tr({
+      es: `Zzz… Es hora de dormir. A las ${at} me despierto con más luz.`,
+      en: `Zzz… It’s bedtime. I’ll wake up brighter at ${at}.`,
+      zh: `Zzz……该睡觉了。${at}我会带着更多的光醒来。`,
+      hi: `Zzz… सोने का समय है। ${at} बजे और रोशनी के साथ जागूँगी।`,
+      fr: `Zzz… C’est l’heure de dormir. Je me réveille à ${at} avec plus de lumière.`,
+    }),
+  };
+}
+
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
-  const { state, threshold, settings } = useLumi();
+  const { state: dayState, threshold, settings } = useLumi();
+  // En el horario de noche Lumi duerme (como promete el onboarding), sea cual sea su luz.
+  const state = isNightTime(settings.nightStart, settings.nightEnd) ? nightState(settings.nightEnd) : dayState;
   const game = useGame();
   // Al tocar a Lumi dice otra cosa; con cada cambio de estado vuelve a su frase principal.
   const [talk, setTalk] = useState<{ key: string; i: number }>({ key: state.key, i: -1 });

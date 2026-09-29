@@ -13,3 +13,12 @@ export const toHHMM = (minutes: number) => {
 };
 
 export const stepTime = (hhmm: string, dir: -1 | 1) => toHHMM(toMinutes(hhmm) + dir * 30);
+
+/** `date` cae dentro del horario de noche [inicio, fin), que puede cruzar la medianoche. */
+export function isNightTime(start: string, end: string, date = new Date()) {
+  const now = date.getHours() * 60 + date.getMinutes();
+  const from = toMinutes(start);
+  const to = toMinutes(end);
+  if (from === to) return false;
+  return from < to ? now >= from && now < to : now >= from || now < to;
+}
