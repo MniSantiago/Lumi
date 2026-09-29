@@ -55,7 +55,7 @@ export default function SettingsScreen() {
           action={
             <TextLink
               label={tr({
-                es: tr({ es: 'Editar', en: 'Edit', zh: '编辑', hi: 'बदलो', fr: 'Modifier' }),
+                es: 'Editar',
                 en: 'Edit',
                 zh: '编辑',
                 hi: 'बदलो',
@@ -70,7 +70,7 @@ export default function SettingsScreen() {
           <Row>
             <Label
               title={tr({
-                es: tr({ es: 'Tú', en: 'You', zh: '你', hi: 'तुम', fr: 'Toi' }),
+                es: 'Tú',
                 en: 'You',
                 zh: '你',
                 hi: 'तुम',
@@ -85,13 +85,7 @@ export default function SettingsScreen() {
           <Row last>
             <Label
               title={tr({
-                es: tr({
-                  es: 'Tu lucecita',
-                  en: 'Your little light',
-                  zh: '你的小光',
-                  hi: 'तुम्हारी नन्ही रोशनी',
-                  fr: 'Ta petite lumière',
-                }),
+                es: 'Tu lucecita',
                 en: 'Your little light',
                 zh: '你的小光',
                 hi: 'तुम्हारी नन्ही रोशनी',
@@ -110,7 +104,7 @@ export default function SettingsScreen() {
           action={
             <TextLink
               label={tr({
-                es: tr({ es: 'Editar', en: 'Edit', zh: '编辑', hi: 'बदलो', fr: 'Modifier' }),
+                es: 'Editar',
                 en: 'Edit',
                 zh: '编辑',
                 hi: 'बदलो',
@@ -126,26 +120,14 @@ export default function SettingsScreen() {
             <Row last>
               <Label
                 title={tr({
-                  es: tr({
-                    es: 'Ninguna todavía',
-                    en: 'None yet',
-                    zh: '还没有',
-                    hi: 'अभी कोई नहीं',
-                    fr: 'Aucune pour l’instant',
-                  }),
+                  es: 'Ninguna todavía',
                   en: 'None yet',
                   zh: '还没有',
                   hi: 'अभी कोई नहीं',
                   fr: 'Aucune pour l’instant',
                 })}
                 sub={tr({
-                  es: tr({
-                    es: 'Elige las apps que más te roban la atención',
-                    en: 'Pick the apps that steal your attention the most',
-                    zh: '选出最偷走你注意力的 App',
-                    hi: 'वो ऐप्स चुनो जो सबसे ज़्यादा ध्यान चुराती हैं',
-                    fr: 'Choisis les applis qui te volent le plus d’attention',
-                  }),
+                  es: 'Elige las apps que más te roban la atención',
                   en: 'Pick the apps that steal your attention the most',
                   zh: '选出最偷走你注意力的 App',
                   hi: 'वो ऐप्स चुनो जो सबसे ज़्यादा ध्यान चुराती हैं',
@@ -177,26 +159,14 @@ export default function SettingsScreen() {
           <Row>
             <Label
               title={tr({
-                es: tr({
-                  es: 'Límite diario suave',
-                  en: 'Gentle daily limit',
-                  zh: '温和的每日上限',
-                  hi: 'रोज़ की नरम सीमा',
-                  fr: 'Limite quotidienne douce',
-                }),
+                es: 'Límite diario suave',
                 en: 'Gentle daily limit',
                 zh: '温和的每日上限',
                 hi: 'रोज़ की नरम सीमा',
                 fr: 'Limite quotidienne douce',
               })}
               sub={tr({
-                es: tr({
-                  es: 'Lumi se cansa al acercarte',
-                  en: 'Lumi gets tired as you get close',
-                  zh: '快到上限时 Lumi 会累',
-                  hi: 'पास पहुँचने पर Lumi थक जाती है',
-                  fr: 'Lumi se fatigue quand tu t’en approches',
-                }),
+                es: 'Lumi se cansa al acercarte',
                 en: 'Lumi gets tired as you get close',
                 zh: '快到上限时 Lumi 会累',
                 hi: 'पास पहुँचने पर Lumi थक जाती है',
@@ -210,26 +180,14 @@ export default function SettingsScreen() {
               canDecrease={limitIndex > 0}
               canIncrease={limitIndex < LIMIT_OPTIONS.length - 1}
               decreaseLabel={tr({
-                es: tr({
-                  es: 'Reducir límite',
-                  en: 'Lower limit',
-                  zh: '减少上限',
-                  hi: 'सीमा घटाओ',
-                  fr: 'Réduire la limite',
-                }),
+                es: 'Reducir límite',
                 en: 'Lower limit',
                 zh: '减少上限',
                 hi: 'सीमा घटाओ',
                 fr: 'Réduire la limite',
               })}
               increaseLabel={tr({
-                es: tr({
-                  es: 'Aumentar límite',
-                  en: 'Raise limit',
-                  zh: '增加上限',
-                  hi: 'सीमा बढ़ाओ',
-                  fr: 'Augmenter la limite',
-                }),
+                es: 'Aumentar límite',
                 en: 'Raise limit',
                 zh: '增加上限',
                 hi: 'सीमा बढ़ाओ',
@@ -240,13 +198,7 @@ export default function SettingsScreen() {
           <Row>
             <Label
               title={tr({
-                es: tr({
-                  es: 'Se va a dormir',
-                  en: 'Goes to sleep',
-                  zh: '睡觉时间',
-                  hi: 'सोने जाती है',
-                  fr: 'Va dormir',
-                }),
+                es: 'Se va a dormir',
                 en: 'Goes to sleep',
                 zh: '睡觉时间',
                 hi: 'सोने जाती है',
@@ -265,26 +217,14 @@ export default function SettingsScreen() {
               onDecrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, -1) })}
               onIncrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, 1) })}
               decreaseLabel={tr({
-                es: tr({
-                  es: 'Acostarse media hora antes',
-                  en: 'Go to bed half an hour earlier',
-                  zh: '提前半小时睡觉',
-                  hi: 'आधा घंटा पहले सोना',
-                  fr: 'Se coucher une demi-heure plus tôt',
-                }),
+                es: 'Acostarse media hora antes',
                 en: 'Go to bed half an hour earlier',
                 zh: '提前半小时睡觉',
                 hi: 'आधा घंटा पहले सोना',
                 fr: 'Se coucher une demi-heure plus tôt',
               })}
               increaseLabel={tr({
-                es: tr({
-                  es: 'Acostarse media hora después',
-                  en: 'Go to bed half an hour later',
-                  zh: '推迟半小时睡觉',
-                  hi: 'आधा घंटा बाद सोना',
-                  fr: 'Se coucher une demi-heure plus tard',
-                }),
+                es: 'Acostarse media hora después',
                 en: 'Go to bed half an hour later',
                 zh: '推迟半小时睡觉',
                 hi: 'आधा घंटा बाद सोना',
@@ -295,20 +235,14 @@ export default function SettingsScreen() {
           <Row>
             <Label
               title={tr({
-                es: tr({ es: 'Se despierta', en: 'Wakes up', zh: '起床时间', hi: 'जागती है', fr: 'Se réveille' }),
+                es: 'Se despierta',
                 en: 'Wakes up',
                 zh: '起床时间',
                 hi: 'जागती है',
                 fr: 'Se réveille',
               })}
               sub={tr({
-                es: tr({
-                  es: 'Y vuelve de su expedición',
-                  en: 'And comes back from her expedition',
-                  zh: '并从探险回来',
-                  hi: 'और अपने सफ़र से लौटती है',
-                  fr: 'Et rentre de son expédition',
-                }),
+                es: 'Y vuelve de su expedición',
                 en: 'And comes back from her expedition',
                 zh: '并从探险回来',
                 hi: 'और अपने सफ़र से लौटती है',
@@ -320,26 +254,14 @@ export default function SettingsScreen() {
               onDecrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, -1) })}
               onIncrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, 1) })}
               decreaseLabel={tr({
-                es: tr({
-                  es: 'Despertarse media hora antes',
-                  en: 'Wake up half an hour earlier',
-                  zh: '提前半小时起床',
-                  hi: 'आधा घंटा पहले जागना',
-                  fr: 'Se réveiller une demi-heure plus tôt',
-                }),
+                es: 'Despertarse media hora antes',
                 en: 'Wake up half an hour earlier',
                 zh: '提前半小时起床',
                 hi: 'आधा घंटा पहले जागना',
                 fr: 'Se réveiller une demi-heure plus tôt',
               })}
               increaseLabel={tr({
-                es: tr({
-                  es: 'Despertarse media hora después',
-                  en: 'Wake up half an hour later',
-                  zh: '推迟半小时起床',
-                  hi: 'आधा घंटा बाद जागना',
-                  fr: 'Se réveiller une demi-heure plus tard',
-                }),
+                es: 'Despertarse media hora después',
                 en: 'Wake up half an hour later',
                 zh: '推迟半小时起床',
                 hi: 'आधा घंटा बाद जागना',
@@ -350,26 +272,14 @@ export default function SettingsScreen() {
           <Row>
             <Label
               title={tr({
-                es: tr({
-                  es: 'Postal nocturna',
-                  en: 'Nightly postcard',
-                  zh: '夜间明信片',
-                  hi: 'रात का पोस्टकार्ड',
-                  fr: 'Carte du soir',
-                }),
+                es: 'Postal nocturna',
                 en: 'Nightly postcard',
                 zh: '夜间明信片',
                 hi: 'रात का पोस्टकार्ड',
                 fr: 'Carte du soir',
               })}
               sub={tr({
-                es: tr({
-                  es: 'Aviso cuando Lumi vuelve',
-                  en: 'A notification when Lumi is back',
-                  zh: 'Lumi 回来时通知你',
-                  hi: 'Lumi के लौटने पर सूचना',
-                  fr: 'Une notification quand Lumi rentre',
-                }),
+                es: 'Aviso cuando Lumi vuelve',
                 en: 'A notification when Lumi is back',
                 zh: 'Lumi 回来时通知你',
                 hi: 'Lumi के लौटने पर सूचना',
@@ -378,13 +288,7 @@ export default function SettingsScreen() {
             />
             <Toggle
               label={tr({
-                es: tr({
-                  es: 'Postal nocturna',
-                  en: 'Nightly postcard',
-                  zh: '夜间明信片',
-                  hi: 'रात का पोस्टकार्ड',
-                  fr: 'Carte du soir',
-                }),
+                es: 'Postal nocturna',
                 en: 'Nightly postcard',
                 zh: '夜间明信片',
                 hi: 'रात का पोस्टकार्ड',
@@ -397,26 +301,14 @@ export default function SettingsScreen() {
           <Row last>
             <Label
               title={tr({
-                es: tr({
-                  es: 'Días de descanso',
-                  en: 'Rest days',
-                  zh: '休息日',
-                  hi: 'आराम के दिन',
-                  fr: 'Jours de repos',
-                }),
+                es: 'Días de descanso',
                 en: 'Rest days',
                 zh: '休息日',
                 hi: 'आराम के दिन',
                 fr: 'Jours de repos',
               })}
               sub={tr({
-                es: tr({
-                  es: '2 por semana, la racha no se rompe',
-                  en: '2 a week, your streak stays',
-                  zh: '每周 2 天，连续记录不中断',
-                  hi: 'हफ़्ते में 2, सिलसिला नहीं टूटता',
-                  fr: '2 par semaine, la série continue',
-                }),
+                es: '2 por semana, la racha no se rompe',
                 en: '2 a week, your streak stays',
                 zh: '每周 2 天，连续记录不中断',
                 hi: 'हफ़्ते में 2, सिलसिला नहीं टूटता',
@@ -425,13 +317,7 @@ export default function SettingsScreen() {
             />
             <Toggle
               label={tr({
-                es: tr({
-                  es: 'Días de descanso',
-                  en: 'Rest days',
-                  zh: '休息日',
-                  hi: 'आराम के दिन',
-                  fr: 'Jours de repos',
-                }),
+                es: 'Días de descanso',
                 en: 'Rest days',
                 zh: '休息日',
                 hi: 'आराम के दिन',
@@ -500,13 +386,7 @@ export default function SettingsScreen() {
             <Text style={styles.plusSmall}>{paywallCopy.ownedBody(settings.lumiName)}</Text>
             <TextLink
               label={tr({
-                es: tr({
-                  es: 'Ver mi suscripción',
-                  en: 'See my subscription',
-                  zh: '查看我的订阅',
-                  hi: 'मेरी सदस्यता देखो',
-                  fr: 'Voir mon abonnement',
-                }),
+                es: 'Ver mi suscripción',
                 en: 'See my subscription',
                 zh: '查看我的订阅',
                 hi: 'मेरी सदस्यता देखो',
@@ -519,13 +399,7 @@ export default function SettingsScreen() {
           <>
             <PillButton
               label={tr({
-                es: tr({
-                  es: 'Probar 7 días gratis',
-                  en: 'Try 7 days free',
-                  zh: '免费试用 7 天',
-                  hi: '7 दिन मुफ़्त आज़माओ',
-                  fr: 'Essayer 7 jours gratuits',
-                }),
+                es: 'Probar 7 días gratis',
                 en: 'Try 7 days free',
                 zh: '免费试用 7 天',
                 hi: '7 दिन मुफ़्त आज़माओ',
@@ -550,7 +424,7 @@ export default function SettingsScreen() {
       <View style={styles.legal}>
         <TextLink
           label={tr({
-            es: tr({ es: 'Ayuda', en: 'Help', zh: '帮助', hi: 'मदद', fr: 'Aide' }),
+            es: 'Ayuda',
             en: 'Help',
             zh: '帮助',
             hi: 'मदद',
@@ -561,7 +435,7 @@ export default function SettingsScreen() {
         <Text style={styles.legalSep}>·</Text>
         <TextLink
           label={tr({
-            es: tr({ es: 'Privacidad', en: 'Privacy', zh: '隐私', hi: 'गोपनीयता', fr: 'Confidentialité' }),
+            es: 'Privacidad',
             en: 'Privacy',
             zh: '隐私',
             hi: 'गोपनीयता',
@@ -572,7 +446,7 @@ export default function SettingsScreen() {
         <Text style={styles.legalSep}>·</Text>
         <TextLink
           label={tr({
-            es: tr({ es: 'Términos', en: 'Terms', zh: '条款', hi: 'शर्तें', fr: 'Conditions' }),
+            es: 'Términos',
             en: 'Terms',
             zh: '条款',
             hi: 'शर्तें',
@@ -595,20 +469,14 @@ function AccountSection() {
     <Row>
       <Label
         title={tr({
-          es: tr({ es: 'Tus datos', en: 'Your data', zh: '你的数据', hi: 'तुम्हारा डेटा', fr: 'Tes données' }),
+          es: 'Tus datos',
           en: 'Your data',
           zh: '你的数据',
           hi: 'तुम्हारा डेटा',
           fr: 'Tes données',
         })}
         sub={tr({
-          es: tr({
-            es: 'Todo lo que Lumi guarda de ti, en un archivo',
-            en: 'Everything Lumi keeps about you, in one file',
-            zh: 'Lumi 保存的关于你的一切，一个文件',
-            hi: 'Lumi तुम्हारे बारे में जो भी रखती है, एक फ़ाइल में',
-            fr: 'Tout ce que Lumi garde sur toi, dans un fichier',
-          }),
+          es: 'Todo lo que Lumi guarda de ti, en un archivo',
           en: 'Everything Lumi keeps about you, in one file',
           zh: 'Lumi 保存的关于你的一切，一个文件',
           hi: 'Lumi तुम्हारे बारे में जो भी रखती है, एक फ़ाइल में',
@@ -617,7 +485,7 @@ function AccountSection() {
       />
       <TextLink
         label={tr({
-          es: tr({ es: 'Descargar', en: 'Download', zh: '下载', hi: 'डाउनलोड', fr: 'Télécharger' }),
+          es: 'Descargar',
           en: 'Download',
           zh: '下载',
           hi: 'डाउनलोड',
@@ -653,26 +521,14 @@ function AccountSection() {
         <Row last>
           <Label
             title={tr({
-              es: tr({
-                es: 'Guarda tu progreso',
-                en: 'Save your progress',
-                zh: '保存你的进度',
-                hi: 'अपनी प्रगति सहेजो',
-                fr: 'Sauvegarde ta progression',
-              }),
+              es: 'Guarda tu progreso',
               en: 'Save your progress',
               zh: '保存你的进度',
               hi: 'अपनी प्रगति सहेजो',
               fr: 'Sauvegarde ta progression',
             })}
             sub={tr({
-              es: tr({
-                es: 'Opcional. Para no perder a Lumi si cambias de iPhone',
-                en: 'Optional. So you don’t lose Lumi if you change iPhones',
-                zh: '可选。换 iPhone 时不会失去 Lumi',
-                hi: 'वैकल्पिक। ताकि iPhone बदलने पर Lumi न खोए',
-                fr: 'Facultatif. Pour ne pas perdre Lumi si tu changes d’iPhone',
-              }),
+              es: 'Opcional. Para no perder a Lumi si cambias de iPhone',
               en: 'Optional. So you don’t lose Lumi if you change iPhones',
               zh: '可选。换 iPhone 时不会失去 Lumi',
               hi: 'वैकल्पिक। ताकि iPhone बदलने पर Lumi न खोए',
@@ -681,7 +537,7 @@ function AccountSection() {
           />
           <TextLink
             label={tr({
-              es: tr({ es: 'Empezar', en: 'Start', zh: '开始', hi: 'शुरू करो', fr: 'Commencer' }),
+              es: 'Empezar',
               en: 'Start',
               zh: '开始',
               hi: 'शुरू करो',
@@ -737,7 +593,7 @@ function AccountSection() {
         {user.emailVerified ? null : (
           <TextLink
             label={tr({
-              es: tr({ es: 'Confirmar', en: 'Confirm', zh: '确认', hi: 'पुष्टि करो', fr: 'Confirmer' }),
+              es: 'Confirmar',
               en: 'Confirm',
               zh: '确认',
               hi: 'पुष्टि करो',
@@ -751,7 +607,7 @@ function AccountSection() {
       <Row>
         <Label
           title={tr({
-            es: tr({ es: 'Contraseña', en: 'Password', zh: '密码', hi: 'पासवर्ड', fr: 'Mot de passe' }),
+            es: 'Contraseña',
             en: 'Password',
             zh: '密码',
             hi: 'पासवर्ड',
@@ -760,7 +616,7 @@ function AccountSection() {
         />
         <TextLink
           label={tr({
-            es: tr({ es: 'Cambiar', en: 'Change', zh: '修改', hi: 'बदलो', fr: 'Modifier' }),
+            es: 'Cambiar',
             en: 'Change',
             zh: '修改',
             hi: 'बदलो',
@@ -772,7 +628,7 @@ function AccountSection() {
       <Row>
         <Label
           title={tr({
-            es: tr({ es: 'Cerrar sesión', en: 'Sign out', zh: '退出登录', hi: 'साइन आउट', fr: 'Se déconnecter' }),
+            es: 'Cerrar sesión',
             en: 'Sign out',
             zh: '退出登录',
             hi: 'साइन आउट',
@@ -781,7 +637,7 @@ function AccountSection() {
         />
         <TextLink
           label={tr({
-            es: tr({ es: 'Salir', en: 'Sign out', zh: '退出', hi: 'बाहर निकलो', fr: 'Sortir' }),
+            es: 'Salir',
             en: 'Sign out',
             zh: '退出',
             hi: 'बाहर निकलो',
@@ -793,26 +649,14 @@ function AccountSection() {
       <Row last>
         <Label
           title={tr({
-            es: tr({
-              es: 'Eliminar la cuenta',
-              en: 'Delete account',
-              zh: '删除账户',
-              hi: 'खाता हटाओ',
-              fr: 'Supprimer le compte',
-            }),
+            es: 'Eliminar la cuenta',
             en: 'Delete account',
             zh: '删除账户',
             hi: 'खाता हटाओ',
             fr: 'Supprimer le compte',
           })}
           sub={tr({
-            es: tr({
-              es: 'Borra tus datos de nuestro servidor',
-              en: 'Erases your data from our server',
-              zh: '从我们的服务器删除你的数据',
-              hi: 'हमारे सर्वर से तुम्हारा डेटा मिटाता है',
-              fr: 'Efface tes données de notre serveur',
-            }),
+            es: 'Borra tus datos de nuestro servidor',
             en: 'Erases your data from our server',
             zh: '从我们的服务器删除你的数据',
             hi: 'हमारे सर्वर से तुम्हारा डेटा मिटाता है',
@@ -821,7 +665,7 @@ function AccountSection() {
         />
         <TextLink
           label={tr({
-            es: tr({ es: 'Eliminar', en: 'Delete', zh: '删除', hi: 'हटाओ', fr: 'Supprimer' }),
+            es: 'Eliminar',
             en: 'Delete',
             zh: '删除',
             hi: 'हटाओ',

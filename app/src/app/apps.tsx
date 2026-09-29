@@ -30,7 +30,7 @@ export default function ThiefAppsSheet() {
   return (
     <Sheet
       title={tr({
-        es: tr({ es: 'Apps ladronas', en: 'Thief apps', zh: '偷时间的 App', hi: 'चोर ऐप्स', fr: 'Applis voleuses' }),
+        es: 'Apps ladronas',
         en: 'Thief apps',
         zh: '偷时间的 App',
         hi: 'चोर ऐप्स',

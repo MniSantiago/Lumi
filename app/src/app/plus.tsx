@@ -222,13 +222,7 @@ export default function PlusScreen() {
                 {/* Cancelar o cambiar de plan se hace en Apple; lo dejamos a un toque. */}
                 <SmallLink
                   label={tr({
-                    es: tr({
-                      es: 'Gestionar suscripción',
-                      en: 'Manage subscription',
-                      zh: '管理订阅',
-                      hi: 'सदस्यता प्रबंधित करो',
-                      fr: 'Gérer l’abonnement',
-                    }),
+                    es: 'Gestionar suscripción',
                     en: 'Manage subscription',
                     zh: '管理订阅',
                     hi: 'सदस्यता प्रबंधित करो',

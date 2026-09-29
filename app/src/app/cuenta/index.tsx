@@ -132,20 +132,14 @@ export default function AccountSheet() {
       <View style={{ gap: 16 }}>
         <Field
           label={tr({
-            es: tr({ es: 'Correo', en: 'Email', zh: '邮箱', hi: 'ईमेल', fr: 'E-mail' }),
+            es: 'Correo',
             en: 'Email',
             zh: '邮箱',
             hi: 'ईमेल',
             fr: 'E-mail',
           })}
           placeholder={tr({
-            es: tr({
-              es: 'tu@correo.com',
-              en: 'you@email.com',
-              zh: 'you@email.com',
-              hi: 'you@email.com',
-              fr: 'toi@email.com',
-            }),
+            es: 'tu@correo.com',
             en: 'you@email.com',
             zh: 'you@email.com',
             hi: 'you@email.com',
@@ -161,7 +155,7 @@ export default function AccountSheet() {
         <Field
           ref={passwordRef}
           label={tr({
-            es: tr({ es: 'Contraseña', en: 'Password', zh: '密码', hi: 'पासवर्ड', fr: 'Mot de passe' }),
+            es: 'Contraseña',
             en: 'Password',
             zh: '密码',
             hi: 'पासवर्ड',
@@ -195,13 +189,7 @@ export default function AccountSheet() {
         {signup ? null : (
           <SecondaryLink
             label={tr({
-              es: tr({
-                es: '¿Se te olvidó la contraseña?',
-                en: 'Forgot your password?',
-                zh: '忘记密码了？',
-                hi: 'पासवर्ड भूल गए?',
-                fr: 'Mot de passe oublié ?',
-              }),
+              es: '¿Se te olvidó la contraseña?',
               en: 'Forgot your password?',
               zh: '忘记密码了？',
               hi: 'पासवर्ड भूल गए?',
