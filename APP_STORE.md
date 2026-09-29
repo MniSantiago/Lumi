@@ -24,7 +24,7 @@ Lo que Apple pide para publicar Lumi y en qué estado está. ✅ hecho · 🟡 e
 | Verificar el correo | ✅ | Código de 6 cifras |
 | Cambiar la contraseña y cerrar sesión | ✅ | Ajustes › Cuenta |
 | Iniciar sesión con Apple | No hace falta | Solo es obligatorio si se ofrece otro login social (Google, etc.). Con correo y contraseña, no. |
-| Cuenta de prueba para la revisión | ⬜ | Crear `review@<dominio>` en producción y ponerla en las notas de revisión |
+| Cuenta de prueba para la revisión | 🟡 | Script listo: `REVIEW_EMAIL=… REVIEW_PASSWORD=… node dist/db/review-account.js` en el servidor (ver `backend/README.md`). Falta ejecutarlo en producción y ponerla en las notas de revisión |
 
 ## 3. Privacidad
 
