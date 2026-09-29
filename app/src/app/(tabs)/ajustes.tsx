@@ -15,6 +15,14 @@ import { cancelNightlyReturn, ensureNotificationPermission, permissionDeniedCopy
 import { lang, LANG_NAMES, tr } from '@/i18n';
 import { clockTime } from '@/i18n/dates';
 
+const weeklyTitle = tr({
+  es: 'Resumen del domingo',
+  en: 'Sunday summary',
+  zh: '周日总结',
+  hi: 'रविवार का सारांश',
+  fr: 'Bilan du dimanche',
+});
+
 export default function SettingsScreen() {
   const { settings, updateSettings } = useLumi();
   const game = useGame();
@@ -35,6 +43,17 @@ export default function SettingsScreen() {
       return;
     }
     // Sin permiso el ajuste sigue apagado; explicamos cómo activarlo, sin insistir.
+    Alert.alert(permissionDeniedCopy.title, permissionDeniedCopy.body(settings.lumiName), [
+      { text: permissionDeniedCopy.notNow, style: 'cancel' },
+      { text: permissionDeniedCopy.openSettings, onPress: () => void Linking.openSettings() },
+    ]);
+  };
+
+  const setWeeklySummary = async (on: boolean) => {
+    if (!on || (await ensureNotificationPermission())) {
+      updateSettings({ weeklySummary: on });
+      return;
+    }
     Alert.alert(permissionDeniedCopy.title, permissionDeniedCopy.body(settings.lumiName), [
       { text: permissionDeniedCopy.notNow, style: 'cancel' },
       { text: permissionDeniedCopy.openSettings, onPress: () => void Linking.openSettings() },
@@ -298,6 +317,19 @@ export default function SettingsScreen() {
               value={settings.nightlyPostcard}
               onChange={(v) => void setNightlyPostcard(v)}
             />
+          </Row>
+          <Row>
+            <Label
+              title={weeklyTitle}
+              sub={tr({
+                es: 'El domingo por la tarde, tu semana lista para compartir',
+                en: 'On Sunday evening, your week ready to share',
+                zh: '周日傍晚，你的一周总结准备好分享',
+                hi: 'रविवार शाम, तुम्हारा हफ़्ता शेयर करने के लिए तैयार',
+                fr: 'Le dimanche soir, ta semaine prête à partager',
+              })}
+            />
+            <Toggle label={weeklyTitle} value={settings.weeklySummary} onChange={(v) => void setWeeklySummary(v)} />
           </Row>
           <Row last>
             <Label
