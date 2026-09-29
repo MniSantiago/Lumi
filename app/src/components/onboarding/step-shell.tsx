@@ -212,7 +212,9 @@ const styles = StyleSheet.create({
   footer: { paddingHorizontal: 18, paddingTop: Spacing.two, gap: 8 },
   hint: { fontFamily: Fonts.body, fontSize: 13, color: Colors.textTertiary, textAlign: 'center' },
   primary: {
-    height: 54,
+    minHeight: 54,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
     borderRadius: Radius.pill,
     borderCurve: 'continuous',
     alignItems: 'center',
