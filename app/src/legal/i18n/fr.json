@@ -112,6 +112,13 @@
         ]
       },
       {
+        "heading": "Que se passe-t-il la nuit ?",
+        "body": [
+          "Pendant tes heures de nuit (Réglages › Limite et nuit), Lumi dort et tes applis voleuses sont couvertes par son bouclier jusqu’à l’heure du réveil, même si tu n’as pas atteint ta limite.",
+          "Tu peux demander « 5 min de plus » si besoin (sauf avec le bouclier strict). Si tu ne le fais pas de toute la nuit, sa prochaine expédition rapporte 5 étincelles de plus."
+        ]
+      },
+      {
         "heading": "Je ne reçois pas la carte du soir",
         "body": [
           "Vérifie que les notifications de Lumi sont activées dans Réglages de ton iPhone › Notifications › Lumi, et que la carte du soir est activée dans Réglages › Limite et nuit dans l’app."
