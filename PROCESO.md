@@ -176,7 +176,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 68 | #70 | Olvidé la contraseña: reenviar el código con espera y confirmación |
 | 69 | #71 | Cuenta: «Mostrar» la contraseña; notas para Apple en inglés |
 | 70 | #72 | Chispas sin prometer la decoración; contraste en Expediciones |
-| — | #15 | **Borrador:** Screen Time nativo, con escudo de noche y noches movidas (encima de #71; fusionar cuando compile en un iPhone) |
+| — | #15 | **Borrador:** Screen Time nativo, con escudo de noche y noches movidas (encima de #72; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
 Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1` (ver `app/app.config.ts`); sin esas variables, la app es la de siempre.
