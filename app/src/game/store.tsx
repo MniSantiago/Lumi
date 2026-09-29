@@ -11,6 +11,7 @@ import {
   emptyDay,
   evolutionFor,
   markRestlessNight as markRestless,
+  morningAfter,
   expeditionProgress,
   restDaysInWeek,
   RETURNS_AT,
@@ -24,7 +25,6 @@ import {
 } from '@/game/engine';
 import type { AlbumEntry, DateKey, DayRecord, Destination, ExpeditionResult } from '@/game/types';
 import { useLumi } from '@/lumi/store';
-import { toMinutes } from '@/lumi/time';
 import { cancelNightlyReturn, scheduleNightlyReturn } from '@/notifications';
 import { screenTime } from '@/screen-time';
 import { clockTime } from '@/i18n/dates';
@@ -123,12 +123,6 @@ function parseState(raw: string | null): GameState {
   } catch {
     return EMPTY_STATE;
   }
-}
-
-/** Mañana en la que acaba la noche de `at`: antes de la hora de despertar, ese mismo día; si no, el siguiente. */
-function morningAfter(at: Date, nightEnd: string): DateKey {
-  const key = clock.dateKey(at);
-  return at.getHours() * 60 + at.getMinutes() < toMinutes(nightEnd) ? key : clock.addDays(key, 1);
 }
 
 export function GameProvider({ children }: { children: ReactNode }) {

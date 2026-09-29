@@ -8,6 +8,7 @@ import {
   expeditionProgress,
   litFor,
   markRestlessNight,
+  morningAfter,
   NIGHT_BONUS,
   recordThreshold,
   streakFor,
@@ -175,5 +176,19 @@ describe('noche tranquila', () => {
     s = markRestlessNight(s, '2026-09-20');
     expect(s.restlessNights).toHaveLength(14);
     expect(s.restlessNights[0]).toBe('2026-09-07');
+  });
+});
+
+describe('morningAfter', () => {
+  it('de madrugada, la noche acaba ese mismo día', () => {
+    expect(morningAfter(new Date(2026, 8, 29, 2, 30), '07:00')).toBe('2026-09-29');
+  });
+
+  it('antes de medianoche, acaba al día siguiente', () => {
+    expect(morningAfter(new Date(2026, 8, 28, 23, 30), '07:00')).toBe('2026-09-29');
+  });
+
+  it('a la hora de despertar ya cuenta para el día siguiente', () => {
+    expect(morningAfter(new Date(2026, 8, 29, 7, 0), '07:00')).toBe('2026-09-30');
   });
 });

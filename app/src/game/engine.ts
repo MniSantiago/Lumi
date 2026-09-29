@@ -12,11 +12,12 @@
  *   app) se cuenta como descanso si los días de descanso están activados y
  *   quedan en la semana (máximo 2, de lunes a domingo).
  */
-import { addDays, atTime, daysBetween, mondayOf } from '@/game/clock';
+import { addDays, atTime, dateKey, daysBetween, mondayOf } from '@/game/clock';
 import { destinationById } from '@/game/destinations';
 import { pickDestination, rollExpedition, seedFromDate } from '@/game/rewards';
 import type { AlbumEntry, DateKey, DayRecord, ExpeditionResult } from '@/game/types';
 import type { Threshold } from '@/lumi/states';
+import { toMinutes } from '@/lumi/time';
 
 export const RETURNS_AT = '21:00';
 export const MAX_REST_DAYS_PER_WEEK = 2;
@@ -264,4 +265,10 @@ export function expeditionProgress(today: DateKey, wakeAt: string, now: Date): n
 export function markRestlessNight(state: GameState, morning: DateKey): GameState {
   if (state.restlessNights.includes(morning)) return state;
   return { ...state, restlessNights: [...state.restlessNights, morning].sort().slice(-14) };
+}
+
+/** Mañana en la que acaba la noche de `at`: antes de la hora de despertar, ese mismo día; si no, el siguiente. */
+export function morningAfter(at: Date, nightEnd: string): DateKey {
+  const key = dateKey(at);
+  return at.getHours() * 60 + at.getMinutes() < toMinutes(nightEnd) ? key : addDays(key, 1);
 }
