@@ -11,7 +11,7 @@ Lo que Apple pide para publicar Lumi y en qué estado está. ✅ hecho · 🟡 e
 | 🔒 | **Entitlement de Family Controls (Distribution)** | ⬜ | Sin él no se puede publicar el bloqueo real. Se pide en developer.apple.com con la cuenta de pago (99 $/año). Tarda semanas: pedirlo ya. |
 | ⬜ | **Módulo nativo de Screen Time** | ⬜ | FamilyControls + DeviceActivityMonitor (25/50/75/100 %) + ShieldConfiguration. Hoy es un mock (`app/src/screen-time`). |
 | ⬜ | **Compras reales (StoreKit)** | 🟡 | Código listo con RevenueCat (`app/src/purchases/revenuecat.ts`). Falta: crear los productos en App Store Connect, configurar RevenueCat (entitlement `plus`, paquetes `$rc_annual` y `$rc_monthly`), poner `EXPO_PUBLIC_REVENUECAT_IOS_KEY` en EAS y probar con un development build en sandbox. |
-| ⬜ | **Backend desplegado con HTTPS** | 🟡 | Código listo (`backend/`, `Dockerfile`). Falta desplegarlo (Railway, Render o Fly.io) y poner `EXPO_PUBLIC_API_URL` en EAS (ver §6). |
+| ⬜ | **Backend desplegado con HTTPS** | 🟡 | Código listo (`backend/`, `Dockerfile`). Falta desplegarlo (Railway, Render o Fly.io) y poner `EXPO_PUBLIC_API_URL` en EAS (ver §6). Sin esa variable, la build de producción oculta la cuenta (la app funciona igual), así que no se puede olvidar sin que se note: comprobar que Ajustes › Cuenta aparece antes de enviar. |
 | ⬜ | **Dominio y correo** | ⬜ | Verificar el dominio en Resend (SPF y DKIM), poner `MAIL_FROM` y rellenar `contactEmail` en `app/src/legal/content.json` (sale en Ayuda). |
 
 ## 2. Cuenta de usuario (guía 5.1.1)

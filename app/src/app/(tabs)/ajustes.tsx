@@ -2,6 +2,7 @@ import { router } from 'expo-router';
 import { Alert, Linking, StyleSheet, Text, View } from 'react-native';
 
 import { exportMyData } from '@/account/export';
+import { apiAvailable } from '@/api/client';
 import { useSession } from '@/account/session';
 import { AppIcon, Label, List, Row, Stepper, Toggle } from '@/components/onboarding/controls';
 import { PillButton, SectionTitle, Screen, TextLink } from '@/components/ui';
@@ -570,8 +571,8 @@ function AccountSection() {
   const { settings } = useLumi();
   const game = useGame();
   if (loading) return null;
-  const downloadRow = (
-    <Row>
+  const downloadRow = (last = false) => (
+    <Row last={last}>
       <Label
         title={tr({
           es: 'Tus datos',
@@ -619,10 +620,12 @@ function AccountSection() {
       />
     </Row>
   );
+  // Sin servidor configurado, solo queda descargar los datos de este iPhone.
+  if (!apiAvailable) return <List>{downloadRow(true)}</List>;
   if (!user) {
     return (
       <List>
-        {downloadRow}
+        {downloadRow()}
         <Row last>
           <Label
             title={tr({
@@ -708,7 +711,7 @@ function AccountSection() {
           />
         )}
       </Row>
-      {downloadRow}
+      {downloadRow()}
       <Row>
         <Label
           title={tr({
