@@ -68,7 +68,7 @@ El uso de pantalla **no se recoge**: se queda en el iPhone (Screen Time por umbr
 | Nombre, subtítulo, palabras clave, descripción | 🟡 | Borrador en `FICHA_APP_STORE.md` (límites comprobados con `tools/check_ficha.py`) |
 | **URL de soporte** (obligatoria) | 🟡 | `landing/ayuda.html` (preguntas frecuentes), falta publicarla |
 | URL de marketing | 🟡 | La landing |
-| Capturas de 6,9" (1320 × 2868) | ⬜ | Desde el simulador del iPhone 17 Pro Max (ver `landing/videos.md` para ocultar la hora) |
+| Capturas de 6,9" (1320 × 2868) | 🟡 | Hacerlas en el simulador del iPhone 17 Pro Max con cada idioma (ver `landing/videos.md` para ocultar la hora), dejarlas en `capturas/<idioma>/1-5.png` y ejecutar `sh landing/tools/capturas.sh`: salen en `capturas/<idioma>/tienda/` con un titular encima (textos en `landing/tools/capturas.html`) |
 | Icono de 1024 × 1024 sin transparencia | ✅ | `app/assets/images/icon.png` |
 | Clasificación por edad | 🟡 | Respuestas preparadas abajo: debería salir 4+. Falta rellenarlo en App Store Connect |
 | Categoría | 🟡 | Principal: **Estilo de vida**. Secundaria: **Productividad**. No elegir «Niños» (ver abajo) |

@@ -51,7 +51,7 @@ function nightState(wakesAt: string): LumiState {
       es: `Zzz… Es hora de dormir. A las ${at} me despierto con más luz.`,
       en: `Zzz… It’s bedtime. I’ll wake up brighter at ${at}.`,
       zh: `Zzz……该睡觉了。${at}我会带着更多的光醒来。`,
-      hi: `Zzz… सोने का समय है। ${at} बजे और रोशनी के साथ जागूँगी।`,
+      hi: `Zzz… सोने का समय है। ${at} को और रोशनी के साथ जागूँगी।`,
       fr: `Zzz… C’est l’heure de dormir. Je me réveille à ${at} avec plus de lumière.`,
     }),
   };
@@ -299,7 +299,7 @@ function ExpeditionCard({
         es: `Vuelve a las ${returnsAt} con una postal`,
         en: `Back at ${returnsAt} with a postcard`,
         zh: `${returnsAt}带着明信片回来`,
-        hi: `${returnsAt} बजे पोस्टकार्ड लेकर लौटेगी`,
+        hi: `${returnsAt} को पोस्टकार्ड लेकर लौटेगी`,
         fr: `Rentre à ${returnsAt} avec une carte`,
       })
     : back

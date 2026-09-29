@@ -92,7 +92,7 @@ export const nightlyCopy = {
       es: `${lumiName} aún está de expedición. Vuelve a las ${returnsAt} 🌙`,
       en: `${lumiName} is still exploring. She’ll be back at ${returnsAt} 🌙`,
       zh: `${lumiName}还在探险，${returnsAt}回来 🌙`,
-      hi: `${lumiName} अभी सफ़र पर है। ${returnsAt} बजे लौटेगी 🌙`,
+      hi: `${lumiName} अभी सफ़र पर है। ${returnsAt} को लौटेगी 🌙`,
       fr: `${lumiName} est encore en expédition. Elle rentre à ${returnsAt} 🌙`,
     }),
   nothingNew: (lumiName: string) =>

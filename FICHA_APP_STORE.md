@@ -95,5 +95,5 @@ Lumi Plus es una suscripción auto-renovable (anual con 7 días gratis y mensual
 
 - [ ] Poner el dominio real en las URLs y en la descripción.
 - [ ] Crear la cuenta de prueba en producción y poner su contraseña en las notas.
-- [ ] Capturas de 6,9" (1320 × 2868): Hogar, postal nocturna, escudo, Colección y resumen semanal.
+- [ ] Capturas de 6,9" (1320 × 2868): Hogar, postal nocturna, escudo, Colección y resumen semanal. Con titular en cada idioma: `sh landing/tools/capturas.sh` (ver `APP_STORE.md` §5).
 - [ ] Comprobar precios finales (la descripción no los pone: los enseña Apple).

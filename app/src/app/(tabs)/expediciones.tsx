@@ -74,7 +74,7 @@ function buildTrail(game: GameApi, lumiName: string, isPlus: boolean): Zone[] {
               es: `Ahora mismo. Vuelve a las ${game.returnsAt}.`,
               en: `Right now. Back at ${game.returnsAt}.`,
               zh: `正在进行。${game.returnsAt}回来。`,
-              hi: `अभी। ${game.returnsAt} बजे लौटेगी।`,
+              hi: `अभी। ${game.returnsAt} को लौटेगी।`,
               fr: `En ce moment. Retour à ${game.returnsAt}.`,
             }),
           }
