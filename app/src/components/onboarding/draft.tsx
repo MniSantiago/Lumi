@@ -1,18 +1,22 @@
 import { createContext, use, useState, type ReactNode } from 'react';
 
 import { useLumi, type Settings } from '@/lumi/store';
+import { ensureNotificationPermission } from '@/notifications';
 
 /** Lo que se va respondiendo en el onboarding. No se guarda nada hasta el final. */
 export type OnboardingDraft = Pick<
   Settings,
-  'userName' | 'lumiName' | 'thiefApps' | 'limitMinutes' | 'nightStart' | 'nightEnd'
+  'userName' | 'lumiName' | 'thiefApps' | 'limitMinutes' | 'nightStart' | 'nightEnd' | 'nightlyPostcard'
 >;
 
 type DraftContextValue = {
   draft: OnboardingDraft;
   setDraft: (patch: Partial<OnboardingDraft>) => void;
-  /** Guarda todas las respuestas de una vez; el guard del Stack raíz lleva a las pestañas. */
-  finish: () => void;
+  /**
+   * Guarda todas las respuestas de una vez; el guard del Stack raíz lleva a las pestañas.
+   * Si quiere la postal nocturna, pide aquí el permiso de avisos (en contexto, no de golpe en el Hogar).
+   */
+  finish: () => Promise<void>;
 };
 
 const DraftContext = createContext<DraftContextValue | null>(null);
@@ -27,11 +31,14 @@ export function OnboardingDraftProvider({ children }: { children: ReactNode }) {
     limitMinutes: settings.limitMinutes,
     nightStart: settings.nightStart,
     nightEnd: settings.nightEnd,
+    nightlyPostcard: settings.nightlyPostcard,
   }));
 
   const setDraft = (patch: Partial<OnboardingDraft>) => setDraftState((prev) => ({ ...prev, ...patch }));
 
-  const finish = () =>
+  const finish = async () => {
+    // Si deniega el permiso, la postal nocturna queda apagada (se puede encender en Ajustes).
+    const nightlyPostcard = draft.nightlyPostcard ? await ensureNotificationPermission() : false;
     updateSettings({
       userName: draft.userName.trim(),
       lumiName: draft.lumiName.trim() || 'Lumi',
@@ -39,8 +46,10 @@ export function OnboardingDraftProvider({ children }: { children: ReactNode }) {
       limitMinutes: draft.limitMinutes,
       nightStart: draft.nightStart,
       nightEnd: draft.nightEnd,
+      nightlyPostcard,
       onboarded: true,
     });
+  };
 
   return <DraftContext value={{ draft, setDraft, finish }}>{children}</DraftContext>;
 }

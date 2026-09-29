@@ -1,7 +1,7 @@
 import { Image } from 'expo-image';
 import { StyleSheet, Text, View } from 'react-native';
 
-import { Label, List, Row, Stepper } from '@/components/onboarding/controls';
+import { Label, List, Row, Stepper, Toggle } from '@/components/onboarding/controls';
 import { useLumiName, useOnboardingDraft } from '@/components/onboarding/draft';
 import { StepShell } from '@/components/onboarding/step-shell';
 import { AppText, Card } from '@/components/ui';
@@ -34,7 +34,7 @@ export default function LimitStep() {
       step={3}
       title="Límite y noche"
       subtitle={`Un límite suave, sin castigos. ${lumiName} solo te lo recuerda a su manera.`}
-      cta={{ label: `Despertar a ${lumiName}`, onPress: finish }}>
+      cta={{ label: `Despertar a ${lumiName}`, onPress: () => void finish() }}>
       <View style={{ gap: 10 }}>
         <AppText variant="label">Cada día</AppText>
         <List>
@@ -81,7 +81,7 @@ export default function LimitStep() {
               increaseLabel="Acostarse media hora después"
             />
           </Row>
-          <Row last>
+          <Row>
             <Label title="Se despierta" />
             <Stepper
               value={draft.nightEnd}
@@ -89,6 +89,14 @@ export default function LimitStep() {
               onIncrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, 1) })}
               decreaseLabel="Despertarse media hora antes"
               increaseLabel="Despertarse media hora después"
+            />
+          </Row>
+          <Row last>
+            <Label title="Avisarme cuando vuelva" sub="Una notificación por la noche con su postal" />
+            <Toggle
+              label="Avisarme cuando vuelva"
+              value={draft.nightlyPostcard}
+              onChange={(nightlyPostcard) => setDraft({ nightlyPostcard })}
             />
           </Row>
         </List>

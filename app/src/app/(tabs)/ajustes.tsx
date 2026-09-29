@@ -1,9 +1,9 @@
 import { router } from 'expo-router';
-import { Alert, Linking, StyleSheet, Switch, Text, View } from 'react-native';
+import { Alert, Linking, StyleSheet, Text, View } from 'react-native';
 
 import { exportMyData } from '@/account/export';
 import { useSession } from '@/account/session';
-import { AppIcon, Label, List, Row, Stepper } from '@/components/onboarding/controls';
+import { AppIcon, Label, List, Row, Stepper, Toggle } from '@/components/onboarding/controls';
 import { PillButton, SectionTitle, Screen, TextLink } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
 import { plusFeatures } from '@/components/paywall/copy';
@@ -258,19 +258,6 @@ function AccountSection() {
         <TextLink label="Eliminar" onPress={() => router.push('/cuenta/eliminar')} />
       </Row>
     </List>
-  );
-}
-
-function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: boolean) => void; label: string }) {
-  return (
-    <Switch
-      accessibilityLabel={label}
-      value={value}
-      onValueChange={onChange}
-      trackColor={{ true: Colors.violet, false: 'rgba(201, 191, 242, 0.25)' }}
-      thumbColor="#FFFFFF"
-      ios_backgroundColor="rgba(201, 191, 242, 0.25)"
-    />
   );
 }
 
