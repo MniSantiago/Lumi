@@ -37,16 +37,20 @@ const MONTHS_SHORT = tr({
   fr: ['janv.', 'févr.', 'mars', 'avr.', 'mai', 'juin', 'juil.', 'août', 'sept.', 'oct.', 'nov.', 'déc.'],
 });
 
+const day = (d: Date) =>
+  lang === 'zh'
+    ? `${MONTHS_SHORT[d.getMonth()]}${d.getDate()}日`
+    : lang === 'en'
+      ? `${MONTHS_SHORT[d.getMonth()]} ${d.getDate()}`
+      : `${d.getDate()} ${MONTHS_SHORT[d.getMonth()]}`;
+
+/** "28 sept", "Sep 28", "9月28日". */
+export const shortDay = (key: string) => day(parseDateKey(key));
+
 /** "22–28 sept" o "29 sept – 5 oct". */
 export function shortRange(from: string, to: string): string {
   const a = parseDateKey(from);
   const b = parseDateKey(to);
-  const day = (d: Date) =>
-    lang === 'zh'
-      ? `${MONTHS_SHORT[d.getMonth()]}${d.getDate()}日`
-      : lang === 'en'
-        ? `${MONTHS_SHORT[d.getMonth()]} ${d.getDate()}`
-        : `${d.getDate()} ${MONTHS_SHORT[d.getMonth()]}`;
   if (a.getMonth() !== b.getMonth()) return `${day(a)} – ${day(b)}`;
   if (lang === 'zh') return `${MONTHS_SHORT[b.getMonth()]}${a.getDate()}–${b.getDate()}日`;
   if (lang === 'en') return `${MONTHS_SHORT[b.getMonth()]} ${a.getDate()}–${b.getDate()}`;

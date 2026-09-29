@@ -1,5 +1,5 @@
-import { daysBetween } from '@/game/clock';
-import type { DayRecord } from '@/game/types';
+import { addDays, daysBetween, mondayOf } from '@/game/clock';
+import type { DateKey, DayRecord } from '@/game/types';
 
 /**
  * La racha más larga de toda la historia, con las mismas reglas que la actual:
@@ -19,4 +19,17 @@ export function longestStreak(history: DayRecord[]): number {
     prev = day.date;
   }
   return best;
+}
+
+export type PastWeek = { monday: DateKey; sunday: DateKey; brightDays: number };
+
+/** Las `count` semanas anteriores a la actual (lunes a domingo), de la más antigua a la más reciente. */
+export function pastWeeks(history: DayRecord[], today: DateKey, count = 4): PastWeek[] {
+  const thisMonday = mondayOf(today);
+  return Array.from({ length: count }, (_, i) => {
+    const monday = addDays(thisMonday, -7 * (count - i));
+    const sunday = addDays(monday, 6);
+    const brightDays = history.filter((d) => d.expedition && d.date >= monday && d.date <= sunday).length;
+    return { monday, sunday, brightDays };
+  });
 }
