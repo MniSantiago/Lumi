@@ -86,7 +86,7 @@ La app y la web hablan el idioma del dispositivo: **español, inglés, chino (si
 | Todas las pantallas | ✅ | Menos el panel de desarrollo, que solo se ve en `__DEV__` |
 | `CFBundleLocalizations` (para que iOS muestre los idiomas en la ficha) | ✅ | `app.json`. La app no pide permisos con texto propio (avisos y Tiempo de uso usan los de iOS) |
 | Legales, ayuda y landing | ⬜ | La landing sigue `navigator.language` |
-| Correos y errores del backend | ⬜ | La app manda `Accept-Language` |
+| Correos y errores del backend | ✅ | Según `Accept-Language` (la app lo manda); sin cabecera, español |
 | Ficha de la App Store en los 5 idiomas | ⬜ | |
 | Revisión de las traducciones por hablantes nativos | ⬜ | Sobre todo hindi y chino |
 

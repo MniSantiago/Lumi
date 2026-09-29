@@ -400,6 +400,54 @@ describe('Cuentas (e2e)', () => {
     expect(generated.headers['x-request-id']).toMatch(/^[0-9a-f-]{36}$/);
   });
 
+  it('responde en el idioma de la app (Accept-Language)', async () => {
+    await register('idiomas@correo.com').expect(200);
+    const wrong = await http()
+      .post('/auth/login')
+      .set('Accept-Language', 'fr-FR,fr;q=0.9')
+      .send({ email: 'idiomas@correo.com', password: 'no-es-esta' })
+      .expect(401);
+    expect(wrong.body.message).toBe('E-mail ou mot de passe incorrect');
+    expect(wrong.headers['content-language']).toBe('fr');
+
+    const invalid = await http()
+      .post('/auth/register')
+      .set('Accept-Language', 'zh')
+      .send({ email: 'no-es-un-correo', password: 'corta' })
+      .expect(400);
+    expect(invalid.body.message).toContain('这个邮箱地址好像不完整');
+
+    const english = await http()
+      .post('/auth/register')
+      .set('Accept-Language', 'en')
+      .send({ email: 'english@correo.com', password: 'contraseña-larga' })
+      .expect(200);
+    expect(english.body.user.email).toBe('english@correo.com');
+    expect(mail.sent.at(-1)?.mail.subject).toMatch(/^\d{6} is your Lumi code$/);
+
+    // El correo de recuperación se envía después de responder: el idioma tiene que llegar igual.
+    const before = mail.sent.length;
+    await http()
+      .post('/auth/forgot-password')
+      .set('Accept-Language', 'hi-IN')
+      .send({ email: 'idiomas@correo.com' })
+      .expect(204);
+    await mail.waitForCode('idiomas@correo.com', before);
+    const reset = mail.sent
+      .slice(before)
+      .find((m) => m.to === 'idiomas@correo.com');
+    expect(reset?.mail.subject).toContain('पासवर्ड बदलने का तुम्हारा कोड है');
+    expect(reset?.mail.html).toContain('<html lang="hi">');
+
+    // Un idioma que no hablamos cae en inglés; sin cabecera, español.
+    const german = await http()
+      .post('/auth/login')
+      .set('Accept-Language', 'de-DE')
+      .send({ email: 'idiomas@correo.com', password: 'no-es-esta' })
+      .expect(401);
+    expect(german.body.message).toBe('Wrong email or password');
+  });
+
   it('responde al health check', async () => {
     await http().get('/health').expect(200, { status: 'ok' });
   });
