@@ -40,20 +40,14 @@ export default function ForgotPasswordSheet() {
     return (
       <Sheet
         title={tr({
-          es: tr({ es: '¿Se te olvidó?', en: 'Forgot it?', zh: '忘记了？', hi: 'भूल गए?', fr: 'Oublié ?' }),
+          es: '¿Se te olvidó?',
           en: 'Forgot it?',
           zh: '忘记了？',
           hi: 'भूल गए?',
           fr: 'Oublié ?',
         })}
         subtitle={tr({
-          es: tr({
-            es: 'No pasa nada, a Lumi también se le olvidan cosas. Te enviamos un código para elegir una contraseña nueva.',
-            en: 'No worries, Lumi forgets things too. We’ll send you a code to choose a new password.',
-            zh: '没关系，Lumi 也会忘事。我们会发一个验证码，让你设置新密码。',
-            hi: 'कोई बात नहीं, Lumi भी चीज़ें भूल जाती है। हम तुम्हें नया पासवर्ड चुनने के लिए एक कोड भेजेंगे।',
-            fr: 'Pas de souci, Lumi aussi oublie des choses. On t’envoie un code pour choisir un nouveau mot de passe.',
-          }),
+          es: 'No pasa nada, a Lumi también se le olvidan cosas. Te enviamos un código para elegir una contraseña nueva.',
           en: 'No worries, Lumi forgets things too. We’ll send you a code to choose a new password.',
           zh: '没关系，Lumi 也会忘事。我们会发一个验证码，让你设置新密码。',
           hi: 'कोई बात नहीं, Lumi भी चीज़ें भूल जाती है। हम तुम्हें नया पासवर्ड चुनने के लिए एक कोड भेजेंगे।',
@@ -81,26 +75,14 @@ export default function ForgotPasswordSheet() {
         }>
         <Field
           label={tr({
-            es: tr({
-              es: 'Correo de tu cuenta',
-              en: 'Your account’s email',
-              zh: '你的账户邮箱',
-              hi: 'तुम्हारे खाते का ईमेल',
-              fr: 'E-mail de ton compte',
-            }),
+            es: 'Correo de tu cuenta',
             en: 'Your account’s email',
             zh: '你的账户邮箱',
             hi: 'तुम्हारे खाते का ईमेल',
             fr: 'E-mail de ton compte',
           })}
           placeholder={tr({
-            es: tr({
-              es: 'tu@correo.com',
-              en: 'you@email.com',
-              zh: 'you@email.com',
-              hi: 'you@email.com',
-              fr: 'toi@email.com',
-            }),
+            es: 'tu@correo.com',
             en: 'you@email.com',
             zh: 'you@email.com',
             hi: 'you@email.com',
@@ -120,13 +102,7 @@ export default function ForgotPasswordSheet() {
   return (
     <Sheet
       title={tr({
-        es: tr({
-          es: 'Elige una contraseña nueva',
-          en: 'Choose a new password',
-          zh: '设置新密码',
-          hi: 'नया पासवर्ड चुनो',
-          fr: 'Choisis un nouveau mot de passe',
-        }),
+        es: 'Elige una contraseña nueva',
         en: 'Choose a new password',
         zh: '设置新密码',
         hi: 'नया पासवर्ड चुनो',
@@ -159,13 +135,7 @@ export default function ForgotPasswordSheet() {
           />
           <SecondaryLink
             label={tr({
-              es: tr({
-                es: 'Usar otro correo',
-                en: 'Use another email',
-                zh: '使用其他邮箱',
-                hi: 'दूसरा ईमेल इस्तेमाल करो',
-                fr: 'Utiliser un autre e-mail',
-              }),
+              es: 'Usar otro correo',
               en: 'Use another email',
               zh: '使用其他邮箱',
               hi: 'दूसरा ईमेल इस्तेमाल करो',
@@ -182,7 +152,7 @@ export default function ForgotPasswordSheet() {
       <View style={{ gap: 16 }}>
         <Field
           label={tr({
-            es: tr({ es: 'Código', en: 'Code', zh: '验证码', hi: 'कोड', fr: 'Code' }),
+            es: 'Código',
             en: 'Code',
             zh: '验证码',
             hi: 'कोड',
@@ -203,26 +173,14 @@ export default function ForgotPasswordSheet() {
         <Field
           ref={passwordRef}
           label={tr({
-            es: tr({
-              es: 'Contraseña nueva',
-              en: 'New password',
-              zh: '新密码',
-              hi: 'नया पासवर्ड',
-              fr: 'Nouveau mot de passe',
-            }),
+            es: 'Contraseña nueva',
             en: 'New password',
             zh: '新密码',
             hi: 'नया पासवर्ड',
             fr: 'Nouveau mot de passe',
           })}
           placeholder={tr({
-            es: tr({
-              es: 'Al menos 8 caracteres',
-              en: 'At least 8 characters',
-              zh: '至少 8 个字符',
-              hi: 'कम से कम 8 अक्षर',
-              fr: 'Au moins 8 caractères',
-            }),
+            es: 'Al menos 8 caracteres',
             en: 'At least 8 characters',
             zh: '至少 8 个字符',
             hi: 'कम से कम 8 अक्षर',
@@ -238,13 +196,7 @@ export default function ForgotPasswordSheet() {
         />
         <SecondaryLink
           label={tr({
-            es: tr({
-              es: 'Reenviar el código',
-              en: 'Resend the code',
-              zh: '重新发送验证码',
-              hi: 'कोड फिर भेजो',
-              fr: 'Renvoyer le code',
-            }),
+            es: 'Reenviar el código',
             en: 'Resend the code',
             zh: '重新发送验证码',
             hi: 'कोड फिर भेजो',
