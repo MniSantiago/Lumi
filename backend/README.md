@@ -42,6 +42,7 @@ La crea con el correo ya verificado. Si existe, le cambia la contraseña y cierr
 | POST | `/me/password` | Cambia la contraseña conociendo la actual |
 | POST | `/me/delete` | Borra la cuenta y todos sus datos (Apple lo exige, guía 5.1.1(v)) |
 | POST | `/waitlist` | Lista de espera de la landing (`WAITLIST_ENDPOINT` en `landing/main.js`) |
+| GET · POST | `/waitlist/unsubscribe` | Baja de la lista con el enlace firmado del correo (GET pide confirmación; POST borra, también en un clic desde el cliente de correo) |
 | GET | `/health` | Comprueba el servidor y la base de datos |
 
 ## Seguridad
