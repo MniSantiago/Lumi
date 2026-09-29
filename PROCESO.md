@@ -120,6 +120,8 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 20 | #21 | Este resumen |
 | 21 | #23 | No usar un dominio que no es nuestro |
 | 22 | #24 | Expediciones sin destripar la postal |
+| 23 | #25 | Ficha de la App Store (borrador) |
+| 24 | #26 | Chispas: qué son y cómo se consiguen |
 | — | #15 | **Borrador:** Screen Time nativo (sale de #14; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
