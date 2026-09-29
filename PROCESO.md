@@ -149,7 +149,20 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 43 | #45 | Tus números: las últimas 4 semanas (Plus) y plurales en francés |
 | 44 | #46 | Postales compartidas con enlace a Lumi (si hay dominio) |
 | 45 | #47 | Pulido: página 404 de la landing, robots.txt y el dominio en EAS |
-| — | #15 | **Borrador:** Screen Time nativo (encima de #36, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
+| 46 | #48 | Backend: exportar la lista de espera a CSV para el lanzamiento |
+| 47 | #49 | Backend: aviso de lanzamiento a la lista de espera, en el idioma de cada uno |
+| 48 | #50 | Landing: modo lanzamiento con APP_STORE_URL |
+| 49 | #51 | Onboarding: vista previa del escudo en el paso del límite |
+| 50 | #52 | Home: Lumi duerme en el horario de noche |
+| 51 | #53 | Pulido: contador de Colección traducido y semana vacía en Progreso |
+| 52 | #54 | Legales: menores y edad mínima; respuestas de la clasificación por edad |
+| 53 | #55 | Capturas de la App Store con titular en 5 idiomas |
+| 54 | #56 | Home: el primer día explica la regla de la postal |
+| 55 | #57 | Escudo de noche: habla de dormir, no del límite |
+| 56 | #58 | Postal: celebra la primera postal |
+| 57 | #59 | Cuenta: correos y contraseñas largos ya no se cortan; confirmaciones en la web |
+| 58 | #60 | Horario de noche: dormir y despertar nunca a la misma hora |
+| — | #15 | **Borrador:** Screen Time nativo (encima de #47, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
 Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1` (ver `app/app.config.ts`); sin esas variables, la app es la de siempre.

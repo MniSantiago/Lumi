@@ -88,7 +88,13 @@ export default function CollectionScreen() {
         {section === 'postales' ? (
           <>
             <Text style={styles.count}>
-              {postcards.length} de {DESTINATIONS.length} destinos
+              {tr({
+                es: `${postcards.length} de ${DESTINATIONS.length} destinos`,
+                en: `${postcards.length} of ${DESTINATIONS.length} places`,
+                zh: `${postcards.length} / ${DESTINATIONS.length} 个地方`,
+                hi: `${DESTINATIONS.length} में से ${postcards.length} जगहें`,
+                fr: `${postcards.length} ${postcards.length <= 1 ? 'lieu' : 'lieux'} sur ${DESTINATIONS.length}`,
+              })}
             </Text>
             {postcards.length === 0 ? (
               <Text style={styles.empty}>

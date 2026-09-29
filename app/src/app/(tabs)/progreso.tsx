@@ -96,6 +96,15 @@ export default function ProgressScreen() {
           hi: `${name} 7 में से ${brightDays} दिन चमकी और ${places} नई जगहें घूमी`,
           fr: `${name} a brillé ${brightDays} ${frDays(brightDays)} sur 7 et a visité ${places} ${places === 0 ? 'nouveau lieu' : 'nouveaux lieux'}`,
         });
+  // Una semana a cero no se comparte: se anima a empezarla.
+  const empty = brightDays === 0 && places === 0;
+  const emptySummary = tr({
+    es: `La semana de ${name} empieza con su primera expedición. Aquí verás cómo os va.`,
+    en: `${name}’s week starts with the first expedition. You’ll see how it’s going here.`,
+    zh: `${name}的一周从第一次探险开始。在这里可以看到你们的进展。`,
+    hi: `${name} का हफ़्ता पहले सफ़र से शुरू होता है। कैसा चल रहा है, यहाँ दिखेगा।`,
+    fr: `La semaine de ${name} commence avec sa première expédition. Tu verras ici comment ça se passe.`,
+  });
   const range = week.length ? rangeLabel(week[0].date, week[week.length - 1].date) : '';
   const subtitle = week.length
     ? tr({
@@ -227,17 +236,19 @@ export default function ProgressScreen() {
             accessibilityLabel={`${name}, ${LUMI_STATES.radiante.label.toLowerCase()}`}
           />
           <View style={styles.shareTxt}>
-            <Text style={styles.shareTitle}>{summary}</Text>
-            <PillButton
-              label={tr({
-                es: 'Compartir resumen',
-                en: 'Share summary',
-                zh: '分享总结',
-                hi: 'सारांश शेयर करो',
-                fr: 'Partager le bilan',
-              })}
-              onPress={() => router.push('/resumen')}
-            />
+            <Text style={styles.shareTitle}>{empty ? emptySummary : summary}</Text>
+            {empty ? null : (
+              <PillButton
+                label={tr({
+                  es: 'Compartir resumen',
+                  en: 'Share summary',
+                  zh: '分享总结',
+                  hi: 'सारांश शेयर करो',
+                  fr: 'Partager le bilan',
+                })}
+                onPress={() => router.push('/resumen')}
+              />
+            )}
           </View>
         </View>
       </View>

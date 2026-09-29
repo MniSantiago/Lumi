@@ -11,6 +11,13 @@ const t = (es) => (window.lumiT ? window.lumiT(es) : es);
  */
 const WAITLIST_ENDPOINT = '';
 
+/**
+ * Modo lanzamiento: con la URL de la ficha de la App Store, los formularios de
+ * la lista de espera se cambian por un botón de descarga (y "Llega pronto" por
+ * "Ya en el iPhone"). Vacío mientras Lumi no esté publicada.
+ */
+const APP_STORE_URL = '';
+
 /** Cabeceras extra (p. ej. Supabase: { apikey: '…', Authorization: 'Bearer …', Prefer: 'return=minimal' }). */
 const WAITLIST_HEADERS = {};
 
@@ -151,6 +158,22 @@ async function onSubmit(event) {
     button.textContent = label;
     setMessage(form, t('No se ha podido guardar tu correo. Comprueba la conexión y vuelve a intentarlo.'));
   }
+}
+
+/* ───────── Modo lanzamiento ───────── */
+if (APP_STORE_URL) {
+  document.querySelectorAll('form.waitlist').forEach((form) => {
+    const link = document.createElement('a');
+    link.className = 'btn download';
+    link.href = APP_STORE_URL;
+    link.textContent = t('Descargar en la App Store');
+    link.addEventListener('click', () => track('download_click', { form: form.dataset.form }));
+    form.replaceWith(link);
+  });
+  // Lo que solo tiene sentido antes de publicar ("Apúntate y te avisamos…", "¿Cuándo sale?").
+  document.querySelectorAll('[data-prelaunch]').forEach((el) => el.remove());
+  const note = document.querySelector('.top-note');
+  if (note) note.textContent = t('Ya en el iPhone');
 }
 
 document.querySelectorAll('form.waitlist').forEach((form) => {

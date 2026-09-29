@@ -309,3 +309,52 @@ export function waitlistWelcomeMail(unsubscribeUrl?: string): MailContent {
       : {}),
   };
 }
+
+/** Aviso de lanzamiento a la lista de espera (`db/announce-launch.ts`). */
+export function launchMail(
+  appStoreUrl: string,
+  unsubscribeUrl: string,
+): MailContent {
+  const title = tr({
+    es: '¡Lumi ya está en la App Store!',
+    en: 'Lumi is on the App Store!',
+    zh: 'Lumi 已经上架 App Store 了！',
+    hi: 'Lumi अब App Store पर है!',
+    fr: 'Lumi est sur l’App Store !',
+  });
+  const body = tr({
+    es: 'Llevaba tiempo esperando este momento: ya puede mudarse a tu iPhone. Cuando sueltes el móvil, brillará y saldrá de aventura, y por la noche te traerá una postal.',
+    en: 'She’s been waiting for this moment: she can finally move into your iPhone. When you put your phone down, she’ll shine and go on adventures, and at night she’ll bring you a postcard.',
+    zh: '她等这一刻很久了：终于可以搬进你的 iPhone 了。你放下手机，她就会发光、出发冒险，晚上还会给你带回一张明信片。',
+    hi: 'वो इस पल का लंबे समय से इंतज़ार कर रही थी: अब वो तुम्हारे iPhone में आ सकती है। जब तुम फ़ोन रखोगे, वो चमकेगी और सफ़र पर निकलेगी, और रात को तुम्हारे लिए पोस्टकार्ड लाएगी।',
+    fr: 'Elle attendait ce moment depuis longtemps : elle peut enfin emménager dans ton iPhone. Quand tu poseras ton téléphone, elle brillera et partira à l’aventure, et le soir elle te rapportera une carte postale.',
+  });
+  const cta = tr({
+    es: 'Descargar Lumi',
+    en: 'Download Lumi',
+    zh: '下载 Lumi',
+    hi: 'Lumi डाउनलोड करो',
+    fr: 'Télécharger Lumi',
+  });
+  const leave = tr({
+    es: 'Darme de baja de la lista',
+    en: 'Unsubscribe from the list',
+    zh: '退出名单',
+    hi: 'सूची से नाम हटाओ',
+    fr: 'Me désinscrire de la liste',
+  });
+  const button = `<a href="${esc(appStoreUrl)}" style="display:inline-block;padding:14px 22px;border-radius:999px;background:#FFC96B;color:#13112E;font-weight:700;text-decoration:none">${cta}</a>`;
+  return {
+    subject: `${title} ✨`,
+    html: layout(title, [
+      body,
+      button,
+      `<a href="${esc(unsubscribeUrl)}" style="color:#A69FD8;font-size:13px">${leave}</a>`,
+    ]),
+    text: `${title}\n\n${body}\n\n${cta}: ${appStoreUrl}\n\n${leave}: ${unsubscribeUrl}`,
+    headers: {
+      'List-Unsubscribe': `<${unsubscribeUrl}>`,
+      'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+    },
+  };
+}

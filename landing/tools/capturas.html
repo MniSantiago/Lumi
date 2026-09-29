@@ -1,0 +1,104 @@
+<!doctype html>
+<!--
+  Capturas de la App Store (6,9": 1320 × 2868) con un titular encima.
+  Lo abre capturas.sh: ?lang=es&n=1 pone ../../capturas/es/1.png (la captura del simulador) bajo el titular n.
+-->
+<meta charset="utf-8">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,500..800,100,1&family=Figtree:wght@400;500;600;700&family=Noto+Sans+SC:wght@500;700&family=Noto+Sans+Devanagari:wght@500;700&display=swap">
+<style>
+  html, body { margin: 0; }
+  body {
+    width: 1320px; height: 2868px; overflow: hidden; position: relative;
+    background:
+      radial-gradient(ellipse 900px 700px at 50% 30%, rgba(255, 201, 107, 0.16), transparent 70%),
+      radial-gradient(ellipse 1100px 900px at 85% -5%, rgba(140, 123, 216, 0.45), transparent 70%),
+      linear-gradient(180deg, #1B1840 0%, #13112E 55%, #0F0D26 100%);
+    color: #F4F0FF;
+    font-family: "Figtree", "Noto Sans SC", "Noto Sans Devanagari", system-ui, sans-serif;
+  }
+  .stars { position: absolute; inset: 0; }
+  .stars i { position: absolute; border-radius: 50%; background: #E6E0FB; }
+  header { position: absolute; top: 170px; left: 110px; right: 110px; text-align: center; }
+  h1 {
+    margin: 0; font-family: "Fraunces", "Noto Sans SC", "Noto Sans Devanagari", Georgia, serif;
+    font-weight: 700; font-size: 112px; line-height: 1.08; letter-spacing: -1px;
+    font-variation-settings: "SOFT" 100, "WONK" 1;
+  }
+  h1 em { font-style: normal; color: #FFC96B; text-shadow: 0 0 40px rgba(255, 201, 107, 0.5); }
+  p { margin: 36px auto 0; max-width: 1000px; font-size: 52px; line-height: 1.3; color: #B9B0E6; font-weight: 500; }
+  :lang(zh) h1, :lang(hi) h1 { font-family: "Noto Sans SC", "Noto Sans Devanagari", sans-serif; letter-spacing: 0; }
+  .phone {
+    position: absolute; left: 50%; bottom: -120px; transform: translateX(-50%);
+    width: 1080px; height: 2346px; border-radius: 132px; padding: 22px; box-sizing: border-box;
+    background: #0B0A1F; border: 3px solid rgba(201, 191, 242, 0.28);
+    box-shadow: 0 0 0 10px rgba(42, 37, 96, 0.6), 0 60px 160px -20px rgba(0, 0, 0, 0.7), 0 0 180px rgba(255, 201, 107, 0.12);
+  }
+  .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 112px; display: block; }
+</style>
+<div class="stars" id="stars"></div>
+<header><h1 id="t"></h1><p id="s"></p></header>
+<div class="phone"><img id="shot" alt=""></div>
+<script>
+  // Titular (lo que va entre * sale en ámbar) y subtítulo de cada captura, en el orden de FICHA_APP_STORE.md.
+  const TEXTS = {
+    es: [
+      ['Menos móvil, *más luz*', 'Cuanto menos usas tus apps ladronas, más brilla Lumi.'],
+      ['Cada noche, *una postal*', 'Si Lumi brilló, vuelve de su viaje con recuerdos para ti.'],
+      ['Un escudo *amable*', 'Pasado tu límite, Lumi te recuerda por qué querías parar.'],
+      ['Colecciona *su mundo*', '20 lugares, 36 objetos y 12 amigos por descubrir.'],
+      ['Tu semana, *para compartir*', 'Cada domingo, un resumen listo para tus stories.'],
+    ],
+    en: [
+      ['Less phone, *more light*', 'The less you use your thief apps, the brighter Lumi shines.'],
+      ['Every night, *a postcard*', 'If Lumi shone, she comes back from her trip with memories for you.'],
+      ['A *gentle* shield', 'Past your limit, Lumi reminds you why you wanted to stop.'],
+      ['Collect *her world*', '20 places, 36 things and 12 friends to discover.'],
+      ['Your week, *ready to share*', 'Every Sunday, a summary made for your stories.'],
+    ],
+    zh: [
+      ['少看手机，*多一点光*', '越少用那些“偷时间”的应用，Lumi 就越亮。'],
+      ['每晚，*一张明信片*', '如果 Lumi 发光了，她会带着旅途的回忆回来。'],
+      ['*温柔*的护盾', '超过限制时，Lumi 会提醒你当初为什么想停下。'],
+      ['收集*她的世界*', '20 个地方、36 件物品和 12 个朋友等你发现。'],
+      ['你的一周，*随手分享*', '每个星期天，一份适合发快拍的总结。'],
+    ],
+    hi: [
+      ['कम फ़ोन, *ज़्यादा रोशनी*', 'चोर ऐप्स जितना कम चलाओगे, Lumi उतनी ज़्यादा चमकेगी।'],
+      ['हर रात, *एक पोस्टकार्ड*', 'अगर Lumi चमकी, तो सफ़र से तुम्हारे लिए यादें लेकर लौटती है।'],
+      ['एक *प्यारी* ढाल', 'सीमा पार होने पर Lumi याद दिलाती है कि रुकने की वजह क्या थी।'],
+      ['उसकी *दुनिया* इकट्ठा करो', '20 जगहें, 36 चीज़ें और 12 दोस्त खोजने को।'],
+      ['तुम्हारा हफ़्ता, *शेयर के लिए तैयार*', 'हर रविवार, तुम्हारी स्टोरी के लिए एक सारांश।'],
+    ],
+    fr: [
+      ['Moins d’écran, *plus de lumière*', 'Moins tu utilises tes applis voleuses, plus Lumi brille.'],
+      ['Chaque soir, *une carte*', 'Si Lumi a brillé, elle rentre de voyage avec des souvenirs pour toi.'],
+      ['Un bouclier *tout doux*', 'Une fois ta limite passée, Lumi te rappelle pourquoi tu voulais t’arrêter.'],
+      ['Collectionne *son monde*', '20 lieux, 36 objets et 12 amis à découvrir.'],
+      ['Ta semaine, *à partager*', 'Chaque dimanche, un bilan prêt pour tes stories.'],
+    ],
+  };
+
+  const q = new URLSearchParams(location.search);
+  const lang = TEXTS[q.get('lang')] ? q.get('lang') : 'es';
+  const n = Math.min(5, Math.max(1, Number(q.get('n')) || 1));
+  const [title, sub] = TEXTS[lang][n - 1];
+  document.documentElement.lang = lang;
+  const esc = (s) => s.replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' })[c]);
+  document.getElementById('t').innerHTML = esc(title).replace(/\*(.+?)\*/g, '<em>$1</em>');
+  document.getElementById('s').textContent = sub;
+  document.getElementById('shot').src = q.get('src') || `../../capturas/${lang}/${n}.png`;
+
+  // Estrellas fijas (misma semilla en todas las capturas, para que la serie se vea igual).
+  let seed = 7;
+  const rand = () => ((seed = (seed * 16807) % 2147483647) / 2147483647);
+  const stars = document.getElementById('stars');
+  for (let i = 0; i < 70; i++) {
+    const s = document.createElement('i');
+    const r = 1.5 + rand() * 3.5;
+    Object.assign(s.style, {
+      left: `${rand() * 100}%`, top: `${rand() * 45}%`, width: `${r * 2}px`, height: `${r * 2}px`,
+      opacity: String(0.25 + rand() * 0.6),
+    });
+    stars.appendChild(s);
+  }
+</script>

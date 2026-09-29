@@ -16,9 +16,11 @@ import { Fireflies } from '@/components/fireflies';
 import { AppTag, ShieldButton } from '@/components/shield/shield-parts';
 import { SleepingLumi } from '@/components/shield/sleeping-lumi';
 import { Colors, Fonts } from '@/constants/theme';
+import { clockTime } from '@/i18n/dates';
 import { thiefAppById, type ThiefApp } from '@/lumi/data';
 import { LUMI_STATES } from '@/lumi/states';
 import { useLumi } from '@/lumi/store';
+import { isNightTime } from '@/lumi/time';
 import { shieldCopy } from '@/shield/copy';
 import { getSnoozesToday, grantSnooze, peekSnoozesToday } from '@/shield/snoozes';
 
@@ -35,8 +37,11 @@ type Phase = 'ask' | 'leaving' | 'snoozing';
 export default function ShieldScreen() {
   const insets = useSafeAreaInsets();
   const { settings } = useLumi();
-  const params = useLocalSearchParams<{ app?: string }>();
+  const params = useLocalSearchParams<{ app?: string; motivo?: 'noche' | 'limite' }>();
   const app = resolveApp(params.app, settings.thiefApps);
+  // En el horario de noche el escudo sale por la hora, no por el límite (`?motivo=noche` lo fuerza).
+  const night =
+    params.motivo === 'noche' || (params.motivo !== 'limite' && isNightTime(settings.nightStart, settings.nightEnd));
 
   const [phase, setPhase] = useState<Phase>('ask');
   const [message, setMessage] = useState('');
@@ -104,14 +109,17 @@ export default function ShieldScreen() {
           styles.content,
           { paddingTop: insets.top + 24, paddingBottom: Math.max(insets.bottom, 16) + 24 },
         ]}>
-        <AppTag app={app} label={shieldCopy.appTag(app.name)} />
+        <AppTag
+          app={app}
+          label={night ? shieldCopy.night.appTag(app.name, clockTime(settings.nightEnd)) : shieldCopy.appTag(app.name)}
+        />
 
         <SleepingLumi warmth={warmth} />
 
         <View style={styles.copyArea}>
           <Animated.View style={[styles.question, questionStyle]}>
-            <Text style={styles.title}>{shieldCopy.title(settings.lumiName)}</Text>
-            <Text style={styles.body}>{shieldCopy.body}</Text>
+            <Text style={styles.title}>{(night ? shieldCopy.night : shieldCopy).title(settings.lumiName)}</Text>
+            <Text style={styles.body}>{night ? shieldCopy.night.body : shieldCopy.body}</Text>
           </Animated.View>
           <Animated.View
             pointerEvents="none"

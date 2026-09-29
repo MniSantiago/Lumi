@@ -91,7 +91,9 @@ function NoPostcard() {
 function TonightPostcard({ pending }: { pending: PendingReturn }) {
   const { settings } = useLumi();
   const { saveReturnToAlbum, album, streak } = useGame();
-  const milestone = copy.streakMilestone(streak);
+  // Se decide al abrir: al guardarla, el álbum deja de estar vacío.
+  const [first] = useState(album.length === 0);
+  const milestone = copy.streakMilestone(streak) ?? (first ? copy.firstPostcard : null);
   const tonight = useMemo(() => nightlyReturnFrom(pending), [pending]);
   const cardRef = useRef<View>(null);
   const { destination } = tonight;
