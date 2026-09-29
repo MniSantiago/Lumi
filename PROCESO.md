@@ -1,6 +1,6 @@
 # Lumi: registro del proceso
 
-Última sesión: lunes 28 al martes 29 de septiembre de 2026 (noche): bloques de UX y preparación para producción (PR hasta #61).
+Última sesión: lunes 28 al martes 29 de septiembre de 2026 (noche): bloques de UX y preparación para producción (PR hasta #67).
 Para retomar: abre un chat en el proyecto "Cozy experience" (o pega este archivo y `BRIEF.md`) y di en qué paso vamos.
 
 ---
@@ -23,7 +23,7 @@ Para retomar: abre un chat en el proyecto "Cozy experience" (o pega este archivo
 | Backend (NestJS, Postgres, Resend): cuentas, recuperación de contraseña, borrado de cuenta y lista de espera | Hecho, sin desplegar | `backend/` |
 | Cuenta opcional en la app (cliente Orval) | Hecha | `app/src/account/`, `app/src/api/` |
 | Checklist de la App Store | Hecho | `APP_STORE.md` |
-| Horario de noche: Lumi duerme, escudo de noche y bonus por noche tranquila | Hecho (en iOS falta el escudo de noche nativo y leer los «5 min más» de la extensión, ver #15) | `app/src/lumi/time.ts`, `app/src/shield/`, `app/src/game/engine.ts` |
+| Horario de noche: Lumi duerme, escudo de noche y bonus por noche tranquila | Hecho (la parte nativa está en el borrador #15, sin probar en un iPhone) | `app/src/lumi/time.ts`, `app/src/shield/`, `app/src/game/engine.ts` |
 | Capturas de la App Store con titular en 5 idiomas | Herramienta lista; faltan las capturas del simulador | `landing/tools/capturas.sh` |
 | Entitlement de Family Controls | **Pendiente** (paso 4) | |
 | Compras reales (RevenueCat) | Código listo; **pendiente** crear productos, poner la clave en EAS y probar en sandbox | `app/src/purchases/revenuecat.ts` (sin clave, una build de la tienda dice que Plus no está disponible) |
@@ -168,7 +168,10 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 60 | #62 | Colección: cada objeto y amigo cuenta de dónde vino |
 | 61 | #63 | Postal: celebra cuando Lumi crece de etapa |
 | 62 | #64 | Hogar: el halo de Lumi cambia de color con su evolución |
-| — | #15 | **Borrador:** Screen Time nativo (encima de #60; fusionar cuando compile en un iPhone. Falta el escudo de noche en iOS, ver #57) |
+| 63 | #65 | CI: prueba de humo en la web (5 idiomas) y arreglo de contraste |
+| 64 | #66 | Tus números: noches tranquilas, chispas y días de descanso |
+| 65 | #67 | Aviso de buenas noches (opcional) a la hora de dormir |
+| — | #15 | **Borrador:** Screen Time nativo, con escudo de noche y noches movidas (encima de #64; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
 Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1` (ver `app/app.config.ts`); sin esas variables, la app es la de siempre.

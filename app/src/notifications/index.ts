@@ -6,7 +6,7 @@ import { AppState, Platform } from 'react-native';
 import { DESTINATIONS } from '@/game/destinations';
 import type { Destination } from '@/game/types';
 import { useLumi } from '@/lumi/store';
-import { nightlyReturnContent, trialReminderContent, weeklySummaryContent } from '@/notifications/copy';
+import { bedtimeContent, nightlyReturnContent, trialReminderContent, weeklySummaryContent } from '@/notifications/copy';
 
 export { permissionDeniedCopy } from '@/notifications/copy';
 
@@ -24,6 +24,7 @@ export { permissionDeniedCopy } from '@/notifications/copy';
 const NIGHTLY_ID = 'lumi.nightly-return';
 const TRIAL_ID = 'lumi.trial-reminder';
 const WEEKLY_ID = 'lumi.weekly-summary';
+const BEDTIME_ID = 'lumi.bedtime';
 
 /** El resumen de la semana: domingo (1 en expo-notifications) a las 19:00. */
 const WEEKLY_AT = { weekday: 1, hour: 19, minute: 0 };
@@ -155,6 +156,42 @@ export async function scheduleWeeklySummary(lumiName: string): Promise<void> {
   } catch {
     // Un aviso que no se programa no debe romper nada.
   }
+}
+
+/** Aviso diario a la hora de dormir. Como el semanal, no pide permiso: solo se programa si ya lo hay. */
+export async function scheduleBedtime(lumiName: string, nightStart: string): Promise<void> {
+  await cancel(BEDTIME_ID);
+  if (!(await canNotify())) return;
+  const [hour, minute] = nightStart.split(':').map(Number);
+  try {
+    await Notifications.scheduleNotificationAsync({
+      identifier: BEDTIME_ID,
+      content: { ...bedtimeContent(lumiName), sound: 'default' },
+      trigger: { type: Notifications.SchedulableTriggerInputTypes.DAILY, hour: hour || 0, minute: minute || 0 },
+    });
+  } catch {
+    // Un aviso que no se programa no debe romper nada.
+  }
+}
+
+export async function cancelBedtime(): Promise<void> {
+  await cancel(BEDTIME_ID);
+}
+
+/** Mantiene programado (o quitado) el aviso de buenas noches según los ajustes. */
+export function useBedtimeReminder(): void {
+  const { ready, settings } = useLumi();
+  const on = ready && settings.onboarded && settings.bedtimeReminder;
+  useEffect(() => {
+    if (!ready) return;
+    const sync = () => {
+      if (on) scheduleBedtime(settings.lumiName, settings.nightStart).catch(() => {});
+      else cancelBedtime().catch(() => {});
+    };
+    sync();
+    const sub = AppState.addEventListener('change', (state) => state === 'active' && sync());
+    return () => sub.remove();
+  }, [ready, on, settings.lumiName, settings.nightStart]);
 }
 
 export async function cancelWeeklySummary(): Promise<void> {

@@ -11,7 +11,7 @@ import { ProgressSync } from '@/account/sync';
 import { Colors } from '@/constants/theme';
 import { GameProvider } from '@/game/store';
 import { LumiProvider, useLumi } from '@/lumi/store';
-import { useNotificationRouting, useWeeklySummaryReminder } from '@/notifications';
+import { useNotificationRouting, useBedtimeReminder, useWeeklySummaryReminder } from '@/notifications';
 import { PlusSync } from '@/purchases/plus-sync';
 import { ScreenTimePlan } from '@/screen-time/plan';
 import { WidgetSync } from '@/widget/sync';
@@ -67,6 +67,7 @@ function RootStack() {
   const { ready, settings } = useLumi();
   useNotificationRouting();
   useWeeklySummaryReminder();
+  useBedtimeReminder();
 
   useEffect(() => {
     if (ready) SplashScreen.hideAsync();
