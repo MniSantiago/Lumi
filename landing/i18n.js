@@ -23,7 +23,7 @@
     document.querySelectorAll('a[href$=".html"], a[href="./"]').forEach((a) => {
       const url = new URL(a.getAttribute('href'), location.href);
       url.searchParams.set('lang', lang);
-      a.setAttribute('href', url.pathname.split('/').pop() + url.search + url.hash || './' + url.search);
+      a.setAttribute('href', (url.pathname.split('/').pop() || './') + url.search + url.hash);
     });
   }
 
