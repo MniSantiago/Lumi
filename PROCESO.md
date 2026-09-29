@@ -92,6 +92,8 @@ Trabajo en bloques, cada uno con su PR (ver «PRs de la sesión 3» abajo para e
 - **Backend NestJS** (`backend/`): cuentas opcionales, verificación y recuperación con códigos por correo (Resend), refresh con rotación, borrado de cuenta, copia del progreso, exportación, lista de espera con bienvenida, limpieza diaria y endurecimiento de seguridad. Tests e2e contra Postgres.
 - **App ↔ backend:** cliente con Orval (`npm run api:generate`), sesión en el llavero, sincronización del progreso entre iPhones.
 - **Idiomas:** la app, los correos y errores del backend, la landing, los legales y la ficha de la App Store siguen el idioma del dispositivo: español, inglés, chino simplificado, hindi y francés (si no, inglés). `tr()` tipado desde el español: si falta una traducción, no compila.
+- **Plus honesto:** Plus anuncia solo lo que existe (zonas exclusivas, escudo estricto y «Tus números»); lo demás (especies y colores, varios horarios, decoración) queda para cuando exista. Ver `APP_STORE.md`.
+- **Más UX:** aviso del domingo con el resumen, rachas redondas celebradas en la postal, selectores accesibles con VoiceOver, botones que crecen con el texto grande y cuenta de prueba para la revisión (`npm run review:account`).
 - **Producción:** RevenueCat (código listo), Screen Time nativo con `react-native-device-activity` (borrador sin compilar), EAS por entornos, blueprint de Render, CI en GitHub Actions y tests del motor del juego (jest-expo).
 
 #### PRs de la sesión 3 (orden de merge)
