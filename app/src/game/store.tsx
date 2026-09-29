@@ -125,12 +125,6 @@ function parseState(raw: string | null): GameState {
   }
 }
 
-/** Mañana en la que acaba la noche de `at`: antes de la hora de despertar, ese mismo día; si no, el siguiente. */
-function morningAfter(at: Date, nightEnd: string): DateKey {
-  const key = clock.dateKey(at);
-  return at.getHours() * 60 + at.getMinutes() < toMinutes(nightEnd) ? key : clock.addDays(key, 1);
-}
-
 export function GameProvider({ children }: { children: ReactNode }) {
   const { ready: lumiReady, threshold, settings } = useLumi();
   const [state, setState] = useState<GameState>(EMPTY_STATE);
