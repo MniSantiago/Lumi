@@ -11,6 +11,7 @@ import {
   emptyDay,
   evolutionFor,
   markRestlessNight as markRestless,
+  morningAfter,
   expeditionProgress,
   restDaysInWeek,
   RETURNS_AT,
@@ -24,7 +25,6 @@ import {
 } from '@/game/engine';
 import type { AlbumEntry, DateKey, DayRecord, Destination, ExpeditionResult } from '@/game/types';
 import { useLumi } from '@/lumi/store';
-import { toMinutes } from '@/lumi/time';
 import { cancelNightlyReturn, scheduleNightlyReturn } from '@/notifications';
 import { screenTime } from '@/screen-time';
 import { clockTime } from '@/i18n/dates';
