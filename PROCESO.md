@@ -1,6 +1,6 @@
 # Lumi: registro del proceso
 
-Última sesión: lunes 28 de septiembre de 2026.
+Última sesión: lunes 28 de septiembre de 2026 (noche): bloques de UX y preparación para producción.
 Para retomar: abre un chat en el proyecto "Cozy experience" (o pega este archivo y `BRIEF.md`) y di en qué paso vamos.
 
 ---
@@ -15,10 +15,17 @@ Para retomar: abre un chat en el proyecto "Cozy experience" (o pega este archivo
 | Fondo del hogar | Hecho e integrado | Original en `assets/Vertical-mobile-app-home-background-coz.png` |
 | Lumi en 4 estados con expresiones propias | Hecho (ilustraciones), recortados para la app | Originales en `assets/Radiante.png`, `Cansada.png`, `Apagadita.png`; recortes en `app/assets/lumi/`. El mockup HTML aún usa filtros CSS |
 | App Expo (SDK 57) con las 5 pestañas | Hecho (v1, datos de ejemplo y uso simulado) | `app/` |
-| Pantallas de onboarding, postal nocturna y paywall | **Pendiente** (paso 3) | |
+| Onboarding, postal nocturna, escudo, paywall y resumen semanal | Hecho en la app (datos de ejemplo y uso simulado) | `app/src/app/` |
+| Motor del ciclo diario (expediciones, postales, recompensas) | Hecho | `app/src/game/` |
+| Landing con lista de espera y plan de vídeos | Hecha; falta dominio y conectar `WAITLIST_ENDPOINT` al backend | `landing/` |
+| Privacidad, Términos y Ayuda (en la app y en la landing) | Borrador; falta revisarlo y poner correo de contacto | `app/src/legal/content.json` |
+| Backend (NestJS, Postgres, Resend): cuentas, recuperación de contraseña, borrado de cuenta y lista de espera | Hecho, sin desplegar | `backend/` |
+| Cuenta opcional en la app (cliente Orval) | Hecha | `app/src/account/`, `app/src/api/` |
+| Checklist de la App Store | Hecho | `APP_STORE.md` |
 | Entitlement de Family Controls | **Pendiente** (paso 4) | |
-| Validación (landing y TikTok) | **Pendiente** (paso 5) | |
-| Repositorio Git | En GitHub: `origin` = github.com/MniSantiago/Lumi (`main` y `feat/expo-app`) | Raíz de esta carpeta |
+| Compras reales (RevenueCat) | **Pendiente** | `app/src/purchases/` es un mock |
+| Validación (vídeos de TikTok) | **Pendiente** (paso 5) | `landing/videos.md` |
+| Repositorio Git | En GitHub: `origin` = github.com/MniSantiago/Lumi | Raíz de esta carpeta |
 
 ---
 
@@ -75,6 +82,16 @@ Lumi/
 - **Recorte de los estados** (`tools/cutout_states.py`): cuerpo y núcleo de los orbes opacos (con cierre morfológico y relleno de huecos), blancos encerrados como luz y halo con "color a alfa" conservando el tono a brillo máximo.
 - Ajustes guardados en el dispositivo (AsyncStorage). Todo lo demás son datos de ejemplo (`app/src/lumi/data.ts`).
 
+### Sesión 3 (28 sep, noche): UX y producción
+
+Trabajo en bloques, cada uno con su PR:
+1. **Ajustes editables:** nombres, apps ladronas y horario de noche sin repetir el onboarding.
+2. **Privacidad y Términos** en la app (el paywall ya abre sus enlaces) y en la landing, desde un solo `content.json`.
+3. **Hogar:** tocar a Lumi (saltito, vibración y frases por estado) y un medidor que usa el límite real del usuario.
+4. **Backend NestJS** (`backend/`): registro, login, refresh con rotación, verificación del correo, recuperación de contraseña con Resend, borrado de cuenta, lista de espera y OpenAPI. Tests e2e contra Postgres.
+5. **Cuenta opcional en la app** con cliente Orval (`npm run api:generate`), tokens en el llavero y pantallas de cuenta.
+6. **App Store:** privacy manifest, entorno de producción en EAS, página de Ayuda (URL de soporte) y `APP_STORE.md`.
+
 ### Prompts de Higgsfield (reutilizables)
 
 **Lumi:**
@@ -115,6 +132,8 @@ Lumi/
 ---
 
 ## 5. Pasos pendientes
+
+> Lo necesario para publicar está en `APP_STORE.md`. Lo más urgente: pedir el entitlement de Family Controls y desplegar el backend.
 
 ### Paso 2. Generar los 4 estados de Lumi (hecho para la app; falta llevarlos al mockup HTML)
 
@@ -165,5 +184,5 @@ Lumi/
 
 - **Descargas desde la nube:** el espacio de trabajo en la nube de Claude no puede descargar del CDN de Higgsfield (`cloudfront.net`). Las imágenes se descargan a mano en `assets/` y Claude las lee desde esta carpeta.
 - **Commits desde Claude:** en esta carpeta necesita permiso de borrado (Git borra sus archivos `.lock`); se concede por sesión.
-- **Repositorio:** en GitHub (`origin` = https://github.com/MniSantiago/Lumi). La app está en la rama `feat/expo-app`.
+- **Repositorio:** en GitHub (`origin` = https://github.com/MniSantiago/Lumi). Todo se trabaja en ramas con PR contra `main`.
 - **Expo:** proyecto `@mnisantiago/lumi` (https://expo.dev/accounts/mnisantiago/projects/lumi), vinculado en `app/app.json`.

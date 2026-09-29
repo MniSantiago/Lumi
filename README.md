@@ -7,6 +7,9 @@ El Finch del tiempo de pantalla: un espíritu de luz que vive contigo todo el d�
 | Ruta | Qué es |
 |---|---|
 | `app/` | **App de iOS con Expo** (ver `app/README.md`) |
+| `backend/` | **API en NestJS** (cuentas, recuperación de contraseña, lista de espera; ver `backend/README.md`) |
+| `landing/` | Landing con lista de espera, Privacidad, Términos y Ayuda |
+| `APP_STORE.md` | Checklist de lo que pide Apple para publicar, con su estado |
 | `BRIEF.md` | Brief del proyecto: idea, competidores, criatura, mecánica y alcance del MVP |
 | `PROCESO.md` | Estado actual, historial y **pasos pendientes** (léelo para retomar) |
 | `lumi-mockup.html` | Mockup interactivo para iPhone, generado (ábrelo en el navegador) |
@@ -27,3 +30,5 @@ python3 tools/build.py
 ```bash
 cd app && npm install && npx expo start
 ```
+
+Para la cuenta opcional, arranca también el backend (`backend/README.md`) y pon `EXPO_PUBLIC_API_URL=http://<ip-de-tu-mac>:3000` en `app/.env`. Si cambia la API: `npm run openapi` en `backend/` y `npm run api:generate` en `app/`.

@@ -1,13 +1,16 @@
 import { router } from 'expo-router';
-import type { ReactNode } from 'react';
-import { Alert, Linking, Pressable, StyleSheet, Switch, Text, View } from 'react-native';
+import { Alert, Linking, StyleSheet, Text, View } from 'react-native';
 
+import { exportMyData } from '@/account/export';
+import { useSession } from '@/account/session';
+import { AppIcon, Label, List, Row, Stepper, Toggle } from '@/components/onboarding/controls';
 import { PillButton, SectionTitle, Screen, TextLink } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
 import { plusFeatures } from '@/components/paywall/copy';
 import { useGame } from '@/game/store';
 import { thiefAppById, type ThiefApp } from '@/lumi/data';
 import { formatLimit, LIMIT_OPTIONS, useLumi } from '@/lumi/store';
+import { stepTime } from '@/lumi/time';
 import { cancelNightlyReturn, ensureNotificationPermission, permissionDeniedCopy } from '@/notifications';
 
 export default function SettingsScreen() {
@@ -39,15 +42,25 @@ export default function SettingsScreen() {
   return (
     <Screen title="Ajustes" subtitle="Lo que apaga la luz de Lumi y cuándo se va a dormir.">
       <View style={{ gap: 10 }}>
-        <SectionTitle
-          action={
-            <TextLink
-              label="Editar"
-              onPress={() =>
-                Alert.alert('Apps ladronas', 'Aquí se abrirá el selector de apps de Apple (FamilyActivityPicker).')
-              }
-            />
-          }>
+        <SectionTitle action={<TextLink label="Editar" onPress={() => router.push('/nombres')} />}>Nombres</SectionTitle>
+        <List>
+          <Row>
+            <Label title="Tú" />
+            <Text style={styles.val} numberOfLines={1}>
+              {settings.userName || 'Sin nombre'}
+            </Text>
+          </Row>
+          <Row last>
+            <Label title="Tu lucecita" />
+            <Text style={styles.val} numberOfLines={1}>
+              {settings.lumiName}
+            </Text>
+          </Row>
+        </List>
+      </View>
+
+      <View style={{ gap: 10 }}>
+        <SectionTitle action={<TextLink label="Editar" onPress={() => router.push('/apps')} />}>
           Apps ladronas
         </SectionTitle>
         <List>
@@ -58,9 +71,7 @@ export default function SettingsScreen() {
           ) : null}
           {apps.map((app, i) => (
             <Row key={app.id} last={i === apps.length - 1}>
-              <View style={[styles.ic, { experimental_backgroundImage: app.icon }]}>
-                <Text style={[styles.icLetter, app.ink ? { color: app.ink } : null]}>{app.letter}</Text>
-              </View>
+              <AppIcon app={app} />
               <Label title={app.name} sub={app.note} />
             </Row>
           ))}
@@ -72,24 +83,35 @@ export default function SettingsScreen() {
         <List>
           <Row>
             <Label title="Límite diario suave" sub="Lumi se cansa al acercarte" />
-            <View style={styles.stepper}>
-              <StepButton label="−" a11y="Reducir límite" disabled={limitIndex === 0} onPress={() => stepLimit(-1)} />
-              <Text style={styles.stepValue} accessibilityLiveRegion="polite">
-                {formatLimit(settings.limitMinutes)}
-              </Text>
-              <StepButton
-                label="+"
-                a11y="Aumentar límite"
-                disabled={limitIndex === LIMIT_OPTIONS.length - 1}
-                onPress={() => stepLimit(1)}
-              />
-            </View>
+            <Stepper
+              value={formatLimit(settings.limitMinutes)}
+              onDecrease={() => stepLimit(-1)}
+              onIncrease={() => stepLimit(1)}
+              canDecrease={limitIndex > 0}
+              canIncrease={limitIndex < LIMIT_OPTIONS.length - 1}
+              decreaseLabel="Reducir límite"
+              increaseLabel="Aumentar límite"
+            />
           </Row>
           <Row>
-            <Label title="Horario de noche" sub="Lumi duerme y las apps ladronas se tapan" />
-            <Text style={styles.val}>
-              {settings.nightStart} a {settings.nightEnd}
-            </Text>
+            <Label title="Se va a dormir" sub={`${settings.lumiName} duerme y las apps ladronas se tapan`} />
+            <Stepper
+              value={settings.nightStart}
+              onDecrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, -1) })}
+              onIncrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, 1) })}
+              decreaseLabel="Acostarse media hora antes"
+              increaseLabel="Acostarse media hora después"
+            />
+          </Row>
+          <Row>
+            <Label title="Se despierta" sub="Y vuelve de su expedición" />
+            <Stepper
+              value={settings.nightEnd}
+              onDecrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, -1) })}
+              onIncrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, 1) })}
+              decreaseLabel="Despertarse media hora antes"
+              increaseLabel="Despertarse media hora después"
+            />
           </Row>
           <Row>
             <Label title="Postal nocturna" sub="Aviso cuando Lumi vuelve" />
@@ -104,6 +126,11 @@ export default function SettingsScreen() {
             <Toggle label="Días de descanso" value={settings.restDays} onChange={(v) => updateSettings({ restDays: v })} />
           </Row>
         </List>
+      </View>
+
+      <View style={{ gap: 10 }}>
+        <SectionTitle>Cuenta</SectionTitle>
+        <AccountSection />
       </View>
 
       {__DEV__ ? (
@@ -164,101 +191,78 @@ export default function SettingsScreen() {
           </>
         )}
       </View>
+
+      <View style={styles.legal}>
+        <TextLink label="Ayuda" onPress={() => router.push('/legal/ayuda')} />
+        <Text style={styles.legalSep}>·</Text>
+        <TextLink label="Privacidad" onPress={() => router.push('/legal/privacidad')} />
+        <Text style={styles.legalSep}>·</Text>
+        <TextLink label="Términos" onPress={() => router.push('/legal/terminos')} />
+      </View>
     </Screen>
   );
 }
 
-function List({ children }: { children: ReactNode }) {
-  return <View style={styles.list}>{children}</View>;
-}
-
-function Row({ children, last }: { children: ReactNode; last?: boolean }) {
-  return <View style={[styles.row, !last && styles.rowDivider]}>{children}</View>;
-}
-
-function Label({ title, sub }: { title: string; sub?: string }) {
-  return (
-    <View style={styles.lbl}>
-      <Text style={styles.lblTitle}>{title}</Text>
-      {sub ? <Text style={styles.lblSub}>{sub}</Text> : null}
-    </View>
+/** Cuenta opcional: guardar el progreso, verificar el correo, contraseña, cerrar sesión y eliminarla. */
+function AccountSection() {
+  const { loading, user, signOut } = useSession();
+  const { settings } = useLumi();
+  const game = useGame();
+  if (loading) return null;
+  const downloadRow = (
+    <Row>
+      <Label title="Tus datos" sub="Todo lo que Lumi guarda de ti, en un archivo" />
+      <TextLink
+        label="Descargar"
+        onPress={() =>
+          void exportMyData({ settings, game: game.snapshot, user }).catch(() =>
+            Alert.alert('No se ha podido exportar', 'Vuelve a intentarlo en un momento.'),
+          )
+        }
+      />
+    </Row>
   );
-}
-
-function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: boolean) => void; label: string }) {
+  if (!user) {
+    return (
+      <List>
+        {downloadRow}
+        <Row last>
+          <Label title="Guarda tu progreso" sub="Opcional. Para no perder a Lumi si cambias de iPhone" />
+          <TextLink label="Empezar" onPress={() => router.push('/cuenta')} />
+        </Row>
+      </List>
+    );
+  }
+  const askSignOut = () =>
+    Alert.alert('¿Cerrar sesión?', 'Lumi y su progreso se quedan en este iPhone.', [
+      { text: 'Cancelar', style: 'cancel' },
+      { text: 'Cerrar sesión', onPress: () => void signOut() },
+    ]);
   return (
-    <Switch
-      accessibilityLabel={label}
-      value={value}
-      onValueChange={onChange}
-      trackColor={{ true: Colors.violet, false: 'rgba(201, 191, 242, 0.25)' }}
-      thumbColor="#FFFFFF"
-      ios_backgroundColor="rgba(201, 191, 242, 0.25)"
-    />
-  );
-}
-
-function StepButton({
-  label,
-  onPress,
-  disabled,
-  a11y,
-}: {
-  label: string;
-  onPress: () => void;
-  disabled?: boolean;
-  a11y: string;
-}) {
-  return (
-    <Pressable
-      accessibilityRole="button"
-      accessibilityLabel={a11y}
-      disabled={disabled}
-      onPress={onPress}
-      hitSlop={6}
-      style={({ pressed }) => [styles.stepBtn, disabled && { opacity: 0.35 }, pressed && { opacity: 0.7 }]}>
-      <Text style={styles.stepBtnText}>{label}</Text>
-    </Pressable>
+    <List>
+      <Row>
+        <Label title={user.email} sub={user.emailVerified ? 'Correo confirmado' : 'Falta confirmar el correo'} />
+        {user.emailVerified ? null : <TextLink label="Confirmar" onPress={() => router.push('/cuenta/verificar')} />}
+      </Row>
+      {downloadRow}
+      <Row>
+        <Label title="Contraseña" />
+        <TextLink label="Cambiar" onPress={() => router.push('/cuenta/contrasena')} />
+      </Row>
+      <Row>
+        <Label title="Cerrar sesión" />
+        <TextLink label="Salir" onPress={askSignOut} />
+      </Row>
+      <Row last>
+        <Label title="Eliminar la cuenta" sub="Borra tus datos de nuestro servidor" />
+        <TextLink label="Eliminar" onPress={() => router.push('/cuenta/eliminar')} />
+      </Row>
+    </List>
   );
 }
 
 const styles = StyleSheet.create({
-  list: {
-    backgroundColor: Colors.card,
-    borderWidth: 1,
-    borderColor: Colors.hairline,
-    borderRadius: 20,
-    borderCurve: 'continuous',
-    overflow: 'hidden',
-  },
-  row: { flexDirection: 'row', alignItems: 'center', gap: 12, paddingVertical: 13, paddingHorizontal: 14, minHeight: 52 },
-  rowDivider: { borderBottomWidth: 1, borderBottomColor: Colors.hairline },
-  ic: { width: 32, height: 32, borderRadius: 9, borderCurve: 'continuous', alignItems: 'center', justifyContent: 'center' },
-  icLetter: { fontFamily: Fonts.bodyBold, fontSize: 13, color: '#FFFFFF' },
-  lbl: { flex: 1, minWidth: 0 },
-  lblTitle: { fontFamily: Fonts.body, fontSize: 15, lineHeight: 20, color: Colors.text },
-  lblSub: { fontFamily: Fonts.body, fontSize: 12, lineHeight: 16, color: Colors.textTertiary },
-  val: { fontFamily: Fonts.body, fontSize: 14, color: Colors.textSecondary, fontVariant: ['tabular-nums'] },
-  stepper: { flexDirection: 'row', alignItems: 'center', gap: 8 },
-  stepBtn: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    borderWidth: 1,
-    borderColor: Colors.hairline,
-    backgroundColor: 'rgba(201, 191, 242, 0.1)',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  stepBtnText: { fontFamily: Fonts.body, fontSize: 17, lineHeight: 20, color: Colors.text },
-  stepValue: {
-    fontFamily: Fonts.bodySemiBold,
-    fontSize: 15,
-    color: Colors.text,
-    minWidth: 50,
-    textAlign: 'center',
-    fontVariant: ['tabular-nums'],
-  },
+  val: { fontFamily: Fonts.body, fontSize: 14, color: Colors.textSecondary, fontVariant: ['tabular-nums'], maxWidth: '55%' },
   plus: {
     gap: 10,
     padding: 18,
@@ -272,5 +276,7 @@ const styles = StyleSheet.create({
   bullet: { flexDirection: 'row', gap: 8, paddingLeft: 4 },
   bulletDot: { fontSize: 13.5, lineHeight: 19, color: Colors.textSecondary },
   bulletText: { flex: 1, fontFamily: Fonts.body, fontSize: 13.5, lineHeight: 19, color: Colors.textSecondary },
+  legal: { flexDirection: 'row', justifyContent: 'center', alignItems: 'center', gap: 10 },
+  legalSep: { fontSize: 13, color: Colors.textTertiary },
   plusSmall: { fontFamily: Fonts.body, fontSize: 12, lineHeight: 17, color: Colors.textTertiary },
 });

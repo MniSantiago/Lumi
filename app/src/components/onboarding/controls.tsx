@@ -1,6 +1,6 @@
 import { SymbolView } from 'expo-symbols';
 import { useState, type ReactNode, type Ref } from 'react';
-import { Pressable, StyleSheet, Text, TextInput, View, type TextInputProps } from 'react-native';
+import { Pressable, StyleSheet, Switch, Text, TextInput, View, type TextInputProps } from 'react-native';
 
 import { Colors, Fonts, Radius } from '@/constants/theme';
 import type { ThiefApp } from '@/lumi/data';
@@ -101,6 +101,20 @@ function StepButton({ label, onPress, disabled, a11y }: { label: string; onPress
       style={({ pressed }) => [styles.stepBtn, disabled && { opacity: 0.35 }, pressed && { opacity: 0.7 }]}>
       <Text style={styles.stepBtnText}>{label}</Text>
     </Pressable>
+  );
+}
+
+/** Interruptor del tema (violeta encendido). */
+export function Toggle({ value, onChange, label }: { value: boolean; onChange: (v: boolean) => void; label: string }) {
+  return (
+    <Switch
+      accessibilityLabel={label}
+      value={value}
+      onValueChange={onChange}
+      trackColor={{ true: Colors.violet, false: 'rgba(201, 191, 242, 0.25)' }}
+      thumbColor="#FFFFFF"
+      ios_backgroundColor="rgba(201, 191, 242, 0.25)"
+    />
   );
 }
 
