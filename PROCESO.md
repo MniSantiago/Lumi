@@ -156,6 +156,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 50 | #52 | Home: Lumi duerme en el horario de noche |
 | 51 | #53 | Pulido: contador de Colección traducido y semana vacía en Progreso |
 | 52 | #54 | Legales: menores y edad mínima; respuestas de la clasificación por edad |
+| 53 | #55 | Capturas de la App Store con titular en 5 idiomas |
 | — | #15 | **Borrador:** Screen Time nativo (encima de #47, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
