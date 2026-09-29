@@ -10,6 +10,7 @@ import { LUMI_STATES, type LumiState } from '@/lumi/states';
 import { formatLimit, LIMIT_OPTIONS } from '@/lumi/store';
 import { stepTime } from '@/lumi/time';
 import { tr } from '@/i18n';
+import { shieldCopy } from '@/shield/copy';
 import { clockTime } from '@/i18n/dates';
 
 /** Umbral en el que aparece cada estado (ver `stateForThreshold`). */
@@ -144,6 +145,34 @@ export default function LimitStep() {
       <View style={{ gap: 10 }}>
         <AppText variant="label">
           {tr({
+            es: 'Si te pasas, te encontrarás esto',
+            en: 'If you go over, this is what you’ll find',
+            zh: '如果超过上限，你会看到这个',
+            hi: 'सीमा पार करने पर तुम्हें यह दिखेगा',
+            fr: 'Si tu dépasses, voici ce que tu trouveras',
+          })}
+        </AppText>
+        <Card style={styles.shield}>
+          <Image
+            source={LUMI_STATES.apagadita.image}
+            style={styles.shieldLumi}
+            contentFit="contain"
+            accessibilityIgnoresInvertColors
+          />
+          <Text style={styles.shieldTitle}>{shieldCopy.title(lumiName)}</Text>
+          <View
+            style={styles.shieldButtons}
+            importantForAccessibility="no-hide-descendants"
+            accessibilityElementsHidden>
+            <Text style={[styles.shieldButton, styles.shieldPrimary]}>{shieldCopy.leave}</Text>
+            <Text style={styles.shieldButton}>{shieldCopy.snooze(0)}</Text>
+          </View>
+        </Card>
+      </View>
+
+      <View style={{ gap: 10 }}>
+        <AppText variant="label">
+          {tr({
             es: 'Horario de noche',
             en: 'Night schedule',
             zh: '夜间时段',
@@ -171,8 +200,8 @@ export default function LimitStep() {
                 fr: 'Va dormir',
               })}
               value={clockTime(draft.nightStart)}
-              onDecrease={() => setDraft({ nightStart: stepTime(draft.nightStart, -1) })}
-              onIncrease={() => setDraft({ nightStart: stepTime(draft.nightStart, 1) })}
+              onDecrease={() => setDraft({ nightStart: stepTime(draft.nightStart, -1, draft.nightEnd) })}
+              onIncrease={() => setDraft({ nightStart: stepTime(draft.nightStart, 1, draft.nightEnd) })}
               decreaseLabel={tr({
                 es: 'Acostarse media hora antes',
                 en: 'Go to bed half an hour earlier',
@@ -208,8 +237,8 @@ export default function LimitStep() {
                 fr: 'Se réveille',
               })}
               value={clockTime(draft.nightEnd)}
-              onDecrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, -1) })}
-              onIncrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, 1) })}
+              onDecrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, -1, draft.nightStart) })}
+              onIncrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, 1, draft.nightStart) })}
               decreaseLabel={tr({
                 es: 'Despertarse media hora antes',
                 en: 'Wake up half an hour earlier',
@@ -276,6 +305,21 @@ function stageWhen(limit: number, pct: number) {
 }
 
 const styles = StyleSheet.create({
+  shield: { alignItems: 'center', gap: 10, backgroundColor: Colors.nightDeep },
+  shieldLumi: { width: 84, height: 84, opacity: 0.85 },
+  shieldTitle: { fontFamily: Fonts.display, fontSize: 17, lineHeight: 23, color: Colors.text, textAlign: 'center' },
+  shieldButtons: { flexDirection: 'row', gap: 8, flexWrap: 'wrap', justifyContent: 'center' },
+  shieldButton: {
+    fontFamily: Fonts.bodySemiBold,
+    fontSize: 13,
+    color: Colors.text,
+    paddingHorizontal: 14,
+    paddingVertical: 8,
+    borderRadius: 999,
+    overflow: 'hidden',
+    backgroundColor: 'rgba(201, 191, 242, 0.12)',
+  },
+  shieldPrimary: { backgroundColor: Colors.amber, color: Colors.night },
   stages: { flexDirection: 'row', justifyContent: 'space-between' },
   stage: { flex: 1, alignItems: 'center', gap: 2 },
   stageImg: { width: 56, height: 56, marginBottom: 4 },

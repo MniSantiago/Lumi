@@ -15,7 +15,7 @@ export function meterNote(threshold: Threshold, limitMinutes: number) {
       es: `Has llegado a tu límite (${limit})`,
       en: `You’ve reached your limit (${limit})`,
       zh: `已到达你的上限（${limit}）`,
-      hi: `तुम अपनी सीमा तक पहुँच गए (${limit})`,
+      hi: `आज की सीमा पूरी हो गई (${limit})`,
       fr: `Tu as atteint ta limite (${limit})`,
     });
   if (threshold >= 75)

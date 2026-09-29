@@ -14,14 +14,17 @@ import { Colors, Fonts, Radius, Spacing } from '@/constants/theme';
 import { useGame, type GameApi } from '@/game/store';
 import type { Destination } from '@/game/types';
 import { tr } from '@/i18n';
+import { clockTime } from '@/i18n/dates';
 import { meterNote } from '@/lumi/meter';
-import { THRESHOLDS, type Threshold } from '@/lumi/states';
+import { LUMI_STATES, THRESHOLDS, type LumiState, type Threshold } from '@/lumi/states';
 import { useLumi } from '@/lumi/store';
+import { isNightTime } from '@/lumi/time';
 import { nightlyCopy } from '@/nightly/copy';
 import { screenTime } from '@/screen-time';
 
 function greeting(date = new Date()) {
   const h = date.getHours();
+  if (h < 5) return tr({ es: 'Ya es tarde', en: 'It’s late', zh: '夜深了', hi: 'रात काफ़ी हो गई', fr: 'Il est tard' });
   if (h >= 6 && h < 13)
     return tr({ es: 'Buenos días', en: 'Good morning', zh: '早上好', hi: 'सुप्रभात', fr: 'Bonjour' });
   if (h >= 13 && h < 20)
@@ -38,10 +41,31 @@ const broughtFrom = (d: Destination) =>
     fr: `Rapporte des souvenirs ${d.from}`,
   });
 
+/** Lumi durmiendo en el horario de noche: la ilustración de apagadita con su frase de buenas noches. */
+function nightState(wakesAt: string): LumiState {
+  const at = clockTime(wakesAt);
+  return {
+    ...LUMI_STATES.apagadita,
+    label: tr({ es: 'Durmiendo', en: 'Sleeping', zh: '睡觉中', hi: 'सो रही है', fr: 'Endormie' }),
+    bubble: tr({
+      es: `Zzz… Es hora de dormir. A las ${at} me despierto con más luz.`,
+      en: `Zzz… It’s bedtime. I’ll wake up brighter at ${at}.`,
+      zh: `Zzz……该睡觉了。${at}我会带着更多的光醒来。`,
+      hi: `Zzz… सोने का समय है। ${at} को और रोशनी के साथ जागूँगी।`,
+      fr: `Zzz… C’est l’heure de dormir. Je me réveille à ${at} avec plus de lumière.`,
+    }),
+  };
+}
+
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
-  const { state, threshold, settings } = useLumi();
+  const { state: dayState, threshold, settings } = useLumi();
+  // En el horario de noche Lumi duerme (como promete el onboarding), sea cual sea su luz.
+  const night = isNightTime(settings.nightStart, settings.nightEnd);
+  const state = night ? nightState(settings.nightEnd) : dayState;
   const game = useGame();
+  // El primer día se explica la regla: sin pasar de la mitad del límite, hay postal.
+  const firstDay = game.ready && game.history.length <= 1 && !game.pendingReturn && !night && dayState.lit > 2;
   // Al tocar a Lumi dice otra cosa; con cada cambio de estado vuelve a su frase principal.
   const [talk, setTalk] = useState<{ key: string; i: number }>({ key: state.key, i: -1 });
   const line = talk.key === state.key && talk.i >= 0 ? state.chatter[talk.i % state.chatter.length] : state.bubble;
@@ -95,7 +119,18 @@ export default function HomeScreen() {
         </View>
 
         <Card style={styles.meterCard}>
-          <LightMeter lit={state.lit} note={meterNote(threshold, settings.limitMinutes)} />
+          <LightMeter lit={dayState.lit} note={meterNote(threshold, settings.limitMinutes)} />
+          {firstDay ? (
+            <AppText variant="caption">
+              {tr({
+                es: 'Tus apps ladronas gastan su luz. Si hoy no pasas de la mitad de tu límite, esta noche vuelve con una postal.',
+                en: 'Your thief apps drain her light. Stay under half your limit today and she’ll bring you a postcard tonight.',
+                zh: '“偷时间”的应用会消耗她的光。今天用量不超过上限的一半，今晚她就会带着明信片回来。',
+                hi: 'चोर ऐप्स उसकी रोशनी खर्च करते हैं। आज सीमा का आधा भी पार न हो, तो आज रात वो पोस्टकार्ड लेकर लौटेगी।',
+                fr: 'Tes applis voleuses usent sa lumière. Reste sous la moitié de ta limite aujourd’hui et elle te rapporte une carte ce soir.',
+              })}
+            </AppText>
+          ) : null}
           {__DEV__ && screenTime.simulate ? <ThresholdSimulator value={threshold} /> : null}
         </Card>
 
@@ -124,7 +159,7 @@ export default function HomeScreen() {
         </View>
 
         {game.ready ? (
-          <ExpeditionCard game={game} lumiName={settings.lumiName} asleep={state.key === 'apagadita'} />
+          <ExpeditionCard game={game} lumiName={settings.lumiName} asleep={state.key === 'apagadita'} night={night} />
         ) : null}
       </View>
     </View>
@@ -135,7 +170,17 @@ export default function HomeScreen() {
  * Qué hace Lumi hoy: de expedición (con la barra hacia las 21:00), en casa, o
  * de vuelta con una postal por abrir.
  */
-function ExpeditionCard({ game, lumiName, asleep }: { game: GameApi; lumiName: string; asleep: boolean }) {
+function ExpeditionCard({
+  game,
+  lumiName,
+  asleep,
+  night,
+}: {
+  game: GameApi;
+  lumiName: string;
+  asleep: boolean;
+  night: boolean;
+}) {
   const { pendingReturn, currentDestination, todayRecord, returnsAt } = game;
 
   if (pendingReturn) {
@@ -177,6 +222,35 @@ function ExpeditionCard({ game, lumiName, asleep }: { game: GameApi; lumiName: s
 
   const back = todayRecord.closed && todayRecord.expedition;
   const exploring = !!currentDestination && !todayRecord.closed;
+
+  // De madrugada el día ya ha empezado, pero Lumi aún duerme: sale al despertar.
+  if (night && exploring && game.expeditionProgress === 0) {
+    return (
+      <Card style={{ gap: 6 }}>
+        <AppText variant="label">
+          {tr({ es: 'Esta noche', en: 'Tonight', zh: '今晚', hi: 'आज रात', fr: 'Cette nuit' })}
+        </AppText>
+        <AppText variant="heading">
+          {tr({
+            es: `${lumiName} está durmiendo`,
+            en: `${lumiName} is asleep`,
+            zh: `${lumiName}正在睡觉`,
+            hi: `${lumiName} सो रही है`,
+            fr: `${lumiName} dort`,
+          })}
+        </AppText>
+        <AppText variant="caption">
+          {tr({
+            es: `Al despertar sale hacia ${currentDestination.the}`,
+            en: `When she wakes up, she’s off to ${currentDestination.the}`,
+            zh: `醒来后出发去${currentDestination.the}`,
+            hi: `जागकर ${currentDestination.the} के सफ़र पर निकलेगी`,
+            fr: `À son réveil, elle part vers ${currentDestination.the}`,
+          })}
+        </AppText>
+      </Card>
+    );
+  }
   const label = exploring
     ? tr({
         es: 'Expedición en curso',
@@ -210,27 +284,35 @@ function ExpeditionCard({ game, lumiName, asleep }: { game: GameApi; lumiName: s
           hi: `${lumiName} ${currentDestination.from} से लौट आई`,
           fr: `${lumiName} est rentrée ${currentDestination.from}`,
         })
-      : asleep
+      : night
         ? tr({
-            es: `${lumiName} duerme la siesta`,
-            en: `${lumiName} is napping`,
-            zh: `${lumiName}在睡午觉`,
-            hi: `${lumiName} झपकी ले रही है`,
-            fr: `${lumiName} fait la sieste`,
+            es: `${lumiName} está durmiendo`,
+            en: `${lumiName} is asleep`,
+            zh: `${lumiName}正在睡觉`,
+            hi: `${lumiName} सो रही है`,
+            fr: `${lumiName} dort`,
           })
-        : tr({
-            es: `${lumiName} está descansando en la madriguera`,
-            en: `${lumiName} is resting in her burrow`,
-            zh: `${lumiName}在小窝里休息`,
-            hi: `${lumiName} अपने घर में आराम कर रही है`,
-            fr: `${lumiName} se repose dans son terrier`,
-          });
+        : asleep
+          ? tr({
+              es: `${lumiName} duerme la siesta`,
+              en: `${lumiName} is napping`,
+              zh: `${lumiName}在睡午觉`,
+              hi: `${lumiName} झपकी ले रही है`,
+              fr: `${lumiName} fait la sieste`,
+            })
+          : tr({
+              es: `${lumiName} está descansando en la madriguera`,
+              en: `${lumiName} is resting in her burrow`,
+              zh: `${lumiName}在小窝里休息`,
+              hi: `${lumiName} अपने घर में आराम कर रही है`,
+              fr: `${lumiName} se repose dans son terrier`,
+            });
   const sub = exploring
     ? tr({
         es: `Vuelve a las ${returnsAt} con una postal`,
         en: `Back at ${returnsAt} with a postcard`,
         zh: `${returnsAt}带着明信片回来`,
-        hi: `${returnsAt} बजे पोस्टकार्ड लेकर लौटेगी`,
+        hi: `${returnsAt} को पोस्टकार्ड लेकर लौटेगी`,
         fr: `Rentre à ${returnsAt} avec une carte`,
       })
     : back

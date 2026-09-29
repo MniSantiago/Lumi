@@ -34,6 +34,10 @@ export function langFrom(header: string | undefined): Lang {
 
 export const currentLang = (): Lang => storage.getStore() ?? 'es';
 
+/** Ejecuta `fn` en un idioma concreto (scripts y tareas fuera de una petición). */
+export const withLang = <T>(lang: Lang, fn: () => T): T =>
+  storage.run(lang, fn);
+
 /** Elige el texto del idioma de la petición. */
 export function tr<T>(
   texts: { es: T } & Record<Exclude<Lang, 'es'>, NoInfer<T>>,

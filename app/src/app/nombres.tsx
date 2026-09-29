@@ -3,7 +3,7 @@ import { TextInput, View } from 'react-native';
 
 import { useSession } from '@/account/session';
 import { updateMe } from '@/api/generated';
-import { Field } from '@/components/onboarding/controls';
+import { Field, NAME_MAX } from '@/components/onboarding/controls';
 import { PrimaryButton } from '@/components/onboarding/step-shell';
 import { closeSheet, Sheet } from '@/components/sheet';
 import { useLumi } from '@/lumi/store';
@@ -74,6 +74,7 @@ export default function NamesSheet() {
           })}
           value={userName}
           onChangeText={setUserName}
+          maxLength={NAME_MAX}
           autoCapitalize="words"
           autoComplete="given-name"
           textContentType="givenName"
@@ -93,6 +94,7 @@ export default function NamesSheet() {
           placeholder="Lumi"
           value={lumiName}
           onChangeText={setLumiName}
+          maxLength={NAME_MAX}
           autoCapitalize="words"
           returnKeyType="done"
           onSubmitEditing={() => changed && save()}

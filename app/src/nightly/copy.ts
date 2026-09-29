@@ -60,6 +60,13 @@ export const nightlyCopy = {
           fr: `✨ ${days} jours de lumière d’affilée. Quelle jolie série !`,
         })
       : null,
+  firstPostcard: tr({
+    es: '✨ ¡Tu primera postal! La primera de muchas.',
+    en: '✨ Your first postcard! The first of many.',
+    zh: '✨ 你的第一张明信片！以后还会有很多。',
+    hi: '✨ तुम्हारा पहला पोस्टकार्ड! ऐसे बहुत आएँगे।',
+    fr: '✨ Ta première carte ! La première d’une longue série.',
+  }),
   sparksUnit: tr({ es: 'chispas', en: 'sparks', zh: '火花', hi: 'चिंगारियाँ', fr: 'étincelles' }),
   skipHint: tr({
     es: 'Toca para verlo todo',
@@ -92,7 +99,7 @@ export const nightlyCopy = {
       es: `${lumiName} aún está de expedición. Vuelve a las ${returnsAt} 🌙`,
       en: `${lumiName} is still exploring. She’ll be back at ${returnsAt} 🌙`,
       zh: `${lumiName}还在探险，${returnsAt}回来 🌙`,
-      hi: `${lumiName} अभी सफ़र पर है। ${returnsAt} बजे लौटेगी 🌙`,
+      hi: `${lumiName} अभी सफ़र पर है। ${returnsAt} को लौटेगी 🌙`,
       fr: `${lumiName} est encore en expédition. Elle rentre à ${returnsAt} 🌙`,
     }),
   nothingNew: (lumiName: string) =>

@@ -45,6 +45,13 @@
         ]
       },
       {
+        "heading": "Menores",
+        "body": [
+          "Lumi no está pensada para menores de 13 años. Para crear una cuenta necesitas tener al menos 13 años, o la edad que pida tu país para aceptar esto por tu cuenta si es mayor (en España, 14).",
+          "Sin cuenta, nada sale de tu iPhone. Si crees que un menor nos ha dado su correo, escríbenos y lo borramos."
+        ]
+      },
+      {
         "heading": "Tus derechos",
         "body": [
           "Desde Ajustes › Cuenta puedes descargar todos tus datos en un archivo (Tus datos › Descargar), corregir tus nombres y eliminar la cuenta. También puedes pedírnoslo escribiendo al correo de soporte que aparece en la ficha de Lumi en la App Store."
@@ -75,7 +82,8 @@
       {
         "heading": "Uso justo",
         "body": [
-          "Lumi es para tu uso personal. No intentes copiar, revender ni modificar la app o sus ilustraciones."
+          "Lumi es para tu uso personal. No intentes copiar, revender ni modificar la app o sus ilustraciones.",
+          "Para crear una cuenta necesitas tener al menos 13 años (o la edad mínima de tu país, si es mayor)."
         ]
       },
       {

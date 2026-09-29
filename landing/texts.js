@@ -163,6 +163,8 @@ window.LUMI_ROWS = [
   ['Invita a alguien que también necesite un Lumi', 'Invite someone who also needs a Lumi', '邀请一个也需要 Lumi 的人', 'किसी ऐसे को बुलाओ जिसे भी एक Lumi चाहिए', 'Invite quelqu’un qui a aussi besoin d’un Lumi'],
 
   // ── Mensajes de main.js ──
+  ['Descargar en la App Store', 'Download on the App Store', '在 App Store 下载', 'App Store से डाउनलोड करो', 'Télécharger dans l’App Store'],
+  ['Ya en el iPhone', 'Now on iPhone', '现已登陆 iPhone', 'अब iPhone पर', 'Disponible sur iPhone'],
   ['He encontrado una mascota que brilla cuando sueltas el móvil. Creo que tú también necesitas un Lumi.', 'I found a pet that shines when you put your phone down. I think you need a Lumi too.', '我发现了一只你放下手机就会发光的宠物。我觉得你也需要一个 Lumi。', 'मुझे एक पालतू मिला जो फ़ोन रखते ही चमकता है। मुझे लगता है तुम्हें भी एक Lumi चाहिए।', 'J’ai trouvé une mascotte qui brille quand tu poses ton téléphone. Je crois que toi aussi, tu as besoin d’un Lumi.'],
   ['Enlace copiado. Pégaselo a quien quieras.', 'Link copied. Paste it to whoever you like.', '链接已复制。发给你想分享的人吧。', 'लिंक कॉपी हो गया। जिसे चाहो भेज दो।', 'Lien copié. Colle-le à qui tu veux.'],
   ['Copia este enlace:', 'Copy this link:', '复制这个链接：', 'यह लिंक कॉपी करो:', 'Copie ce lien :'],
