@@ -9,7 +9,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { Fireflies } from '@/components/fireflies';
 import { LightMeter } from '@/components/light-meter';
 import { LumiAvatar } from '@/components/lumi-avatar';
-import { AppText, Card, Pill } from '@/components/ui';
+import { AppText, Card, Pill, WEB_TABS_INSET } from '@/components/ui';
 import { Colors, Fonts, Radius, Spacing } from '@/constants/theme';
 import { useGame, type GameApi } from '@/game/store';
 import type { Destination } from '@/game/types';
@@ -68,7 +68,7 @@ export default function HomeScreen() {
       <View
         style={[
           styles.content,
-          { paddingTop: insets.top + Spacing.two, paddingBottom: insets.bottom + Spacing.three },
+          { paddingTop: insets.top + Spacing.two + WEB_TABS_INSET, paddingBottom: insets.bottom + Spacing.three },
         ]}>
         <View style={styles.header}>
           <View>
