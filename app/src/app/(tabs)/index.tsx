@@ -1,34 +1,57 @@
-import { Image } from 'expo-image';
-import { router } from 'expo-router';
-import { LinearGradient } from 'expo-linear-gradient';
-import { useState } from 'react';
-import { Pressable, StyleSheet, Text, View } from 'react-native';
-import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Image } from "expo-image";
+import { router } from "expo-router";
+import { LinearGradient } from "expo-linear-gradient";
+import { useState } from "react";
+import { Pressable, StyleSheet, Text, View } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { haptic } from '@/haptics';
-import { Fireflies } from '@/components/fireflies';
-import { LightMeter } from '@/components/light-meter';
-import { LumiAvatar } from '@/components/lumi-avatar';
-import { AppText, Card, Pill, WEB_TABS_INSET } from '@/components/ui';
-import { Colors, Fonts, Radius, Spacing } from '@/constants/theme';
-import { useGame, type GameApi } from '@/game/store';
-import type { Destination } from '@/game/types';
-import { tr } from '@/i18n';
-import { clockTime } from '@/i18n/dates';
-import { meterNote } from '@/lumi/meter';
-import { LUMI_STATES, THRESHOLDS, type LumiState, type Threshold } from '@/lumi/states';
-import { useLumi } from '@/lumi/store';
-import { isNightTime } from '@/lumi/time';
-import { nightlyCopy } from '@/nightly/copy';
-import { screenTime } from '@/screen-time';
+import { haptic } from "@/haptics";
+import { Fireflies } from "@/components/fireflies";
+import { LightMeter } from "@/components/light-meter";
+import { LumiAvatar } from "@/components/lumi-avatar";
+import { AppText, Card, Pill, WEB_TABS_INSET } from "@/components/ui";
+import { Colors, Fonts, Radius, Spacing } from "@/constants/theme";
+import { useGame, type GameApi } from "@/game/store";
+import type { Destination } from "@/game/types";
+import { tr } from "@/i18n";
+import { clockTime } from "@/i18n/dates";
+import { meterNote } from "@/lumi/meter";
+import {
+  LUMI_STATES,
+  THRESHOLDS,
+  type LumiState,
+  type Threshold,
+} from "@/lumi/states";
+import { useLumi } from "@/lumi/store";
+import { isNightTime } from "@/lumi/time";
+import { nightlyCopy } from "@/nightly/copy";
+import { screenTime } from "@/screen-time";
 
 function greeting(date = new Date()) {
   const h = date.getHours();
   if (h >= 6 && h < 13)
-    return tr({ es: 'Buenos días', en: 'Good morning', zh: '早上好', hi: 'सुप्रभात', fr: 'Bonjour' });
+    return tr({
+      es: "Buenos días",
+      en: "Good morning",
+      zh: "早上好",
+      hi: "सुप्रभात",
+      fr: "Bonjour",
+    });
   if (h >= 13 && h < 20)
-    return tr({ es: 'Buenas tardes', en: 'Good afternoon', zh: '下午好', hi: 'नमस्ते', fr: 'Bon après-midi' });
-  return tr({ es: 'Buenas noches', en: 'Good evening', zh: '晚上好', hi: 'शुभ संध्या', fr: 'Bonsoir' });
+    return tr({
+      es: "Buenas tardes",
+      en: "Good afternoon",
+      zh: "下午好",
+      hi: "नमस्ते",
+      fr: "Bon après-midi",
+    });
+  return tr({
+    es: "Buenas noches",
+    en: "Good evening",
+    zh: "晚上好",
+    hi: "शुभ संध्या",
+    fr: "Bonsoir",
+  });
 }
 
 const broughtFrom = (d: Destination) =>
@@ -45,7 +68,13 @@ function nightState(wakesAt: string): LumiState {
   const at = clockTime(wakesAt);
   return {
     ...LUMI_STATES.apagadita,
-    label: tr({ es: 'Durmiendo', en: 'Sleeping', zh: '睡觉中', hi: 'सो रही है', fr: 'Endormie' }),
+    label: tr({
+      es: "Durmiendo",
+      en: "Sleeping",
+      zh: "睡觉中",
+      hi: "सो रही है",
+      fr: "Endormie",
+    }),
     bubble: tr({
       es: `Zzz… Es hora de dormir. A las ${at} me despierto con más luz.`,
       en: `Zzz… It’s bedtime. I’ll wake up brighter at ${at}.`,
@@ -60,24 +89,41 @@ export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const { state: dayState, threshold, settings } = useLumi();
   // En el horario de noche Lumi duerme (como promete el onboarding), sea cual sea su luz.
-  const state = isNightTime(settings.nightStart, settings.nightEnd) ? nightState(settings.nightEnd) : dayState;
+  const night = isNightTime(settings.nightStart, settings.nightEnd);
+  const state = night ? nightState(settings.nightEnd) : dayState;
   const game = useGame();
   // Al tocar a Lumi dice otra cosa; con cada cambio de estado vuelve a su frase principal.
-  const [talk, setTalk] = useState<{ key: string; i: number }>({ key: state.key, i: -1 });
-  const line = talk.key === state.key && talk.i >= 0 ? state.chatter[talk.i % state.chatter.length] : state.bubble;
+  const [talk, setTalk] = useState<{ key: string; i: number }>({
+    key: state.key,
+    i: -1,
+  });
+  const line =
+    talk.key === state.key && talk.i >= 0
+      ? state.chatter[talk.i % state.chatter.length]
+      : state.bubble;
   const onPokeLumi = () => {
     haptic.light();
-    setTalk((prev) => ({ key: state.key, i: prev.key === state.key ? prev.i + 1 : 0 }));
+    setTalk((prev) => ({
+      key: state.key,
+      i: prev.key === state.key ? prev.i + 1 : 0,
+    }));
   };
 
   return (
     <View style={styles.root}>
-      <Image source={require('@/assets/images/fondo-hogar.jpg')} style={StyleSheet.absoluteFill} contentFit="cover" />
+      <Image
+        source={require("@/assets/images/fondo-hogar.jpg")}
+        style={StyleSheet.absoluteFill}
+        contentFit="cover"
+      />
       <Fireflies glow={state.glow} />
       {/* El mundo se oscurece al gastarse la luz de Lumi. */}
       <View
         pointerEvents="none"
-        style={[StyleSheet.absoluteFill, { backgroundColor: Colors.nightDeep, opacity: state.dim }]}
+        style={[
+          StyleSheet.absoluteFill,
+          { backgroundColor: Colors.nightDeep, opacity: state.dim },
+        ]}
       />
       <LinearGradient
         pointerEvents="none"
@@ -88,34 +134,47 @@ export default function HomeScreen() {
       <View
         style={[
           styles.content,
-          { paddingTop: insets.top + Spacing.two + WEB_TABS_INSET, paddingBottom: insets.bottom + Spacing.three },
-        ]}>
+          {
+            paddingTop: insets.top + Spacing.two + WEB_TABS_INSET,
+            paddingBottom: insets.bottom + Spacing.three,
+          },
+        ]}
+      >
         <View style={styles.header}>
           <View>
             <AppText variant="caption">
-              {settings.userName ? `${greeting()}, ${settings.userName}` : greeting()}
+              {settings.userName
+                ? `${greeting()}, ${settings.userName}`
+                : greeting()}
             </AppText>
             <AppText variant="display">{settings.lumiName}</AppText>
           </View>
           <Pressable
-            style={({ pressed }) => [styles.sparks, pressed && { opacity: 0.75 }]}
+            style={({ pressed }) => [
+              styles.sparks,
+              pressed && { opacity: 0.75 },
+            ]}
             accessibilityRole="button"
             accessibilityLabel={`${game.sparks} ${nightlyCopy.sparksUnit}`}
             accessibilityHint={tr({
-              es: 'Qué son y cómo se consiguen',
-              en: 'What they are and how to get them',
-              zh: '火花是什么、怎么获得',
-              hi: 'ये क्या हैं और कैसे मिलती हैं',
-              fr: 'Ce que c’est et comment en gagner',
+              es: "Qué son y cómo se consiguen",
+              en: "What they are and how to get them",
+              zh: "火花是什么、怎么获得",
+              hi: "ये क्या हैं और कैसे मिलती हैं",
+              fr: "Ce que c’est et comment en gagner",
             })}
             hitSlop={8}
-            onPress={() => router.push('/chispas')}>
+            onPress={() => router.push("/chispas")}
+          >
             <Text style={styles.sparksText}>✦ {game.sparks}</Text>
           </Pressable>
         </View>
 
         <Card style={styles.meterCard}>
-          <LightMeter lit={state.lit} note={meterNote(threshold, settings.limitMinutes)} />
+          <LightMeter
+            lit={dayState.lit}
+            note={meterNote(threshold, settings.limitMinutes)}
+          />
           {__DEV__ ? <ThresholdSimulator value={threshold} /> : null}
         </Card>
 
@@ -131,20 +190,28 @@ export default function HomeScreen() {
             size={190}
             onPress={onPokeLumi}
             accessibilityHint={tr({
-              es: 'Le dice algo',
-              en: 'Says something',
-              zh: '跟你说句话',
-              hi: 'कुछ कहती है',
-              fr: 'Te dit quelque chose',
+              es: "Le dice algo",
+              en: "Says something",
+              zh: "跟你说句话",
+              hi: "कुछ कहती है",
+              fr: "Te dit quelque chose",
             })}
           />
-          <Pill tone={state.exploring ? 'amber' : 'lavender'} style={styles.statePill}>
+          <Pill
+            tone={state.exploring ? "amber" : "lavender"}
+            style={styles.statePill}
+          >
             {state.label}
           </Pill>
         </View>
 
         {game.ready ? (
-          <ExpeditionCard game={game} lumiName={settings.lumiName} asleep={state.key === 'apagadita'} />
+          <ExpeditionCard
+            game={game}
+            lumiName={settings.lumiName}
+            asleep={state.key === "apagadita"}
+            night={night}
+          />
         ) : null}
       </View>
     </View>
@@ -155,7 +222,17 @@ export default function HomeScreen() {
  * Qué hace Lumi hoy: de expedición (con la barra hacia las 21:00), en casa, o
  * de vuelta con una postal por abrir.
  */
-function ExpeditionCard({ game, lumiName, asleep }: { game: GameApi; lumiName: string; asleep: boolean }) {
+function ExpeditionCard({
+  game,
+  lumiName,
+  asleep,
+  night,
+}: {
+  game: GameApi;
+  lumiName: string;
+  asleep: boolean;
+  night: boolean;
+}) {
   const { pendingReturn, currentDestination, todayRecord, returnsAt } = game;
 
   if (pendingReturn) {
@@ -163,21 +240,22 @@ function ExpeditionCard({ game, lumiName, asleep }: { game: GameApi; lumiName: s
       <Pressable
         accessibilityRole="button"
         accessibilityHint={tr({
-          es: 'Abre la postal nocturna',
-          en: 'Opens tonight’s postcard',
-          zh: '打开今晚的明信片',
-          hi: 'आज रात का पोस्टकार्ड खोलता है',
-          fr: 'Ouvre la carte du soir',
+          es: "Abre la postal nocturna",
+          en: "Opens tonight’s postcard",
+          zh: "打开今晚的明信片",
+          hi: "आज रात का पोस्टकार्ड खोलता है",
+          fr: "Ouvre la carte du soir",
         })}
-        onPress={() => router.push('/postal')}>
+        onPress={() => router.push("/postal")}
+      >
         <Card style={[{ gap: 6 }, styles.returnCard]}>
           <AppText variant="label">
             {tr({
-              es: 'Postal nueva 🌙',
-              en: 'New postcard 🌙',
-              zh: '新明信片 🌙',
-              hi: 'नया पोस्टकार्ड 🌙',
-              fr: 'Nouvelle carte 🌙',
+              es: "Postal nueva 🌙",
+              en: "New postcard 🌙",
+              zh: "新明信片 🌙",
+              hi: "नया पोस्टकार्ड 🌙",
+              fr: "Nouvelle carte 🌙",
             })}
           </AppText>
           <AppText variant="heading">
@@ -189,7 +267,9 @@ function ExpeditionCard({ game, lumiName, asleep }: { game: GameApi; lumiName: s
               fr: `${lumiName} est rentrée ! Touche pour voir la carte`,
             })}
           </AppText>
-          <AppText variant="caption">{broughtFrom(pendingReturn.destination)}</AppText>
+          <AppText variant="caption">
+            {broughtFrom(pendingReturn.destination)}
+          </AppText>
         </Card>
       </Pressable>
     );
@@ -197,22 +277,63 @@ function ExpeditionCard({ game, lumiName, asleep }: { game: GameApi; lumiName: s
 
   const back = todayRecord.closed && todayRecord.expedition;
   const exploring = !!currentDestination && !todayRecord.closed;
+
+  // De madrugada el día ya ha empezado, pero Lumi aún duerme: sale al despertar.
+  if (night && exploring && game.expeditionProgress === 0) {
+    return (
+      <Card style={{ gap: 6 }}>
+        <AppText variant="label">
+          {tr({
+            es: "Esta noche",
+            en: "Tonight",
+            zh: "今晚",
+            hi: "आज रात",
+            fr: "Cette nuit",
+          })}
+        </AppText>
+        <AppText variant="heading">
+          {tr({
+            es: `${lumiName} está durmiendo`,
+            en: `${lumiName} is asleep`,
+            zh: `${lumiName}正在睡觉`,
+            hi: `${lumiName} सो रही है`,
+            fr: `${lumiName} dort`,
+          })}
+        </AppText>
+        <AppText variant="caption">
+          {tr({
+            es: `Al despertar sale hacia ${currentDestination.the}`,
+            en: `When she wakes up, she’s off to ${currentDestination.the}`,
+            zh: `醒来后出发去${currentDestination.the}`,
+            hi: `जागकर ${currentDestination.the} के सफ़र पर निकलेगी`,
+            fr: `À son réveil, elle part vers ${currentDestination.the}`,
+          })}
+        </AppText>
+      </Card>
+    );
+  }
   const label = exploring
     ? tr({
-        es: 'Expedición en curso',
-        en: 'On an expedition',
-        zh: '探险中',
-        hi: 'सफ़र जारी है',
-        fr: 'Expédition en cours',
+        es: "Expedición en curso",
+        en: "On an expedition",
+        zh: "探险中",
+        hi: "सफ़र जारी है",
+        fr: "Expédition en cours",
       })
     : back
-      ? tr({ es: 'Ya está en casa', en: 'Back home', zh: '已经到家了', hi: 'घर आ गई है', fr: 'Déjà rentrée' })
+      ? tr({
+          es: "Ya está en casa",
+          en: "Back home",
+          zh: "已经到家了",
+          hi: "घर आ गई है",
+          fr: "Déjà rentrée",
+        })
       : tr({
-          es: 'Hoy se queda en casa',
-          en: 'Staying home today',
-          zh: '今天待在家',
-          hi: 'आज घर पर है',
-          fr: 'Reste à la maison aujourd’hui',
+          es: "Hoy se queda en casa",
+          en: "Staying home today",
+          zh: "今天待在家",
+          hi: "आज घर पर है",
+          fr: "Reste à la maison aujourd’hui",
         });
   const title = exploring
     ? tr({
@@ -230,21 +351,29 @@ function ExpeditionCard({ game, lumiName, asleep }: { game: GameApi; lumiName: s
           hi: `${lumiName} ${currentDestination.from} से लौट आई`,
           fr: `${lumiName} est rentrée ${currentDestination.from}`,
         })
-      : asleep
+      : night
         ? tr({
-            es: `${lumiName} duerme la siesta`,
-            en: `${lumiName} is napping`,
-            zh: `${lumiName}在睡午觉`,
-            hi: `${lumiName} झपकी ले रही है`,
-            fr: `${lumiName} fait la sieste`,
+            es: `${lumiName} está durmiendo`,
+            en: `${lumiName} is asleep`,
+            zh: `${lumiName}正在睡觉`,
+            hi: `${lumiName} सो रही है`,
+            fr: `${lumiName} dort`,
           })
-        : tr({
-            es: `${lumiName} está descansando en la madriguera`,
-            en: `${lumiName} is resting in her burrow`,
-            zh: `${lumiName}在小窝里休息`,
-            hi: `${lumiName} अपने घर में आराम कर रही है`,
-            fr: `${lumiName} se repose dans son terrier`,
-          });
+        : asleep
+          ? tr({
+              es: `${lumiName} duerme la siesta`,
+              en: `${lumiName} is napping`,
+              zh: `${lumiName}在睡午觉`,
+              hi: `${lumiName} झपकी ले रही है`,
+              fr: `${lumiName} fait la sieste`,
+            })
+          : tr({
+              es: `${lumiName} está descansando en la madriguera`,
+              en: `${lumiName} is resting in her burrow`,
+              zh: `${lumiName}在小窝里休息`,
+              hi: `${lumiName} अपने घर में आराम कर रही है`,
+              fr: `${lumiName} se repose dans son terrier`,
+            });
   const sub = exploring
     ? tr({
         es: `Vuelve a las ${returnsAt} con una postal`,
@@ -255,26 +384,26 @@ function ExpeditionCard({ game, lumiName, asleep }: { game: GameApi; lumiName: s
       })
     : back
       ? tr({
-          es: 'Mañana, otra aventura ✨',
-          en: 'Another adventure tomorrow ✨',
-          zh: '明天，新的冒险 ✨',
-          hi: 'कल, एक और रोमांच ✨',
-          fr: 'Demain, une autre aventure ✨',
+          es: "Mañana, otra aventura ✨",
+          en: "Another adventure tomorrow ✨",
+          zh: "明天，新的冒险 ✨",
+          hi: "कल, एक और रोमांच ✨",
+          fr: "Demain, une autre aventure ✨",
         })
       : asleep
         ? tr({
-            es: 'Mañana se despierta con la luz al máximo',
-            en: 'Tomorrow she wakes up with full light',
-            zh: '明天醒来时光会是满满的',
-            hi: 'कल वो पूरी रोशनी के साथ जागेगी',
-            fr: 'Demain, elle se réveille avec toute sa lumière',
+            es: "Mañana se despierta con la luz al máximo",
+            en: "Tomorrow she wakes up with full light",
+            zh: "明天醒来时光会是满满的",
+            hi: "कल वो पूरी रोशनी के साथ जागेगी",
+            fr: "Demain, elle se réveille avec toute sa lumière",
           })
         : tr({
-            es: 'Mañana sale de viaje con la luz llena',
-            en: 'Tomorrow she sets off with full light',
-            zh: '明天带着满满的光出发旅行',
-            hi: 'कल वो पूरी रोशनी के साथ सफ़र पर निकलेगी',
-            fr: 'Demain, elle part en voyage pleine de lumière',
+            es: "Mañana sale de viaje con la luz llena",
+            en: "Tomorrow she sets off with full light",
+            zh: "明天带着满满的光出发旅行",
+            hi: "कल वो पूरी रोशनी के साथ सफ़र पर निकलेगी",
+            fr: "Demain, elle part en voyage pleine de lumière",
           });
   return (
     <Card style={{ gap: 6 }}>
@@ -286,8 +415,18 @@ function ExpeditionCard({ game, lumiName, asleep }: { game: GameApi; lumiName: s
           style={styles.track}
           accessible
           accessibilityRole="progressbar"
-          accessibilityValue={{ min: 0, max: 100, now: Math.round(game.expeditionProgress * 100) }}>
-          <View style={[styles.trackFill, { width: `${game.expeditionProgress * 100}%` }]} />
+          accessibilityValue={{
+            min: 0,
+            max: 100,
+            now: Math.round(game.expeditionProgress * 100),
+          }}
+        >
+          <View
+            style={[
+              styles.trackFill,
+              { width: `${game.expeditionProgress * 100}%` },
+            ]}
+          />
         </View>
       ) : null}
     </Card>
@@ -306,8 +445,13 @@ function ThresholdSimulator({ value }: { value: Threshold }) {
             onPress={() => screenTime.simulate?.(t)}
             accessibilityRole="button"
             accessibilityState={{ selected: t === value }}
-            style={[styles.simBtn, t === value && styles.simBtnOn]}>
-            <Text style={[styles.simText, t === value && { color: Colors.onAmber }]}>{t} %</Text>
+            style={[styles.simBtn, t === value && styles.simBtnOn]}
+          >
+            <Text
+              style={[styles.simText, t === value && { color: Colors.onAmber }]}
+            >
+              {t} %
+            </Text>
           </Pressable>
         ))}
       </View>
@@ -317,58 +461,96 @@ function ThresholdSimulator({ value }: { value: Threshold }) {
 
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: Colors.night },
-  topShade: { position: 'absolute', top: 0, left: 0, right: 0 },
-  content: { flex: 1, paddingHorizontal: Spacing.three + 4, gap: Spacing.three },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' },
+  topShade: { position: "absolute", top: 0, left: 0, right: 0 },
+  content: {
+    flex: 1,
+    paddingHorizontal: Spacing.three + 4,
+    gap: Spacing.three,
+  },
+  header: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+  },
   sparks: {
-    backgroundColor: 'rgba(255, 201, 107, 0.16)',
+    backgroundColor: "rgba(255, 201, 107, 0.16)",
     borderRadius: Radius.pill,
     paddingHorizontal: 12,
     paddingVertical: 6,
     marginBottom: 6,
   },
-  sparksText: { fontFamily: Fonts.bodyBold, color: Colors.amberPale, fontSize: 15, fontVariant: ['tabular-nums'] },
+  sparksText: {
+    fontFamily: Fonts.bodyBold,
+    color: Colors.amberPale,
+    fontSize: 15,
+    fontVariant: ["tabular-nums"],
+  },
   meterCard: { gap: Spacing.three },
-  statePill: { alignSelf: 'center', backgroundColor: 'rgba(19, 17, 46, 0.78)' },
-  stage: { flex: 1, alignItems: 'center', justifyContent: 'flex-end', gap: Spacing.two },
+  statePill: { alignSelf: "center", backgroundColor: "rgba(19, 17, 46, 0.78)" },
+  stage: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "flex-end",
+    gap: Spacing.two,
+  },
   bubble: {
     backgroundColor: Colors.lavenderPale,
     borderRadius: Radius.md,
-    borderCurve: 'continuous',
+    borderCurve: "continuous",
     paddingHorizontal: 16,
     paddingVertical: 12,
     maxWidth: 300,
     marginBottom: -4,
   },
-  bubbleText: { fontFamily: Fonts.bodyMedium, fontSize: 15, lineHeight: 21, color: Colors.night, textAlign: 'center' },
+  bubbleText: {
+    fontFamily: Fonts.bodyMedium,
+    fontSize: 15,
+    lineHeight: 21,
+    color: Colors.night,
+    textAlign: "center",
+  },
   bubbleTail: {
-    position: 'absolute',
+    position: "absolute",
     bottom: -7,
-    alignSelf: 'center',
+    alignSelf: "center",
     width: 14,
     height: 14,
     backgroundColor: Colors.lavenderPale,
-    transform: [{ rotate: '45deg' }],
+    transform: [{ rotate: "45deg" }],
     borderRadius: 3,
   },
-  returnCard: { borderColor: 'rgba(255, 201, 107, 0.45)', borderWidth: 1 },
+  returnCard: { borderColor: "rgba(255, 201, 107, 0.45)", borderWidth: 1 },
   track: {
     height: 6,
     borderRadius: Radius.pill,
-    backgroundColor: 'rgba(201, 191, 242, 0.14)',
+    backgroundColor: "rgba(201, 191, 242, 0.14)",
     marginTop: 6,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
-  trackFill: { height: '100%', borderRadius: Radius.pill, backgroundColor: Colors.amber },
-  sim: { gap: 6, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: Colors.hairline, paddingTop: 12 },
-  simRow: { flexDirection: 'row', gap: 6 },
+  trackFill: {
+    height: "100%",
+    borderRadius: Radius.pill,
+    backgroundColor: Colors.amber,
+  },
+  sim: {
+    gap: 6,
+    borderTopWidth: StyleSheet.hairlineWidth,
+    borderTopColor: Colors.hairline,
+    paddingTop: 12,
+  },
+  simRow: { flexDirection: "row", gap: 6 },
   simBtn: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: 6,
     borderRadius: Radius.pill,
-    backgroundColor: 'rgba(201, 191, 242, 0.12)',
+    backgroundColor: "rgba(201, 191, 242, 0.12)",
   },
   simBtnOn: { backgroundColor: Colors.amber },
-  simText: { fontFamily: Fonts.bodySemiBold, fontSize: 12, color: Colors.lavender, fontVariant: ['tabular-nums'] },
+  simText: {
+    fontFamily: Fonts.bodySemiBold,
+    fontSize: 12,
+    color: Colors.lavender,
+    fontVariant: ["tabular-nums"],
+  },
 });
