@@ -9,12 +9,14 @@ import {
 import helmet from 'helmet';
 
 import type { Env } from './config/env.js';
+import { requestLogger } from './request-logger.js';
 
 /** Lo común a `main.ts`, los tests e2e y la generación del OpenAPI. */
 export function configureApp(app: NestExpressApplication) {
   // El progreso guardado puede pasar de los 100 kB por defecto (tope real: 512 kB en ProgressController).
   app.useBodyParser('json', { limit: '1mb' });
   const config = app.get<ConfigService<Env, true>>(ConfigService);
+  app.use(requestLogger);
   app.use(helmet());
   app.enableCors({
     origin: config.get('CORS_ORIGINS', { infer: true }),

@@ -387,6 +387,19 @@ describe('Cuentas (e2e)', () => {
     expect(rows[0].n).toBe(0);
   });
 
+  it('devuelve un X-Request-Id (el que llega, si es válido)', async () => {
+    const own = await http()
+      .get('/me')
+      .set('X-Request-Id', 'soporte-12345678')
+      .expect(401);
+    expect(own.headers['x-request-id']).toBe('soporte-12345678');
+    const generated = await http()
+      .get('/me')
+      .set('X-Request-Id', 'no válido!')
+      .expect(401);
+    expect(generated.headers['x-request-id']).toMatch(/^[0-9a-f-]{36}$/);
+  });
+
   it('responde al health check', async () => {
     await http().get('/health').expect(200, { status: 'ok' });
   });

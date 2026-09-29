@@ -5,6 +5,7 @@ import { StyleSheet, Text, View, type TextProps } from 'react-native';
 import { CollectionIcon } from '@/components/collection-icon';
 import { Colors, Fonts } from '@/constants/theme';
 import type { WeekDay } from '@/game/store';
+import { SITE_DOMAIN } from '@/constants/site';
 
 import type { Treasure, WeekSummary } from './week-summary';
 
@@ -188,7 +189,7 @@ export function SummaryCard({
         <T style={s.tagline} numberOfLines={2}>
           Suelta el móvil y tu Lumi sale de aventura
         </T>
-        <T style={s.url}>lumi.app</T>
+        {SITE_DOMAIN ? <T style={s.url}>{SITE_DOMAIN}</T> : null}
       </View>
     </View>
   );

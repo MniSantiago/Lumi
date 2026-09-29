@@ -1,6 +1,8 @@
+import * as Haptics from 'expo-haptics';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -11,6 +13,7 @@ import { AppText, Card, Pill } from '@/components/ui';
 import { Colors, Fonts, Radius, Spacing } from '@/constants/theme';
 import { fromDestination, withArticle } from '@/game/destinations';
 import { useGame, type GameApi } from '@/game/store';
+import { meterNote } from '@/lumi/meter';
 import { THRESHOLDS, type Threshold } from '@/lumi/states';
 import { useLumi } from '@/lumi/store';
 import { screenTime } from '@/screen-time';
@@ -26,6 +29,13 @@ export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const { state, threshold, settings } = useLumi();
   const game = useGame();
+  // Al tocar a Lumi dice otra cosa; con cada cambio de estado vuelve a su frase principal.
+  const [talk, setTalk] = useState<{ key: string; i: number }>({ key: state.key, i: -1 });
+  const line = talk.key === state.key && talk.i >= 0 ? state.chatter[talk.i % state.chatter.length] : state.bubble;
+  const onPokeLumi = () => {
+    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+    setTalk((prev) => ({ key: state.key, i: prev.key === state.key ? prev.i + 1 : 0 }));
+  };
 
   return (
     <View style={styles.root}>
@@ -47,22 +57,30 @@ export default function HomeScreen() {
             </AppText>
             <AppText variant="display">{settings.lumiName}</AppText>
           </View>
-          <View style={styles.sparks} accessibilityLabel={`${game.sparks} chispas`}>
+          <Pressable
+            style={({ pressed }) => [styles.sparks, pressed && { opacity: 0.75 }]}
+            accessibilityRole="button"
+            accessibilityLabel={`${game.sparks} chispas`}
+            accessibilityHint="Qué son y cómo se consiguen"
+            hitSlop={8}
+            onPress={() => router.push('/chispas')}>
             <Text style={styles.sparksText}>✦ {game.sparks}</Text>
-          </View>
+          </Pressable>
         </View>
 
         <Card style={styles.meterCard}>
-          <LightMeter lit={state.lit} note={state.meterNote} />
+          <LightMeter lit={state.lit} note={meterNote(threshold, settings.limitMinutes)} />
           {__DEV__ ? <ThresholdSimulator value={threshold} /> : null}
         </Card>
 
         <View style={styles.stage}>
           <View style={styles.bubble}>
-            <Text style={styles.bubbleText}>{state.bubble}</Text>
+            <Text style={styles.bubbleText} accessibilityLiveRegion="polite">
+              {line}
+            </Text>
             <View style={styles.bubbleTail} />
           </View>
-          <LumiAvatar state={state} size={190} />
+          <LumiAvatar state={state} size={190} onPress={onPokeLumi} accessibilityHint="Le dice algo" />
           <Pill tone={state.exploring ? 'amber' : 'lavender'} style={styles.statePill}>{state.label}</Pill>
         </View>
 

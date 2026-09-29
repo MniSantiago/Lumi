@@ -1,6 +1,6 @@
 import { Image } from 'expo-image';
 import { useEffect } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { Pressable, StyleSheet, View } from 'react-native';
 import Animated, {
   Easing,
   ReduceMotion,
@@ -17,11 +17,33 @@ import type { LumiState } from '@/lumi/states';
 
 const loop = { easing: Easing.inOut(Easing.sin), reduceMotion: ReduceMotion.System };
 
-/** Lumi flotando y respirando, con un halo que depende de cuánta luz le queda. */
-export function LumiAvatar({ state, size = 200 }: { state: LumiState; size?: number }) {
+/**
+ * Lumi flotando y respirando, con un halo que depende de cuánta luz le queda.
+ * Con `onPress` se puede tocar: da un saltito blandito (o se acurruca, si duerme).
+ */
+export function LumiAvatar({
+  state,
+  size = 200,
+  onPress,
+  accessibilityHint,
+}: {
+  state: LumiState;
+  size?: number;
+  onPress?: () => void;
+  accessibilityHint?: string;
+}) {
   const asleep = state.key === 'apagadita';
   const float = useSharedValue(0);
   const breathe = useSharedValue(0);
+  const poke = useSharedValue(0);
+
+  const handlePress = () => {
+    poke.value = withSequence(
+      withTiming(1, { duration: 110, easing: Easing.out(Easing.quad), reduceMotion: ReduceMotion.System }),
+      withTiming(0, { duration: 420, easing: Easing.out(Easing.back(3)), reduceMotion: ReduceMotion.System }),
+    );
+    onPress?.();
+  };
 
   useEffect(() => {
     // Dormida no flota: solo respira, más despacio.
@@ -31,9 +53,9 @@ export function LumiAvatar({ state, size = 200 }: { state: LumiState; size?: num
 
   const bodyStyle = useAnimatedStyle(() => ({
     transform: [
-      { translateY: -10 * float.value },
-      { scaleX: 1 + 0.015 * breathe.value },
-      { scaleY: 1 - 0.02 * breathe.value },
+      { translateY: -10 * float.value - (asleep ? 0 : 14) * poke.value },
+      { scaleX: 1 + 0.015 * breathe.value + 0.08 * poke.value },
+      { scaleY: 1 - 0.02 * breathe.value - 0.1 * poke.value },
     ],
   }));
   const haloStyle = useAnimatedStyle(() => ({
@@ -41,8 +63,9 @@ export function LumiAvatar({ state, size = 200 }: { state: LumiState; size?: num
     transform: [{ translateY: -10 * float.value }, { scale: 0.95 + 0.08 * breathe.value }],
   }));
 
-  return (
-    <View style={{ width: size, height: size * 1.12, alignItems: 'center', justifyContent: 'flex-end' }}>
+  const box = { width: size, height: size * 1.12, alignItems: 'center', justifyContent: 'flex-end' } as const;
+  const content = (
+    <>
       <Animated.View
         style={[styles.halo, { width: size * 1.1, height: size * 1.1, bottom: size * 0.02 }, haloStyle]}
       />
@@ -56,7 +79,19 @@ export function LumiAvatar({ state, size = 200 }: { state: LumiState; size?: num
         />
       </Animated.View>
       {asleep ? <Zzz size={size} /> : null}
-    </View>
+    </>
+  );
+
+  if (!onPress) return <View style={box}>{content}</View>;
+  return (
+    <Pressable
+      onPress={handlePress}
+      accessibilityRole="button"
+      accessibilityLabel={`Lumi, ${state.label.toLowerCase()}`}
+      accessibilityHint={accessibilityHint}
+      style={box}>
+      {content}
+    </Pressable>
   );
 }
 

@@ -90,5 +90,5 @@ export function formatLimit(minutes: number) {
   if (minutes < 60) return `${minutes} min`;
   const h = Math.floor(minutes / 60);
   const m = minutes % 60;
-  return m ? `${h} h ${m}` : `${h} h`;
+  return m ? `${h} h ${String(m).padStart(2, '0')}` : `${h} h`;
 }
