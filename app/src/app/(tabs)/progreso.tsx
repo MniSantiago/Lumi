@@ -339,6 +339,30 @@ function LifetimeStats({ game, isPlus }: { game: GameApi; isPlus: boolean }) {
       value: `${game.friends.length}/${FRIEND_CATALOG.length}`,
       label: tr({ es: 'amigos', en: 'friends', zh: '朋友', hi: 'दोस्त', fr: 'amis' }),
     },
+    {
+      value: game.history.filter((d) => d.expedition?.nightBonus).length,
+      label: tr({
+        es: 'noches tranquilas',
+        en: 'calm nights',
+        zh: '安稳的夜晚',
+        hi: 'शांत रातें',
+        fr: 'nuits tranquilles',
+      }),
+    },
+    {
+      value: game.sparks,
+      label: tr({ es: 'chispas', en: 'sparks', zh: '火花', hi: 'चिंगारियाँ', fr: 'étincelles' }),
+    },
+    {
+      value: game.history.filter((d) => d.restDay).length,
+      label: tr({
+        es: 'días de descanso',
+        en: 'rest days',
+        zh: '休息日',
+        hi: 'आराम के दिन',
+        fr: 'jours de repos',
+      }),
+    },
   ];
   return (
     <View style={{ gap: 10 }}>
