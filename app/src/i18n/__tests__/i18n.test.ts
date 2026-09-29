@@ -8,6 +8,7 @@ import zh from '@/game/content/zh';
 import { DESTINATIONS } from '@/game/destinations';
 import { FRIEND_CATALOG, ITEM_CATALOG } from '@/game/catalog';
 import { detectLang, lang } from '@/i18n';
+import { LEGAL_TEXTS } from '@/legal/content';
 
 describe('detectLang', () => {
   it('usa el primer idioma del iPhone que Lumi habla', () => {
@@ -51,5 +52,13 @@ describe('contenido del juego', () => {
     }
     for (const e of [...ITEM_CATALOG, ...FRIEND_CATALOG]) expect(e.a).toBeTruthy();
     expect(DESTINATIONS[0].from).toBe('del Bosque de Musgo');
+  });
+});
+
+describe('textos legales', () => {
+  it('cada idioma tiene los mismos documentos y el mismo número de secciones y párrafos', () => {
+    const shape = (docs: (typeof LEGAL_TEXTS)['es']) =>
+      Object.fromEntries(Object.entries(docs).map(([k, d]) => [k, d.sections.map((s) => s.body.length)]));
+    for (const docs of Object.values(LEGAL_TEXTS)) expect(shape(docs)).toEqual(shape(LEGAL_TEXTS.es));
   });
 });
