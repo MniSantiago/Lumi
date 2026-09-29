@@ -111,7 +111,7 @@ npx eas-cli@latest build --platform ios --profile production
 npx eas-cli@latest submit --platform ios --profile production
 ```
 
-Backend (variables en la plataforma): `NODE_ENV=production`, `DATABASE_URL`, `JWT_SECRET` (32+ caracteres), `RESEND_API_KEY`, `MAIL_FROM`, `CORS_ORIGINS` (el dominio de la landing). Al arrancar aplica las migraciones. Activa las copias de seguridad de Postgres en la plataforma.
+Backend (variables en la plataforma): `NODE_ENV=production`, `DATABASE_URL`, `JWT_SECRET` (32+ caracteres), `RESEND_API_KEY`, `MAIL_FROM`, `CORS_ORIGINS` (el dominio de la landing) y, opcional, `PUBLIC_URL` (la URL de la API, para los enlaces de los correos). Al arrancar aplica las migraciones. Activa las copias de seguridad de Postgres en la plataforma.
 
 Landing: pon la URL del backend en `WAITLIST_ENDPOINT` (`landing/main.js`) como `https://api.<dominio>/waitlist`.
 
