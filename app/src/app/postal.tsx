@@ -1,7 +1,8 @@
 import { router, useLocalSearchParams } from 'expo-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, type RefObject } from 'react';
 import {
   AccessibilityInfo,
+  Platform,
   Pressable,
   ScrollView,
   Share,
@@ -12,6 +13,7 @@ import {
 } from 'react-native';
 import Animated, { Easing, useAnimatedStyle } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { captureRef, releaseCapture } from 'react-native-view-shot';
 
 import { haptic } from '@/haptics';
 import { Fireflies } from '@/components/fireflies';
@@ -91,6 +93,7 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
   const { saveReturnToAlbum, album, streak } = useGame();
   const milestone = copy.streakMilestone(streak);
   const tonight = useMemo(() => nightlyReturnFrom(pending), [pending]);
+  const cardRef = useRef<View>(null);
   const { destination } = tonight;
   const insets = useSafeAreaInsets();
   const { cardWidth, window } = useSizes();
@@ -165,14 +168,16 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
         </FadeUp>
 
         <CardIn t={t} stage={timeline.card} tilt={TILT}>
-          <NightPostcard
-            title={destination.name}
-            caption={destination.caption}
-            art={destination.art}
-            width={cardWidth}
-            artHeight={artHeight}
-            stamp={stamp(destination.chapter)}
-          />
+          <View ref={cardRef} collapsable={false}>
+            <NightPostcard
+              title={destination.name}
+              caption={destination.caption}
+              art={destination.art}
+              width={cardWidth}
+              artHeight={artHeight}
+              stamp={stamp(destination.chapter)}
+            />
+          </View>
         </CardIn>
 
         <FadeUp t={t} stage={timeline.story} style={styles.story}>
@@ -213,7 +218,7 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
               <ShieldButton
                 ghost
                 label={copy.share}
-                onPress={() => share(shareTonight(settings.lumiName, tonight))}
+                onPress={() => share(cardRef, shareTonight(settings.lumiName, tonight))}
                 disabled={!done}
               />
             </>
@@ -225,6 +230,7 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
 }
 
 function RereadPostcard({ destination }: { destination: Destination }) {
+  const cardRef = useRef<View>(null);
   const { settings } = useLumi();
   const insets = useSafeAreaInsets();
   const { cardWidth, window } = useSizes();
@@ -245,14 +251,16 @@ function RereadPostcard({ destination }: { destination: Destination }) {
         </View>
 
         <View style={{ transform: [{ rotate: `${TILT}deg` }] }}>
-          <NightPostcard
-            title={destination.name}
-            caption={destination.caption}
-            art={destination.art}
-            width={cardWidth}
-            artHeight={artHeight}
-            stamp={stamp(destination.chapter)}
-          />
+          <View ref={cardRef} collapsable={false}>
+            <NightPostcard
+              title={destination.name}
+              caption={destination.caption}
+              art={destination.art}
+              width={cardWidth}
+              artHeight={artHeight}
+              stamp={stamp(destination.chapter)}
+            />
+          </View>
         </View>
 
         <View style={styles.story}>
@@ -264,7 +272,7 @@ function RereadPostcard({ destination }: { destination: Destination }) {
       <View style={[styles.bottom, { paddingBottom: Math.max(insets.bottom, 16) + 12 }]}>
         <View style={styles.actions}>
           <ShieldButton label={copy.close} onPress={close} />
-          <ShieldButton ghost label={copy.share} onPress={() => share(shareReread(settings.lumiName, destination))} />
+          <ShieldButton ghost label={copy.share} onPress={() => share(cardRef, shareReread(settings.lumiName, destination))} />
         </View>
       </View>
     </View>
@@ -276,11 +284,26 @@ function useSizes() {
   return { window, cardWidth: Math.min(window.width - 64, 340) };
 }
 
-async function share(message: string) {
+/**
+ * Comparte la postal como imagen con su texto (en iOS, la hoja de compartir
+ * recibe los dos). Si no se puede capturar (web), solo el texto.
+ */
+async function share(card: RefObject<View | null>, message: string) {
+  let uri: string | null = null;
   try {
-    await Share.share({ message });
+    if (Platform.OS !== 'web' && card.current) {
+      uri = await captureRef(card, { format: 'png', quality: 1, result: 'tmpfile' });
+    }
+  } catch {
+    uri = null;
+  }
+  try {
+    const url = uri ? (uri.startsWith('file://') ? uri : `file://${uri}`) : undefined;
+    await Share.share(url && Platform.OS === 'ios' ? { message, url } : { message });
   } catch {
     // Si no se puede compartir, no pasa nada: la postal sigue aquí.
+  } finally {
+    if (uri) releaseCapture(uri);
   }
 }
 
