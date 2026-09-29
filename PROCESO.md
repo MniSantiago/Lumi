@@ -223,6 +223,15 @@ Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1`
 
 > Lo necesario para publicar está en `APP_STORE.md`. Lo más urgente: pedir el entitlement de Family Controls y desplegar el backend.
 
+**Lo que queda en tus manos (tras la noche del 28 al 29 de septiembre):**
+
+1. Revisar y fusionar la cadena de PR en orden (tabla de la sección 4), hasta #71.
+2. Pedir el entitlement de Family Controls y probar el borrador #15 (con el escudo de noche nativo) y el #22 (widget) en un iPhone.
+3. Desplegar el backend, poner el dominio y `EXPO_PUBLIC_API_URL`, y crear la cuenta de revisión (`APP_STORE.md` §6-§7).
+4. Hacer las capturas del simulador en los 5 idiomas y pasarlas por `sh landing/tools/capturas.sh`.
+5. Que alguien con criterio legal revise Privacidad y Términos (sección de menores, #54) y que hablantes nativos revisen hindi y chino.
+6. Decidir si la lista de espera pasa a doble confirmación (doble opt-in) antes del aviso de lanzamiento.
+
 ### Paso 2. Generar los 4 estados de Lumi (hecho: app, landing y mockup HTML)
 
 - **Objetivo:** que sea la misma criatura con expresiones distintas.
