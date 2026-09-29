@@ -168,6 +168,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 60 | #62 | Colección: cada objeto y amigo cuenta de dónde vino |
 | 61 | #63 | Postal: celebra cuando Lumi crece de etapa |
 | 62 | #64 | Hogar: el halo de Lumi cambia de color con su evolución |
+| 63 | #65 | CI: prueba de humo de la app en la web, en los 5 idiomas |
 | — | #15 | **Borrador:** Screen Time nativo, con escudo de noche y noches movidas (encima de #64; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
