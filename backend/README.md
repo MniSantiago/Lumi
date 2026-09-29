@@ -36,6 +36,19 @@ npm run waitlist:export > lista.csv
 
 CSV con correo, idioma (es, en, zh, hi o fr: el de la web al apuntarse), app, origen y fecha. Quien se dio de baja ya no está.
 
+### Aviso de lanzamiento a la lista de espera
+
+```bash
+# Simulación (no envía nada): cuántos hay por idioma y el asunto de cada uno
+APP_STORE_URL=https://apps.apple.com/app/id… node dist/db/announce-launch.js
+# Envío de verdad (con RESEND_API_KEY, MAIL_FROM, PUBLIC_URL y JWT_SECRET de producción)
+APP_STORE_URL=… node dist/db/announce-launch.js --send
+# Si se corta, retoma desde donde dice el error
+APP_STORE_URL=… node dist/db/announce-launch.js --send --skip 120
+```
+
+Cada persona lo recibe en su idioma, con el botón a la App Store y su enlace de baja (y List-Unsubscribe).
+
 ## Endpoints
 
 | Método | Ruta | Qué hace |

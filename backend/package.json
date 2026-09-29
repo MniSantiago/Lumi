@@ -24,7 +24,8 @@
     "db:migrate": "drizzle-kit migrate",
     "openapi": "nest build && node dist/openapi.js",
     "review:account": "nest build && node dist/db/review-account.js",
-    "waitlist:export": "nest build && node dist/db/export-waitlist.js"
+    "waitlist:export": "nest build && node dist/db/export-waitlist.js",
+    "waitlist:announce": "nest build && node dist/db/announce-launch.js"
   },
   "dependencies": {
     "@nestjs/common": "^12.0.1",
