@@ -60,6 +60,13 @@ export const nightlyCopy = {
           fr: `✨ ${days} jours de lumière d’affilée. Quelle jolie série !`,
         })
       : null,
+  firstPostcard: tr({
+    es: '✨ ¡Tu primera postal! La primera de muchas.',
+    en: '✨ Your first postcard! The first of many.',
+    zh: '✨ 你的第一张明信片！以后还会有很多。',
+    hi: '✨ तुम्हारा पहला पोस्टकार्ड! ऐसे बहुत आएँगे।',
+    fr: '✨ Ta première carte ! La première d’une longue série.',
+  }),
   sparksUnit: tr({ es: 'chispas', en: 'sparks', zh: '火花', hi: 'चिंगारियाँ', fr: 'étincelles' }),
   skipHint: tr({
     es: 'Toca para verlo todo',
