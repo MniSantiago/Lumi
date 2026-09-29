@@ -3,6 +3,8 @@ import { useMemo, type Ref } from 'react';
 import { StyleSheet, Text, View, type TextProps } from 'react-native';
 
 import { CollectionIcon } from '@/components/collection-icon';
+import { weekLetter } from '@/i18n/dates';
+import { tr } from '@/i18n';
 import { Colors, Fonts } from '@/constants/theme';
 import type { WeekDay } from '@/game/store';
 import { SITE_DOMAIN } from '@/constants/site';
@@ -140,19 +142,49 @@ export function SummaryCard({
         <T style={s.range}>{summary.range}</T>
         {summary.streak >= 2 ? (
           <View style={s.streak}>
-            <T style={s.streakText}>Racha de {summary.streak} días</T>
+            <T style={s.streakText}>
+              {tr({
+                es: `Racha de ${summary.streak} días`,
+                en: `${summary.streak}-day streak`,
+                zh: `连续 ${summary.streak} 天`,
+                hi: `${summary.streak} दिन का सिलसिला`,
+                fr: `Série de ${summary.streak} jours`,
+              })}
+            </T>
           </View>
         ) : null}
       </View>
 
       <T style={s.headline} numberOfLines={2} adjustsFontSizeToFit minimumFontScale={0.7}>
-        {`Mi semana\ncon ${lumiName}`}
+        {tr({
+          es: `Mi semana\ncon ${lumiName}`,
+          en: `My week\nwith ${lumiName}`,
+          zh: `我和${lumiName}\n的一周`,
+          hi: `${lumiName} के साथ\nमेरा हफ़्ता`,
+          fr: `Ma semaine\navec ${lumiName}`,
+        })}
       </T>
 
       <View style={s.hero}>
         <View style={s.heroText}>
           {shone > 0 ? <T style={s.numeral}>{shone}</T> : null}
-          <T style={s.heroNote}>{shone > 0 ? 'de 7 días\nbrillando' : 'Nuestra semana\nacaba de empezar'}</T>
+          <T style={s.heroNote}>
+            {shone > 0
+              ? tr({
+                  es: 'de 7 días\nbrillando',
+                  en: 'of 7 days\nshining',
+                  zh: '天发光\n（共 7 天）',
+                  hi: '/7 दिन\nचमकी',
+                  fr: 'jours sur 7\nà briller',
+                })
+              : tr({
+                  es: 'Nuestra semana\nacaba de empezar',
+                  en: 'Our week\nhas just begun',
+                  zh: '我们的一周\n刚刚开始',
+                  hi: 'हमारा हफ़्ता\nअभी शुरू हुआ है',
+                  fr: 'Notre semaine\nvient de commencer',
+                })}
+          </T>
         </View>
         <View style={s.lumiWrap}>
           <View style={s.halo} />
@@ -187,7 +219,13 @@ export function SummaryCard({
           <T style={s.wordmark}>lumi</T>
         </View>
         <T style={s.tagline} numberOfLines={2}>
-          Suelta el móvil y tu Lumi sale de aventura
+          {tr({
+            es: 'Suelta el móvil y tu Lumi sale de aventura',
+            en: 'Put your phone down and your Lumi goes on an adventure',
+            zh: '放下手机，你的 Lumi 就去冒险',
+            hi: 'फ़ोन रखो और तुम्हारी Lumi सफ़र पर निकल जाती है',
+            fr: 'Pose ton téléphone et ta Lumi part à l’aventure',
+          })}
         </T>
         {SITE_DOMAIN ? <T style={s.url}>{SITE_DOMAIN}</T> : null}
       </View>
@@ -215,7 +253,7 @@ function WeekBars({ week, s }: { week: WeekDay[]; s: Styles }) {
                 <View style={[s.bar, s.barLit, { height: `${(d.lit / 4) * 100}%` }]} />
               )}
             </View>
-            <T style={[s.dayLabel, d.isToday && s.dayToday]}>{d.label}</T>
+            <T style={[s.dayLabel, d.isToday && s.dayToday]}>{weekLetter(d.label)}</T>
           </View>
         );
       })}
@@ -249,7 +287,29 @@ function Places({ summary, s }: { summary: WeekSummary; s: Styles }) {
         )}
       </View>
       <T style={s.caption} numberOfLines={1}>
-        {n === 0 ? 'Su primera postal, muy pronto' : n === 1 ? '1 postal esta semana' : `${n} postales esta semana`}
+        {n === 0
+          ? tr({
+              es: 'Su primera postal, muy pronto',
+              en: 'Her first postcard, very soon',
+              zh: '她的第一张明信片，马上就来',
+              hi: 'उसका पहला पोस्टकार्ड, बहुत जल्द',
+              fr: 'Sa première carte, très bientôt',
+            })
+          : n === 1
+            ? tr({
+                es: '1 postal esta semana',
+                en: '1 postcard this week',
+                zh: '本周 1 张明信片',
+                hi: 'इस हफ़्ते 1 पोस्टकार्ड',
+                fr: '1 carte cette semaine',
+              })
+            : tr({
+                es: `${n} postales esta semana`,
+                en: `${n} postcards this week`,
+                zh: `本周 ${n} 张明信片`,
+                hi: `इस हफ़्ते ${n} पोस्टकार्ड`,
+                fr: `${n} cartes cette semaine`,
+              })}
       </T>
     </View>
   );
@@ -258,14 +318,32 @@ function Places({ summary, s }: { summary: WeekSummary; s: Styles }) {
 function TreasureView({ treasure, s }: { treasure: Treasure; s: Styles }) {
   const caption =
     treasure.kind === 'stage'
-      ? 'Su etapa de luz'
+      ? tr({
+          es: 'Su etapa de luz',
+          en: 'Her light stage',
+          zh: '她的光之阶段',
+          hi: 'उसकी रोशनी का पड़ाव',
+          fr: 'Son étape de lumière',
+        })
       : treasure.kind === 'friend'
         ? treasure.isNew
-          ? 'Amistad nueva'
-          : 'Amistad de la semana'
+          ? tr({ es: 'Amistad nueva', en: 'New friend', zh: '新朋友', hi: 'नई दोस्ती', fr: 'Nouvel ami' })
+          : tr({
+              es: 'Amistad de la semana',
+              en: 'Friend of the week',
+              zh: '本周朋友',
+              hi: 'हफ़्ते की दोस्ती',
+              fr: 'Ami de la semaine',
+            })
         : treasure.isNew
-          ? 'Tesoro nuevo'
-          : 'Tesoro de la semana';
+          ? tr({ es: 'Tesoro nuevo', en: 'New treasure', zh: '新宝贝', hi: 'नया ख़ज़ाना', fr: 'Nouveau trésor' })
+          : tr({
+              es: 'Tesoro de la semana',
+              en: 'Treasure of the week',
+              zh: '本周宝贝',
+              hi: 'हफ़्ते का ख़ज़ाना',
+              fr: 'Trésor de la semaine',
+            });
   const name = treasure.kind === 'stage' ? treasure.name : treasure.entry.name;
   return (
     <View style={s.treasure}>

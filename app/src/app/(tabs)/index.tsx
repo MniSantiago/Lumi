@@ -11,19 +11,32 @@ import { LightMeter } from '@/components/light-meter';
 import { LumiAvatar } from '@/components/lumi-avatar';
 import { AppText, Card, Pill } from '@/components/ui';
 import { Colors, Fonts, Radius, Spacing } from '@/constants/theme';
-import { fromDestination, withArticle } from '@/game/destinations';
 import { useGame, type GameApi } from '@/game/store';
+import type { Destination } from '@/game/types';
+import { tr } from '@/i18n';
 import { meterNote } from '@/lumi/meter';
 import { THRESHOLDS, type Threshold } from '@/lumi/states';
 import { useLumi } from '@/lumi/store';
+import { nightlyCopy } from '@/nightly/copy';
 import { screenTime } from '@/screen-time';
 
 function greeting(date = new Date()) {
   const h = date.getHours();
-  if (h >= 6 && h < 13) return 'Buenos días';
-  if (h >= 13 && h < 20) return 'Buenas tardes';
-  return 'Buenas noches';
+  if (h >= 6 && h < 13)
+    return tr({ es: 'Buenos días', en: 'Good morning', zh: '早上好', hi: 'सुप्रभात', fr: 'Bonjour' });
+  if (h >= 13 && h < 20)
+    return tr({ es: 'Buenas tardes', en: 'Good afternoon', zh: '下午好', hi: 'नमस्ते', fr: 'Bon après-midi' });
+  return tr({ es: 'Buenas noches', en: 'Good evening', zh: '晚上好', hi: 'शुभ संध्या', fr: 'Bonsoir' });
 }
+
+const broughtFrom = (d: Destination) =>
+  tr({
+    es: `Trae recuerdos ${d.from}`,
+    en: `Bringing keepsakes ${d.from}`,
+    zh: `带回了${d.from}的纪念品`,
+    hi: `${d.from} से यादें लाई है`,
+    fr: `Rapporte des souvenirs ${d.from}`,
+  });
 
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
@@ -42,14 +55,21 @@ export default function HomeScreen() {
       <Image source={require('@/assets/images/fondo-hogar.jpg')} style={StyleSheet.absoluteFill} contentFit="cover" />
       <Fireflies glow={state.glow} />
       {/* El mundo se oscurece al gastarse la luz de Lumi. */}
-      <View pointerEvents="none" style={[StyleSheet.absoluteFill, { backgroundColor: Colors.nightDeep, opacity: state.dim }]} />
+      <View
+        pointerEvents="none"
+        style={[StyleSheet.absoluteFill, { backgroundColor: Colors.nightDeep, opacity: state.dim }]}
+      />
       <LinearGradient
         pointerEvents="none"
         colors={[`${Colors.nightDeep}E6`, `${Colors.nightDeep}00`]}
         style={[styles.topShade, { height: insets.top + 220 }]}
       />
 
-      <View style={[styles.content, { paddingTop: insets.top + Spacing.two, paddingBottom: insets.bottom + Spacing.three }]}>
+      <View
+        style={[
+          styles.content,
+          { paddingTop: insets.top + Spacing.two, paddingBottom: insets.bottom + Spacing.three },
+        ]}>
         <View style={styles.header}>
           <View>
             <AppText variant="caption">
@@ -60,8 +80,14 @@ export default function HomeScreen() {
           <Pressable
             style={({ pressed }) => [styles.sparks, pressed && { opacity: 0.75 }]}
             accessibilityRole="button"
-            accessibilityLabel={`${game.sparks} chispas`}
-            accessibilityHint="Qué son y cómo se consiguen"
+            accessibilityLabel={`${game.sparks} ${nightlyCopy.sparksUnit}`}
+            accessibilityHint={tr({
+              es: 'Qué son y cómo se consiguen',
+              en: 'What they are and how to get them',
+              zh: '火花是什么、怎么获得',
+              hi: 'ये क्या हैं और कैसे मिलती हैं',
+              fr: 'Ce que c’est et comment en gagner',
+            })}
             hitSlop={8}
             onPress={() => router.push('/chispas')}>
             <Text style={styles.sparksText}>✦ {game.sparks}</Text>
@@ -80,8 +106,21 @@ export default function HomeScreen() {
             </Text>
             <View style={styles.bubbleTail} />
           </View>
-          <LumiAvatar state={state} size={190} onPress={onPokeLumi} accessibilityHint="Le dice algo" />
-          <Pill tone={state.exploring ? 'amber' : 'lavender'} style={styles.statePill}>{state.label}</Pill>
+          <LumiAvatar
+            state={state}
+            size={190}
+            onPress={onPokeLumi}
+            accessibilityHint={tr({
+              es: 'Le dice algo',
+              en: 'Says something',
+              zh: '跟你说句话',
+              hi: 'कुछ कहती है',
+              fr: 'Te dit quelque chose',
+            })}
+          />
+          <Pill tone={state.exploring ? 'amber' : 'lavender'} style={styles.statePill}>
+            {state.label}
+          </Pill>
         </View>
 
         {game.ready ? (
@@ -103,12 +142,34 @@ function ExpeditionCard({ game, lumiName, asleep }: { game: GameApi; lumiName: s
     return (
       <Pressable
         accessibilityRole="button"
-        accessibilityHint="Abre la postal nocturna"
+        accessibilityHint={tr({
+          es: 'Abre la postal nocturna',
+          en: 'Opens tonight’s postcard',
+          zh: '打开今晚的明信片',
+          hi: 'आज रात का पोस्टकार्ड खोलता है',
+          fr: 'Ouvre la carte du soir',
+        })}
         onPress={() => router.push('/postal')}>
         <Card style={[{ gap: 6 }, styles.returnCard]}>
-          <AppText variant="label">Postal nueva 🌙</AppText>
-          <AppText variant="heading">¡{lumiName} ha vuelto! Toca para ver la postal</AppText>
-          <AppText variant="caption">Trae recuerdos {fromDestination(pendingReturn.destination)}</AppText>
+          <AppText variant="label">
+            {tr({
+              es: 'Postal nueva 🌙',
+              en: 'New postcard 🌙',
+              zh: '新明信片 🌙',
+              hi: 'नया पोस्टकार्ड 🌙',
+              fr: 'Nouvelle carte 🌙',
+            })}
+          </AppText>
+          <AppText variant="heading">
+            {tr({
+              es: `¡${lumiName} ha vuelto! Toca para ver la postal`,
+              en: `${lumiName} is back! Tap to see the postcard`,
+              zh: `${lumiName}回来了！轻点查看明信片`,
+              hi: `${lumiName} लौट आई! पोस्टकार्ड देखने के लिए टैप करो`,
+              fr: `${lumiName} est rentrée ! Touche pour voir la carte`,
+            })}
+          </AppText>
+          <AppText variant="caption">{broughtFrom(pendingReturn.destination)}</AppText>
         </Card>
       </Pressable>
     );
@@ -116,21 +177,85 @@ function ExpeditionCard({ game, lumiName, asleep }: { game: GameApi; lumiName: s
 
   const back = todayRecord.closed && todayRecord.expedition;
   const exploring = !!currentDestination && !todayRecord.closed;
-  const label = exploring ? 'Expedición en curso' : back ? 'Ya está en casa' : 'Hoy se queda en casa';
-  const title = exploring
-    ? `Explorando ${withArticle(currentDestination)}`
-    : back && currentDestination
-      ? `${lumiName} ha vuelto ${fromDestination(currentDestination)}`
-      : asleep
-        ? `${lumiName} duerme la siesta`
-        : `${lumiName} está descansando en la madriguera`;
-  const sub = exploring
-    ? `Vuelve a las ${returnsAt} con una postal`
+  const label = exploring
+    ? tr({
+        es: 'Expedición en curso',
+        en: 'On an expedition',
+        zh: '探险中',
+        hi: 'सफ़र जारी है',
+        fr: 'Expédition en cours',
+      })
     : back
-      ? 'Mañana, otra aventura ✨'
+      ? tr({ es: 'Ya está en casa', en: 'Back home', zh: '已经到家了', hi: 'घर आ गई है', fr: 'Déjà rentrée' })
+      : tr({
+          es: 'Hoy se queda en casa',
+          en: 'Staying home today',
+          zh: '今天待在家',
+          hi: 'आज घर पर है',
+          fr: 'Reste à la maison aujourd’hui',
+        });
+  const title = exploring
+    ? tr({
+        es: `Explorando ${currentDestination.the}`,
+        en: `Exploring ${currentDestination.the}`,
+        zh: `正在探索${currentDestination.the}`,
+        hi: `${currentDestination.the} घूम रही है`,
+        fr: `Explore ${currentDestination.the}`,
+      })
+    : back && currentDestination
+      ? tr({
+          es: `${lumiName} ha vuelto ${currentDestination.from}`,
+          en: `${lumiName} is back ${currentDestination.from}`,
+          zh: `${lumiName}从${currentDestination.from}回来了`,
+          hi: `${lumiName} ${currentDestination.from} से लौट आई`,
+          fr: `${lumiName} est rentrée ${currentDestination.from}`,
+        })
       : asleep
-        ? 'Mañana se despierta con la luz al máximo'
-        : 'Mañana sale de viaje con la luz llena';
+        ? tr({
+            es: `${lumiName} duerme la siesta`,
+            en: `${lumiName} is napping`,
+            zh: `${lumiName}在睡午觉`,
+            hi: `${lumiName} झपकी ले रही है`,
+            fr: `${lumiName} fait la sieste`,
+          })
+        : tr({
+            es: `${lumiName} está descansando en la madriguera`,
+            en: `${lumiName} is resting in her burrow`,
+            zh: `${lumiName}在小窝里休息`,
+            hi: `${lumiName} अपने घर में आराम कर रही है`,
+            fr: `${lumiName} se repose dans son terrier`,
+          });
+  const sub = exploring
+    ? tr({
+        es: `Vuelve a las ${returnsAt} con una postal`,
+        en: `Back at ${returnsAt} with a postcard`,
+        zh: `${returnsAt}带着明信片回来`,
+        hi: `${returnsAt} बजे पोस्टकार्ड लेकर लौटेगी`,
+        fr: `Rentre à ${returnsAt} avec une carte`,
+      })
+    : back
+      ? tr({
+          es: 'Mañana, otra aventura ✨',
+          en: 'Another adventure tomorrow ✨',
+          zh: '明天，新的冒险 ✨',
+          hi: 'कल, एक और रोमांच ✨',
+          fr: 'Demain, une autre aventure ✨',
+        })
+      : asleep
+        ? tr({
+            es: 'Mañana se despierta con la luz al máximo',
+            en: 'Tomorrow she wakes up with full light',
+            zh: '明天醒来时光会是满满的',
+            hi: 'कल वो पूरी रोशनी के साथ जागेगी',
+            fr: 'Demain, elle se réveille avec toute sa lumière',
+          })
+        : tr({
+            es: 'Mañana sale de viaje con la luz llena',
+            en: 'Tomorrow she sets off with full light',
+            zh: '明天带着满满的光出发旅行',
+            hi: 'कल वो पूरी रोशनी के साथ सफ़र पर निकलेगी',
+            fr: 'Demain, elle part en voyage pleine de lumière',
+          });
   return (
     <Card style={{ gap: 6 }}>
       <AppText variant="label">{label}</AppText>
@@ -207,7 +332,13 @@ const styles = StyleSheet.create({
     borderRadius: 3,
   },
   returnCard: { borderColor: 'rgba(255, 201, 107, 0.45)', borderWidth: 1 },
-  track: { height: 6, borderRadius: Radius.pill, backgroundColor: 'rgba(201, 191, 242, 0.14)', marginTop: 6, overflow: 'hidden' },
+  track: {
+    height: 6,
+    borderRadius: Radius.pill,
+    backgroundColor: 'rgba(201, 191, 242, 0.14)',
+    marginTop: 6,
+    overflow: 'hidden',
+  },
   trackFill: { height: '100%', borderRadius: Radius.pill, backgroundColor: Colors.amber },
   sim: { gap: 6, borderTopWidth: StyleSheet.hairlineWidth, borderTopColor: Colors.hairline, paddingTop: 12 },
   simRow: { flexDirection: 'row', gap: 6 },

@@ -3,6 +3,7 @@ import { Pressable, StyleSheet, Text } from 'react-native';
 
 import { ApiError } from '@/api/client';
 import { Colors, Fonts } from '@/constants/theme';
+import { tr } from '@/i18n';
 
 /** Mensaje de error (o aviso, con `info`) de un formulario, anunciado por VoiceOver. */
 export function FormError({ message, info }: { message: string | null; info?: boolean }) {
@@ -20,7 +21,11 @@ export function FormError({ message, info }: { message: string | null; info?: bo
 /** Enlace de texto discreto bajo el botón principal. */
 export function SecondaryLink({ label, onPress }: { label: string; onPress: () => void }) {
   return (
-    <Pressable accessibilityRole="link" hitSlop={8} onPress={onPress} style={({ pressed }) => pressed && { opacity: 0.7 }}>
+    <Pressable
+      accessibilityRole="link"
+      hitSlop={8}
+      onPress={onPress}
+      style={({ pressed }) => pressed && { opacity: 0.7 }}>
       <Text style={styles.link}>{label}</Text>
     </Pressable>
   );
@@ -37,7 +42,17 @@ export function useSubmit() {
     try {
       await action();
     } catch (e) {
-      setError(e instanceof ApiError ? e.message : 'Algo ha fallado. Vuelve a intentarlo en un momento.');
+      setError(
+        e instanceof ApiError
+          ? e.message
+          : tr({
+              es: 'Algo ha fallado. Vuelve a intentarlo en un momento.',
+              en: 'Something went wrong. Try again in a moment.',
+              zh: '出了点问题。请稍后再试。',
+              hi: 'कुछ गड़बड़ हो गई। थोड़ी देर में फिर कोशिश करो।',
+              fr: 'Un problème est survenu. Réessaie dans un instant.',
+            }),
+      );
     } finally {
       setBusy(false);
     }
@@ -64,5 +79,11 @@ export const emailInput = {
 const styles = StyleSheet.create({
   error: { fontFamily: Fonts.body, fontSize: 14, lineHeight: 19, color: Colors.peach, textAlign: 'center' },
   info: { color: Colors.lavenderPale },
-  link: { fontFamily: Fonts.bodySemiBold, fontSize: 14, color: Colors.amberPale, textAlign: 'center', paddingVertical: 4 },
+  link: {
+    fontFamily: Fonts.bodySemiBold,
+    fontSize: 14,
+    color: Colors.amberPale,
+    textAlign: 'center',
+    paddingVertical: 4,
+  },
 });

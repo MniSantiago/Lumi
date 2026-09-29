@@ -12,6 +12,7 @@ import { useOnboardingDraft } from '@/components/onboarding/draft';
 import { StepShell } from '@/components/onboarding/step-shell';
 import { Colors } from '@/constants/theme';
 import { LUMI_STATES } from '@/lumi/states';
+import { tr } from '@/i18n';
 
 /** Paso 1: Lumi se presenta y os ponéis nombre. */
 export default function MeetLumiStep() {
@@ -26,28 +27,76 @@ export default function MeetLumiStep() {
   return (
     <StepShell
       step={1}
-      title="Conoce a Lumi"
-      subtitle="Una lucecita que vive contigo y brilla cuando descansas del móvil."
+      title={tr({
+        es: tr({ es: 'Conoce a Lumi', en: 'Meet Lumi', zh: '认识 Lumi', hi: 'Lumi से मिलो', fr: 'Voici Lumi' }),
+        en: 'Meet Lumi',
+        zh: '认识 Lumi',
+        hi: 'Lumi से मिलो',
+        fr: 'Voici Lumi',
+      })}
+      subtitle={tr({
+        es: tr({
+          es: 'Una lucecita que vive contigo y brilla cuando descansas del móvil.',
+          en: 'A little light that lives with you and shines when you take a break from your phone.',
+          zh: '一束和你住在一起的小光，你放下手机休息时，她就发光。',
+          hi: 'एक नन्ही रोशनी जो तुम्हारे साथ रहती है और तब चमकती है जब तुम फ़ोन से आराम लेते हो।',
+          fr: 'Une petite lumière qui vit avec toi et brille quand tu fais une pause de ton téléphone.',
+        }),
+        en: 'A little light that lives with you and shines when you take a break from your phone.',
+        zh: '一束和你住在一起的小光，你放下手机休息时，她就发光。',
+        hi: 'एक नन्ही रोशनी जो तुम्हारे साथ रहती है और तब चमकती है जब तुम फ़ोन से आराम लेते हो।',
+        fr: 'Une petite lumière qui vit avec toi et brille quand tu fais une pause de ton téléphone.',
+      })}
       scrollRef={scrollRef}
       background={<NightBackground />}
       cta={{
-        label: 'Continuar',
+        label: tr({ es: 'Continuar', en: 'Continue', zh: '继续', hi: 'आगे बढ़ो', fr: 'Continuer' }),
         disabled: !userName,
         onPress: () => router.push('/onboarding/apps' as Href),
       }}>
       <View style={styles.stage}>
         <SpeechBubble>
           {userName
-            ? `¡Encantada, ${userName}! Cuando sueltas el móvil, brillo y salgo de aventura.`
-            : '¡Hola! Soy una lucecita. Cuando sueltas el móvil, brillo y salgo de aventura.'}
+            ? tr({
+                es: `¡Encantada, ${userName}! Cuando sueltas el móvil, brillo y salgo de aventura.`,
+                en: `Nice to meet you, ${userName}! When you put your phone down, I shine and go on adventures.`,
+                zh: `很高兴认识你，${userName}！你放下手机，我就会发光，出去冒险。`,
+                hi: `तुमसे मिलकर ख़ुशी हुई, ${userName}! जब तुम फ़ोन रखते हो, मैं चमकती हूँ और सफ़र पर निकलती हूँ।`,
+                fr: `Enchantée, ${userName} ! Quand tu poses ton téléphone, je brille et je pars à l’aventure.`,
+              })
+            : tr({
+                es: '¡Hola! Soy una lucecita. Cuando sueltas el móvil, brillo y salgo de aventura.',
+                en: 'Hi! I’m a little light. When you put your phone down, I shine and go on adventures.',
+                zh: '你好！我是一束小光。你放下手机，我就会发光，出去冒险。',
+                hi: 'नमस्ते! मैं एक नन्ही रोशनी हूँ। जब तुम फ़ोन रखते हो, मैं चमकती हूँ और सफ़र पर निकलती हूँ।',
+                fr: 'Coucou ! Je suis une petite lumière. Quand tu poses ton téléphone, je brille et je pars à l’aventure.',
+              })}
         </SpeechBubble>
         <LumiAvatar state={LUMI_STATES.radiante} size={160} />
       </View>
 
       <View style={styles.fields}>
         <Field
-          label="¿Cómo te llamas?"
-          placeholder="Tu nombre"
+          label={tr({
+            es: tr({
+              es: '¿Cómo te llamas?',
+              en: 'What’s your name?',
+              zh: '你叫什么名字？',
+              hi: 'तुम्हारा नाम क्या है?',
+              fr: 'Comment tu t’appelles ?',
+            }),
+            en: 'What’s your name?',
+            zh: '你叫什么名字？',
+            hi: 'तुम्हारा नाम क्या है?',
+            fr: 'Comment tu t’appelles ?',
+          })}
+          placeholder={tr({
+            es: tr({ es: 'Tu nombre', en: 'Your name', zh: '你的名字', hi: 'तुम्हारा नाम', fr: 'Ton prénom' }),
+            en: 'Your name',
+            zh: '你的名字',
+            hi: 'तुम्हारा नाम',
+            fr: 'Ton prénom',
+          })}
           value={draft.userName}
           onChangeText={(userName) => setDraft({ userName })}
           onFocus={revealFields}
@@ -60,7 +109,19 @@ export default function MeetLumiStep() {
         />
         <Field
           ref={lumiNameRef}
-          label="¿Y cómo me llamas tú?"
+          label={tr({
+            es: tr({
+              es: '¿Y cómo me llamas tú?',
+              en: 'And what will you call me?',
+              zh: '那你叫我什么呢？',
+              hi: 'और तुम मुझे क्या बुलाओगे?',
+              fr: 'Et toi, comment tu m’appelles ?',
+            }),
+            en: 'And what will you call me?',
+            zh: '那你叫我什么呢？',
+            hi: 'और तुम मुझे क्या बुलाओगे?',
+            fr: 'Et toi, comment tu m’appelles ?',
+          })}
           placeholder="Lumi"
           value={draft.lumiName}
           onChangeText={(lumiName) => setDraft({ lumiName })}
@@ -68,7 +129,22 @@ export default function MeetLumiStep() {
           autoCapitalize="words"
           returnKeyType="done"
         />
-        <SecondaryLink label="¿Ya tenías a Lumi? Entra en tu cuenta" onPress={() => router.push('/cuenta?modo=entrar')} />
+        <SecondaryLink
+          label={tr({
+            es: tr({
+              es: '¿Ya tenías a Lumi? Entra en tu cuenta',
+              en: 'Already had Lumi? Sign in',
+              zh: '已经有 Lumi 了？登录账户',
+              hi: 'पहले से Lumi है? अपने खाते में जाओ',
+              fr: 'Tu avais déjà Lumi ? Connecte-toi',
+            }),
+            en: 'Already had Lumi? Sign in',
+            zh: '已经有 Lumi 了？登录账户',
+            hi: 'पहले से Lumi है? अपने खाते में जाओ',
+            fr: 'Tu avais déjà Lumi ? Connecte-toi',
+          })}
+          onPress={() => router.push('/cuenta?modo=entrar')}
+        />
       </View>
     </StepShell>
   );

@@ -1,11 +1,6 @@
 import { useState, type ReactNode } from 'react';
 import { StyleSheet, Text, View, type StyleProp, type ViewStyle } from 'react-native';
-import Animated, {
-  Easing,
-  useAnimatedReaction,
-  useAnimatedStyle,
-  type SharedValue,
-} from 'react-native-reanimated';
+import Animated, { Easing, useAnimatedReaction, useAnimatedStyle, type SharedValue } from 'react-native-reanimated';
 import { scheduleOnRN } from 'react-native-worklets';
 
 import { CollectionIcon } from '@/components/collection-icon';
@@ -37,7 +32,17 @@ export function FadeUp({
 }
 
 /** La postal llega volteándose desde abajo y se queda un poco torcida, como apoyada. */
-export function CardIn({ t, stage, tilt, children }: { t: SharedValue<number>; stage: Stage; tilt: number; children: ReactNode }) {
+export function CardIn({
+  t,
+  stage,
+  tilt,
+  children,
+}: {
+  t: SharedValue<number>;
+  stage: Stage;
+  tilt: number;
+  children: ReactNode;
+}) {
   const animated = useAnimatedStyle(() => {
     const p = easeOut(stageProgress(t.value, stage));
     return {
@@ -89,7 +94,17 @@ export function RewardTile({
 }
 
 /** Contador de chispas que sube en ámbar. */
-export function SparksCounter({ t, stage, total, unit }: { t: SharedValue<number>; stage: Stage; total: number; unit: string }) {
+export function SparksCounter({
+  t,
+  stage,
+  total,
+  unit,
+}: {
+  t: SharedValue<number>;
+  stage: Stage;
+  total: number;
+  unit: string;
+}) {
   const [shown, setShown] = useState(0);
 
   useAnimatedReaction(
@@ -105,10 +120,7 @@ export function SparksCounter({ t, stage, total, unit }: { t: SharedValue<number
   });
 
   return (
-    <Animated.View
-      style={[styles.sparks, animated]}
-      accessible
-      accessibilityLabel={`Más ${total} ${unit}`}>
+    <Animated.View style={[styles.sparks, animated]} accessible accessibilityLabel={`+${total} ${unit}`}>
       <Text style={styles.sparkGlyph}>✦</Text>
       <Text style={styles.sparksValue}>+{shown}</Text>
       <Text style={styles.sparksUnit}>{unit}</Text>

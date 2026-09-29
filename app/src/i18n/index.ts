@@ -46,3 +46,7 @@ export const locale = (
 export function tr<T>(texts: { es: T } & Record<Exclude<Lang, 'es'>, NoInfer<T>>): T {
   return texts[lang];
 }
+
+/** Entre comillas del idioma: «hola», “hello”, « bonjour ». */
+export const quoted = (text: string) =>
+  tr({ es: `«${text}»`, en: `“${text}”`, zh: `“${text}”`, hi: `“${text}”`, fr: `« ${text} »` });

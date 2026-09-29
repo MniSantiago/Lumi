@@ -7,6 +7,7 @@ import { Field } from '@/components/onboarding/controls';
 import { PrimaryButton } from '@/components/onboarding/step-shell';
 import { closeSheet, Sheet } from '@/components/sheet';
 import { useLumi } from '@/lumi/store';
+import { tr } from '@/i18n';
 
 /** Cambiar tu nombre y el de Lumi desde Ajustes. Se guarda al pulsar "Guardar". */
 export default function NamesSheet() {
@@ -28,13 +29,55 @@ export default function NamesSheet() {
 
   return (
     <Sheet
-      title="Nombres"
-      subtitle="Cómo te saluda y cómo se llama tu lucecita."
-      footer={<PrimaryButton label="Guardar" onPress={save} disabled={!changed} />}>
+      title={tr({
+        es: tr({ es: 'Nombres', en: 'Names', zh: '名字', hi: 'नाम', fr: 'Prénoms' }),
+        en: 'Names',
+        zh: '名字',
+        hi: 'नाम',
+        fr: 'Prénoms',
+      })}
+      subtitle={tr({
+        es: tr({
+          es: 'Cómo te saluda y cómo se llama tu lucecita.',
+          en: 'How she greets you and what your little light is called.',
+          zh: '她怎么称呼你，你的小光叫什么。',
+          hi: 'वो तुम्हें कैसे बुलाती है और तुम्हारी नन्ही रोशनी का नाम क्या है।',
+          fr: 'Comment elle te salue et comment s’appelle ta petite lumière.',
+        }),
+        en: 'How she greets you and what your little light is called.',
+        zh: '她怎么称呼你，你的小光叫什么。',
+        hi: 'वो तुम्हें कैसे बुलाती है और तुम्हारी नन्ही रोशनी का नाम क्या है।',
+        fr: 'Comment elle te salue et comment s’appelle ta petite lumière.',
+      })}
+      footer={
+        <PrimaryButton
+          label={tr({
+            es: tr({ es: 'Guardar', en: 'Save', zh: '保存', hi: 'सहेजो', fr: 'Enregistrer' }),
+            en: 'Save',
+            zh: '保存',
+            hi: 'सहेजो',
+            fr: 'Enregistrer',
+          })}
+          onPress={save}
+          disabled={!changed}
+        />
+      }>
       <View style={{ gap: 16 }}>
         <Field
-          label="Tu nombre"
-          placeholder="Tu nombre"
+          label={tr({
+            es: tr({ es: 'Tu nombre', en: 'Your name', zh: '你的名字', hi: 'तुम्हारा नाम', fr: 'Ton prénom' }),
+            en: 'Your name',
+            zh: '你的名字',
+            hi: 'तुम्हारा नाम',
+            fr: 'Ton prénom',
+          })}
+          placeholder={tr({
+            es: tr({ es: 'Tu nombre', en: 'Your name', zh: '你的名字', hi: 'तुम्हारा नाम', fr: 'Ton prénom' }),
+            en: 'Your name',
+            zh: '你的名字',
+            hi: 'तुम्हारा नाम',
+            fr: 'Ton prénom',
+          })}
           value={userName}
           onChangeText={setUserName}
           autoCapitalize="words"
@@ -46,7 +89,19 @@ export default function NamesSheet() {
         />
         <Field
           ref={lumiNameRef}
-          label="Nombre de tu lucecita"
+          label={tr({
+            es: tr({
+              es: 'Nombre de tu lucecita',
+              en: 'Your little light’s name',
+              zh: '你的小光的名字',
+              hi: 'तुम्हारी नन्ही रोशनी का नाम',
+              fr: 'Nom de ta petite lumière',
+            }),
+            en: 'Your little light’s name',
+            zh: '你的小光的名字',
+            hi: 'तुम्हारी नन्ही रोशनी का नाम',
+            fr: 'Nom de ta petite lumière',
+          })}
           placeholder="Lumi"
           value={lumiName}
           onChangeText={setLumiName}

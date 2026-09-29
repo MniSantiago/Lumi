@@ -68,3 +68,23 @@ export function dayMonth(date: Date) {
   const m = MONTHS[date.getMonth()];
   return tr({ es: `${d} de ${m}`, en: `${m} ${d}`, zh: `${m}${d}日`, hi: `${d} ${m}`, fr: `${d} ${m}` });
 }
+
+/** Inicial de cada día, de lunes a domingo (la etiqueta del motor es 'L'…'D'). */
+const WEEK_LETTERS = tr({
+  es: ['L', 'M', 'X', 'J', 'V', 'S', 'D'],
+  en: ['M', 'T', 'W', 'T', 'F', 'S', 'S'],
+  zh: ['一', '二', '三', '四', '五', '六', '日'],
+  hi: ['सो', 'मं', 'बु', 'गु', 'शु', 'श', 'र'],
+  fr: ['L', 'M', 'M', 'J', 'V', 'S', 'D'],
+});
+
+const ENGINE_LABELS = 'LMXJVSD';
+
+/** 'X' → 'W' (en inglés), '三' (en chino)… */
+export const weekLetter = (engineLabel: string) => WEEK_LETTERS[ENGINE_LABELS.indexOf(engineLabel)] ?? engineLabel;
+
+/** 'X' → 'miércoles', 'Wednesday'… */
+export const weekdayName = (engineLabel: string) => {
+  const i = ENGINE_LABELS.indexOf(engineLabel);
+  return i < 0 ? engineLabel : WEEKDAYS[(i + 1) % 7];
+};
