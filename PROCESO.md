@@ -18,7 +18,8 @@ Para retomar: abre un chat en el proyecto "Cozy experience" (o pega este archivo
 | Onboarding, postal nocturna, escudo, paywall y resumen semanal | Hecho en la app (datos de ejemplo y uso simulado) | `app/src/app/` |
 | Motor del ciclo diario (expediciones, postales, recompensas) | Hecho | `app/src/game/` |
 | Landing con lista de espera y plan de vídeos | Hecha; falta dominio y conectar `WAITLIST_ENDPOINT` al backend | `landing/` |
-| Privacidad, Términos y Ayuda (en la app y en la landing) | Borrador; falta revisarlo y poner correo de contacto | `app/src/legal/content.json` |
+| Privacidad, Términos y Ayuda (en la app y en la landing) | Borrador en 5 idiomas; falta revisarlo y poner correo de contacto | `app/src/legal/i18n/` |
+| Idiomas: español, inglés, chino, hindi y francés (app, backend, landing y ficha) | Hecho; falta revisión nativa de hindi y chino | `app/src/i18n/`, `backend/src/i18n.ts`, `landing/texts.js`, `ficha/` |
 | Backend (NestJS, Postgres, Resend): cuentas, recuperación de contraseña, borrado de cuenta y lista de espera | Hecho, sin desplegar | `backend/` |
 | Cuenta opcional en la app (cliente Orval) | Hecha | `app/src/account/`, `app/src/api/` |
 | Checklist de la App Store | Hecho | `APP_STORE.md` |
@@ -90,6 +91,7 @@ Trabajo en bloques, cada uno con su PR (ver «PRs de la sesión 3» abajo para e
 - **Legal y privacidad:** Privacidad, Términos y Ayuda desde un solo `content.json` (app y landing), «Descargar mis datos» y privacy manifest.
 - **Backend NestJS** (`backend/`): cuentas opcionales, verificación y recuperación con códigos por correo (Resend), refresh con rotación, borrado de cuenta, copia del progreso, exportación, lista de espera con bienvenida, limpieza diaria y endurecimiento de seguridad. Tests e2e contra Postgres.
 - **App ↔ backend:** cliente con Orval (`npm run api:generate`), sesión en el llavero, sincronización del progreso entre iPhones.
+- **Idiomas:** la app, los correos y errores del backend, la landing, los legales y la ficha de la App Store siguen el idioma del dispositivo: español, inglés, chino simplificado, hindi y francés (si no, inglés). `tr()` tipado desde el español: si falta una traducción, no compila.
 - **Producción:** RevenueCat (código listo), Screen Time nativo con `react-native-device-activity` (borrador sin compilar), EAS por entornos, blueprint de Render, CI en GitHub Actions y tests del motor del juego (jest-expo).
 
 #### PRs de la sesión 3 (orden de merge)
@@ -122,6 +124,12 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 22 | #24 | Expediciones sin destripar la postal |
 | 23 | #25 | Ficha de la App Store (borrador) |
 | 24 | #26 | Chispas: qué son y cómo se consiguen |
+| 25 | #27 | Operación: canales de EAS Update y logs de peticiones |
+| 26 | #28 | Idiomas 1: base i18n, contenido del juego y textos de Lumi |
+| 27 | #29 | Idiomas 2: todas las pantallas |
+| 28 | #30 | Idiomas 3: errores y correos del backend |
+| 29 | #31 | Idiomas 4: legales, ayuda y landing |
+| 30 | #32 | Ficha de la App Store en 5 idiomas y CI de la ficha |
 | — | #15 | **Borrador:** Screen Time nativo (sale de #14; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 

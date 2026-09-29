@@ -26,6 +26,7 @@ import { Colors, Fonts, Radius } from '@/constants/theme';
 import { useLumi } from '@/lumi/store';
 import { cancelTrialReminder, scheduleTrialReminder } from '@/notifications';
 import { purchases, type PlusPackage, type PlusPackageId } from '@/purchases';
+import { tr } from '@/i18n';
 
 const ease = { easing: Easing.out(Easing.cubic), reduceMotion: ReduceMotion.System };
 /** Cuánto dura el momento de éxito antes de cerrar la hoja. */
@@ -220,7 +221,13 @@ export default function PlusScreen() {
               <View style={styles.linksRow}>
                 {/* Cancelar o cambiar de plan se hace en Apple; lo dejamos a un toque. */}
                 <SmallLink
-                  label="Gestionar suscripción"
+                  label={tr({
+                    es: 'Gestionar suscripción',
+                    en: 'Manage subscription',
+                    zh: '管理订阅',
+                    hi: 'सदस्यता प्रबंधित करो',
+                    fr: 'Gérer l’abonnement',
+                  })}
                   onPress={() => void Linking.openURL('https://apps.apple.com/account/subscriptions')}
                 />
               </View>

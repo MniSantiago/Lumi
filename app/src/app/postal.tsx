@@ -1,6 +1,15 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { AccessibilityInfo, Pressable, ScrollView, Share, StyleSheet, Text, useWindowDimensions, View } from 'react-native';
+import {
+  AccessibilityInfo,
+  Pressable,
+  ScrollView,
+  Share,
+  StyleSheet,
+  Text,
+  useWindowDimensions,
+  View,
+} from 'react-native';
 import Animated, { Easing, useAnimatedStyle } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
@@ -13,6 +22,7 @@ import { Colors, Fonts } from '@/constants/theme';
 import { destinationById } from '@/game/destinations';
 import { useGame, type PendingReturn } from '@/game/store';
 import type { Destination } from '@/game/types';
+import { quoted, tr } from '@/i18n';
 import { useLumi } from '@/lumi/store';
 import { nightlyCopy as copy, shareReread, shareTonight } from '@/nightly/copy';
 import { nightlyReturnFrom } from '@/nightly/tonight';
@@ -29,6 +39,15 @@ const easeOut = Easing.out(Easing.cubic);
  * Param opcional `id` (id del destino): relectura tranquila de una postal del
  * álbum, sin la secuencia de premios.
  */
+const stamp = (chapter: number) =>
+  tr({
+    es: `Cap. ${chapter}`,
+    en: `Ch. ${chapter}`,
+    zh: `第${chapter}章`,
+    hi: `अ. ${chapter}`,
+    fr: `Chap. ${chapter}`,
+  });
+
 export default function PostcardScreen() {
   const { id } = useLocalSearchParams<{ id?: string }>();
   const game = useGame();
@@ -68,7 +87,8 @@ function NoPostcard() {
 
 function TonightPostcard({ pending }: { pending: PendingReturn }) {
   const { settings } = useLumi();
-  const { saveReturnToAlbum, album } = useGame();
+  const { saveReturnToAlbum, album, streak } = useGame();
+  const milestone = copy.streakMilestone(streak);
   const tonight = useMemo(() => nightlyReturnFrom(pending), [pending]);
   const { destination } = tonight;
   const insets = useSafeAreaInsets();
@@ -77,7 +97,12 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
 
   const rewards = useMemo(
     () => [
-      ...tonight.keepsakes.map((k) => ({ key: `i-${k.id}`, icon: k.icon, name: k.name, badge: undefined as string | undefined })),
+      ...tonight.keepsakes.map((k) => ({
+        key: `i-${k.id}`,
+        icon: k.icon,
+        name: k.name,
+        badge: undefined as string | undefined,
+      })),
       ...(tonight.friend
         ? [
             {
@@ -130,40 +155,47 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
       <Fireflies glow={1} count={14} />
 
       <ScrollView
-          style={styles.fill}
-          contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}
-          showsVerticalScrollIndicator={false}>
-          <FadeUp t={t} stage={timeline.header} style={styles.headerPill}>
-            <Text style={styles.headerText}>{copy.header(settings.lumiName)}</Text>
+        style={styles.fill}
+        contentContainerStyle={[styles.content, { paddingTop: insets.top + 16 }]}
+        showsVerticalScrollIndicator={false}>
+        <FadeUp t={t} stage={timeline.header} style={styles.headerPill}>
+          <Text style={styles.headerText}>{copy.header(settings.lumiName)}</Text>
+        </FadeUp>
+
+        <CardIn t={t} stage={timeline.card} tilt={TILT}>
+          <NightPostcard
+            title={destination.name}
+            caption={destination.caption}
+            art={destination.art}
+            width={cardWidth}
+            artHeight={artHeight}
+            stamp={stamp(destination.chapter)}
+          />
+        </CardIn>
+
+        <FadeUp t={t} stage={timeline.story} style={styles.story}>
+          <Text style={styles.chapter}>{copy.chapter(destination.chapter, destination.chapterTitle)}</Text>
+          <Text style={styles.storyText}>{tonight.story}</Text>
+        </FadeUp>
+
+        <View style={styles.rewards}>
+          <FadeUp t={t} stage={timeline.rewards[0] ?? timeline.story} lift={4}>
+            <Text style={styles.label}>{copy.broughtLabel}</Text>
           </FadeUp>
-
-          <CardIn t={t} stage={timeline.card} tilt={TILT}>
-            <NightPostcard
-              title={destination.name}
-              caption={destination.caption}
-              art={destination.art}
-              width={cardWidth}
-              artHeight={artHeight}
-              stamp={`Cap. ${destination.chapter}`}
-            />
-          </CardIn>
-
-          <FadeUp t={t} stage={timeline.story} style={styles.story}>
-            <Text style={styles.chapter}>{copy.chapter(destination.chapter, destination.chapterTitle)}</Text>
-            <Text style={styles.storyText}>{tonight.story}</Text>
-          </FadeUp>
-
-          <View style={styles.rewards}>
-            <FadeUp t={t} stage={timeline.rewards[0] ?? timeline.story} lift={4}>
-              <Text style={styles.label}>{copy.broughtLabel}</Text>
-            </FadeUp>
-            <View style={styles.rewardRow}>
-              {rewards.map((r, i) => (
-                <RewardTile key={r.key} t={t} stage={timeline.rewards[i]} icon={r.icon} name={r.name} badge={r.badge} />
-              ))}
-            </View>
-            <SparksCounter t={t} stage={timeline.sparks} total={tonight.sparks} unit={copy.sparksUnit} />
+          <View style={styles.rewardRow}>
+            {rewards.map((r, i) => (
+              <RewardTile key={r.key} t={t} stage={timeline.rewards[i]} icon={r.icon} name={r.name} badge={r.badge} />
+            ))}
           </View>
+          <SparksCounter t={t} stage={timeline.sparks} total={tonight.sparks} unit={copy.sparksUnit} />
+          {milestone ? (
+            <FadeUp t={t} stage={timeline.sparks} lift={4}>
+              <Text style={styles.milestone} accessibilityLiveRegion="polite">
+                {milestone}
+              </Text>
+            </FadeUp>
+          ) : null}
+        </View>
       </ScrollView>
 
       <View style={[styles.bottom, { paddingBottom: Math.max(insets.bottom, 16) + 12 }]}>
@@ -217,12 +249,12 @@ function RereadPostcard({ destination }: { destination: Destination }) {
             art={destination.art}
             width={cardWidth}
             artHeight={artHeight}
-            stamp={`Cap. ${destination.chapter}`}
+            stamp={stamp(destination.chapter)}
           />
         </View>
 
         <View style={styles.story}>
-          <Text style={styles.quote}>«{destination.quote}»</Text>
+          <Text style={styles.quote}>{quoted(destination.quote)}</Text>
           <Text style={styles.signature}>— {settings.lumiName}</Text>
         </View>
       </ScrollView>
@@ -309,6 +341,14 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   rewardRow: { flexDirection: 'row', justifyContent: 'center', gap: 10 },
+  milestone: {
+    fontFamily: Fonts.bodySemiBold,
+    fontSize: 14,
+    lineHeight: 20,
+    color: Colors.amberPale,
+    textAlign: 'center',
+    paddingHorizontal: 12,
+  },
   bottom: { paddingHorizontal: 28, paddingTop: 8 },
   actions: { gap: 10, minHeight: 110, justifyContent: 'center' },
   hint: {

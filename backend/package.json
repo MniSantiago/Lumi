@@ -22,7 +22,8 @@
     "typecheck": "tsc --noEmit",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "openapi": "nest build && node dist/openapi.js"
+    "openapi": "nest build && node dist/openapi.js",
+    "review:account": "nest build && node dist/db/review-account.js"
   },
   "dependencies": {
     "@nestjs/common": "^12.0.1",

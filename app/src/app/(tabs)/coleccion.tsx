@@ -7,16 +7,26 @@ import { PostcardView } from '@/components/postcard';
 import { Screen } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
 import { FRIEND_CATALOG, ITEM_CATALOG } from '@/game/catalog';
-import { destinationById, DESTINATIONS, fromDestination } from '@/game/destinations';
+import { destinationById, DESTINATIONS } from '@/game/destinations';
 import { useGame } from '@/game/store';
 import type { CatalogEntry } from '@/game/types';
 import { useLumi } from '@/lumi/store';
+import { tr } from '@/i18n';
+import { nightlyCopy } from '@/nightly/copy';
+
+const undiscovered = tr({
+  es: 'Por descubrir',
+  en: 'Undiscovered',
+  zh: '待发现',
+  hi: 'अभी खोजना है',
+  fr: 'À découvrir',
+});
 
 type Section = 'postales' | 'objetos' | 'amigos';
 const SECTIONS: { key: Section; label: string }[] = [
-  { key: 'postales', label: 'Postales' },
-  { key: 'objetos', label: 'Objetos' },
-  { key: 'amigos', label: 'Amigos' },
+  { key: 'postales', label: tr({ es: 'Postales', en: 'Postcards', zh: '明信片', hi: 'पोस्टकार्ड', fr: 'Cartes' }) },
+  { key: 'objetos', label: tr({ es: 'Objetos', en: 'Things', zh: '物品', hi: 'चीज़ें', fr: 'Objets' }) },
+  { key: 'amigos', label: tr({ es: 'Amigos', en: 'Friends', zh: '朋友', hi: 'दोस्त', fr: 'Amis' }) },
 ];
 
 /** Siluetas para lo que aún no se ha descubierto (sin desvelar la forma real). */
@@ -33,14 +43,33 @@ export default function CollectionScreen() {
       return destination ? [destination] : [];
     });
   // Lo que falta, en orden de capítulo, como postales cerradas: se ve lo que queda por descubrir.
-  const missing = DESTINATIONS.filter((d) => !postcards.some((p) => p.id === d.id)).sort((a, b) => a.chapter - b.chapter);
+  const missing = DESTINATIONS.filter((d) => !postcards.some((p) => p.id === d.id)).sort(
+    (a, b) => a.chapter - b.chapter,
+  );
   const ownedItems = ITEM_CATALOG.filter((i) => game.items.includes(i.id)).length;
   const ownedFriends = FRIEND_CATALOG.filter((f) => game.friends.includes(f.id)).length;
 
   return (
-    <Screen title="Colección" subtitle={`Todo lo que ${settings.lumiName} ha traído de sus viajes.`}>
+    <Screen
+      title={tr({ es: 'Colección', en: 'Collection', zh: '收藏', hi: 'संग्रह', fr: 'Collection' })}
+      subtitle={tr({
+        es: `Todo lo que ${settings.lumiName} ha traído de sus viajes.`,
+        en: `Everything ${settings.lumiName} has brought back from her trips.`,
+        zh: `${settings.lumiName}旅行带回来的所有东西。`,
+        hi: `सब कुछ जो ${settings.lumiName} अपने सफ़रों से लाई है।`,
+        fr: `Tout ce que ${settings.lumiName} a rapporté de ses voyages.`,
+      })}>
       <View>
-        <View style={styles.tabs} accessibilityRole="tablist" accessibilityLabel="Tipo de colección">
+        <View
+          style={styles.tabs}
+          accessibilityRole="tablist"
+          accessibilityLabel={tr({
+            es: 'Tipo de colección',
+            en: 'Collection type',
+            zh: '收藏类型',
+            hi: 'संग्रह का प्रकार',
+            fr: 'Type de collection',
+          })}>
           {SECTIONS.map((s) => {
             const on = s.key === section;
             return (
@@ -62,18 +91,26 @@ export default function CollectionScreen() {
               {postcards.length} de {DESTINATIONS.length} destinos
             </Text>
             {postcards.length === 0 ? (
-              <Text style={styles.empty}>Aún no hay postales. Esta noche, quizá la primera ✨</Text>
+              <Text style={styles.empty}>
+                {tr({
+                  es: 'Aún no hay postales. Esta noche, quizá la primera ✨',
+                  en: 'No postcards yet. Maybe the first one tonight ✨',
+                  zh: '还没有明信片。也许今晚就有第一张 ✨',
+                  hi: 'अभी कोई पोस्टकार्ड नहीं। शायद आज रात पहला आए ✨',
+                  fr: 'Pas encore de cartes. Peut-être la première ce soir ✨',
+                })}
+              </Text>
             ) : null}
             <View style={styles.postGrid}>
               {postcards.map((d) => (
-                  <Pressable
-                    key={d.id}
-                    style={styles.postCell}
-                    accessibilityRole="button"
-                    accessibilityLabel={`Postal ${fromDestination(d)}`}
-                    onPress={() => router.push({ pathname: '/postal', params: { id: d.id } })}>
-                    <PostcardView title={d.name} caption={`Capítulo ${d.chapter}`} art={d.art} artHeight={100} />
-                  </Pressable>
+                <Pressable
+                  key={d.id}
+                  style={styles.postCell}
+                  accessibilityRole="button"
+                  accessibilityLabel={nightlyCopy.rereadHeader(d)}
+                  onPress={() => router.push({ pathname: '/postal', params: { id: d.id } })}>
+                  <PostcardView title={d.name} caption={nightlyCopy.chapter(d.chapter)} art={d.art} artHeight={100} />
+                </Pressable>
               ))}
               {missing.map((d) => (
                 <View key={d.id} style={styles.postCell}>
@@ -86,13 +123,25 @@ export default function CollectionScreen() {
           <ItemGrid
             entries={ITEM_CATALOG}
             owned={game.items}
-            caption={`${ownedItems} de ${ITEM_CATALOG.length} objetos`}
+            caption={tr({
+              es: `${ownedItems} de ${ITEM_CATALOG.length} objetos`,
+              en: `${ownedItems} of ${ITEM_CATALOG.length} things`,
+              zh: `${ownedItems} / ${ITEM_CATALOG.length} 件物品`,
+              hi: `${ITEM_CATALOG.length} में से ${ownedItems} चीज़ें`,
+              fr: `${ownedItems} objets sur ${ITEM_CATALOG.length}`,
+            })}
           />
         ) : (
           <ItemGrid
             entries={FRIEND_CATALOG}
             owned={game.friends}
-            caption={`${ownedFriends} de ${FRIEND_CATALOG.length} criaturas amigas`}
+            caption={tr({
+              es: `${ownedFriends} de ${FRIEND_CATALOG.length} criaturas amigas`,
+              en: `${ownedFriends} of ${FRIEND_CATALOG.length} creature friends`,
+              zh: `${ownedFriends} / ${FRIEND_CATALOG.length} 个小伙伴`,
+              hi: `${FRIEND_CATALOG.length} में से ${ownedFriends} जीव दोस्त`,
+              fr: `${ownedFriends} amis sur ${FRIEND_CATALOG.length}`,
+            })}
           />
         )}
       </View>
@@ -103,12 +152,17 @@ export default function CollectionScreen() {
 /** Postal aún sin descubrir: mismo tamaño que una de verdad, sin desvelar el lugar. */
 function SealedPostcard({ chapter, plus }: { chapter: number; plus: boolean }) {
   return (
-    <View style={styles.sealed} accessible accessibilityLabel={`Postal sin descubrir, capítulo ${chapter}${plus ? ', de Lumi Plus' : ''}`}>
+    <View
+      style={styles.sealed}
+      accessible
+      accessibilityLabel={`${undiscovered} · ${nightlyCopy.chapter(chapter)}${plus ? ' · Lumi Plus' : ''}`}>
       <View style={styles.sealedArt}>
         <Text style={styles.sealedMark}>?</Text>
       </View>
-      <Text style={styles.sealedTitle}>Por descubrir</Text>
-      <Text style={styles.sealedCaption}>{plus ? `Capítulo ${chapter} · Plus` : `Capítulo ${chapter}`}</Text>
+      <Text style={styles.sealedTitle}>{undiscovered}</Text>
+      <Text style={styles.sealedCaption}>
+        {plus ? `${nightlyCopy.chapter(chapter)} · Plus` : nightlyCopy.chapter(chapter)}
+      </Text>
     </View>
   );
 }
@@ -126,7 +180,7 @@ function ItemGrid({ entries, owned, caption }: { entries: CatalogEntry[]; owned:
           const icon = known ? entry.icon : MYSTERY_ICONS[mystery++ % MYSTERY_ICONS.length];
           return (
             <View key={entry.id} style={styles.itemCell}>
-              <View style={styles.item} accessible accessibilityLabel={known ? entry.name : 'Sin descubrir'}>
+              <View style={styles.item} accessible accessibilityLabel={known ? entry.name : undiscovered}>
                 <CollectionIcon name={icon} locked={!known} />
                 <Text style={[styles.itemLabel, !known && { color: Colors.textTertiary }]} numberOfLines={2}>
                   {known ? entry.name : '¿?'}
@@ -179,8 +233,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   sealedMark: { fontFamily: Fonts.displayBold, fontSize: 30, color: 'rgba(201, 191, 242, 0.35)' },
-  sealedTitle: { fontFamily: Fonts.displayBold, fontSize: 13, lineHeight: 16, color: Colors.textTertiary, marginTop: 6, marginHorizontal: 2 },
-  sealedCaption: { fontFamily: Fonts.body, fontSize: 10.5, lineHeight: 14, color: Colors.textTertiary, marginTop: 2, marginHorizontal: 2 },
+  sealedTitle: {
+    fontFamily: Fonts.displayBold,
+    fontSize: 13,
+    lineHeight: 16,
+    color: Colors.textTertiary,
+    marginTop: 6,
+    marginHorizontal: 2,
+  },
+  sealedCaption: {
+    fontFamily: Fonts.body,
+    fontSize: 10.5,
+    lineHeight: 14,
+    color: Colors.textTertiary,
+    marginTop: 2,
+    marginHorizontal: 2,
+  },
   itemGrid: { flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -ITEM_GAP / 2, rowGap: ITEM_GAP },
   itemCell: { width: '33.333%', paddingHorizontal: ITEM_GAP / 2 },
   item: {

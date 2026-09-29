@@ -1,6 +1,10 @@
 import type { CustomerInfo, PurchasesError, PurchasesPackage } from 'react-native-purchases';
 
+import { tr } from '@/i18n';
 import type { PlusPackage, PlusPackageId, PurchasesSource } from '@/purchases';
+
+const perMonthLabel = (price: string) =>
+  tr({ es: `${price}/mes`, en: `${price}/mo`, zh: `${price}/月`, hi: `${price}/महीना`, fr: `${price}/mois` });
 
 /**
  * Compras reales con RevenueCat (StoreKit). Solo en un development build o en
@@ -42,15 +46,14 @@ export function createRevenueCatPurchases(apiKey: string): PurchasesSource {
       if (annual) {
         packagesById.set('annual', annual);
         const perMonth = annual.product.pricePerMonth;
-        const savings =
-          monthly && perMonth ? Math.round((1 - perMonth / monthly.product.price) * 100) : undefined;
+        const savings = monthly && perMonth ? Math.round((1 - perMonth / monthly.product.price) * 100) : undefined;
         result.push({
           id: 'annual',
-          title: 'Anual',
+          title: tr({ es: 'Anual', en: 'Yearly', zh: '年付', hi: 'सालाना', fr: 'Annuel' }),
           price: annual.product.priceString,
           period: 'year',
           trialDays: trialDays(annual),
-          perMonth: annual.product.pricePerMonthString ? `${annual.product.pricePerMonthString}/mes` : '',
+          perMonth: annual.product.pricePerMonthString ? perMonthLabel(annual.product.pricePerMonthString) : '',
           savingsPercent: savings && savings > 0 ? savings : undefined,
         });
       }
@@ -58,11 +61,11 @@ export function createRevenueCatPurchases(apiKey: string): PurchasesSource {
         packagesById.set('monthly', monthly);
         result.push({
           id: 'monthly',
-          title: 'Mensual',
+          title: tr({ es: 'Mensual', en: 'Monthly', zh: '月付', hi: 'मासिक', fr: 'Mensuel' }),
           price: monthly.product.priceString,
           period: 'month',
           trialDays: trialDays(monthly),
-          perMonth: `${monthly.product.priceString}/mes`,
+          perMonth: perMonthLabel(monthly.product.priceString),
         });
       }
       return result;

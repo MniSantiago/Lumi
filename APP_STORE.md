@@ -24,7 +24,7 @@ Lo que Apple pide para publicar Lumi y en qué estado está. ✅ hecho · 🟡 e
 | Verificar el correo | ✅ | Código de 6 cifras |
 | Cambiar la contraseña y cerrar sesión | ✅ | Ajustes › Cuenta |
 | Iniciar sesión con Apple | No hace falta | Solo es obligatorio si se ofrece otro login social (Google, etc.). Con correo y contraseña, no. |
-| Cuenta de prueba para la revisión | ⬜ | Crear `review@<dominio>` en producción y ponerla en las notas de revisión |
+| Cuenta de prueba para la revisión | 🟡 | Script listo: `REVIEW_EMAIL=… REVIEW_PASSWORD=… node dist/db/review-account.js` en el servidor (ver `backend/README.md`). Falta ejecutarlo en producción y ponerla en las notas de revisión |
 
 ## 3. Privacidad
 
@@ -73,6 +73,22 @@ El uso de pantalla **no se recoge**: se queda en el iPhone (Screen Time por umbr
 | Categoría | ⬜ | Estilo de vida (o Salud y forma física) |
 | Cumplimiento de exportación | ✅ | `ITSAppUsesNonExemptEncryption: false` (solo HTTPS) |
 | Solo iPhone | ✅ | `supportsTablet: false` |
+
+### Idiomas
+
+La app y la web hablan el idioma del dispositivo: **español, inglés, chino (simplificado), hindi y francés**. Si el dispositivo usa otro idioma, salen en inglés.
+
+| Qué | Estado | Notas |
+|---|---|---|
+| Base (`app/src/i18n`): detección del idioma y `tr()` tipado | ✅ | Si falta una traducción, TypeScript no compila |
+| Contenido del juego (20 lugares, 60 historias, 36 objetos, 12 amigos) | ✅ | `app/src/game/content/<idioma>.ts` |
+| Textos de Lumi, avisos, escudo, paywall, fechas | ✅ | |
+| Todas las pantallas | ✅ | Menos el panel de desarrollo, que solo se ve en `__DEV__` |
+| `CFBundleLocalizations` (para que iOS muestre los idiomas en la ficha) | ✅ | `app.json`. La app no pide permisos con texto propio (avisos y Tiempo de uso usan los de iOS) |
+| Legales, ayuda y landing | ✅ | `app/src/legal/i18n/<idioma>.json` (app y web) y `landing/texts.js`. La web sigue `navigator.language` (o `?lang=xx`) |
+| Correos y errores del backend | ✅ | Según `Accept-Language` (la app lo manda); sin cabecera, español |
+| Ficha de la App Store en los 5 idiomas | ✅ | `FICHA_APP_STORE.md` (es) y `ficha/<idioma>.md`; límites comprobados con `tools/check_ficha.py` |
+| Revisión de las traducciones por hablantes nativos | ⬜ | Sobre todo hindi y chino |
 
 **Notas para la revisión:** versión completa en `FICHA_APP_STORE.md`.
 

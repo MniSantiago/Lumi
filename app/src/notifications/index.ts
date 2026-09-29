@@ -3,6 +3,7 @@ import { router, usePathname, useRootNavigationState, type Href } from 'expo-rou
 import { useEffect, useRef, useState } from 'react';
 import { Platform } from 'react-native';
 
+import { DESTINATIONS } from '@/game/destinations';
 import type { Destination } from '@/game/types';
 import { useLumi } from '@/lumi/store';
 import { nightlyReturnContent, trialReminderContent } from '@/notifications/copy';
@@ -115,7 +116,11 @@ async function cancel(identifier: string) {
 }
 
 /** Aviso de la vuelta de Lumi ("Lumi ha vuelto del Bosque de Musgo 🌙") a la hora indicada. Sustituye al anterior. */
-export async function scheduleNightlyReturn(args: { lumiName: string; destination: Destination; at: Date }): Promise<void> {
+export async function scheduleNightlyReturn(args: {
+  lumiName: string;
+  destination: Destination;
+  at: Date;
+}): Promise<void> {
   await scheduleAt(NIGHTLY_ID, args.at, nightlyReturnContent(args.lumiName, args.destination, args.at), '/postal');
 }
 
@@ -139,9 +144,9 @@ export async function cancelTrialReminder(): Promise<void> {
  */
 export async function debugScheduleNightlyIn(
   seconds = 5,
-  args: { lumiName?: string; destination?: Pick<Destination, 'name' | 'article'> } = {},
+  args: { lumiName?: string; destination?: Pick<Destination, 'from'> } = {},
 ): Promise<void> {
-  const destination = { name: 'Bosque de Musgo', article: 'el' as const, ...args.destination };
+  const destination = args.destination ?? DESTINATIONS[0];
   const at = new Date(Date.now() + seconds * 1000);
   await scheduleAt(NIGHTLY_ID, at, nightlyReturnContent(args.lumiName ?? 'Lumi', destination, at), '/postal', {
     ask: true,

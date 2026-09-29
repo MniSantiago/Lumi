@@ -6,6 +6,8 @@
  * - Convierte los errores del backend en `ApiError` con un mensaje ya listo para enseñar.
  */
 
+import { lang, tr } from '@/i18n';
+
 const BASE_URL = (process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000').replace(/\/$/, '');
 
 export class ApiError extends Error {
@@ -37,6 +39,8 @@ export async function apiFetch<T>(url: string, options: RequestInit = {}): Promi
   const send = (token: string | null) => {
     const headers = new Headers(options.headers);
     if (token) headers.set('Authorization', `Bearer ${token}`);
+    // El backend responde (errores y correos) en el idioma de la app.
+    headers.set('Accept-Language', lang);
     return fetch(`${BASE_URL}${url}`, { ...options, headers });
   };
 
@@ -48,7 +52,16 @@ export async function apiFetch<T>(url: string, options: RequestInit = {}): Promi
       if (token) res = await send(token);
     }
   } catch {
-    throw new ApiError(0, 'No hay conexión. Revisa internet y vuelve a intentarlo.');
+    throw new ApiError(
+      0,
+      tr({
+        es: 'No hay conexión. Revisa internet y vuelve a intentarlo.',
+        en: 'No connection. Check your internet and try again.',
+        zh: '没有网络连接。请检查网络后重试。',
+        hi: 'इंटरनेट नहीं है। कनेक्शन देखकर फिर कोशिश करो।',
+        fr: 'Pas de connexion. Vérifie internet et réessaie.',
+      }),
+    );
   }
 
   if (res.status === 204) return undefined as T;
@@ -62,6 +75,19 @@ function messageFrom(status: number, body: unknown): string {
   // ValidationPipe devuelve una lista; enseñamos el primer problema.
   if (Array.isArray(message) && typeof message[0] === 'string') return message[0];
   if (typeof message === 'string' && status < 500 && status !== 429) return message;
-  if (status === 429) return 'Demasiados intentos. Espera un minuto y vuelve a probar.';
-  return 'Algo ha fallado. Vuelve a intentarlo en un momento.';
+  if (status === 429)
+    return tr({
+      es: 'Demasiados intentos. Espera un minuto y vuelve a probar.',
+      en: 'Too many attempts. Wait a minute and try again.',
+      zh: '尝试次数太多。请等一分钟再试。',
+      hi: 'बहुत ज़्यादा कोशिशें। एक मिनट रुककर फिर कोशिश करो।',
+      fr: 'Trop de tentatives. Attends une minute et réessaie.',
+    });
+  return tr({
+    es: 'Algo ha fallado. Vuelve a intentarlo en un momento.',
+    en: 'Something went wrong. Try again in a moment.',
+    zh: '出了点问题。请稍后再试。',
+    hi: 'कुछ गड़बड़ हो गई। थोड़ी देर में फिर कोशिश करो।',
+    fr: 'Un problème est survenu. Réessaie dans un instant.',
+  });
 }
