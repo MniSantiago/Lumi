@@ -225,7 +225,7 @@ Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1`
 
 **Lo que queda en tus manos (tras la noche del 28 al 29 de septiembre):**
 
-1. Revisar y fusionar la cadena de PR en orden (tabla de la sección 4), hasta #71.
+1. Revisar y fusionar la cadena de PR en orden (tabla de «Sesión 3» en la sección 3), hasta #71.
 2. Pedir el entitlement de Family Controls y probar el borrador #15 (con el escudo de noche nativo) y el #22 (widget) en un iPhone.
 3. Desplegar el backend, poner el dominio y `EXPO_PUBLIC_API_URL`, y crear la cuenta de revisión (`APP_STORE.md` §6-§7).
 4. Hacer las capturas del simulador en los 5 idiomas y pasarlas por `sh landing/tools/capturas.sh`.
