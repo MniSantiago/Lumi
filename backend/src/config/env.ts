@@ -13,6 +13,8 @@ export type Env = {
   MAIL_FROM: string;
   /** Orígenes permitidos por CORS (la landing), separados por comas. */
   CORS_ORIGINS: string[];
+  /** URL pública de esta API (https://api.…), para los enlaces de los correos. Vacía: se deduce de la petición. */
+  PUBLIC_URL: string;
 };
 
 export function validateEnv(raw: Record<string, unknown>): Env {
@@ -62,5 +64,6 @@ export function validateEnv(raw: Record<string, unknown>): Env {
       .split(',')
       .map((o) => o.trim())
       .filter(Boolean),
+    PUBLIC_URL: str('PUBLIC_URL', '').replace(/\/$/, ''),
   };
 }

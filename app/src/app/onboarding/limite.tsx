@@ -81,6 +81,13 @@ export default function LimitStep() {
               })}
             />
             <Stepper
+              label={tr({
+                es: 'Límite diario suave',
+                en: 'Gentle daily limit',
+                zh: '温和的每日上限',
+                hi: 'रोज़ की नरम सीमा',
+                fr: 'Limite quotidienne douce',
+              })}
               value={formatLimit(limit)}
               onDecrease={() => stepLimit(-1)}
               onIncrease={() => stepLimit(1)}
@@ -156,6 +163,13 @@ export default function LimitStep() {
               })}
             />
             <Stepper
+              label={tr({
+                es: 'Se va a dormir',
+                en: 'Goes to sleep',
+                zh: '睡觉时间',
+                hi: 'सोने जाती है',
+                fr: 'Va dormir',
+              })}
               value={clockTime(draft.nightStart)}
               onDecrease={() => setDraft({ nightStart: stepTime(draft.nightStart, -1) })}
               onIncrease={() => setDraft({ nightStart: stepTime(draft.nightStart, 1) })}
@@ -186,6 +200,13 @@ export default function LimitStep() {
               })}
             />
             <Stepper
+              label={tr({
+                es: 'Se despierta',
+                en: 'Wakes up',
+                zh: '起床时间',
+                hi: 'जागती है',
+                fr: 'Se réveille',
+              })}
               value={clockTime(draft.nightEnd)}
               onDecrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, -1) })}
               onIncrease={() => setDraft({ nightEnd: stepTime(draft.nightEnd, 1) })}

@@ -8,7 +8,15 @@
 
 import { lang, tr } from '@/i18n';
 
-const BASE_URL = (process.env.EXPO_PUBLIC_API_URL ?? 'http://localhost:3000').replace(/\/$/, '');
+const CONFIGURED_URL = process.env.EXPO_PUBLIC_API_URL;
+const BASE_URL = (CONFIGURED_URL ?? 'http://localhost:3000').replace(/\/$/, '');
+
+/**
+ * Hay servidor al que hablar. En una build de producción sin EXPO_PUBLIC_API_URL,
+ * no: la cuenta se oculta y la app funciona sin ella (mejor que un error delante
+ * del revisor de Apple). En desarrollo se usa localhost.
+ */
+export const apiAvailable = Boolean(CONFIGURED_URL) || __DEV__;
 
 export class ApiError extends Error {
   constructor(

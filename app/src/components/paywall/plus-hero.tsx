@@ -33,8 +33,8 @@ const ORBS = [
 ];
 
 /**
- * Lumi radiante con cuatro orbes de colores de luz alrededor ("Más colores de
- * luz"). `boost` (0-1) sube su halo y el de los orbes en el momento de éxito.
+ * Lumi radiante con cuatro orbes de luz alrededor. `boost` (0-1) sube su halo
+ * y el de los orbes en el momento de éxito.
  */
 export function PlusHero({ boost, caption }: { boost: SharedValue<number>; caption?: string }) {
   const haloStyle = useAnimatedStyle(() => ({

@@ -11,6 +11,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { haptic } from '@/haptics';
 import { Fireflies } from '@/components/fireflies';
 import { AppTag, ShieldButton } from '@/components/shield/shield-parts';
 import { SleepingLumi } from '@/components/shield/sleeping-lumi';
@@ -68,6 +69,7 @@ export default function ShieldScreen() {
     if (busy.current) return;
     busy.current = true;
     setPhase('leaving');
+    haptic.success();
     finish(shieldCopy.leaveThanks, 1);
   };
 
@@ -75,6 +77,7 @@ export default function ShieldScreen() {
     if (busy.current) return;
     busy.current = true;
     setPhase('snoozing');
+    haptic.light();
     const count = await grantSnooze();
     finish(shieldCopy.snoozeGranted(count), 0.45);
   };
@@ -88,7 +91,8 @@ export default function ShieldScreen() {
     transform: [{ translateY: 8 * (1 - reveal.value) }],
   }));
 
-  const note = shieldCopy.snoozeNote(snoozesUsed);
+  const strict = settings.isPlus && settings.strictShield;
+  const note = strict ? shieldCopy.strictNote : shieldCopy.snoozeNote(snoozesUsed);
 
   return (
     <View style={styles.screen}>
@@ -121,12 +125,14 @@ export default function ShieldScreen() {
           style={[styles.actions, questionStyle]}
           pointerEvents={phase === 'ask' ? 'auto' : 'none'}>
           <ShieldButton label={shieldCopy.leave} onPress={onLeave} disabled={phase !== 'ask'} />
-          <ShieldButton
-            ghost
-            label={shieldCopy.snooze(snoozesUsed)}
-            onPress={onSnooze}
-            disabled={phase !== 'ask'}
-          />
+          {strict ? null : (
+            <ShieldButton
+              ghost
+              label={shieldCopy.snooze(snoozesUsed)}
+              onPress={onSnooze}
+              disabled={phase !== 'ask'}
+            />
+          )}
           {note ? <Text style={styles.note}>{note}</Text> : null}
         </Animated.View>
       </View>

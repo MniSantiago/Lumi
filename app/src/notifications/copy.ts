@@ -59,6 +59,25 @@ export function nightlyReturnContent(lumiName: string, destination: Pick<Destina
   };
 }
 
+export function weeklySummaryContent(lumiName: string) {
+  return {
+    title: tr({
+      es: `Tu semana con ${lumiName} ✨`,
+      en: `Your week with ${lumiName} ✨`,
+      zh: `你和${lumiName}的一周 ✨`,
+      hi: `${lumiName} के साथ तुम्हारा हफ़्ता ✨`,
+      fr: `Ta semaine avec ${lumiName} ✨`,
+    }),
+    body: tr({
+      es: 'Ya está listo tu resumen: lo que ha brillado y las postales que ha traído. Por si te apetece compartirlo.',
+      en: 'Your summary is ready: how much she shone and the postcards she brought. In case you feel like sharing it.',
+      zh: '你的每周总结好了：她亮了多少、带回了哪些明信片。想分享的话随时可以。',
+      hi: 'तुम्हारा सारांश तैयार है: वो कितना चमकी और कौन-से पोस्टकार्ड लाई। मन हो तो शेयर कर सकते हो।',
+      fr: 'Ton bilan est prêt : combien elle a brillé et les cartes qu’elle a rapportées. Si tu as envie de le partager.',
+    }),
+  };
+}
+
 export function trialReminderContent(lumiName: string) {
   return {
     title: tr({
