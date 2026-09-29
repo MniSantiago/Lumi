@@ -1,4 +1,3 @@
-import * as Haptics from 'expo-haptics';
 import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
@@ -6,6 +5,7 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { haptic } from '@/haptics';
 import { Fireflies } from '@/components/fireflies';
 import { LightMeter } from '@/components/light-meter';
 import { LumiAvatar } from '@/components/lumi-avatar';
@@ -46,7 +46,7 @@ export default function HomeScreen() {
   const [talk, setTalk] = useState<{ key: string; i: number }>({ key: state.key, i: -1 });
   const line = talk.key === state.key && talk.i >= 0 ? state.chatter[talk.i % state.chatter.length] : state.bubble;
   const onPokeLumi = () => {
-    Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Light).catch(() => {});
+    haptic.light();
     setTalk((prev) => ({ key: state.key, i: prev.key === state.key ? prev.i + 1 : 0 }));
   };
 

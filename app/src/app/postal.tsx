@@ -13,6 +13,7 @@ import {
 import Animated, { Easing, useAnimatedStyle } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { haptic } from '@/haptics';
 import { Fireflies } from '@/components/fireflies';
 import { NightPostcard } from '@/components/nightly/night-postcard';
 import { buildTimeline, stageProgress, useReveal } from '@/components/nightly/reveal';
@@ -133,6 +134,7 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
     if (busy.current) return;
     busy.current = true;
     saveReturnToAlbum();
+    haptic.success();
     setSaved(true);
     // Una postal de un sitio ya visitado sustituye a la anterior: el álbum no crece.
     const isNew = !album.some((a) => a.destinationId === pending.destination.id);
