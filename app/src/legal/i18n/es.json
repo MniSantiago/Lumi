@@ -112,6 +112,13 @@
         ]
       },
       {
+        "heading": "¿Qué pasa de noche?",
+        "body": [
+          "En tu horario de noche (Ajustes › Límite y noche) Lumi duerme y tus apps ladronas se tapan con su escudo hasta la hora de despertar, aunque no hayas llegado al límite.",
+          "Puedes pedir «5 min más» si lo necesitas (salvo con el escudo estricto). Si no lo pides en toda la noche, su siguiente expedición trae 5 chispas de más."
+        ]
+      },
+      {
         "heading": "No me llega la postal nocturna",
         "body": [
           "Revisa que las notificaciones de Lumi estén activadas en Ajustes de tu iPhone › Notificaciones › Lumi, y que la postal nocturna esté encendida en Ajustes › Límite y noche dentro de la app."

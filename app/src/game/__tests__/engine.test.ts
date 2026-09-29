@@ -7,6 +7,8 @@ import {
   evolutionFor,
   expeditionProgress,
   litFor,
+  markRestlessNight,
+  NIGHT_BONUS,
   recordThreshold,
   streakFor,
   syncToday,
@@ -143,5 +145,35 @@ describe('litFor, evolutionFor y expeditionProgress', () => {
     expect(expeditionProgress('2026-09-28', '07:00', atTime('2026-09-28', '06:00'))).toBe(0);
     expect(expeditionProgress('2026-09-28', '07:00', atTime('2026-09-28', '14:00'))).toBeCloseTo(0.5);
     expect(expeditionProgress('2026-09-28', '07:00', atTime('2026-09-28', '23:00'))).toBe(1);
+  });
+});
+
+describe('noche tranquila', () => {
+  const yesterday = '2026-09-27';
+  const today = '2026-09-28';
+  const withYesterday = withDay(today, 25, withDay(yesterday, 25));
+
+  it('si la noche anterior no se pidió «5 min más», trae chispas de más', () => {
+    const bonus = closeDay(withYesterday, today, ctx, 0).pending!.result;
+    const plain = closeDay(withDay(today, 25), today, ctx, 0).pending!.result;
+    expect(bonus.nightBonus).toBe(NIGHT_BONUS);
+    expect(bonus.sparks).toBe(plain.sparks + NIGHT_BONUS);
+  });
+
+  it('sin bonus si esa noche se pidió «5 min más»', () => {
+    const restless = markRestlessNight(withYesterday, today);
+    expect(closeDay(restless, today, ctx, 0).pending!.result.nightBonus).toBeUndefined();
+  });
+
+  it('sin bonus el primer día: la app no estaba la noche anterior', () => {
+    expect(closeDay(withDay(today, 25), today, ctx, 0).pending!.result.nightBonus).toBeUndefined();
+  });
+
+  it('guarda solo las últimas 14 noches movidas, sin repetir', () => {
+    let s = EMPTY_STATE;
+    for (let d = 1; d <= 20; d++) s = markRestlessNight(s, `2026-09-${String(d).padStart(2, '0')}`);
+    s = markRestlessNight(s, '2026-09-20');
+    expect(s.restlessNights).toHaveLength(14);
+    expect(s.restlessNights[0]).toBe('2026-09-07');
   });
 });

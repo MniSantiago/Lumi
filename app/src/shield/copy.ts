@@ -48,11 +48,11 @@ export const shieldCopy = {
         fr: `${lumiName} dort déjà… on y va vraiment ?`,
       }),
     body: tr({
-      es: 'Es su hora de dormir, y también la tuya. Si lo dejas ahora, mañana se despierta con más luz.',
-      en: 'It’s her bedtime, and yours too. If you stop now, she’ll wake up brighter tomorrow.',
-      zh: '到她睡觉的时间了，也到你的了。现在放下，她明天醒来会更亮。',
-      hi: 'उसके सोने का समय है, और तुम्हारा भी। अभी छोड़ दो, तो कल वो और ज़्यादा रोशनी के साथ जागेगी।',
-      fr: 'C’est l’heure de dormir pour elle, et pour toi aussi. Si tu arrêtes maintenant, elle se réveillera plus lumineuse demain.',
+      es: 'Es su hora de dormir, y también la tuya. Si lo dejas ahora, mañana trae chispas de más.',
+      en: 'It’s her bedtime, and yours too. If you stop now, she’ll bring extra sparks tomorrow.',
+      zh: '到她睡觉的时间了，也到你的了。现在放下，她明天会多带些火花回来。',
+      hi: 'उसके सोने का समय है, और तुम्हारा भी। अभी छोड़ दो, तो कल वो ज़्यादा चिंगारियाँ लाएगी।',
+      fr: 'C’est l’heure de dormir pour elle, et pour toi aussi. Si tu arrêtes maintenant, elle rapportera des étincelles en plus demain.',
     }),
   },
 

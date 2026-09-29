@@ -10,6 +10,7 @@ import {
   EMPTY_STATE,
   emptyDay,
   evolutionFor,
+  markRestlessNight as markRestless,
   expeditionProgress,
   restDaysInWeek,
   RETURNS_AT,
@@ -23,6 +24,7 @@ import {
 } from '@/game/engine';
 import type { AlbumEntry, DateKey, DayRecord, Destination, ExpeditionResult } from '@/game/types';
 import { useLumi } from '@/lumi/store';
+import { toMinutes } from '@/lumi/time';
 import { cancelNightlyReturn, scheduleNightlyReturn } from '@/notifications';
 import { screenTime } from '@/screen-time';
 import { clockTime } from '@/i18n/dates';
@@ -86,6 +88,8 @@ export type GameApi = {
   expeditionProgress: number;
   /** Guarda la vuelta pendiente en el álbum (y la marca como vista). */
   saveReturnToAlbum: () => void;
+  /** Se pidió «5 min más» en el escudo de noche: la mañana siguiente no hay bonus de dormir bien. */
+  markRestlessNight: () => void;
   /** Estado guardado tal cual, para la copia de la cuenta (`account/sync.tsx`). */
   snapshot: GameState;
   /** Sustituye el progreso por uno traído de la cuenta. */
@@ -119,6 +123,12 @@ function parseState(raw: string | null): GameState {
   } catch {
     return EMPTY_STATE;
   }
+}
+
+/** Mañana en la que acaba la noche de `at`: antes de la hora de despertar, ese mismo día; si no, el siguiente. */
+function morningAfter(at: Date, nightEnd: string): DateKey {
+  const key = clock.dateKey(at);
+  return at.getHours() * 60 + at.getMinutes() < toMinutes(nightEnd) ? key : clock.addDays(key, 1);
 }
 
 export function GameProvider({ children }: { children: ReactNode }) {
@@ -183,6 +193,11 @@ export function GameProvider({ children }: { children: ReactNode }) {
   const synced = active ? syncToday(state, today, ctx, now, threshold) : state;
   if (synced !== state) setState(synced);
 
+  // En iOS, «5 min más» lo gestiona la extensión del escudo: se lee aquí (cada minuto y al volver a la app).
+  const nightSnooze = active ? screenTime.lastNightSnooze?.() : null;
+  const restless = nightSnooze ? markRestless(synced, morningAfter(nightSnooze, settings.nightEnd)) : synced;
+  if (restless !== synced) setState(restless);
+
   const day: StoredDay = state.days[today] ?? emptyDay(today);
   const ready = active && !!state.days[today];
   const todayDestination = day.destinationId ? (destinationById(day.destinationId) ?? null) : null;
@@ -213,6 +228,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
         : s,
     );
   }, []);
+
+  const nightEnd = settings.nightEnd;
+  const markRestlessNight = useCallback(() => {
+    setState((s) => markRestless(s, morningAfter(clock.now(), nightEnd)));
+  }, [nightEnd]);
+
 
   const restore = useCallback((next: GameState) => setState(toGameState(next)), []);
 
@@ -269,11 +290,12 @@ export function GameProvider({ children }: { children: ReactNode }) {
       evolution: evolutionFor(bright),
       expeditionProgress: expeditionProgress(today, settings.nightEnd, now),
       saveReturnToAlbum,
+      markRestlessNight,
       snapshot: state,
       restore,
       dev,
     };
-  }, [state, day, ready, today, todayDestination, currentDestination, now, settings.nightEnd, saveReturnToAlbum, restore, dev]);
+  }, [state, day, ready, today, todayDestination, currentDestination, now, settings.nightEnd, saveReturnToAlbum, markRestlessNight, restore, dev]);
 
   return <GameContext value={api}>{children}</GameContext>;
 }

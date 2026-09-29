@@ -17,11 +17,14 @@ import type { ScreenTimeSource } from './index';
  *   sumando las apps ladronas. Al 100 %, tapa las apps con el escudo de Lumi.
  *   Al empezar el día, las destapa (cada día empieza de cero).
  * - `lumiNoche` (horario de noche): tapa al empezar y destapa al terminar.
+ * - Dos escudos: el del límite y el de noche (`shieldId`), cada uno con sus textos.
  * - "5 min más" en el escudo: destapa y vuelve a tapar al cabo de 5 minutos
- *   de uso (`lumiPausa`).
+ *   de uso (`lumiPausa`; de noche, `lumiPausaNoche`).
  *
  * Los nombres no llevan "_": la librería separa las claves por ese carácter.
  */
+
+import type { ShieldActions, ShieldConfiguration } from 'react-native-device-activity';
 
 type DAModule = typeof import('react-native-device-activity');
 let loaded: DAModule | null = null;
@@ -39,6 +42,9 @@ const SELECTION_ID = 'ladronas';
 const DAY = 'lumiDia';
 const NIGHT = 'lumiNoche';
 const PAUSE = 'lumiPausa';
+const NIGHT_PAUSE = 'lumiPausaNoche';
+const LIMIT_SHIELD = 'limite';
+const NIGHT_SHIELD = 'noche';
 const THRESHOLDS: Exclude<Threshold, 0>[] = [25, 50, 75, 100];
 const eventName = (t: Threshold) => `u${t}`;
 
@@ -98,51 +104,64 @@ export async function applyScreenTimePlan({
   const token = getThiefAppsSelection();
   if (!token) return;
 
-  da().stopMonitoring([DAY, NIGHT, PAUSE]);
-  da().cleanUpAfterActivity(DAY);
-  da().cleanUpAfterActivity(NIGHT);
-  da().cleanUpAfterActivity(PAUSE);
+  da().stopMonitoring([DAY, NIGHT, PAUSE, NIGHT_PAUSE]);
+  for (const activity of [DAY, NIGHT, PAUSE, NIGHT_PAUSE]) da().cleanUpAfterActivity(activity);
 
-  const block = { type: 'blockSelection', familyActivitySelectionId: SELECTION_ID } as const;
   const unblock = { type: 'unblockSelection', familyActivitySelectionId: SELECTION_ID } as const;
+  const blockWith = (shieldId: string) =>
+    ({ type: 'blockSelection', familyActivitySelectionId: SELECTION_ID, shieldId }) as const;
 
-  // El escudo: habla Lumi, nunca riñe.
-  da().updateShield(
-    {
-      title: shieldCopy.title(lumiName),
-      titleColor: text,
-      subtitle: shieldCopy.body,
-      subtitleColor: soft,
-      backgroundColor: night,
-      iconSystemName: 'moon.zzz.fill',
-      iconTint: amber,
-      primaryButtonLabel: shieldCopy.leave,
-      primaryButtonLabelColor: night,
-      primaryButtonBackgroundColor: amber,
-      // Sin etiqueta, iOS no enseña el segundo botón.
-      ...(strict
-        ? { subtitle: `${shieldCopy.body}\n\n${shieldCopy.strictNote}` }
-        : { secondaryButtonLabel: shieldCopy.snooze(0) }),
-      secondaryButtonLabelColor: soft,
-    },
-    {
-      primary: { behavior: 'close' },
-      secondary: {
-        behavior: 'defer',
-        actions: [
-          unblock,
-          {
-            type: 'startMonitoring',
-            activityName: PAUSE,
-            deviceActivityEvents: [{ eventName: 'm5', familyActivitySelection: token, threshold: { minute: 5 } }],
-            intervalStartDelayMs: 0,
-            // DeviceActivity exige intervalos de al menos 15 minutos.
-            intervalEndDelayMs: 20 * 60 * 1000,
-          },
-        ],
+  /**
+   * Dos escudos (#57): el del límite y el de noche, que habla de dormir. Cada uno
+   * con su pausa de «5 min más», para volver a tapar con el mismo escudo y para
+   * que la app sepa si de noche se pidió (sin bonus de noche tranquila, #61).
+   */
+  const shield = (
+    copy: { title: (name: string) => string; body: string },
+    pause: string,
+  ): [ShieldConfiguration, ShieldActions] => [
+      {
+        title: copy.title(lumiName),
+        titleColor: text,
+        subtitle: copy.body,
+        subtitleColor: soft,
+        backgroundColor: night,
+        iconSystemName: 'moon.zzz.fill',
+        iconTint: amber,
+        primaryButtonLabel: shieldCopy.leave,
+        primaryButtonLabelColor: night,
+        primaryButtonBackgroundColor: amber,
+        // Sin etiqueta, iOS no enseña el segundo botón.
+        ...(strict
+          ? { subtitle: `${copy.body}\n\n${shieldCopy.strictNote}` }
+          : { secondaryButtonLabel: shieldCopy.snooze(0) }),
+        secondaryButtonLabelColor: soft,
       },
-    },
-  );
+      {
+        primary: { behavior: 'close' },
+        secondary: {
+          behavior: 'defer',
+          actions: [
+            unblock,
+            {
+              type: 'startMonitoring',
+              activityName: pause,
+              deviceActivityEvents: [{ eventName: 'm5', familyActivitySelection: token, threshold: { minute: 5 } }],
+              intervalStartDelayMs: 0,
+              // DeviceActivity exige intervalos de al menos 15 minutos.
+              intervalEndDelayMs: 20 * 60 * 1000,
+            },
+          ],
+        },
+      },
+    ];
+
+  const [limitShield, limitActions] = shield(shieldCopy, PAUSE);
+  const [nightShield, nightActions] = shield(shieldCopy.night, NIGHT_PAUSE);
+  da().updateShieldWithId(limitShield, limitActions, LIMIT_SHIELD);
+  da().updateShieldWithId(nightShield, nightActions, NIGHT_SHIELD);
+  // Por si algo tapa sin decir qué escudo: el del límite.
+  da().updateShield(limitShield, limitActions);
 
   // Día: umbrales y escudo al 100 %; al empezar el día, todo destapado.
   da().configureActions({ activityName: DAY, callbackName: 'intervalDidStart', actions: [unblock] });
@@ -150,7 +169,7 @@ export async function applyScreenTimePlan({
     activityName: DAY,
     callbackName: 'eventDidReachThreshold',
     eventName: eventName(100),
-    actions: [block],
+    actions: [blockWith(LIMIT_SHIELD)],
   });
   await da().startMonitoring(
     DAY,
@@ -166,16 +185,21 @@ export async function applyScreenTimePlan({
     })),
   );
 
-  // Pausa de "5 min más": al llegar a 5 minutos, se vuelve a tapar.
-  da().configureActions({
-    activityName: PAUSE,
-    callbackName: 'eventDidReachThreshold',
-    eventName: 'm5',
-    actions: [block],
-  });
+  // Pausas de «5 min más»: al llegar a 5 minutos, se vuelve a tapar con el mismo escudo.
+  for (const [pause, shieldId] of [
+    [PAUSE, LIMIT_SHIELD],
+    [NIGHT_PAUSE, NIGHT_SHIELD],
+  ] as const) {
+    da().configureActions({
+      activityName: pause,
+      callbackName: 'eventDidReachThreshold',
+      eventName: 'm5',
+      actions: [blockWith(shieldId)],
+    });
+  }
 
   // Noche: se tapa al empezar y se destapa al terminar.
-  da().configureActions({ activityName: NIGHT, callbackName: 'intervalDidStart', actions: [block] });
+  da().configureActions({ activityName: NIGHT, callbackName: 'intervalDidStart', actions: [blockWith(NIGHT_SHIELD)] });
   da().configureActions({ activityName: NIGHT, callbackName: 'intervalDidEnd', actions: [unblock] });
   await da().startMonitoring(
     NIGHT,
@@ -200,6 +224,14 @@ function thresholdToday(): Threshold {
 export function createNativeScreenTime(): ScreenTimeSource {
   return {
     getThreshold: async () => thresholdToday(),
+    lastNightSnooze: () => {
+      // La pausa de noche empieza justo al tocar «5 min más» en el escudo de noche.
+      const starts = da()
+        .getEvents(NIGHT_PAUSE)
+        .filter((e) => e.callbackName === 'intervalDidStart')
+        .map((e) => e.lastCalledAt);
+      return starts.length ? new Date(Math.max(...starts.map((d) => d.getTime()))) : null;
+    },
     subscribe(listener) {
       // Con la app abierta llegan los eventos; si estaba cerrada, se lee el historial al volver.
       const events = da().onDeviceActivityMonitorEvent(() => listener(thresholdToday()));

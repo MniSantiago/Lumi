@@ -6,24 +6,28 @@ import { tr } from '@/i18n';
  * apps ladronas.
  */
 
-/** Etapas de evolución: cada una cambia el color de la luz de Lumi; `orb` es su degradado. */
+/** Etapas de evolución: cada una cambia el color de la luz de Lumi; `orb` es su degradado y `halo`, el brillo que la rodea en el Hogar. */
 export const EVOLUTION = {
   stages: [
     {
       name: tr({ es: 'Chispa', en: 'Spark', zh: '火花', hi: 'चिंगारी', fr: 'Étincelle' }),
       orb: 'radial-gradient(circle, #FFE3A3, #FFC96B 50%, transparent 72%)',
+      halo: 'radial-gradient(circle, #FFC96B88 0%, #FFC96B22 45%, transparent 70%)',
     },
     {
       name: tr({ es: 'Farolito', en: 'Lantern', zh: '小灯笼', hi: 'दीया', fr: 'Lanterne' }),
       orb: 'radial-gradient(circle, #FFE3A3, #FFC96B 45%, #FFB4A2 60%, transparent 74%)',
+      halo: 'radial-gradient(circle, #FFC96B88 0%, #FFB4A233 45%, transparent 70%)',
     },
     {
       name: tr({ es: 'Estrella', en: 'Star', zh: '星星', hi: 'तारा', fr: 'Étoile' }),
       orb: 'radial-gradient(circle, #E6E0FB, #9FE3F0 50%, transparent 74%)',
+      halo: 'radial-gradient(circle, #9FE3F088 0%, #9FE3F022 45%, transparent 70%)',
     },
     {
       name: tr({ es: 'Aurora', en: 'Aurora', zh: '极光', hi: 'उषा', fr: 'Aurore' }),
       orb: 'radial-gradient(circle, #FFFFFF, #C9BFF2 45%, #8C7BD8 60%, transparent 76%)',
+      halo: 'radial-gradient(circle, #E6E0FB99 0%, #8C7BD833 45%, transparent 70%)',
     },
   ],
 };
