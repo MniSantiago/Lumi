@@ -16,6 +16,7 @@ import type { Destination } from '@/game/types';
 import { tr } from '@/i18n';
 import { clockTime } from '@/i18n/dates';
 import { meterNote } from '@/lumi/meter';
+import { EVOLUTION } from '@/lumi/data';
 import { LUMI_STATES, THRESHOLDS, type LumiState, type Threshold } from '@/lumi/states';
 import { useLumi } from '@/lumi/store';
 import { isNightTime } from '@/lumi/time';
@@ -144,6 +145,7 @@ export default function HomeScreen() {
           <LumiAvatar
             state={state}
             size={190}
+            halo={EVOLUTION.stages[game.evolution.stage]?.halo}
             onPress={onPokeLumi}
             accessibilityHint={tr({
               es: 'Le dice algo',
