@@ -4,6 +4,7 @@ import { Pressable, StyleSheet, Switch, Text, TextInput, View, type TextInputPro
 
 import { haptic } from '@/haptics';
 import { Colors, Fonts, Radius } from '@/constants/theme';
+import { tr } from '@/i18n';
 import type { ThiefApp } from '@/lumi/data';
 
 /* Listas con el mismo aspecto que las de Ajustes. */
@@ -171,9 +172,43 @@ export function Field({
   ...input
 }: TextInputProps & { label: string; ref?: Ref<TextInput> }) {
   const [focused, setFocused] = useState(false);
+  // Las contraseñas se pueden enseñar un momento para comprobar lo escrito.
+  const secret = !!input.secureTextEntry;
+  const [revealed, setRevealed] = useState(false);
   return (
     <View style={{ gap: 8 }}>
-      <Text style={styles.fieldLabel}>{label}</Text>
+      <View style={styles.fieldHead}>
+        <Text style={styles.fieldLabel}>{label}</Text>
+        {secret ? (
+          <Pressable
+            hitSlop={10}
+            accessibilityRole="button"
+            accessibilityLabel={
+              revealed
+                ? tr({
+                    es: 'Ocultar la contraseña',
+                    en: 'Hide password',
+                    zh: '隐藏密码',
+                    hi: 'पासवर्ड छिपाओ',
+                    fr: 'Masquer le mot de passe',
+                  })
+                : tr({
+                    es: 'Mostrar la contraseña',
+                    en: 'Show password',
+                    zh: '显示密码',
+                    hi: 'पासवर्ड दिखाओ',
+                    fr: 'Afficher le mot de passe',
+                  })
+            }
+            onPress={() => setRevealed((r) => !r)}>
+            <Text style={styles.fieldToggle}>
+              {revealed
+                ? tr({ es: 'Ocultar', en: 'Hide', zh: '隐藏', hi: 'छिपाओ', fr: 'Masquer' })
+                : tr({ es: 'Mostrar', en: 'Show', zh: '显示', hi: 'दिखाओ', fr: 'Afficher' })}
+            </Text>
+          </Pressable>
+        ) : null}
+      </View>
       <TextInput
         ref={ref}
         accessibilityLabel={label}
@@ -183,6 +218,7 @@ export function Field({
         keyboardAppearance="dark"
         autoCorrect={false}
         {...input}
+        secureTextEntry={secret && !revealed}
         onFocus={(e) => {
           setFocused(true);
           onFocus?.(e);
@@ -261,6 +297,8 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontVariant: ['tabular-nums'],
   },
+  fieldHead: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'baseline' },
+  fieldToggle: { fontFamily: Fonts.bodySemiBold, fontSize: 13, color: Colors.amberPale },
   fieldLabel: { fontFamily: Fonts.bodySemiBold, fontSize: 14, color: Colors.lavenderPale },
   input: {
     minHeight: 50,
