@@ -191,7 +191,7 @@ export default function ProgressScreen() {
                           en: `${d.lit} of 4 light segments`,
                           zh: `4 段光中的 ${d.lit} 段`,
                           hi: `रोशनी के 4 में से ${d.lit} हिस्से`,
-                          fr: `${d.lit} tranches de lumière sur 4`,
+                          fr: `${d.lit} ${d.lit <= 1 ? 'tranche' : 'tranches'} de lumière sur 4`,
                         })
               }`;
               return (
