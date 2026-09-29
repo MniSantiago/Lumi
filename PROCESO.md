@@ -140,6 +140,7 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 | 36 | #38 | Mockup HTML con las 4 ilustraciones (paso 2) |
 | 37 | #39 | Lista de espera: darse de baja con un enlace en cada correo |
 | 38 | #40 | Vibración suave en los momentos clave |
+| 39 | #41 | Builds de la tienda seguras: sin API se oculta la cuenta, sin RevenueCat no hay Plus gratis |
 | — | #15 | **Borrador:** Screen Time nativo (encima de #36, con idiomas y escudo estricto; fusionar cuando compile en un iPhone) |
 | — | #22 | **Borrador:** widget de Lumi (encima de #15) |
 
