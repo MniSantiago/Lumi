@@ -173,6 +173,8 @@ def main(names):
             tiles = postcards(name, meta, im)
         elif name.startswith("objetos"):
             tiles = icons(name, meta, im, "objetos")
+        elif name.startswith("tutorial"):
+            tiles = icons(name, meta, im, "tutorial")
         else:
             tiles = icons(name, meta, im, "amigos")
         contact(name, tiles, grid_shape(meta["ids"], meta["size"])[1])

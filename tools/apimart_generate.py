@@ -123,6 +123,21 @@ SHEETS = {
             ["an old gold coin with a star engraved", "a single odd striped sock", "an iridescent soap bubble"],
         ]),
     },
+    "tutorial": {
+        "size": "1:1", "ref": "assets/fa783b9e-d615-4151-b0b7-0f5ef3977612.png",
+        "ids": ["mano", "estrella", "flecha", "brillos", "corazon", "varita", "medalla", "pergamino", "corona"],
+        "prompt": "A 3x3 grid of nine small friendly UI sticker icons for an interactive tutorial in a cozy game. " + STYLE_ICON + " " + cells([
+            ["a cute soft lavender cartoon hand with one finger pointing up, round chubby fingers, peach blush, gentle amber glow at the fingertip",
+             "a single glowing golden five-point star with rounded tips and a soft warm halo",
+             "a curved hand-drawn arrow made of warm amber light, thick rounded stroke, slightly sparkling"],
+            ["a small cluster of three tiny golden sparkles of different sizes",
+             "a soft glowing peach-pink heart with a tiny highlight",
+             "a little magic wand with a lavender handle and a glowing golden star at the tip"],
+            ["a round golden medal with a star in the middle and two short lavender ribbons",
+             "a small rolled parchment scroll tied with an amber ribbon",
+             "a tiny golden crown with three rounded points and a violet gem"],
+        ]),
+    },
     "amigos": {
         "size": "4:3", "ref": "assets/fa783b9e-d615-4151-b0b7-0f5ef3977612.png",
         "ids": ["musguito", "hollin", "nubecilla", "chispin", "topito", "pinchito",

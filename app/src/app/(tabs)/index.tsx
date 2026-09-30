@@ -22,6 +22,8 @@ import { useLumi } from '@/lumi/store';
 import { isNightTime } from '@/lumi/time';
 import { nightlyCopy } from '@/nightly/copy';
 import { screenTime } from '@/screen-time';
+import { TourTarget } from '@/tour/target';
+import { useTourOnFocus } from '@/tour/store';
 
 function greeting(date = new Date()) {
   const h = date.getHours();
@@ -65,6 +67,7 @@ export default function HomeScreen() {
   const night = isNightTime(settings.nightStart, settings.nightEnd);
   const state = night ? nightState(settings.nightEnd) : dayState;
   const game = useGame();
+  useTourOnFocus('home');
   // El primer día se explica la regla: sin pasar de la mitad del límite, hay postal.
   const firstDay = game.ready && game.history.length <= 1 && !game.pendingReturn && !night && dayState.lit > 2;
   // Al tocar a Lumi dice otra cosa; con cada cambio de estado vuelve a su frase principal.
@@ -102,38 +105,42 @@ export default function HomeScreen() {
             </AppText>
             <AppText variant="display">{settings.lumiName}</AppText>
           </View>
-          <Pressable
-            style={({ pressed }) => [styles.sparks, pressed && { opacity: 0.75 }]}
-            accessibilityRole="button"
-            accessibilityLabel={`${game.sparks} ${nightlyCopy.sparksUnit}`}
-            accessibilityHint={tr({
-              es: 'Qué son y cómo se consiguen',
-              en: 'What they are and how to get them',
-              zh: '火花是什么、怎么获得',
-              hi: 'ये क्या हैं और कैसे मिलती हैं',
-              fr: 'Ce que c’est et comment en gagner',
-            })}
-            hitSlop={8}
-            onPress={() => router.push('/chispas')}>
-            <Text style={styles.sparksText}>✦ {game.sparks}</Text>
-          </Pressable>
+          <TourTarget id="home.sparks">
+            <Pressable
+              style={({ pressed }) => [styles.sparks, pressed && { opacity: 0.75 }]}
+              accessibilityRole="button"
+              accessibilityLabel={`${game.sparks} ${nightlyCopy.sparksUnit}`}
+              accessibilityHint={tr({
+                es: 'Qué son y cómo se consiguen',
+                en: 'What they are and how to get them',
+                zh: '火花是什么、怎么获得',
+                hi: 'ये क्या हैं और कैसे मिलती हैं',
+                fr: 'Ce que c’est et comment en gagner',
+              })}
+              hitSlop={8}
+              onPress={() => router.push('/chispas')}>
+              <Text style={styles.sparksText}>✦ {game.sparks}</Text>
+            </Pressable>
+          </TourTarget>
         </View>
 
-        <Card style={styles.meterCard}>
-          <LightMeter lit={dayState.lit} note={meterNote(threshold, settings.limitMinutes)} />
-          {firstDay ? (
-            <AppText variant="caption">
-              {tr({
-                es: 'Tus apps ladronas gastan su luz. Si hoy no pasas de la mitad de tu límite, esta noche vuelve con una postal.',
-                en: 'Your thief apps drain her light. Stay under half your limit today and she’ll bring you a postcard tonight.',
-                zh: '“偷时间”的应用会消耗她的光。今天用量不超过上限的一半，今晚她就会带着明信片回来。',
-                hi: 'चोर ऐप्स उसकी रोशनी खर्च करते हैं। आज सीमा का आधा भी पार न हो, तो आज रात वो पोस्टकार्ड लेकर लौटेगी।',
-                fr: 'Tes applis voleuses usent sa lumière. Reste sous la moitié de ta limite aujourd’hui et elle te rapporte une carte ce soir.',
-              })}
-            </AppText>
-          ) : null}
-          {__DEV__ ? <ThresholdSimulator value={threshold} /> : null}
-        </Card>
+        <TourTarget id="home.meter">
+          <Card style={styles.meterCard}>
+            <LightMeter lit={dayState.lit} note={meterNote(threshold, settings.limitMinutes)} />
+            {firstDay ? (
+              <AppText variant="caption">
+                {tr({
+                  es: 'Tus apps ladronas gastan su luz. Si hoy no pasas de la mitad de tu límite, esta noche vuelve con una postal.',
+                  en: 'Your thief apps drain her light. Stay under half your limit today and she’ll bring you a postcard tonight.',
+                  zh: '“偷时间”的应用会消耗她的光。今天用量不超过上限的一半，今晚她就会带着明信片回来。',
+                  hi: 'चोर ऐप्स उसकी रोशनी खर्च करते हैं। आज सीमा का आधा भी पार न हो, तो आज रात वो पोस्टकार्ड लेकर लौटेगी।',
+                  fr: 'Tes applis voleuses usent sa lumière. Reste sous la moitié de ta limite aujourd’hui et elle te rapporte une carte ce soir.',
+                })}
+              </AppText>
+            ) : null}
+            {__DEV__ ? <ThresholdSimulator value={threshold} /> : null}
+          </Card>
+        </TourTarget>
 
         <View style={styles.stage}>
           <View style={styles.bubble}>
@@ -142,26 +149,30 @@ export default function HomeScreen() {
             </Text>
             <View style={styles.bubbleTail} />
           </View>
-          <LumiAvatar
-            state={state}
-            size={190}
-            halo={EVOLUTION.stages[game.evolution.stage]?.halo}
-            onPress={onPokeLumi}
-            accessibilityHint={tr({
-              es: 'Le dice algo',
-              en: 'Says something',
-              zh: '跟你说句话',
-              hi: 'कुछ कहती है',
-              fr: 'Te dit quelque chose',
-            })}
-          />
+          <TourTarget id="home.lumi">
+            <LumiAvatar
+              state={state}
+              size={190}
+              halo={EVOLUTION.stages[game.evolution.stage]?.halo}
+              onPress={onPokeLumi}
+              accessibilityHint={tr({
+                es: 'Le dice algo',
+                en: 'Says something',
+                zh: '跟你说句话',
+                hi: 'कुछ कहती है',
+                fr: 'Te dit quelque chose',
+              })}
+            />
+          </TourTarget>
           <Pill tone={state.exploring ? 'amber' : 'lavender'} style={styles.statePill}>
             {state.label}
           </Pill>
         </View>
 
         {game.ready ? (
-          <ExpeditionCard game={game} lumiName={settings.lumiName} asleep={state.key === 'apagadita'} night={night} />
+          <TourTarget id="home.expedition">
+            <ExpeditionCard game={game} lumiName={settings.lumiName} asleep={state.key === 'apagadita'} night={night} />
+          </TourTarget>
         ) : null}
       </View>
     </View>

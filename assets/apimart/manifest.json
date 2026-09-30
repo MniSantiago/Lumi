@@ -141,5 +141,26 @@
     "credits_cost": 0.28,
     "url": "https://getapib.org/image/9998209222489274-6c34fb61-2ac2-40ed-9e1d-51b5b5e09cef-image_task_01M3SAGJSA076JF3KMD9XV4SCA_0.jpg",
     "url_expires_at": 1790863910
+  },
+  "tutorial": {
+    "ids": [
+      "mano",
+      "estrella",
+      "flecha",
+      "brillos",
+      "corazon",
+      "varita",
+      "medalla",
+      "pergamino",
+      "corona"
+    ],
+    "size": "1:1",
+    "prompt": "A 3x3 grid of nine small friendly UI sticker icons for an interactive tutorial in a cozy game. Each one centered alone in its own cell, clearly separated from the others with generous empty space, on one continuous plain flat pure white background, no gutters, no frames, no ground shadows, no text, no letters. Same soft cozy 2D painterly illustration style as the reference character (gentle grain, rounded shapes, soft glow), palette of lavender, soft violet, warm amber-gold, peach-pink, mint green and cream. Cute, readable at small size. Row 1 left: a cute soft lavender cartoon hand with one finger pointing up, round chubby fingers, peach blush, gentle amber glow at the fingertip. Row 1 center: a single glowing golden five-point star with rounded tips and a soft warm halo. Row 1 right: a curved hand-drawn arrow made of warm amber light, thick rounded stroke, slightly sparkling. Row 2 left: a small cluster of three tiny golden sparkles of different sizes. Row 2 center: a soft glowing peach-pink heart with a tiny highlight. Row 2 right: a little magic wand with a lavender handle and a glowing golden star at the tip. Row 3 left: a round golden medal with a star in the middle and two short lavender ribbons. Row 3 center: a small rolled parchment scroll tied with an amber ribbon. Row 3 right: a tiny golden crown with three rounded points and a violet gem.",
+    "task_id": "task_01M3T2SRND6W53FKG6JDS9JCS3",
+    "cost": 0.028,
+    "credits_cost": 0.28,
+    "url": "https://getapib.org/image/9998209196953301-0391f4a5-5f84-421e-ab12-d70cd03ea1db-image_task_01M3T2VW8CFDXHAEP0WPK5CWNX_0.jpg",
+    "url_expires_at": 1790889446,
+    "file": "tutorial.jpg"
   }
 }
