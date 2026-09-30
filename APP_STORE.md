@@ -139,7 +139,11 @@ npx eas-cli@latest build --platform ios --profile production
 npx eas-cli@latest submit --platform ios --profile production
 ```
 
-Las variables de EAS (§6) son del proyecto, así que el proyecto nuevo empieza sin ninguna: ponerlas antes del build.
+Las variables de EAS (§6) son del proyecto. Ya están cargadas en `production`, `preview` y `development`: `EXPO_PUBLIC_API_URL` (`https://dependable-expression-production-83d3.up.railway.app`), `EXPO_PUBLIC_SITE_DOMAIN` (`lampi.es`, sin `https://`: la tarjeta del resumen lo enseña tal cual) y `EXPO_PUBLIC_REVENUECAT_IOS_KEY` (clave pública `appl_…` de la app «Lampi iOS», bundle `com.gonzalez.lampi`, en el proyecto «Lampi» de RevenueCat).
+
+Pendiente en RevenueCat: subir la clave de App Store Connect y la clave de compras in-app a la app «Lampi iOS», y crear el entitlement `plus` y los paquetes `$rc_annual` y `$rc_monthly` (§1).
+
+⚠️ A 1 de octubre de 2026 la API de Railway responde **502 «Application failed to respond»** en `/health`: el servicio no arranca. En producción el backend exige `DATABASE_URL`, `JWT_SECRET` (32+ caracteres) y `RESEND_API_KEY`; si falta alguna se cae al iniciar. Revisar los logs del despliegue antes de enviar la build.
 
 ## 6. Configuración de producción
 
