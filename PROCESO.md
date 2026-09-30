@@ -324,7 +324,7 @@ Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1`
 - **Descargas desde la nube:** el espacio de trabajo en la nube de Claude no puede descargar del CDN de Higgsfield (`cloudfront.net`). Las imágenes se descargan a mano en `assets/` y Claude las lee desde esta carpeta.
 - **Commits desde Claude:** en esta carpeta necesita permiso de borrado (Git borra sus archivos `.lock`); se concede por sesión.
 - **Repositorio:** en GitHub (`origin` = https://github.com/MniSantiago/Lumi). Todo se trabaja en ramas con PR contra `main`.
-- **Expo:** proyecto `@mnisantiago/lumi` (https://expo.dev/accounts/mnisantiago/projects/lumi), vinculado en `app/app.json`.
+- **Expo:** proyecto `@mnisantiago/lampi` (https://expo.dev/accounts/mnisantiago/projects/lampi), vinculado en `app/app.json`.
 - **Idiomas (es, en, zh, hi, fr; si no, inglés):**
   - *Un texto nuevo en la app:* `tr({ es, en, zh, hi, fr })` de `@/i18n`, junto al código que lo usa. El tipo sale del español: si falta un idioma, no compila. Fechas y horas con `@/i18n/dates` (`dayMonth`, `clockTime`…), comillas con `quoted()`.
   - *Contenido del juego:* `app/src/game/content/<idioma>.ts` (lugares, historias, objetos y amigos, con su gramática: `the`, `from`, `a`, `feminine`). Un test comprueba que todos tienen las mismas claves.

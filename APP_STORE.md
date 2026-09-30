@@ -119,6 +119,32 @@ La app y la web hablan el idioma del dispositivo: **español, inglés, chino (si
 
 > Lampi es una mascota que ayuda a usar menos las apps que elige el usuario. Usa Family Controls solo para el propio usuario (no control parental): el usuario elige sus apps con FamilyActivityPicker, DeviceActivityMonitor avisa al 25/50/75/100 % de su límite y ShieldConfiguration muestra a Lampi al abrir una app pasado el límite o en el horario de noche. Ningún dato de uso sale del dispositivo. La cuenta es opcional (Ajustes › Cuenta) y se puede eliminar desde la app. Cuenta de prueba: review@… / …
 
+## 5b. Crear la app nueva (Lampi, bundle `com.gonzalez.lampi`)
+
+La app se creó de cero al renombrarla: proyecto de Expo nuevo, bundle ID nuevo y registro nuevo en App Store Connect. La antigua (`com.gonzalez.lumi`, proyecto `lumi`) queda sin tocar.
+
+| | Qué | Estado |
+|---|---|---|
+| ✅ | Proyecto de Expo `@mnisantiago/lampi` (ID `feafb674-d2ee-455b-bcd4-623c4bdf049f`), enlazado en `app/app.json` con su URL de updates | Hecho |
+| ⬜ | **Nombre «Lampi» libre en App Store Connect.** Si ya está cogido, hay que cambiar `name` en `app.json` (el nombre visible) o usar otro en la ficha | Comprobar antes de crear la app |
+| ⬜ | **Entitlement de Family Controls (Distribution) para los 4 identificadores**, no solo para la app: `com.gonzalez.lampi`, `.monitor`, `.shieldconfig` y `.shieldaction`. Se pide en developer.apple.com › Account › Family Controls. La solicitud de la app antigua no sirve para los bundle ID nuevos. Sin la aprobación, EAS no puede firmar un build de TestFlight que lleve el entitlement | Pedir ya (tarda semanas) |
+| ⬜ | Identificadores y App Group `group.com.gonzalez.lampi`: los crea EAS al hacer el primer build (pide el Apple ID y el código 2FA) | Interactivo |
+| ⬜ | Registro de la app en App Store Connect (nombre, idioma principal, bundle ID `com.gonzalez.lampi`, SKU `lampi`) | En la web de App Store Connect, o lo propone `eas submit` |
+| ⬜ | `ascAppId` en `eas.json` › `submit.production` (el ID numérico de la app en App Store Connect) | Tras crear la app |
+
+Primer build y envío, desde `app/` con la rama `main` actualizada (son interactivos: piden el Apple ID y el código 2FA):
+
+```bash
+npx eas-cli@latest build --platform ios --profile production
+npx eas-cli@latest submit --platform ios --profile production
+```
+
+Las variables de EAS (§6) son del proyecto. Ya están cargadas en `production`, `preview` y `development`: `EXPO_PUBLIC_API_URL` (`https://dependable-expression-production-83d3.up.railway.app`), `EXPO_PUBLIC_SITE_DOMAIN` (`lampi.es`, sin `https://`: la tarjeta del resumen lo enseña tal cual) y `EXPO_PUBLIC_REVENUECAT_IOS_KEY` (clave pública `appl_…` de la app «Lampi iOS», bundle `com.gonzalez.lampi`, en el proyecto «Lampi» de RevenueCat).
+
+Pendiente en RevenueCat: subir la clave de App Store Connect y la clave de compras in-app a la app «Lampi iOS», y crear el entitlement `plus` y los paquetes `$rc_annual` y `$rc_monthly` (§1).
+
+⚠️ A 1 de octubre de 2026 la API de Railway responde **502 «Application failed to respond»** en `/health`: el servicio no arranca. En producción el backend exige `DATABASE_URL`, `JWT_SECRET` (32+ caracteres) y `RESEND_API_KEY`; si falta alguna se cae al iniciar. Revisar los logs del despliegue antes de enviar la build.
+
 ## 6. Configuración de producción
 
 **Backend y landing en Render:** `render.yaml` (New › Blueprint). Rellena `RESEND_API_KEY`, `MAIL_FROM` y `CORS_ORIGINS` en `lumi-api`. Con la URL de la API, pon `WAITLIST_ENDPOINT` en `landing/main.js` y `EXPO_PUBLIC_API_URL` en EAS.
