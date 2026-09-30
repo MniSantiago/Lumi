@@ -182,6 +182,24 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 
 Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1` (ver `app/app.config.ts`); sin esas variables, la app es la de siempre.
 
+### Sesión 4 (30 sep): ilustraciones con APIMart
+
+- **Generador:** `tools/apimart_generate.py` lanza en paralelo 7 hojas con Seedream 5.0 Lite (4K, con referencia de estilo en base64) y las recoge con `--fetch`. Prompts, tareas, coste y enlaces quedan en `assets/apimart/manifest.json`. Coste total: 0,20 $ (0,028 $ por hoja).
+- **Qué se generó:**
+  - 2 hojas de postales: las 11 que faltaban. Las 7 "alternativas" de la hoja B salieron casi calcadas de la referencia y no se usan.
+  - 4 hojas de objetos (36).
+  - 1 hoja de amigos (12).
+- **Cortador:** `tools/slice_sheets.py` corta cada hoja:
+  - Postales a 768 px, en `assets/apimart/postales/`.
+  - Objetos y amigos en PNG transparente de 512 px, en `assets/apimart/{objetos,amigos}/`.
+  - Hojas de contacto `*-contacto.jpg` para revisar el resultado.
+  - Necesita `scipy`, que no está en el shell del Mac; se ejecutó en el espacio de trabajo en la nube.
+- **En la app:**
+  - Los 20 destinos ya tienen ilustración (`app/assets/expeditions`, registradas en `destinations.ts`).
+  - `CollectionIcon` enseña las ilustraciones de `app/assets/collection/*.webp` (320 px, 766 KB en total). Los SVG solo quedan para las siluetas de lo no descubierto.
+- **Descargas:** el servidor de imágenes de APIMart (`getapib.org`) no está en la lista de dominios permitidos de Claude, así que hubo que descargar las hojas a mano. Si se añade el dominio, `--fetch` las baja solo.
+- **Clave:** se lee de la variable `APIMART_API_KEY` (o de `~/.apimart_key`). No está en el repositorio.
+
 ### Prompts de Higgsfield (reutilizables)
 
 **Lumi:**

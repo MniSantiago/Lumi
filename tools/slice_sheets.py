@@ -89,21 +89,29 @@ def postcards(name, meta, im):
     return tiles
 
 
+SOLID_THRESHOLD = 0.16  # por debajo es brillo o sombra suave: se queda translúcido
+
+
 def cutout_white(im):
-    """Quita un fondo blanco liso conservando brillos suaves (color a alfa contra blanco)."""
+    """Quita el fondo liso de una casilla conservando brillos suaves (color a alfa contra el fondo)."""
+    from scipy import ndimage as ndi
     a = np.array(im.convert("RGB")).astype(float)
-    lum = a.min(-1)
-    alpha = np.clip((255 - lum) / 255 * 1.6, 0, 1)
-    solid = np.array(Image.fromarray(((lum < 232) * 255).astype(np.uint8)).filter(ImageFilter.MaxFilter(5))
-                     .filter(ImageFilter.MinFilter(5))).astype(float) / 255
-    try:
-        from scipy import ndimage as ndi
-        solid = ndi.binary_fill_holes(solid > 0.5).astype(float)
-    except ImportError:
-        pass
-    solid = np.array(Image.fromarray((solid * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(1.2))).astype(float) / 255
+    border = np.concatenate([a[:8].reshape(-1, 3), a[-8:].reshape(-1, 3), a[:, :8].reshape(-1, 3), a[:, -8:].reshape(-1, 3)])
+    bg = np.median(border, axis=0)
+    # cuánto se aleja cada píxel del fondo hacia lo oscuro o lo coloreado (0 = fondo)
+    dark = np.clip((bg - a) / np.maximum(bg, 1), 0, 1).max(-1)
+    alpha = np.clip((dark - 0.035) * 1.8, 0, 1)
+    # silueta del objeto: todo lo que se aparta del fondo, cerrado y relleno, para que
+    # las zonas claras de dentro (papel, cera, reflejos) sigan siendo opacas
+    solid = ndi.binary_closing(dark > SOLID_THRESHOLD, iterations=4)
+    solid = ndi.binary_fill_holes(solid)
+    lab, n = ndi.label(solid)
+    if n:
+        sizes = ndi.sum(solid, lab, range(1, n + 1))
+        solid = np.isin(lab, [i + 1 for i, sz in enumerate(sizes) if sz > max(60, sizes.max() * 0.004)])
+    solid = np.array(Image.fromarray((solid * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(2.2))).astype(float) / 255
     alpha = np.maximum(alpha, solid)
-    rec = np.clip((a - 255 * (1 - alpha[..., None])) / np.maximum(alpha[..., None], 1e-3), 0, 255)
+    rec = np.clip((a - bg * (1 - alpha[..., None])) / np.maximum(alpha[..., None], 1e-3), 0, 255)
     col = a * solid[..., None] + rec * (1 - solid[..., None])
     return Image.fromarray(np.dstack([col, alpha * 255]).astype(np.uint8), "RGBA")
 
@@ -116,7 +124,9 @@ def icons(name, meta, im, folder, size=512):
     tiles = []
     for r in range(rows):
         for c in range(cols):
-            cell = im.crop((c * W // cols, r * H // rows, (c + 1) * W // cols, (r + 1) * H // rows)).convert("RGB")
+            cw, ch = W // cols, H // rows
+            m = round(min(cw, ch) * 0.05)  # margen: esquiva el marco tenue de algunas casillas
+            cell = im.crop((c * cw + m, r * ch + m, (c + 1) * cw - m, (r + 1) * ch - m)).convert("RGB")
             rgba = cutout_white(cell)
             a = np.array(rgba)[..., 3]
             ys, xs = np.where(a > 12)
