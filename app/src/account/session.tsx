@@ -16,7 +16,7 @@ import {
 } from '@/api/generated';
 
 /**
- * Cuenta opcional de Lumi ("guardar tu progreso"). Sin cuenta la app funciona
+ * Cuenta opcional de Lampi ("guardar tu progreso"). Sin cuenta la app funciona
  * igual; por eso nada de esto bloquea el arranque.
  *
  * Los tokens van al llavero (SecureStore). En web, que no tiene llavero, a

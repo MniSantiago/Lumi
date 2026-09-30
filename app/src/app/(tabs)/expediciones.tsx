@@ -25,7 +25,7 @@ type Zone = { key: string; destination: Destination; status: ZoneStatus; note: s
 
 /**
  * El camino: las últimas visitas, el destino de hoy y lo que viene después
- * (los dos siguientes por días de luz y, sin Plus, una zona de Lumi Plus).
+ * (los dos siguientes por días de luz y, sin Plus, una zona de Lampi Plus).
  */
 function buildTrail(game: GameApi, lumiName: string, isPlus: boolean): Zone[] {
   const zones: Zone[] = [];
@@ -135,11 +135,11 @@ function buildTrail(game: GameApi, lumiName: string, isPlus: boolean): Zone[] {
         destination: plus,
         status: 'plus',
         note: tr({
-          es: 'Zona de Lumi Plus.',
-          en: 'Lumi Plus area.',
-          zh: 'Lumi Plus 专属地点。',
-          hi: 'Lumi Plus की जगह।',
-          fr: 'Zone Lumi Plus.',
+          es: 'Zona de Lampi Plus.',
+          en: 'Lampi Plus area.',
+          zh: 'Lampi Plus 专属地点。',
+          hi: 'Lampi Plus की जगह।',
+          fr: 'Zone Lampi Plus.',
         }),
       });
   }

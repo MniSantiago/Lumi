@@ -5,10 +5,10 @@ Uso (desde la raíz del repo):  python3 tools/make_icons.py [carpeta_preview]
 
 Composición del icono (1024×1024, opaco, sRGB):
 - Fondo: noche en degradado (índigo #2A2560 arriba → #13112E abajo) con una
-  viñeta suave y unas pocas estrellas tenues en la parte alta, lejos de Lumi.
-- Detrás de Lumi, un resplandor ámbar radial (#FFC96B → #FFE3A3 en el centro)
+  viñeta suave y unas pocas estrellas tenues en la parte alta, lejos de Lampi.
+- Detrás de Lampi, un resplandor ámbar radial (#FFC96B → #FFE3A3 en el centro)
   a la altura de la barriga: su luz es el mensaje de la app.
-- Lumi "contenta" (recorte de alta resolución de la web), grande y algo baja,
+- Lampi "contenta" (recorte de alta resolución de la web), grande y algo baja,
   porque sus ojos grandes son lo que se lee a 60 px. Las antenas quedan dentro
   del margen de la máscara redondeada de iOS.
 Todo se hace con Pillow + numpy para que sea reproducible.
@@ -62,7 +62,7 @@ def night_background() -> np.ndarray:
     top, bottom = np.array(INDIGO) / 255, np.array(NOCHE_HONDA) / 255
     t = np.clip(y * 1.05, 0, 1)[..., None] ** 0.9
     rgb = top * (1 - t) + bottom * t
-    # Viñeta: oscurece las esquinas para centrar la mirada en Lumi.
+    # Viñeta: oscurece las esquinas para centrar la mirada en Lampi.
     d = np.sqrt((x - 0.5) ** 2 + (y - 0.52) ** 2)[..., None]
     rgb *= 1 - 0.25 * np.clip((d - 0.35) / 0.4, 0, 1)
     return np.concatenate([rgb, np.ones_like(rgb[..., :1])], axis=-1)
@@ -99,7 +99,7 @@ def stars() -> np.ndarray:
 
 
 def place_lumi(width_frac: float, top_frac: float) -> tuple[np.ndarray, tuple]:
-    """Lumi escalada a width_frac·S de ancho, con su borde superior en top_frac·S."""
+    """Lampi escalada a width_frac·S de ancho, con su borde superior en top_frac·S."""
     lumi = Image.open(LUMI).convert("RGBA")
     w = round(S * width_frac)
     h = round(lumi.height * w / lumi.width)
@@ -111,7 +111,7 @@ def place_lumi(width_frac: float, top_frac: float) -> tuple[np.ndarray, tuple]:
 
 
 def lumi_layers(width_frac, top_frac, glow=1.0):
-    """Resplandor ámbar + Lumi, sobre transparente (se reutiliza en todos los PNG)."""
+    """Resplandor ámbar + Lampi, sobre transparente (se reutiliza en todos los PNG)."""
     lumi, (x0, y0, w, h) = place_lumi(width_frac, top_frac)
     cx = (x0 + w / 2) / S
     belly_y = (y0 + h * 0.62) / S
@@ -155,27 +155,27 @@ def main():
     # --- Icono de iOS / genérico: opaco -----------------------------------
     bg = night_background()
     bg = over(bg, stars())
-    # Lumi muy grande: los pies se salen un poco por abajo y la cara gana
+    # Lampi muy grande: los pies se salen un poco por abajo y la cara gana
     # tamaño, que es lo que tiene que leerse a 60 px.
     fg, _ = lumi_layers(width_frac=0.82, top_frac=0.10)
     icon = over(bg, fg)
     icon_img = save_rgb(icon, IMG / "icon.png")
 
     # --- Android adaptativo ------------------------------------------------
-    # Primer plano: Lumi dentro de la zona segura (círculo de 66 % ≈ 676 px).
-    # Con 0.50 de ancho, Lumi mide ~512×575 px y cabe en ese círculo.
+    # Primer plano: Lampi dentro de la zona segura (círculo de 66 % ≈ 676 px).
+    # Con 0.50 de ancho, Lampi mide ~512×575 px y cabe en ese círculo.
     afg, alumi = lumi_layers(width_frac=0.50, top_frac=0.215)
     save_rgba(afg, IMG / "android-icon-foreground.png")
     save_rgb(over(night_background(), stars()), IMG / "android-icon-background.png")
-    # Monocromo: silueta blanca de Lumi (el alfa opaco del cuerpo, sin halo).
+    # Monocromo: silueta blanca de Lampi (el alfa opaco del cuerpo, sin halo).
     a = np.clip((alumi[..., 3] - 0.55) / 0.35, 0, 1)
     # Engorda un poco la silueta para que los tallos de las antenas no se corten.
     a = np.asarray(to_img(a).filter(ImageFilter.MaxFilter(7)).filter(ImageFilter.GaussianBlur(1.5))).astype(np.float32) / 255
     # Ojos calados: los píxeles oscuros de la cara (iris marrón) quedan
-    # transparentes, así la silueta sigue siendo Lumi y no una mancha.
+    # transparentes, así la silueta sigue siendo Lampi y no una mancha.
     lum = alumi[..., :3] @ np.array([0.299, 0.587, 0.114], np.float32)
     eyes = (lum < 0.42) & (alumi[..., 3] > 0.9)
-    # Solo en la franja de los ojos (entre el 28 % y el 52 % del alto de Lumi),
+    # Solo en la franja de los ojos (entre el 28 % y el 52 % del alto de Lampi),
     # para no calar la boca ni las sombras de los pies.
     rows = np.where(alumi[..., 3].max(axis=1) > 0.5)[0]
     top, h = rows[0], rows[-1] - rows[0]
@@ -191,7 +191,7 @@ def main():
     mono[..., 3] = a
     save_rgba(mono, IMG / "android-icon-monochrome.png")
 
-    # --- Splash: Lumi con un halo suave, transparente ----------------------
+    # --- Splash: Lampi con un halo suave, transparente ----------------------
     sfg, _ = lumi_layers(width_frac=0.62, top_frac=0.14, glow=0.8)
     save_rgba(sfg, IMG / "splash-icon.png")
 

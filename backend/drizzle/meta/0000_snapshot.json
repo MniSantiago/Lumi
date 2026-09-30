@@ -237,7 +237,7 @@
           "type": "text",
           "primaryKey": false,
           "notNull": true,
-          "default": "'Lumi'"
+          "default": "'Lampi'"
         },
         "email_verified_at": {
           "name": "email_verified_at",

@@ -10,7 +10,7 @@ import { locale, tr } from '@/i18n';
 import { useLumi, type Settings } from '@/lumi/store';
 
 /**
- * Copia del progreso en la cuenta, para no perder a Lumi al cambiar de iPhone.
+ * Copia del progreso en la cuenta, para no perder a Lampi al cambiar de iPhone.
  *
  * - Al entrar en una cuenta por primera vez en este dispositivo: si la cuenta
  *   ya tiene progreso y aquí también hay, se pregunta cuál conservar; si solo

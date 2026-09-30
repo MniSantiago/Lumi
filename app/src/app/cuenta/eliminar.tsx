@@ -14,7 +14,7 @@ import { tr } from '@/i18n';
 
 /**
  * Eliminar la cuenta desde la app, como exige Apple (guía 5.1.1(v)).
- * Borra la cuenta del servidor; Lumi y su progreso en este iPhone se quedan.
+ * Borra la cuenta del servidor; Lampi y su progreso en este iPhone se quedan.
  */
 export default function DeleteAccountSheet() {
   const { settings } = useLumi();
@@ -101,11 +101,11 @@ export default function DeleteAccountSheet() {
         />
         <Text style={styles.note}>
           {tr({
-            es: 'Si tienes Lumi Plus, eliminar la cuenta no cancela la suscripción: se gestiona en Ajustes de tu iPhone › tu nombre › Suscripciones.',
-            en: 'If you have Lumi Plus, deleting your account doesn’t cancel the subscription: manage it in your iPhone’s Settings › your name › Subscriptions.',
-            zh: '如果你有 Lumi Plus，删除账户不会取消订阅：请在 iPhone 的设置 › 你的名字 › 订阅中管理。',
-            hi: 'अगर तुम्हारे पास Lumi Plus है, तो खाता हटाने से सदस्यता रद्द नहीं होती: इसे iPhone की सेटिंग्स › तुम्हारा नाम › सदस्यताएँ में संभालो।',
-            fr: 'Si tu as Lumi Plus, supprimer le compte n’annule pas l’abonnement : il se gère dans Réglages de ton iPhone › ton nom › Abonnements.',
+            es: 'Si tienes Lampi Plus, eliminar la cuenta no cancela la suscripción: se gestiona en Ajustes de tu iPhone › tu nombre › Suscripciones.',
+            en: 'If you have Lampi Plus, deleting your account doesn’t cancel the subscription: manage it in your iPhone’s Settings › your name › Subscriptions.',
+            zh: '如果你有 Lampi Plus，删除账户不会取消订阅：请在 iPhone 的设置 › 你的名字 › 订阅中管理。',
+            hi: 'अगर तुम्हारे पास Lampi Plus है, तो खाता हटाने से सदस्यता रद्द नहीं होती: इसे iPhone की सेटिंग्स › तुम्हारा नाम › सदस्यताएँ में संभालो।',
+            fr: 'Si tu as Lampi Plus, supprimer le compte n’annule pas l’abonnement : il se gère dans Réglages de ton iPhone › ton nom › Abonnements.',
           })}
         </Text>
       </View>

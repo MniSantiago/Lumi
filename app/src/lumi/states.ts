@@ -4,7 +4,7 @@ import { tr } from '@/i18n';
 
 /**
  * iOS no deja leer los minutos exactos de Screen Time: solo avisa cuando se
- * cruza un umbral (`DeviceActivityMonitor`). Por eso todo el estado de Lumi se
+ * cruza un umbral (`DeviceActivityMonitor`). Por eso todo el estado de Lampi se
  * deriva del último umbral alcanzado, no de un contador de minutos.
  */
 export type Threshold = 0 | 25 | 50 | 75 | 100;

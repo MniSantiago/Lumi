@@ -57,7 +57,7 @@ const MOODS: Record<LumiStateKey, { gestures: Gesture[]; every: [number, number]
 const between = ([a, b]: [number, number]) => a + Math.random() * (b - a);
 
 /**
- * Lumi flotando y respirando, con un halo que depende de cuánta luz le queda.
+ * Lampi flotando y respirando, con un halo que depende de cuánta luz le queda.
  * Parpadea y le laten las luces de las antenas. Con `onPress` se puede tocar: da un
  * saltito blandito y suelta chispas (o se acurruca, si duerme). Con `alive` (por
  * defecto, cuando se puede tocar) además hace gestos por su cuenta de vez en cuando.
@@ -180,7 +180,7 @@ export function LumiAvatar({
           style={StyleSheet.absoluteFill}
           contentFit="contain"
           transition={250}
-          accessibilityLabel={`Lumi, ${state.label.toLowerCase()}`}
+          accessibilityLabel={`Lampi, ${state.label.toLowerCase()}`}
         />
         {rig.blink ? (
           <Animated.View pointerEvents="none" style={[StyleSheet.absoluteFill, blinkStyle]}>
@@ -211,7 +211,7 @@ export function LumiAvatar({
     <Pressable
       onPress={handlePress}
       accessibilityRole="button"
-      accessibilityLabel={`Lumi, ${state.label.toLowerCase()}`}
+      accessibilityLabel={`Lampi, ${state.label.toLowerCase()}`}
       accessibilityHint={accessibilityHint}
       style={box}>
       {content}
@@ -303,7 +303,7 @@ function Orb({
   );
 }
 
-/** Chispas que salen de Lumi al tocarla. */
+/** Chispas que salen de Lampi al tocarla. */
 function Burst({ size, top }: { size: number; top: number }) {
   return (
     <View pointerEvents="none" style={[StyleSheet.absoluteFill, { alignItems: 'center' }]}>

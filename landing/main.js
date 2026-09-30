@@ -1,4 +1,4 @@
-/* Lumi, landing con lista de espera. Sin dependencias ni build. */
+/* Lampi, landing con lista de espera. Sin dependencias ni build. */
 
 /** Traducción (i18n.js); sin él, el texto en español. */
 const t = (es) => (window.lumiT ? window.lumiT(es) : es);
@@ -14,7 +14,7 @@ const WAITLIST_ENDPOINT = '';
 /**
  * Modo lanzamiento: con la URL de la ficha de la App Store, los formularios de
  * la lista de espera se cambian por un botón de descarga (y "Llega pronto" por
- * "Ya en el iPhone"). Vacío mientras Lumi no esté publicada.
+ * "Ya en el iPhone"). Vacío mientras Lampi no esté publicada.
  */
 const APP_STORE_URL = '';
 
@@ -75,8 +75,8 @@ async function share(container) {
   url.hash = '';
   url.searchParams.set('ref', 'invitacion');
   const data = {
-    title: 'Lumi',
-    text: t('He encontrado una mascota que brilla cuando sueltas el móvil. Creo que tú también necesitas un Lumi.'),
+    title: 'Lampi',
+    text: t('He encontrado una mascota que brilla cuando sueltas el móvil. Creo que tú también necesitas un Lampi.'),
     url: url.toString(),
   };
   const msg = container.querySelector('.share-msg');
@@ -114,8 +114,8 @@ async function onSubmit(event) {
   track('waitlist_submit', { form: form.dataset.form });
 
   if (!WAITLIST_ENDPOINT) {
-    console.warn('[Lumi] WAITLIST_ENDPOINT está vacío en main.js: el correo no se ha guardado.');
-    setMessage(form, t('La lista de espera abre muy pronto y todavía no guarda correos. Vuelve en unos días y Lumi te apunta.'), 'info');
+    console.warn('[Lampi] WAITLIST_ENDPOINT está vacío en main.js: el correo no se ha guardado.');
+    setMessage(form, t('La lista de espera abre muy pronto y todavía no guarda correos. Vuelve en unos días y Lampi te apunta.'), 'info');
     return;
   }
 
@@ -152,7 +152,7 @@ async function onSubmit(event) {
     track('waitlist_success', { form: form.dataset.form, app: payload.app });
     showSuccess(form);
   } catch (err) {
-    console.error('[Lumi] Error al enviar a la lista de espera', err);
+    console.error('[Lampi] Error al enviar a la lista de espera', err);
     track('waitlist_error', { form: form.dataset.form });
     button.disabled = false;
     button.textContent = label;
@@ -186,12 +186,12 @@ document.querySelectorAll('form.waitlist').forEach((form) => {
   form.addEventListener('focusin', () => track('cta_click', { form: form.dataset.form }), { once: true });
 });
 
-/* ───────── Los 4 estados de Lumi ───────── */
+/* ───────── Los 4 estados de Lampi ───────── */
 const STATES = {
-  radiante: { lit: 4, meter: 'Brilla a tope', bubble: '¡Hoy me voy al Bosque de Musgo! Te traigo algo.', caption: '<b>Radiante.</b> Brilla a tope y sale de expedición.', alt: 'Lumi radiante, brillando a tope' },
-  contenta: { lit: 3, meter: 'Brilla bien', bubble: 'Sigo de aventura. Voy tarareando.', caption: '<b>Contenta.</b> Sigue explorando, tan a gusto.', alt: 'Lumi contenta, sonriendo' },
-  cansada: { lit: 2, meter: 'Se está apagando', bubble: 'Uaaah… Hoy mejor me quedo en casa.', caption: '<b>Cansada.</b> Bosteza y se queda en casa esperándote.', alt: 'Lumi cansada, bostezando' },
-  apagadita: { lit: 1, meter: 'Luz mínima', bubble: 'Zzz… Mañana, luz nueva.', caption: '<b>Apagadita.</b> Se echa la siesta hecha una bolita. Mañana se despierta con toda su luz.', alt: 'Lumi apagadita, dormida hecha una bolita' },
+  radiante: { lit: 4, meter: 'Brilla a tope', bubble: '¡Hoy me voy al Bosque de Musgo! Te traigo algo.', caption: '<b>Radiante.</b> Brilla a tope y sale de expedición.', alt: 'Lampi radiante, brillando a tope' },
+  contenta: { lit: 3, meter: 'Brilla bien', bubble: 'Sigo de aventura. Voy tarareando.', caption: '<b>Contenta.</b> Sigue explorando, tan a gusto.', alt: 'Lampi contenta, sonriendo' },
+  cansada: { lit: 2, meter: 'Se está apagando', bubble: 'Uaaah… Hoy mejor me quedo en casa.', caption: '<b>Cansada.</b> Bosteza y se queda en casa esperándote.', alt: 'Lampi cansada, bostezando' },
+  apagadita: { lit: 1, meter: 'Luz mínima', bubble: 'Zzz… Mañana, luz nueva.', caption: '<b>Apagadita.</b> Se echa la siesta hecha una bolita. Mañana se despierta con toda su luz.', alt: 'Lampi apagadita, dormida hecha una bolita' },
 };
 const phone = document.querySelector('.phone[data-lit]');
 const radios = [...document.querySelectorAll('.states [role="radio"]')];

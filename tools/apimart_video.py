@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Anima ilustraciones de Lumi con Seedance 2.5 (APIMart), con primer y último fotograma.
+"""Anima ilustraciones de Lampi con Seedance 2.5 (APIMart), con primer y último fotograma.
 
 Uso (desde la raíz del repo):
     APIMART_API_KEY=sk-... python3 tools/apimart_video.py              # todos los vídeos
@@ -7,7 +7,7 @@ Uso (desde la raíz del repo):
     APIMART_API_KEY=sk-... python3 tools/apimart_video.py --fetch      # recoger los enviados
 
 - fondo-hogar: bucle perfecto (primer fotograma = último) del fondo de la home.
-- lumi-vuelve: del prado vacío a Lumi sonriendo en el claro (fotograma compuesto a mano).
+- lumi-vuelve: del prado vacío a Lampi sonriendo en el claro (fotograma compuesto a mano).
 Los fotogramas están en assets/apimart/video-frames/. Registro en assets/apimart/videos.json;
 los vídeos se descargan en assets/apimart/<nombre>.mp4 (si la red lo permite; si no, el
 enlace queda en el registro durante 24 h). Para la app: tools/encode_videos.sh.
@@ -51,7 +51,7 @@ JOBS = {
         "duration": 5,
         "resolution": "1080p",
         "prompt": (
-            "Lumi, the tiny round lavender light spirit with two glowing amber antennae and a glowing belly, comes "
+            "Lampi, the tiny round lavender light spirit with two glowing amber antennae and a glowing belly, comes "
             "home from an adventure: she floats down from the starry sky like a little falling star, trailing golden "
             "sparkles, while the fireflies swirl around to welcome her, lands softly on the grass of the clearing "
             "with a small squishy bounce, then raises her little arms and smiles with a big happy face, her light "

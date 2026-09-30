@@ -1,6 +1,6 @@
 import type { GameContent } from './types';
 
-/** Français. Lumi parle au féminin. */
+/** Français. Lampi parle au féminin. */
 export default {
   chapters: {
     1: 'Ce qu’il y a derrière la maison',
@@ -112,7 +112,7 @@ export default {
       caption: 'Chaque fois que je brille, la grotte brille avec moi.',
       quote: 'Ma lumière rebondissait partout.',
       stories: [
-        'Dans la grotte, ma lumière rebondissait partout. Un instant, j’ai cru qu’on était cent Lumi, et ça m’a un peu intimidée.',
+        'Dans la grotte, ma lumière rebondissait partout. Un instant, j’ai cru qu’on était cent Lampi, et ça m’a un peu intimidée.',
         'De petites boules de suie vivent dans les coins sombres. Au début, elles se sont cachées, mais quand je me suis assise sans bouger, elles sont venues se réchauffer contre moi.',
         'Sur la paroi la plus profonde, il y a un très vieux dessin : une étoile avec un petit visage, en train de tomber. Quelqu’un l’a peint il y a longtemps. Ou peut-être pas si longtemps.',
       ],

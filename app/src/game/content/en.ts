@@ -112,7 +112,7 @@ export default {
       caption: 'Every time I glow, the cave glows with me.',
       quote: 'My light bounced everywhere.',
       stories: [
-        'Inside the cave my light bounced everywhere. For a moment I thought there were a hundred Lumis, and I felt a little shy.',
+        'Inside the cave my light bounced everywhere. For a moment I thought there were a hundred Lampis, and I felt a little shy.',
         'Little soot sprites live in the dark corners. At first they hid, but when I sat still they came to warm up with me.',
         'On the deepest wall there’s a very old drawing: a star with a little face, falling. Someone painted it long ago. Or maybe not that long ago.',
       ],

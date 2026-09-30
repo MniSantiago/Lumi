@@ -24,7 +24,7 @@ const SIZE = 132;
 const STAGE_W = 300;
 const STAGE_H = SIZE * 1.12;
 
-/** Dónde flota cada orbe alrededor de Lumi (relativo al centro del héroe). */
+/** Dónde flota cada orbe alrededor de Lampi (relativo al centro del héroe). */
 const ORBS = [
   { x: -104, y: -30, r: 11, delay: 0 },
   { x: 100, y: -46, r: 9, delay: 500 },
@@ -33,7 +33,7 @@ const ORBS = [
 ];
 
 /**
- * Lumi radiante con cuatro orbes de luz alrededor. `boost` (0-1) sube su halo
+ * Lampi radiante con cuatro orbes de luz alrededor. `boost` (0-1) sube su halo
  * y el de los orbes en el momento de éxito.
  */
 export function PlusHero({ boost, caption }: { boost: SharedValue<number>; caption?: string }) {

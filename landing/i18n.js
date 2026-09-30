@@ -1,5 +1,5 @@
 /**
- * Idioma de la web: el del navegador si Lumi lo habla (es, en, zh, hi, fr) y, si no, inglés.
+ * Idioma de la web: el del navegador si Lampi lo habla (es, en, zh, hi, fr) y, si no, inglés.
  * Se puede forzar con ?lang=xx. Traduce los textos de la página con la tabla de texts.js
  * (clave: el texto en español) y, en las páginas legales, enseña el bloque de ese idioma.
  */

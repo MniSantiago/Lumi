@@ -1,8 +1,8 @@
 import { tr } from '@/i18n';
 
 /**
- * Textos del escudo (BRIEF.md, "La pantalla de bloqueo ES Lumi"). Fricción
- * emocional, nunca castigo: Lumi no regaña, solo recuerda que está dormida.
+ * Textos del escudo (BRIEF.md, "La pantalla de bloqueo ES Lampi"). Fricción
+ * emocional, nunca castigo: Lampi no regaña, solo recuerda que está dormida.
  */
 export const shieldCopy = {
   appTag: (appName: string) =>
@@ -73,11 +73,11 @@ export const shieldCopy = {
 
   /** Con el escudo estricto (Plus) no hay «5 min más». */
   strictNote: tr({
-    es: 'Escudo estricto: hoy no hay ratitos extra. Lo elegiste tú, y Lumi te lo agradece.',
-    en: 'Strict shield: no extra minutes today. You chose it, and Lumi thanks you.',
-    zh: '严格护盾：今天没有额外时间。这是你自己的选择，Lumi 谢谢你。',
-    hi: 'सख़्त ढाल: आज कोई अतिरिक्त समय नहीं। यह तुमने चुना था, और Lumi तुम्हारा शुक्रिया करती है।',
-    fr: 'Bouclier strict : pas de minutes en plus aujourd’hui. C’est toi qui l’as choisi, et Lumi t’en remercie.',
+    es: 'Escudo estricto: hoy no hay ratitos extra. Lo elegiste tú, y Lampi te lo agradece.',
+    en: 'Strict shield: no extra minutes today. You chose it, and Lampi thanks you.',
+    zh: '严格护盾：今天没有额外时间。这是你自己的选择，Lampi 谢谢你。',
+    hi: 'सख़्त ढाल: आज कोई अतिरिक्त समय नहीं। यह तुमने चुना था, और Lampi तुम्हारा शुक्रिया करती है।',
+    fr: 'Bouclier strict : pas de minutes en plus aujourd’hui. C’est toi qui l’as choisi, et Lampi t’en remercie.',
   }),
 
   /** `used` = veces que ya se ha pedido hoy, antes de esta. */

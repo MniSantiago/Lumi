@@ -8,7 +8,7 @@ import { tr } from '@/i18n';
 import { LUMI_STATES } from '@/lumi/states';
 
 /**
- * Si una pantalla falla, en vez de una pantalla en blanco: Lumi dormida y un
+ * Si una pantalla falla, en vez de una pantalla en blanco: Lampi dormida y un
  * botón para volver a intentarlo. El progreso está guardado, se dice.
  * Usa la fuente del sistema por si el fallo fue al cargar las de la app.
  */
@@ -24,11 +24,11 @@ export function CrashScreen({ error, retry }: ErrorBoundaryProps) {
         />
         <Text style={styles.title} accessibilityRole="header">
           {tr({
-            es: 'Ups, Lumi se ha tropezado',
-            en: 'Oops, Lumi tripped',
-            zh: '哎呀，Lumi 绊了一跤',
-            hi: 'उफ़, Lumi लड़खड़ा गई',
-            fr: 'Oups, Lumi a trébuché',
+            es: 'Ups, Lampi se ha tropezado',
+            en: 'Oops, Lampi tripped',
+            zh: '哎呀，Lampi 绊了一跤',
+            hi: 'उफ़, Lampi लड़खड़ा गई',
+            fr: 'Oups, Lampi a trébuché',
           })}
         </Text>
         <Text style={styles.text}>

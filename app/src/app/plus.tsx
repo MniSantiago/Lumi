@@ -37,7 +37,7 @@ type Mode = 'offer' | 'owned' | 'success';
 type Busy = null | 'purchase' | 'restore';
 
 /**
- * Paywall de Lumi Plus: hoja modal (se cierra deslizando o con la ×).
+ * Paywall de Lampi Plus: hoja modal (se cierra deslizando o con la ×).
  * Lo de pago es cosmético y avanzado; lo importante sigue gratis y se dice.
  */
 export default function PlusScreen() {

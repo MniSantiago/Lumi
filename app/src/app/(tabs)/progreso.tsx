@@ -313,7 +313,7 @@ const brightLabel = tr({
   fr: 'jours de lumière',
 });
 
-/** Tus números de siempre (Lumi Plus). Sin Plus se ven difuminados, con la invitación. */
+/** Tus números de siempre (Lampi Plus). Sin Plus se ven difuminados, con la invitación. */
 function LifetimeStats({ game, isPlus }: { game: GameApi; isPlus: boolean }) {
   const stats = [
     {
@@ -373,7 +373,7 @@ function LifetimeStats({ game, isPlus }: { game: GameApi; isPlus: boolean }) {
   ];
   return (
     <View style={{ gap: 10 }}>
-      <SectionTitle action={isPlus ? undefined : <Text style={styles.count}>Lumi Plus</Text>}>
+      <SectionTitle action={isPlus ? undefined : <Text style={styles.count}>Lampi Plus</Text>}>
         {tr({ es: 'Tus números', en: 'Your numbers', zh: '你的数据', hi: 'तुम्हारे आँकड़े', fr: 'Tes chiffres' })}
       </SectionTitle>
       <Card style={styles.stats}>
@@ -412,11 +412,11 @@ function LifetimeStats({ game, isPlus }: { game: GameApi; isPlus: boolean }) {
           <View style={styles.statsCta}>
             <Text style={styles.chartNote}>
               {tr({
-                es: 'Con Lumi Plus ves todo lo que habéis brillado juntos desde el primer día.',
-                en: 'With Lumi Plus you see everything you’ve shone together since day one.',
-                zh: '开通 Lumi Plus，就能看到你们从第一天起一起发的所有光。',
-                hi: 'Lumi Plus के साथ देखो कि पहले दिन से तुम दोनों कितना चमके हो।',
-                fr: 'Avec Lumi Plus, tu vois tout ce que vous avez brillé ensemble depuis le premier jour.',
+                es: 'Con Lampi Plus ves todo lo que habéis brillado juntos desde el primer día.',
+                en: 'With Lampi Plus you see everything you’ve shone together since day one.',
+                zh: '开通 Lampi Plus，就能看到你们从第一天起一起发的所有光。',
+                hi: 'Lampi Plus के साथ देखो कि पहले दिन से तुम दोनों कितना चमके हो।',
+                fr: 'Avec Lampi Plus, tu vois tout ce que vous avez brillé ensemble depuis le premier jour.',
               })}
             </Text>
             <PillButton label={paywallCopy.title} onPress={() => router.push('/plus')} />

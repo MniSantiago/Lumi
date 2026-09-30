@@ -17,7 +17,7 @@ import { TourProvider } from '@/tour/store';
 
 SplashScreen.preventAutoHideAsync();
 
-/** Si algo falla dentro de la app, Lumi dormida en vez de una pantalla en blanco. */
+/** Si algo falla dentro de la app, Lampi dormida en vez de una pantalla en blanco. */
 export const ErrorBoundary = CrashScreen;
 
 const navTheme = {
@@ -60,7 +60,7 @@ export default function RootLayout() {
  * Onboarding hasta que el usuario lo completa; después, las pestañas.
  * Por encima de todo, a pantalla completa: el escudo (en iOS real lo pinta
  * ShieldConfiguration; aquí es su maqueta navegable) y la postal nocturna.
- * Lumi Plus (el paywall) y las hojas de Ajustes son modales que se cierran deslizando.
+ * Lampi Plus (el paywall) y las hojas de Ajustes son modales que se cierran deslizando.
  */
 function RootStack() {
   const { ready, settings } = useLumi();
@@ -93,7 +93,7 @@ function RootStack() {
         <Stack.Screen name="resumen" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />
       </Stack.Protected>
       {/*
-        Siempre disponibles: también desde el onboarding (recuperar a Lumi en un iPhone nuevo, leer la privacidad).
+        Siempre disponibles: también desde el onboarding (recuperar a Lampi en un iPhone nuevo, leer la privacidad).
         Al final: la primera pantalla disponible es la que se abre al cambiar el guard, y tiene que ser el onboarding o las pestañas.
       */}
       <Stack.Screen name="legal/[doc]" options={{ presentation: 'modal' }} />

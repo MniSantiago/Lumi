@@ -1,4 +1,4 @@
-# Lumi
+# Lampi
 
 El Finch del tiempo de pantalla: un espíritu de luz que vive contigo todo el día. Cuando sueltas el móvil, brilla y sale de aventura; cuando haces scroll, se atenúa y te espera en casa.
 
@@ -15,7 +15,7 @@ El Finch del tiempo de pantalla: un espíritu de luz que vive contigo todo el d�
 | `lumi-mockup.html` | Mockup interactivo para iPhone, generado (ábrelo en el navegador) |
 | `src/lumi-mockup.template.html` | Fuente del mockup; se edita esta |
 | `tools/build.py` | Incrusta las imágenes y genera `lumi-mockup.html` |
-| `tools/cutout_states.py` | Recorta los 4 estados de Lumi para la app |
+| `tools/cutout_states.py` | Recorta los 4 estados de Lampi para la app |
 | `assets/` | Originales de Higgsfield |
 | `assets/web/` | Imágenes recortadas y optimizadas que usa el mockup |
 

@@ -27,11 +27,11 @@ export type Destination = {
   caption: string;
   /** Frase para releer la postal en el álbum. */
   quote: string;
-  /** Fragmentos de historia en la voz de Lumi (se elige uno por expedición). */
+  /** Fragmentos de historia en la voz de Lampi (se elige uno por expedición). */
   stories: string[];
-  /** Solo con Lumi Plus. */
+  /** Solo con Lampi Plus. */
   plus: boolean;
-  /** Días brillantes acumulados que hacen falta para que Lumi pueda ir. */
+  /** Días brillantes acumulados que hacen falta para que Lampi pueda ir. */
   unlockAfterBrightDays: number;
   /** Ids de `ITEM_CATALOG` / `FRIEND_CATALOG` que se pueden encontrar aquí. */
   lootItems: string[];
@@ -67,7 +67,7 @@ export type DayRecord = {
   maxThreshold: Threshold;
   /** Día de descanso usado: no rompe la racha. */
   restDay: boolean;
-  /** Resultado de la expedición del día (null si Lumi se quedó en casa). */
+  /** Resultado de la expedición del día (null si Lampi se quedó en casa). */
   expedition: ExpeditionResult | null;
   /** El día ya se cerró (por la noche o al abrir la app al día siguiente). */
   closed: boolean;

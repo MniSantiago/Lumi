@@ -6,7 +6,7 @@ import { tr } from '@/i18n';
  * apps ladronas.
  */
 
-/** Etapas de evolución: cada una cambia el color de la luz de Lumi; `orb` es su degradado y `halo`, el brillo que la rodea en el Hogar. */
+/** Etapas de evolución: cada una cambia el color de la luz de Lampi; `orb` es su degradado y `halo`, el brillo que la rodea en el Hogar. */
 export const EVOLUTION = {
   stages: [
     {

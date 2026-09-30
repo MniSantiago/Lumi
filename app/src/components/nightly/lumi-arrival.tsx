@@ -15,14 +15,14 @@ import { haptic } from '@/haptics';
 import { tr } from '@/i18n';
 
 const VIDEO = require('@/assets/video/lumi-vuelve.mp4');
-/** Momento (ms) en que Lumi toca el suelo en el vídeo: vibración suave y el cartel. */
+/** Momento (ms) en que Lampi toca el suelo en el vídeo: vibración suave y el cartel. */
 const LANDING_MS = 3900;
 const FADE_OUT_MS = 450;
 /** Por si el vídeo no llega a cargar o a terminar: la postal no se queda esperando. */
 const SAFETY_MS = 9000;
 
 /**
- * Lumi vuelve a casa: baja del cielo como una estrella fugaz, las luciérnagas le hacen
+ * Lampi vuelve a casa: baja del cielo como una estrella fugaz, las luciérnagas le hacen
  * un corro y aterriza en el prado sonriendo (Seedance 2.5, `tools/apimart_video.py`).
  * Se ve una vez antes de la postal; tocar lo salta. Con movimiento reducido o lector de
  * pantalla se pasa directamente a la postal.

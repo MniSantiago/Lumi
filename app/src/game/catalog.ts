@@ -10,9 +10,9 @@ const entry =
   });
 
 /**
- * Catálogo de objetos (36) y criaturas amigas (12) que Lumi puede traer.
+ * Catálogo de objetos (36) y criaturas amigas (12) que Lampi puede traer.
  * `icon` es la clave de su dibujo en `components/collection-icon.tsx`.
- * Todos se pueden conseguir en destinos gratuitos; los de Lumi Plus solo
+ * Todos se pueden conseguir en destinos gratuitos; los de Lampi Plus solo
  * dan más ocasiones de encontrarlos.
  */
 export const ITEM_CATALOG: CatalogEntry[] = [

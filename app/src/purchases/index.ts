@@ -5,7 +5,7 @@ import { createRevenueCatPurchases } from '@/purchases/revenuecat';
 import { tr } from '@/i18n';
 
 /**
- * Compras de Lumi Plus. La app solo conoce esta interfaz.
+ * Compras de Lampi Plus. La app solo conoce esta interfaz.
  *
  * - RevenueCat (`purchases/revenuecat.ts`): en un development build o en la
  *   versión de la tienda, con `EXPO_PUBLIC_REVENUECAT_IOS_KEY`. Los precios
@@ -47,7 +47,7 @@ export interface PurchasesSource {
   getIsPlus?(): Promise<boolean>;
   /** Avisa cuando cambia (renovación, caducidad, compra en otro dispositivo). */
   onPlusChange?(listener: (isPlus: boolean) => void): () => void;
-  /** Liga las compras a la cuenta de Lumi (o la suelta con null). */
+  /** Liga las compras a la cuenta de Lampi (o la suelta con null). */
   setUser?(userId: string | null): Promise<void>;
 }
 

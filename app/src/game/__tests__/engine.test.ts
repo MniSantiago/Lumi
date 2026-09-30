@@ -32,7 +32,7 @@ function withDay(date: string, maxThreshold: StoredDay['maxThreshold'], base: Ga
 }
 
 describe('closeDay', () => {
-  it('con poco uso, Lumi vuelve con postal, objetos y chispas', () => {
+  it('con poco uso, Lampi vuelve con postal, objetos y chispas', () => {
     const next = closeDay(withDay('2026-09-28', 25), '2026-09-28', ctx, 0);
     const day = next.days['2026-09-28'];
     expect(day.closed).toBe(true);

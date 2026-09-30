@@ -1,24 +1,55 @@
 import { StyleSheet, Text } from 'react-native';
 
+import { NativeAppsPanel, pickedCountLabel, thiefAppsTitle, useNativeApps } from '@/components/native-apps';
 import { List, SelectRow } from '@/components/onboarding/controls';
 import { Sheet } from '@/components/sheet';
 import { Colors, Fonts } from '@/constants/theme';
 import { THIEF_APP_CATALOG } from '@/lumi/data';
 import { useLumi } from '@/lumi/store';
 import { tr } from '@/i18n';
+import { screenTimeControl } from '@/screen-time/control';
 
 /**
- * Editar las apps ladronas desde Ajustes. Es la misma lista del onboarding
- * (maqueta del `FamilyActivityPicker`); cada toque se guarda al momento.
+ * Editar las apps ladronas desde Ajustes. Es lo mismo que en el onboarding: el
+ * selector de Apple en un iPhone y la maqueta con el catálogo en Expo Go y en web.
  */
 export default function ThiefAppsSheet() {
+  return screenTimeControl.available ? <NativeThiefAppsSheet /> : <MockThiefAppsSheet />;
+}
+
+function NativeThiefAppsSheet() {
+  const { settings } = useLumi();
+  const native = useNativeApps();
+  const name = settings.lumiName;
+
+  return (
+    <Sheet
+      title={thiefAppsTitle}
+      subtitle={tr({
+        es: `Las que le roban la luz a ${name}. Los cambios se guardan solos.`,
+        en: `The ones that steal ${name}’s light. Changes save automatically.`,
+        zh: `偷走${name}的光的 App。修改会自动保存。`,
+        hi: `जो ${name} की रोशनी चुराती हैं। बदलाव अपने आप सहेजे जाते हैं।`,
+        fr: `Celles qui volent la lumière de ${name}. Les changements s’enregistrent tout seuls.`,
+      })}>
+      <NativeAppsPanel native={native} />
+      {native.total > 0 ? (
+        <Text style={styles.note} accessibilityLiveRegion="polite">
+          {pickedCountLabel(native.total)}
+        </Text>
+      ) : null}
+    </Sheet>
+  );
+}
+
+function MockThiefAppsSheet() {
   const { settings, updateSettings } = useLumi();
   const name = settings.lumiName;
   const selected = new Set(settings.thiefApps);
   const count = selected.size;
 
   const toggle = (id: string) => {
-    // Siempre queda al menos una: sin apps ladronas, Lumi no tendría nada que medir.
+    // Siempre queda al menos una: sin apps ladronas, Lampi no tendría nada que medir.
     if (count === 1 && selected.has(id)) return;
     updateSettings({
       thiefApps: THIEF_APP_CATALOG.filter((a) => (a.id === id ? !selected.has(id) : selected.has(a.id))).map(

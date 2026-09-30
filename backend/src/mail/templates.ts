@@ -1,5 +1,5 @@
 /**
- * Correos de Lumi. Mismo tono que la app: habla Lumi, con cariño y sin prisas.
+ * Correos de Lampi. Mismo tono que la app: habla Lampi, con cariño y sin prisas.
  * HTML sencillo con estilos en línea (lo que mejor aguantan los clientes de correo).
  */
 
@@ -60,7 +60,7 @@ function layout(title: string, paragraphs: string[], code?: string) {
   return `<!doctype html><html lang="${currentLang()}"><body style="margin:0;background:#13112E;padding:32px 16px;font-family:-apple-system,'Segoe UI',Roboto,sans-serif">
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr><td align="center">
 <table role="presentation" width="100%" style="max-width:480px;background:#1B1840;border-radius:24px;padding:28px" cellpadding="0" cellspacing="0"><tr><td>
-<p style="margin:0 0 18px;font-size:26px;font-weight:800;color:#FFE3A3;font-family:Georgia,serif">Lumi</p>
+<p style="margin:0 0 18px;font-size:26px;font-weight:800;color:#FFE3A3;font-family:Georgia,serif">Lampi</p>
 <h1 style="margin:0 0 16px;font-size:22px;line-height:1.3;color:#F4F0FF;font-family:Georgia,serif">${title}</h1>
 ${body}${codeBlock}
 <p style="margin:18px 0 0;font-size:13px;line-height:1.5;color:#A69FD8">${footer()}</p>
@@ -95,11 +95,11 @@ export function verifyEmailMail(code: string, name: string): MailContent {
   });
   return {
     subject: tr({
-      es: `${code} es tu código para Lumi`,
-      en: `${code} is your Lumi code`,
-      zh: `${code} 是你的 Lumi 验证码`,
-      hi: `${code} तुम्हारा Lumi कोड है`,
-      fr: `${code} est ton code pour Lumi`,
+      es: `${code} es tu código para Lampi`,
+      en: `${code} is your Lampi code`,
+      zh: `${code} 是你的 Lampi 验证码`,
+      hi: `${code} तुम्हारा Lampi कोड है`,
+      fr: `${code} est ton code pour Lampi`,
     }),
     html: layout(hi, [`${line} ${expires()}`], code),
     text: `${hi}\n\n${line} ${code}\n${expires()}\n\n${ignoreLine()}`,
@@ -130,11 +130,11 @@ export function resetPasswordMail(code: string, name: string): MailContent {
     fr: 'Saisis ce code dans l’app pour choisir un nouveau mot de passe.',
   });
   const comfort = tr({
-    es: 'No pasa nada, a Lumi también se le olvidan cosas.',
-    en: 'No worries, Lumi forgets things too.',
-    zh: '没关系，Lumi 也会忘事。',
-    hi: 'कोई बात नहीं, Lumi भी चीज़ें भूल जाती है।',
-    fr: 'Pas de souci, Lumi aussi oublie des choses.',
+    es: 'No pasa nada, a Lampi también se le olvidan cosas.',
+    en: 'No worries, Lampi forgets things too.',
+    zh: '没关系，Lampi 也会忘事。',
+    hi: 'कोई बात नहीं, Lampi भी चीज़ें भूल जाती है।',
+    fr: 'Pas de souci, Lampi aussi oublie des choses.',
   });
   return {
     subject: tr({
@@ -174,11 +174,11 @@ export function passwordChangedMail(name: string): MailContent {
   });
   return {
     subject: tr({
-      es: 'Tu contraseña de Lumi ha cambiado',
-      en: 'Your Lumi password has changed',
-      zh: '你的 Lumi 密码已修改',
-      hi: 'तुम्हारा Lumi पासवर्ड बदल गया है',
-      fr: 'Ton mot de passe Lumi a changé',
+      es: 'Tu contraseña de Lampi ha cambiado',
+      en: 'Your Lampi password has changed',
+      zh: '你的 Lampi 密码已修改',
+      hi: 'तुम्हारा Lampi पासवर्ड बदल गया है',
+      fr: 'Ton mot de passe Lampi a changé',
     }),
     html: layout(hi, [
       `${tr({
@@ -223,27 +223,27 @@ export function accountDeletedMail(name: string): MailContent {
     fr: 'Nous avons supprimé ton compte et toutes ses données.',
   });
   const back = tr({
-    es: 'Si algún día vuelves, Lumi te estará esperando.',
-    en: 'If you ever come back, Lumi will be waiting for you.',
-    zh: '如果有一天你回来，Lumi 会一直等你。',
-    hi: 'अगर कभी लौटो, तो Lumi तुम्हारा इंतज़ार करेगी।',
-    fr: 'Si un jour tu reviens, Lumi t’attendra.',
+    es: 'Si algún día vuelves, Lampi te estará esperando.',
+    en: 'If you ever come back, Lampi will be waiting for you.',
+    zh: '如果有一天你回来，Lampi 会一直等你。',
+    hi: 'अगर कभी लौटो, तो Lampi तुम्हारा इंतज़ार करेगी।',
+    fr: 'Si un jour tu reviens, Lampi t’attendra.',
   });
   return {
     subject: tr({
-      es: 'Tu cuenta de Lumi se ha eliminado',
-      en: 'Your Lumi account has been deleted',
-      zh: '你的 Lumi 账户已删除',
-      hi: 'तुम्हारा Lumi खाता हटा दिया गया है',
-      fr: 'Ton compte Lumi a été supprimé',
+      es: 'Tu cuenta de Lampi se ha eliminado',
+      en: 'Your Lampi account has been deleted',
+      zh: '你的 Lampi 账户已删除',
+      hi: 'तुम्हारा Lampi खाता हटा दिया गया है',
+      fr: 'Ton compte Lampi a été supprimé',
     }),
     html: layout(hi, [
       `${deleted} ${tr({
-        es: 'Lumi se queda con un recuerdo bonito de vosotros.',
-        en: 'Lumi keeps a lovely memory of your time together.',
-        zh: 'Lumi 会留下你们在一起的美好回忆。',
-        hi: 'Lumi तुम्हारे साथ की एक प्यारी याद रखेगी।',
-        fr: 'Lumi garde un joli souvenir de vous deux.',
+        es: 'Lampi se queda con un recuerdo bonito de vosotros.',
+        en: 'Lampi keeps a lovely memory of your time together.',
+        zh: 'Lampi 会留下你们在一起的美好回忆。',
+        hi: 'Lampi तुम्हारे साथ की एक प्यारी याद रखेगी।',
+        fr: 'Lampi garde un joli souvenir de vous deux.',
       })} ${back}`,
     ]),
     text: `${hi}.\n\n${deleted} ${back}`,
@@ -260,11 +260,11 @@ export function waitlistWelcomeMail(unsubscribeUrl?: string): MailContent {
     fr: 'Tu es sur la liste !',
   });
   const hop = tr({
-    es: 'Lumi ha dado tres saltitos al leer tu nombre. Te escribiremos en cuanto pueda mudarse a tu iPhone.',
-    en: 'Lumi did three little hops when she read your name. We’ll write as soon as she can move into your iPhone.',
-    zh: 'Lumi 看到你的名字，开心地跳了三下。她一能搬进你的 iPhone，我们就写信告诉你。',
-    hi: 'तुम्हारा नाम पढ़कर Lumi तीन बार उछली। जैसे ही वो तुम्हारे iPhone में आ सकेगी, हम तुम्हें लिखेंगे।',
-    fr: 'Lumi a fait trois petits bonds en lisant ton nom. On t’écrit dès qu’elle peut emménager dans ton iPhone.',
+    es: 'Lampi ha dado tres saltitos al leer tu nombre. Te escribiremos en cuanto pueda mudarse a tu iPhone.',
+    en: 'Lampi did three little hops when she read your name. We’ll write as soon as she can move into your iPhone.',
+    zh: 'Lampi 看到你的名字，开心地跳了三下。她一能搬进你的 iPhone，我们就写信告诉你。',
+    hi: 'तुम्हारा नाम पढ़कर Lampi तीन बार उछली। जैसे ही वो तुम्हारे iPhone में आ सकेगी, हम तुम्हें लिखेंगे।',
+    fr: 'Lampi a fait trois petits bonds en lisant ton nom. On t’écrit dès qu’elle peut emménager dans ton iPhone.',
   });
   const tip = tr({
     es: 'Mientras tanto, un truco suyo: deja el móvil en otra habitación durante la cena. Brilla muchísimo.',
@@ -274,11 +274,11 @@ export function waitlistWelcomeMail(unsubscribeUrl?: string): MailContent {
     fr: 'En attendant, une de ses astuces : laisse ton téléphone dans une autre pièce pendant le dîner. Elle brille énormément.',
   });
   const subject = tr({
-    es: '¡Ya estás en la lista de Lumi! ✨',
-    en: 'You’re on Lumi’s list! ✨',
-    zh: '你已加入 Lumi 的名单！✨',
-    hi: 'तुम Lumi की सूची में हो! ✨',
-    fr: 'Tu es sur la liste de Lumi ! ✨',
+    es: '¡Ya estás en la lista de Lampi! ✨',
+    en: 'You’re on Lampi’s list! ✨',
+    zh: '你已加入 Lampi 的名单！✨',
+    hi: 'तुम Lampi की सूची में हो! ✨',
+    fr: 'Tu es sur la liste de Lampi ! ✨',
   });
   const leave = tr({
     es: 'Darme de baja de la lista',
@@ -316,11 +316,11 @@ export function launchMail(
   unsubscribeUrl: string,
 ): MailContent {
   const title = tr({
-    es: '¡Lumi ya está en la App Store!',
-    en: 'Lumi is on the App Store!',
-    zh: 'Lumi 已经上架 App Store 了！',
-    hi: 'Lumi अब App Store पर है!',
-    fr: 'Lumi est sur l’App Store !',
+    es: '¡Lampi ya está en la App Store!',
+    en: 'Lampi is on the App Store!',
+    zh: 'Lampi 已经上架 App Store 了！',
+    hi: 'Lampi अब App Store पर है!',
+    fr: 'Lampi est sur l’App Store !',
   });
   const body = tr({
     es: 'Llevaba tiempo esperando este momento: ya puede mudarse a tu iPhone. Cuando sueltes el móvil, brillará y saldrá de aventura, y por la noche te traerá una postal.',
@@ -330,11 +330,11 @@ export function launchMail(
     fr: 'Elle attendait ce moment depuis longtemps : elle peut enfin emménager dans ton iPhone. Quand tu poseras ton téléphone, elle brillera et partira à l’aventure, et le soir elle te rapportera une carte postale.',
   });
   const cta = tr({
-    es: 'Descargar Lumi',
-    en: 'Download Lumi',
-    zh: '下载 Lumi',
-    hi: 'Lumi डाउनलोड करो',
-    fr: 'Télécharger Lumi',
+    es: 'Descargar Lampi',
+    en: 'Download Lampi',
+    zh: '下载 Lampi',
+    hi: 'Lampi डाउनलोड करो',
+    fr: 'Télécharger Lampi',
   });
   const leave = tr({
     es: 'Darme de baja de la lista',

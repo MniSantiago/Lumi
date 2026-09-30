@@ -15,7 +15,7 @@ import { Colors } from '@/constants/theme';
 import { LUMI_STATES } from '@/lumi/states';
 import { tr } from '@/i18n';
 
-/** Paso 1: Lumi se presenta y os ponéis nombre. */
+/** Paso 1: Lampi se presenta y os ponéis nombre. */
 export default function MeetLumiStep() {
   const { draft, setDraft } = useOnboardingDraft();
   const scrollRef = useRef<ScrollView>(null);
@@ -29,11 +29,11 @@ export default function MeetLumiStep() {
     <StepShell
       step={1}
       title={tr({
-        es: 'Conoce a Lumi',
-        en: 'Meet Lumi',
-        zh: '认识 Lumi',
-        hi: 'Lumi से मिलो',
-        fr: 'Voici Lumi',
+        es: 'Conoce a Lampi',
+        en: 'Meet Lampi',
+        zh: '认识 Lampi',
+        hi: 'Lampi से मिलो',
+        fr: 'Voici Lampi',
       })}
       subtitle={tr({
         es: 'Una lucecita que vive contigo y brilla cuando descansas del móvil.',
@@ -106,7 +106,7 @@ export default function MeetLumiStep() {
             hi: 'और तुम मुझे क्या बुलाओगे?',
             fr: 'Et toi, comment tu m’appelles ?',
           })}
-          placeholder="Lumi"
+          placeholder="Lampi"
           value={draft.lumiName}
           onChangeText={(lumiName) => setDraft({ lumiName })}
           maxLength={NAME_MAX}
@@ -117,11 +117,11 @@ export default function MeetLumiStep() {
         {apiAvailable ? (
           <SecondaryLink
             label={tr({
-              es: '¿Ya tenías a Lumi? Entra en tu cuenta',
-              en: 'Already had Lumi? Sign in',
-              zh: '已经有 Lumi 了？登录账户',
-              hi: 'पहले से Lumi है? अपने खाते में जाओ',
-              fr: 'Tu avais déjà Lumi ? Connecte-toi',
+              es: '¿Ya tenías a Lampi? Entra en tu cuenta',
+              en: 'Already had Lampi? Sign in',
+              zh: '已经有 Lampi 了？登录账户',
+              hi: 'पहले से Lampi है? अपने खाते में जाओ',
+              fr: 'Tu avais déjà Lampi ? Connecte-toi',
             })}
             onPress={() => router.push('/cuenta?modo=entrar')}
           />

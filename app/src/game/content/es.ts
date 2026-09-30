@@ -112,7 +112,7 @@ export default {
       caption: 'Cada vez que brillo, la cueva brilla conmigo.',
       quote: 'Mi luz rebotaba por todas partes.',
       stories: [
-        'Dentro de la cueva mi luz rebotaba por todas partes. Por un momento pensé que éramos cien Lumis, y me dio un poco de vergüenza.',
+        'Dentro de la cueva mi luz rebotaba por todas partes. Por un momento pensé que éramos cien Lampis, y me dio un poco de vergüenza.',
         'Unos bichitos de hollín viven en los rincones oscuros. Al principio se escondieron, pero cuando me senté quieta vinieron a calentarse conmigo.',
         'En la pared más honda hay un dibujo muy antiguo: una estrella con carita, cayendo. Alguien lo pintó hace mucho. O a lo mejor no hace tanto.',
       ],

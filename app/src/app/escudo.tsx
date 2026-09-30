@@ -51,8 +51,8 @@ export default function ShieldScreen() {
   const busy = useRef(false);
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  const reveal = useSharedValue(0); // 0 = pregunta, 1 = mensaje de Lumi
-  const warmth = useSharedValue(0); // halo extra de Lumi
+  const reveal = useSharedValue(0); // 0 = pregunta, 1 = mensaje de Lampi
+  const warmth = useSharedValue(0); // halo extra de Lampi
 
   useEffect(() => {
     getSnoozesToday().then(setSnoozesUsed);
@@ -167,7 +167,7 @@ function close() {
 
 const styles = StyleSheet.create({
   screen: { flex: 1, backgroundColor: Colors.nightDeep },
-  // `.shield`: resplandor lavanda detrás de Lumi sobre la noche más profunda.
+  // `.shield`: resplandor lavanda detrás de Lampi sobre la noche más profunda.
   background: {
     position: 'absolute',
     inset: 0,

@@ -11,3 +11,6 @@
 
 # Python
 __pycache__/
+
+# Clave de APIMart (nunca al repo)
+apimartkey/

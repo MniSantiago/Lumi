@@ -1,7 +1,7 @@
 import { getLocales } from 'expo-localization';
 
 /**
- * Idiomas de Lumi. La app habla el idioma del iPhone si es uno de estos y,
+ * Idiomas de Lampi. La app habla el idioma del iPhone si es uno de estos y,
  * si no, inglés. iOS reinicia la app al cambiar de idioma, así que basta con
  * mirarlo una vez al arrancar.
  *

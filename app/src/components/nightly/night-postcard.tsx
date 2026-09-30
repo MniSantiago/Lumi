@@ -16,7 +16,7 @@ const STARS = [
 
 /**
  * La postal grande de la noche: papel crema, ilustración del lugar con unas
- * estrellas, y un sello con la luna de Lumi. Variante ampliada de `PostcardView`.
+ * estrellas, y un sello con la luna de Lampi. Variante ampliada de `PostcardView`.
  */
 export function NightPostcard({
   title,

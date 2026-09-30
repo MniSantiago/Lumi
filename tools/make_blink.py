@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Genera el fotograma de parpadeo de Lumi (ojos cerrados) alineado píxel a píxel
+"""Genera el fotograma de parpadeo de Lampi (ojos cerrados) alineado píxel a píxel
 con la ilustración del estado, para intercambiarlos unos milisegundos en la app.
 
 Uso (desde la raíz del repo):  python3 tools/make_blink.py

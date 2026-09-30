@@ -81,7 +81,7 @@ export class AuthService {
         email,
         passwordHash,
         name: dto.name ?? '',
-        lumiName: dto.lumiName || 'Lumi',
+        lumiName: dto.lumiName || 'Lampi',
       })
       .onConflictDoNothing({ target: users.email })
       .returning();
@@ -241,7 +241,7 @@ export class AuthService {
   ): Promise<UserDto> {
     const set: Partial<Pick<User, 'name' | 'lumiName'>> = {};
     if (patch.name !== undefined) set.name = patch.name;
-    if (patch.lumiName !== undefined) set.lumiName = patch.lumiName || 'Lumi';
+    if (patch.lumiName !== undefined) set.lumiName = patch.lumiName || 'Lampi';
     if (Object.keys(set).length === 0) return this.getMe(userId);
     const [user] = await this.db
       .update(users)

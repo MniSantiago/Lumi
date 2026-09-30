@@ -143,7 +143,7 @@ function BackButton() {
   );
 }
 
-/** Botón principal a todo lo ancho, en el ámbar de la luz de Lumi. */
+/** Botón principal a todo lo ancho, en el ámbar de la luz de Lampi. */
 export function PrimaryButton({
   label,
   onPress,

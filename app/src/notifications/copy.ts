@@ -1,5 +1,5 @@
 /**
- * Textos de los avisos locales. Lumi escribe como una amiga: cuenta, invita
+ * Textos de los avisos locales. Lampi escribe como una amiga: cuenta, invita
  * y nunca reprocha. Nada de "¡No te lo pierdas!" ni prisas.
  */
 import type { Destination } from '@/game/types';
@@ -100,11 +100,11 @@ export function bedtimeContent(lumiName: string) {
 export function trialReminderContent(lumiName: string) {
   return {
     title: tr({
-      es: 'Tu prueba de Lumi Plus acaba en 2 días',
-      en: 'Your Lumi Plus trial ends in 2 days',
-      zh: '你的 Lumi Plus 试用还有 2 天结束',
-      hi: 'तुम्हारा Lumi Plus ट्रायल 2 दिन में ख़त्म होगा',
-      fr: 'Ton essai Lumi Plus se termine dans 2 jours',
+      es: 'Tu prueba de Lampi Plus acaba en 2 días',
+      en: 'Your Lampi Plus trial ends in 2 days',
+      zh: '你的 Lampi Plus 试用还有 2 天结束',
+      hi: 'तुम्हारा Lampi Plus ट्रायल 2 दिन में ख़त्म होगा',
+      fr: 'Ton essai Lampi Plus se termine dans 2 jours',
     }),
     body: tr({
       es: `Si no quieres seguir, puedes cancelarla en Ajustes de iOS. ${lumiName} te quiere igual ✨`,
@@ -127,11 +127,11 @@ export const permissionDeniedCopy = {
   }),
   body: (lumiName: string) =>
     tr({
-      es: `Para que ${lumiName} te avise al volver de su viaje, activa las notificaciones de Lumi en Ajustes de iOS. Si prefieres no hacerlo, no pasa nada: la postal te esperará igual al abrir la app.`,
-      en: `So ${lumiName} can let you know when she’s back from her trip, turn on Lumi’s notifications in iOS Settings. If you’d rather not, that’s fine: the postcard will be waiting when you open the app.`,
-      zh: `想让${lumiName}旅行回来时告诉你，请在 iOS 设置里打开 Lumi 的通知。不想打开也没关系：打开 App 时明信片一样在等你。`,
-      hi: `ताकि ${lumiName} सफ़र से लौटकर तुम्हें बता सके, iOS सेटिंग्स में Lumi की सूचनाएँ चालू करो। न करना चाहो तो कोई बात नहीं: ऐप खोलने पर पोस्टकार्ड तुम्हारा इंतज़ार करेगा।`,
-      fr: `Pour que ${lumiName} te prévienne à son retour de voyage, active les notifications de Lumi dans les Réglages d’iOS. Sinon, pas de souci : la carte t’attendra quand tu ouvriras l’app.`,
+      es: `Para que ${lumiName} te avise al volver de su viaje, activa las notificaciones de Lampi en Ajustes de iOS. Si prefieres no hacerlo, no pasa nada: la postal te esperará igual al abrir la app.`,
+      en: `So ${lumiName} can let you know when she’s back from her trip, turn on Lampi’s notifications in iOS Settings. If you’d rather not, that’s fine: the postcard will be waiting when you open the app.`,
+      zh: `想让${lumiName}旅行回来时告诉你，请在 iOS 设置里打开 Lampi 的通知。不想打开也没关系：打开 App 时明信片一样在等你。`,
+      hi: `ताकि ${lumiName} सफ़र से लौटकर तुम्हें बता सके, iOS सेटिंग्स में Lampi की सूचनाएँ चालू करो। न करना चाहो तो कोई बात नहीं: ऐप खोलने पर पोस्टकार्ड तुम्हारा इंतज़ार करेगा।`,
+      fr: `Pour que ${lumiName} te prévienne à son retour de voyage, active les notifications de Lampi dans les Réglages d’iOS. Sinon, pas de souci : la carte t’attendra quand tu ouvriras l’app.`,
     }),
   openSettings: tr({
     es: 'Abrir Ajustes',

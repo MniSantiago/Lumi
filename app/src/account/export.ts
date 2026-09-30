@@ -22,7 +22,7 @@ export async function exportMyData({
   user: UserDto | null;
 }): Promise<void> {
   const data = {
-    app: 'Lumi',
+    app: 'Lampi',
     exportedAt: new Date().toISOString(),
     thisDevice: { settings, progress: game },
     // Si falla (sin conexión), la exportación sigue con lo del dispositivo.
@@ -51,11 +51,11 @@ export async function exportMyData({
     mimeType: 'application/json',
     UTI: 'public.json',
     dialogTitle: tr({
-      es: 'Tus datos de Lumi',
-      en: 'Your Lumi data',
-      zh: '你的 Lumi 数据',
-      hi: 'तुम्हारा Lumi डेटा',
-      fr: 'Tes données Lumi',
+      es: 'Tus datos de Lampi',
+      en: 'Your Lampi data',
+      zh: '你的 Lampi 数据',
+      hi: 'तुम्हारा Lampi डेटा',
+      fr: 'Tes données Lampi',
     }),
   });
 }

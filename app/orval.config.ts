@@ -1,7 +1,7 @@
 import { defineConfig } from 'orval';
 
 /**
- * Cliente de la API de Lumi generado desde el OpenAPI del backend.
+ * Cliente de la API de Lampi generado desde el OpenAPI del backend.
  * Regenerar: `npm run api:generate` (antes, en backend/: `npm run openapi`).
  */
 export default defineConfig({

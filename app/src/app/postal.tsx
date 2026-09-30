@@ -40,7 +40,7 @@ const TILT = -2.5;
 const easeOut = Easing.out(Easing.cubic);
 
 /**
- * La postal nocturna: Lumi vuelve de su expedición con una postal, un trozo de
+ * La postal nocturna: Lampi vuelve de su expedición con una postal, un trozo de
  * historia y lo que lleva en el bolsillo (la vuelta pendiente del juego).
  * Param opcional `id` (id del destino): relectura tranquila de una postal del
  * álbum, sin la secuencia de premios.
@@ -68,7 +68,7 @@ export default function PostcardScreen() {
   return <NoPostcard />;
 }
 
-/** Primero Lumi llega volando al prado; después, la postal de esta noche. */
+/** Primero Lampi llega volando al prado; después, la postal de esta noche. */
 function ArrivalThenPostcard({ pending }: { pending: PendingReturn }) {
   const { settings } = useLumi();
   const [arrived, setArrived] = useState(false);
@@ -104,7 +104,7 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
   const { saveReturnToAlbum, album, streak, brightDays } = useGame();
   // Se decide al abrir: al guardarla, el álbum deja de estar vacío.
   const [first] = useState(album.length === 0);
-  // Esta vuelta es el día brillante que completa una etapa (7, 14, 21): Lumi crece.
+  // Esta vuelta es el día brillante que completa una etapa (7, 14, 21): Lampi crece.
   const [grewTo] = useState(() =>
     brightDays > 0 && brightDays % BRIGHT_DAYS_PER_STAGE === 0 && brightDays / BRIGHT_DAYS_PER_STAGE < EVOLUTION_STAGES
       ? EVOLUTION.stages[brightDays / BRIGHT_DAYS_PER_STAGE]

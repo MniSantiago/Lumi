@@ -1,4 +1,4 @@
-# Lumi API
+# Lampi API
 
 NestJS 12 + Postgres (Drizzle) + Resend. Cuentas opcionales para guardar el progreso, recuperación de contraseña, borrado de cuenta y la lista de espera de la landing.
 
@@ -60,7 +60,7 @@ Cada persona lo recibe en su idioma, con el botón a la App Store y su enlace de
 | POST | `/auth/verify-email` · `/auth/verify-email/resend` | Verifica el correo con el código |
 | POST | `/auth/forgot-password` | Envía un código para cambiar la contraseña (responde igual exista o no el correo) |
 | POST | `/auth/reset-password` | Cambia la contraseña con el código y cierra las sesiones |
-| GET · PATCH | `/me` | Perfil (nombre y nombre de Lumi) |
+| GET · PATCH | `/me` | Perfil (nombre y nombre de Lampi) |
 | POST | `/me/password` | Cambia la contraseña conociendo la actual |
 | POST | `/me/delete` | Borra la cuenta y todos sus datos (Apple lo exige, guía 5.1.1(v)) |
 | POST | `/waitlist` | Lista de espera de la landing (`WAITLIST_ENDPOINT` en `landing/main.js`) |

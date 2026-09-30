@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Genera las hojas de postales, objetos y amigos de Lumi con APIMart (Seedream 5.0 Lite).
+"""Genera las hojas de postales, objetos y amigos de Lampi con APIMart (Seedream 5.0 Lite).
 
 Uso (desde la raíz del repo):
     APIMART_API_KEY=sk-... python3 tools/apimart_generate.py            # todas las hojas

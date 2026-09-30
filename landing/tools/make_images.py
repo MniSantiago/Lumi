@@ -10,7 +10,7 @@ ROOT = Path(__file__).resolve().parents[2]
 OUT = ROOT / "landing" / "img"
 OUT.mkdir(parents=True, exist_ok=True)
 
-# Los cuatro estados de Lumi (recortes transparentes de la app)
+# Los cuatro estados de Lampi (recortes transparentes de la app)
 for name in ["radiante", "contenta", "cansada", "apagadita"]:
     im = Image.open(ROOT / f"app/assets/lumi/{name}.png").convert("RGBA")
     im.thumbnail((420, 420), Image.LANCZOS)

@@ -193,7 +193,7 @@ function SealedPostcard({ chapter, plus }: { chapter: number; plus: boolean }) {
     <View
       style={styles.sealed}
       accessible
-      accessibilityLabel={`${undiscovered} · ${nightlyCopy.chapter(chapter)}${plus ? ' · Lumi Plus' : ''}`}>
+      accessibilityLabel={`${undiscovered} · ${nightlyCopy.chapter(chapter)}${plus ? ' · Lampi Plus' : ''}`}>
       <View style={styles.sealedArt}>
         <Text style={styles.sealedMark}>?</Text>
       </View>
