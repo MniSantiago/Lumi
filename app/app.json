@@ -1,7 +1,7 @@
 {
   "expo": {
     "name": "Lampi",
-    "slug": "lumi",
+    "slug": "lampi",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -136,14 +136,14 @@
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "6244480e-5eaa-4ca9-bce9-a3ce408b7116"
+        "projectId": "feafb674-d2ee-455b-bcd4-623c4bdf049f"
       }
     },
     "runtimeVersion": {
       "policy": "appVersion"
     },
     "updates": {
-      "url": "https://u.expo.dev/6244480e-5eaa-4ca9-bce9-a3ce408b7116"
+      "url": "https://u.expo.dev/feafb674-d2ee-455b-bcd4-623c4bdf049f"
     }
   }
 }
