@@ -1,5 +1,5 @@
 /**
- * Dominio público de Lumi (la landing), para lo que se comparte: la tarjeta
+ * Dominio público de Lampi (la landing), para lo que se comparte: la tarjeta
  * del resumen semanal y los textos de las postales. Vacío hasta tener dominio propio: entonces no se enseña
  * (mejor nada que mandar a la gente a un dominio que no es nuestro).
  */

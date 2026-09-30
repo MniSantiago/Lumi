@@ -3,7 +3,7 @@
  * juego. El proveedor (`game/store.tsx`) las llama con la fecha del reloj.
  *
  * Reglas sin culpa:
- * - Lumi sale de expedición si el umbral máximo del día queda por debajo del 50 %.
+ * - Lampi sale de expedición si el umbral máximo del día queda por debajo del 50 %.
  * - El día se cierra a las 21:00 (o al abrir la app otro día): si salió, vuelve
  *   con postal, objetos y chispas. Nunca se pierde nada.
  * - Noche tranquila: si la noche anterior no se usó «5 min más» en el escudo de
@@ -103,7 +103,7 @@ export function saveToAlbum(album: AlbumEntry[], destinationId: string, date: Da
   return [...album.filter((a) => a.destinationId !== destinationId), { destinationId, date, savedAt }];
 }
 
-/** Cierra un día: si Lumi salió, vuelve con lo que ha encontrado. */
+/** Cierra un día: si Lampi salió, vuelve con lo que ha encontrado. */
 export function closeDay(state: GameState, date: DateKey, ctx: EngineContext, nowMs: number): GameState {
   const day = state.days[date];
   if (!day || day.closed) return state;
@@ -220,7 +220,7 @@ export function streakFor(state: GameState, today: DateKey): number {
   return count;
 }
 
-/** Tramos de luz que le quedaron a Lumi (1-4 en un día normal; 0 = descanso o sin datos). */
+/** Tramos de luz que le quedaron a Lampi (1-4 en un día normal; 0 = descanso o sin datos). */
 export function litFor(day: StoredDay | undefined): 0 | 1 | 2 | 3 | 4 {
   if (!day || day.restDay || day.missed) return 0;
   return Math.max(1, Math.min(4, 4 - Math.floor(day.maxThreshold / 25))) as 1 | 2 | 3 | 4;
@@ -253,7 +253,7 @@ export function evolutionFor(bright: number) {
   return { stage, inStage, perStage: BRIGHT_DAYS_PER_STAGE, maxed };
 }
 
-/** Parte del día recorrida desde que Lumi se despierta hasta que vuelve (0-1). */
+/** Parte del día recorrida desde que Lampi se despierta hasta que vuelve (0-1). */
 export function expeditionProgress(today: DateKey, wakeAt: string, now: Date): number {
   const start = atTime(today, wakeAt).getTime();
   const end = atTime(today, RETURNS_AT).getTime();

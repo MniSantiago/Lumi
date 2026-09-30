@@ -6,6 +6,7 @@ import { apiAvailable } from '@/api/client';
 import { useSession } from '@/account/session';
 import { useLastBackup } from '@/account/sync';
 import { AppIcon, Label, List, Row, Stepper, Toggle } from '@/components/onboarding/controls';
+import { NativeAppsPanel, useNativeApps } from '@/components/native-apps';
 import { PillButton, SectionTitle, Screen, TextLink } from '@/components/ui';
 import { confirmAction } from '@/confirm';
 import { Colors, Fonts } from '@/constants/theme';
@@ -16,6 +17,7 @@ import { formatLimit, LIMIT_OPTIONS, useLumi } from '@/lumi/store';
 import { stepTime } from '@/lumi/time';
 import { cancelNightlyReturn, ensureNotificationPermission, permissionDeniedCopy } from '@/notifications';
 import { lang, LANG_NAMES, tr } from '@/i18n';
+import { screenTimeControl } from '@/screen-time/control';
 import { clockTime, dayMonth } from '@/i18n/dates';
 import { useTourOnFocus } from '@/tour/store';
 import { TourTarget } from '@/tour/target';
@@ -75,6 +77,34 @@ const weeklyTitle = tr({
   fr: 'Bilan du dimanche',
 });
 
+/** Las apps ladronas de verdad: las dibuja Apple, la app solo sabe cuántas son. */
+function NativeAppsSummary() {
+  const native = useNativeApps();
+  if (native.total > 0) return <NativeAppsPanel native={native} />;
+  return (
+    <List>
+      <Row last>
+        <Label
+          title={tr({
+            es: 'Ninguna todavía',
+            en: 'None yet',
+            zh: '还没有',
+            hi: 'अभी कोई नहीं',
+            fr: 'Aucune pour l’instant',
+          })}
+          sub={tr({
+            es: 'Elige las apps que más te roban la atención',
+            en: 'Pick the apps that steal your attention the most',
+            zh: '选出最偷走你注意力的 App',
+            hi: 'वो ऐप्स चुनो जो सबसे ज़्यादा ध्यान चुराती हैं',
+            fr: 'Choisis les applis qui te volent le plus d’attention',
+          })}
+        />
+      </Row>
+    </List>
+  );
+}
+
 export default function SettingsScreen() {
   useTourOnFocus('ajustes');
   const { settings, updateSettings } = useLumi();
@@ -128,11 +158,11 @@ export default function SettingsScreen() {
     <Screen
       title={tr({ es: 'Ajustes', en: 'Settings', zh: '设置', hi: 'सेटिंग्स', fr: 'Réglages' })}
       subtitle={tr({
-        es: 'Lo que apaga la luz de Lumi y cuándo se va a dormir.',
-        en: 'What dims Lumi’s light and when she goes to sleep.',
-        zh: '什么会让 Lumi 的光变暗，以及她什么时候睡觉。',
-        hi: 'क्या Lumi की रोशनी कम करता है और वो कब सोने जाती है।',
-        fr: 'Ce qui éteint la lumière de Lumi et quand elle va dormir.',
+        es: 'Lo que apaga la luz de Lampi y cuándo se va a dormir.',
+        en: 'What dims Lampi’s light and when she goes to sleep.',
+        zh: '什么会让 Lampi 的光变暗，以及她什么时候睡觉。',
+        hi: 'क्या Lampi की रोशनी कम करता है और वो कब सोने जाती है।',
+        fr: 'Ce qui éteint la lumière de Lampi et quand elle va dormir.',
       })}>
       <View style={{ gap: 10 }}>
         <SectionTitle
@@ -200,34 +230,38 @@ export default function SettingsScreen() {
             }>
             {tr({ es: 'Apps ladronas', en: 'Thief apps', zh: '偷时间的 App', hi: 'चोर ऐप्स', fr: 'Applis voleuses' })}
           </SectionTitle>
-          <List>
-            {apps.length === 0 ? (
-              <Row last>
-                <Label
-                  title={tr({
-                    es: 'Ninguna todavía',
-                    en: 'None yet',
-                    zh: '还没有',
-                    hi: 'अभी कोई नहीं',
-                    fr: 'Aucune pour l’instant',
-                  })}
-                  sub={tr({
-                    es: 'Elige las apps que más te roban la atención',
-                    en: 'Pick the apps that steal your attention the most',
-                    zh: '选出最偷走你注意力的 App',
-                    hi: 'वो ऐप्स चुनो जो सबसे ज़्यादा ध्यान चुराती हैं',
-                    fr: 'Choisis les applis qui te volent le plus d’attention',
-                  })}
-                />
-              </Row>
-            ) : null}
-            {apps.map((app, i) => (
-              <Row key={app.id} last={i === apps.length - 1}>
-                <AppIcon app={app} />
-                <Label title={app.name} sub={app.note} />
-              </Row>
-            ))}
-          </List>
+          {screenTimeControl.available ? (
+            <NativeAppsSummary />
+          ) : (
+            <List>
+              {apps.length === 0 ? (
+                <Row last>
+                  <Label
+                    title={tr({
+                      es: 'Ninguna todavía',
+                      en: 'None yet',
+                      zh: '还没有',
+                      hi: 'अभी कोई नहीं',
+                      fr: 'Aucune pour l’instant',
+                    })}
+                    sub={tr({
+                      es: 'Elige las apps que más te roban la atención',
+                      en: 'Pick the apps that steal your attention the most',
+                      zh: '选出最偷走你注意力的 App',
+                      hi: 'वो ऐप्स चुनो जो सबसे ज़्यादा ध्यान चुराती हैं',
+                      fr: 'Choisis les applis qui te volent le plus d’attention',
+                    })}
+                  />
+                </Row>
+              ) : null}
+              {apps.map((app, i) => (
+                <Row key={app.id} last={i === apps.length - 1}>
+                  <AppIcon app={app} />
+                  <Label title={app.name} sub={app.note} />
+                </Row>
+              ))}
+            </List>
+          )}
         </View>
       </TourTarget>
 
@@ -253,11 +287,11 @@ export default function SettingsScreen() {
                   fr: 'Limite quotidienne douce',
                 })}
                 sub={tr({
-                  es: 'Lumi se cansa al acercarte',
-                  en: 'Lumi gets tired as you get close',
-                  zh: '快到上限时 Lumi 会累',
-                  hi: 'पास पहुँचने पर Lumi थक जाती है',
-                  fr: 'Lumi se fatigue quand tu t’en approches',
+                  es: 'Lampi se cansa al acercarte',
+                  en: 'Lampi gets tired as you get close',
+                  zh: '快到上限时 Lampi 会累',
+                  hi: 'पास पहुँचने पर Lampi थक जाती है',
+                  fr: 'Lampi se fatigue quand tu t’en approches',
                 })}
               />
               <Stepper
@@ -388,11 +422,11 @@ export default function SettingsScreen() {
                 fr: 'Carte du soir',
               })}
               sub={tr({
-                es: 'Aviso cuando Lumi vuelve',
-                en: 'A notification when Lumi is back',
-                zh: 'Lumi 回来时通知你',
-                hi: 'Lumi के लौटने पर सूचना',
-                fr: 'Une notification quand Lumi rentre',
+                es: 'Aviso cuando Lampi vuelve',
+                en: 'A notification when Lampi is back',
+                zh: 'Lampi 回来时通知你',
+                hi: 'Lampi के लौटने पर सूचना',
+                fr: 'Une notification quand Lampi rentre',
               })}
             />
             <Toggle
@@ -470,11 +504,11 @@ export default function SettingsScreen() {
             <Label
               title={strictTitle}
               sub={tr({
-                es: 'Sin «5 min más» en el escudo · Lumi Plus',
-                en: 'No “5 more min” on the shield · Lumi Plus',
-                zh: '护盾上没有“再 5 分钟” · Lumi Plus',
-                hi: 'ढाल पर "5 मिनट और" नहीं · Lumi Plus',
-                fr: 'Pas de « 5 min de plus » sur le bouclier · Lumi Plus',
+                es: 'Sin «5 min más» en el escudo · Lampi Plus',
+                en: 'No “5 more min” on the shield · Lampi Plus',
+                zh: '护盾上没有“再 5 分钟” · Lampi Plus',
+                hi: 'ढाल पर "5 मिनट और" नहीं · Lampi Plus',
+                fr: 'Pas de « 5 min de plus » sur le bouclier · Lampi Plus',
               })}
             />
             {settings.isPlus ? (
@@ -504,11 +538,11 @@ export default function SettingsScreen() {
             <Label
               title={LANG_NAMES[lang]}
               sub={tr({
-                es: 'El del iPhone. Puedes elegir otro solo para Lumi en Ajustes de iOS.',
-                en: 'Your iPhone’s. You can pick another just for Lumi in iOS Settings.',
-                zh: '跟随 iPhone。你可以在 iOS 设置里单独为 Lumi 选择其他语言。',
-                hi: 'iPhone वाली। तुम iOS सेटिंग्स में सिर्फ़ Lumi के लिए दूसरी भाषा चुन सकते हो।',
-                fr: 'Celle de l’iPhone. Tu peux en choisir une autre juste pour Lumi dans Réglages d’iOS.',
+                es: 'El del iPhone. Puedes elegir otro solo para Lampi en Ajustes de iOS.',
+                en: 'Your iPhone’s. You can pick another just for Lampi in iOS Settings.',
+                zh: '跟随 iPhone。你可以在 iOS 设置里单独为 Lampi 选择其他语言。',
+                hi: 'iPhone वाली। तुम iOS सेटिंग्स में सिर्फ़ Lampi के लिए दूसरी भाषा चुन सकते हो।',
+                fr: 'Celle de l’iPhone. Tu peux en choisir une autre juste pour Lampi dans Réglages d’iOS.',
               })}
             />
             <TextLink
@@ -524,7 +558,7 @@ export default function SettingsScreen() {
           <SectionTitle>Desarrollo</SectionTitle>
           <List>
             <Row>
-              <Label title="Cerrar el día" sub="Como si fuera de noche: Lumi vuelve de su expedición" />
+              <Label title="Cerrar el día" sub="Como si fuera de noche: Lampi vuelve de su expedición" />
               <TextLink label="Cerrar" onPress={game.dev.closeDay} />
             </Row>
             <Row>
@@ -544,11 +578,11 @@ export default function SettingsScreen() {
               <TextLink label="Abrir" onPress={() => router.push('/escudo?motivo=noche')} />
             </Row>
             <Row>
-              <Label title="Ver la postal nocturna" sub="Lo que trae Lumi al volver de su expedición" />
+              <Label title="Ver la postal nocturna" sub="Lo que trae Lampi al volver de su expedición" />
               <TextLink label="Abrir" onPress={() => router.push('/postal')} />
             </Row>
             <Row>
-              <Label title="Ver Lumi Plus" sub="El paywall con la prueba gratis" />
+              <Label title="Ver Lampi Plus" sub="El paywall con la prueba gratis" />
               <TextLink label="Abrir" onPress={() => router.push('/plus')} />
             </Row>
             <Row last>
@@ -560,7 +594,7 @@ export default function SettingsScreen() {
       ) : null}
 
       <View style={styles.plus}>
-        <Text style={styles.plusTitle}>Lumi Plus</Text>
+        <Text style={styles.plusTitle}>Lampi Plus</Text>
         <View style={{ gap: 3 }}>
           {plusFeatures.map((f) => (
             <View key={f.key} style={styles.bullet}>
@@ -657,11 +691,11 @@ function AccountSection() {
           fr: 'Tes données',
         })}
         sub={tr({
-          es: 'Todo lo que Lumi guarda de ti, en un archivo',
-          en: 'Everything Lumi keeps about you, in one file',
-          zh: 'Lumi 保存的关于你的一切，一个文件',
-          hi: 'Lumi तुम्हारे बारे में जो भी रखती है, एक फ़ाइल में',
-          fr: 'Tout ce que Lumi garde sur toi, dans un fichier',
+          es: 'Todo lo que Lampi guarda de ti, en un archivo',
+          en: 'Everything Lampi keeps about you, in one file',
+          zh: 'Lampi 保存的关于你的一切，一个文件',
+          hi: 'Lampi तुम्हारे बारे में जो भी रखती है, एक फ़ाइल में',
+          fr: 'Tout ce que Lampi garde sur toi, dans un fichier',
         })}
       />
       <TextLink
@@ -711,11 +745,11 @@ function AccountSection() {
               fr: 'Sauvegarde ta progression',
             })}
             sub={tr({
-              es: 'Opcional. Para no perder a Lumi si cambias de iPhone',
-              en: 'Optional. So you don’t lose Lumi if you change iPhones',
-              zh: '可选。换 iPhone 时不会失去 Lumi',
-              hi: 'वैकल्पिक। ताकि iPhone बदलने पर Lumi न खोए',
-              fr: 'Facultatif. Pour ne pas perdre Lumi si tu changes d’iPhone',
+              es: 'Opcional. Para no perder a Lampi si cambias de iPhone',
+              en: 'Optional. So you don’t lose Lampi if you change iPhones',
+              zh: '可选。换 iPhone 时不会失去 Lampi',
+              hi: 'वैकल्पिक। ताकि iPhone बदलने पर Lampi न खोए',
+              fr: 'Facultatif. Pour ne pas perdre Lampi si tu changes d’iPhone',
             })}
           />
           <TextLink
@@ -736,11 +770,11 @@ function AccountSection() {
     confirmAction({
       title: tr({ es: '¿Cerrar sesión?', en: 'Sign out?', zh: '退出登录？', hi: 'साइन आउट करें?', fr: 'Se déconnecter ?' }),
       message: tr({
-        es: 'Lumi y su progreso se quedan en este iPhone.',
-        en: 'Lumi and her progress stay on this iPhone.',
-        zh: 'Lumi 和她的进度会留在这台 iPhone 上。',
-        hi: 'Lumi और उसकी प्रगति इसी iPhone पर रहेगी।',
-        fr: 'Lumi et sa progression restent sur cet iPhone.',
+        es: 'Lampi y su progreso se quedan en este iPhone.',
+        en: 'Lampi and her progress stay on this iPhone.',
+        zh: 'Lampi 和她的进度会留在这台 iPhone 上。',
+        hi: 'Lampi और उसकी प्रगति इसी iPhone पर रहेगी।',
+        fr: 'Lampi et sa progression restent sur cet iPhone.',
       }),
       cancel: tr({ es: 'Cancelar', en: 'Cancel', zh: '取消', hi: 'रद्द करो', fr: 'Annuler' }),
       confirm: tr({ es: 'Cerrar sesión', en: 'Sign out', zh: '退出登录', hi: 'साइन आउट', fr: 'Se déconnecter' }),

@@ -59,7 +59,7 @@ export function CardIn({
   return <Animated.View style={animated}>{children}</Animated.View>;
 }
 
-/** Un objeto o amigo que Lumi saca del bolsillo: salta con un pequeño rebote. */
+/** Un objeto o amigo que Lampi saca del bolsillo: salta con un pequeño rebote. */
 export function RewardTile({
   t,
   stage,

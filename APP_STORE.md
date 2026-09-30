@@ -1,6 +1,6 @@
-# Lumi: checklist para la App Store
+# Lampi: checklist para la App Store
 
-Lo que Apple pide para publicar Lumi y en qué estado está. ✅ hecho · 🟡 en parte · ⬜ pendiente · 🔒 depende de Apple.
+Lo que Apple pide para publicar Lampi y en qué estado está. ✅ hecho · 🟡 en parte · ⬜ pendiente · 🔒 depende de Apple.
 
 ---
 
@@ -10,7 +10,7 @@ Lo que Apple pide para publicar Lumi y en qué estado está. ✅ hecho · 🟡 e
 |---|---|---|---|
 | 🔒 | **Entitlement de Family Controls (Distribution)** | ⬜ | Sin él no se puede publicar el bloqueo real. Se pide en developer.apple.com con la cuenta de pago (99 $/año). Tarda semanas: pedirlo ya. |
 | ⬜ | **Módulo nativo de Screen Time** | ⬜ | FamilyControls + DeviceActivityMonitor (25/50/75/100 %) + ShieldConfiguration. Hoy es un mock (`app/src/screen-time`). |
-| ⬜ | **Compras reales (StoreKit)** | 🟡 | Código listo con RevenueCat (`app/src/purchases/revenuecat.ts`). Falta: crear los productos en App Store Connect, configurar RevenueCat (entitlement `plus`, paquetes `$rc_annual` y `$rc_monthly`), poner `EXPO_PUBLIC_REVENUECAT_IOS_KEY` en EAS y probar con un development build en sandbox. Sin la clave, una build de la tienda enseña «Lumi Plus no está disponible ahora mismo» (nunca las compras de prueba). |
+| ⬜ | **Compras reales (StoreKit)** | 🟡 | Código listo con RevenueCat (`app/src/purchases/revenuecat.ts`). Falta: crear los productos en App Store Connect, configurar RevenueCat (entitlement `plus`, paquetes `$rc_annual` y `$rc_monthly`), poner `EXPO_PUBLIC_REVENUECAT_IOS_KEY` en EAS y probar con un development build en sandbox. Sin la clave, una build de la tienda enseña «Lampi Plus no está disponible ahora mismo» (nunca las compras de prueba). |
 | ⬜ | **Backend desplegado con HTTPS** | 🟡 | Código listo (`backend/`, `Dockerfile`). Falta desplegarlo (Railway, Render o Fly.io) y poner `EXPO_PUBLIC_API_URL` en EAS (ver §6). Sin esa variable, la build de producción oculta la cuenta (la app funciona igual), así que no se puede olvidar sin que se note: comprobar que Ajustes › Cuenta aparece antes de enviar. |
 | ⬜ | **Dominio y correo** | ⬜ | Verificar el dominio en Resend (SPF y DKIM), poner `MAIL_FROM` y rellenar `contactEmail` en `app/src/legal/content.json` (sale en Ayuda). |
 
@@ -79,7 +79,7 @@ El uso de pantalla **no se recoge**: se queda en el iPhone (Screen Time por umbr
 
 | Pregunta | Respuesta | Por qué |
 |---|---|---|
-| Violencia (de dibujos, realista, prolongada) | Ninguna | Lumi solo explora y trae postales |
+| Violencia (de dibujos, realista, prolongada) | Ninguna | Lampi solo explora y trae postales |
 | Lenguaje soez o humor crudo | Ninguno | |
 | Contenido sexual o desnudos | Ninguno | |
 | Terror o miedo | Ninguno | |
@@ -88,14 +88,14 @@ El uso de pantalla **no se recoge**: se queda en el iPhone (Screen Time por umbr
 | Juegos de azar simulados | Ninguno | Las recompensas de las expediciones dependen de la luz del día, no se compran ni se apuestan (las chispas no se venden) |
 | Concursos | No | |
 | Acceso libre a la web | No | Solo abre enlaces propios (legales, ayuda) |
-| Contenido generado por usuarios o chat | No | Los nombres (el tuyo y el de Lumi) no los ve nadie más |
+| Contenido generado por usuarios o chat | No | Los nombres (el tuyo y el de Lampi) no los ve nadie más |
 | Publicidad | No | |
 | Controles parentales | No | Family Controls se usa para el propio usuario, no para controlar a otros |
 | Verificación de edad | No | |
 
 Resultado esperado: **4+**. Los Términos piden 13 años o más para crear cuenta (la app sin cuenta funciona igual), lo que no cambia la clasificación.
 
-**Por qué no la categoría «Niños»:** obliga a reglas extra (sin enlaces fuera de la app sin control parental, sin análisis de terceros, revisión más estricta) y Lumi no está pensada para menores de 13.
+**Por qué no la categoría «Niños»:** obliga a reglas extra (sin enlaces fuera de la app sin control parental, sin análisis de terceros, revisión más estricta) y Lampi no está pensada para menores de 13.
 
 ### Idiomas
 
@@ -105,7 +105,7 @@ La app y la web hablan el idioma del dispositivo: **español, inglés, chino (si
 |---|---|---|
 | Base (`app/src/i18n`): detección del idioma y `tr()` tipado | ✅ | Si falta una traducción, TypeScript no compila |
 | Contenido del juego (20 lugares, 60 historias, 36 objetos, 12 amigos) | ✅ | `app/src/game/content/<idioma>.ts` |
-| Textos de Lumi, avisos, escudo, paywall, fechas | ✅ | |
+| Textos de Lampi, avisos, escudo, paywall, fechas | ✅ | |
 | Todas las pantallas | ✅ | Menos el panel de desarrollo, que solo se ve en `__DEV__` |
 | `CFBundleLocalizations` (para que iOS muestre los idiomas en la ficha) | ✅ | `app.json`. La app no pide permisos con texto propio (avisos y Tiempo de uso usan los de iOS) |
 | Legales, ayuda y landing | ✅ | `app/src/legal/i18n/<idioma>.json` (app y web) y `landing/texts.js`. La web sigue `navigator.language` (o `?lang=xx`) |
@@ -117,7 +117,7 @@ La app y la web hablan el idioma del dispositivo: **español, inglés, chino (si
 
 **Resumen:**
 
-> Lumi es una mascota que ayuda a usar menos las apps que elige el usuario. Usa Family Controls solo para el propio usuario (no control parental): el usuario elige sus apps con FamilyActivityPicker, DeviceActivityMonitor avisa al 25/50/75/100 % de su límite y ShieldConfiguration muestra a Lumi al abrir una app pasado el límite o en el horario de noche. Ningún dato de uso sale del dispositivo. La cuenta es opcional (Ajustes › Cuenta) y se puede eliminar desde la app. Cuenta de prueba: review@… / …
+> Lampi es una mascota que ayuda a usar menos las apps que elige el usuario. Usa Family Controls solo para el propio usuario (no control parental): el usuario elige sus apps con FamilyActivityPicker, DeviceActivityMonitor avisa al 25/50/75/100 % de su límite y ShieldConfiguration muestra a Lampi al abrir una app pasado el límite o en el horario de noche. Ningún dato de uso sale del dispositivo. La cuenta es opcional (Ajustes › Cuenta) y se puede eliminar desde la app. Cuenta de prueba: review@… / …
 
 ## 6. Configuración de producción
 
@@ -143,11 +143,11 @@ Landing: pon la URL del backend en `WAITLIST_ENDPOINT` (`landing/main.js`) como 
 
 Con la build de producción (TestFlight) en un iPhone real:
 
-1. **Idioma:** con el iPhone en inglés (o en Ajustes de iOS › Lumi › Idioma), la app, los avisos y los correos salen en inglés. Repetir con otro idioma.
+1. **Idioma:** con el iPhone en inglés (o en Ajustes de iOS › Lampi › Idioma), la app, los avisos y los correos salen en inglés. Repetir con otro idioma.
 2. **Cuenta:** Ajustes › Cuenta aparece (si no, falta `EXPO_PUBLIC_API_URL`). Crear una cuenta, recibir el código, entrar desde otro iPhone y borrarla.
 3. **Cuenta de prueba:** `review@<dominio>` entra con la contraseña de las notas de revisión (`npm run review:account` la crea).
 4. **Plus:** el paywall enseña los precios de la App Store (si dice «no está disponible», falta `EXPO_PUBLIC_REVENUECAT_IOS_KEY`). Comprar en sandbox, restaurar y encender el escudo estricto.
-5. **Escudo y avisos:** elegir apps con el selector de Apple, llegar al límite y ver a Lumi en el escudo; la postal nocturna y el aviso del domingo llegan.
+5. **Escudo y avisos:** elegir apps con el selector de Apple, llegar al límite y ver a Lampi en el escudo; la postal nocturna y el aviso del domingo llegan.
 6. **Legales:** Privacidad, Términos y Ayuda se abren en la app y en la web, en el idioma del dispositivo, con el correo de contacto relleno.
 7. **Ficha:** `python3 tools/check_ficha.py` en verde, capturas de 6,9" y las URLs con el dominio real (también las `hreflang` de la landing, en absoluto).
 8. **Lista de espera:** apuntarse en la landing, recibir el correo de bienvenida en el idioma de la web y darse de baja con su enlace.

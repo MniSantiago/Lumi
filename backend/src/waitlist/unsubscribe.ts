@@ -41,7 +41,7 @@ const esc = (s: string) =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 
-/** Página mínima con el tono de Lumi. `form`: botón para confirmar (GET no borra nada: los antivirus del correo abren los enlaces). */
+/** Página mínima con el tono de Lampi. `form`: botón para confirmar (GET no borra nada: los antivirus del correo abren los enlaces). */
 export function unsubscribePage(
   kind: 'confirm' | 'done' | 'invalid',
   form?: { email: string; token: string },
@@ -71,18 +71,18 @@ export function unsubscribePage(
   }[kind];
   const body = {
     confirm: tr({
-      es: 'Borraremos tu correo y no te escribiremos más. Lumi lo entiende.',
-      en: 'We’ll delete your email and won’t write again. Lumi understands.',
-      zh: '我们会删除你的邮箱，不再给你写信。Lumi 能理解。',
-      hi: 'हम तुम्हारा ईमेल मिटा देंगे और फिर नहीं लिखेंगे। Lumi समझती है।',
-      fr: 'On supprime ton e-mail et on ne t’écrira plus. Lumi comprend.',
+      es: 'Borraremos tu correo y no te escribiremos más. Lampi lo entiende.',
+      en: 'We’ll delete your email and won’t write again. Lampi understands.',
+      zh: '我们会删除你的邮箱，不再给你写信。Lampi 能理解。',
+      hi: 'हम तुम्हारा ईमेल मिटा देंगे और फिर नहीं लिखेंगे। Lampi समझती है।',
+      fr: 'On supprime ton e-mail et on ne t’écrira plus. Lampi comprend.',
     }),
     done: tr({
-      es: 'Hemos borrado tu correo. Si algún día quieres volver, Lumi te estará esperando.',
-      en: 'We’ve deleted your email. If you ever want to come back, Lumi will be waiting.',
-      zh: '我们已删除你的邮箱。如果有一天你想回来，Lumi 会一直等你。',
-      hi: 'हमने तुम्हारा ईमेल मिटा दिया है। अगर कभी लौटना चाहो, Lumi तुम्हारा इंतज़ार करेगी।',
-      fr: 'On a supprimé ton e-mail. Si un jour tu veux revenir, Lumi t’attendra.',
+      es: 'Hemos borrado tu correo. Si algún día quieres volver, Lampi te estará esperando.',
+      en: 'We’ve deleted your email. If you ever want to come back, Lampi will be waiting.',
+      zh: '我们已删除你的邮箱。如果有一天你想回来，Lampi 会一直等你。',
+      hi: 'हमने तुम्हारा ईमेल मिटा दिया है। अगर कभी लौटना चाहो, Lampi तुम्हारा इंतज़ार करेगी।',
+      fr: 'On a supprimé ton e-mail. Si un jour tu veux revenir, Lampi t’attendra.',
     }),
     invalid: tr({
       es: 'Puede que esté cortado. Copia el enlace completo del correo o escríbenos y te borramos a mano.',
@@ -102,10 +102,10 @@ export function unsubscribePage(
   const action = form
     ? `<form method="post"><input type="hidden" name="email" value="${esc(form.email)}"><input type="hidden" name="token" value="${esc(form.token)}"><button style="margin-top:18px;padding:14px 22px;border:0;border-radius:999px;background:#FFC96B;color:#13112E;font-size:16px;font-weight:700">${esc(button)}</button></form>`
     : '';
-  return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lumi</title></head>
+  return `<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Lampi</title></head>
 <body style="margin:0;min-height:100vh;display:flex;align-items:center;justify-content:center;background:#13112E;font-family:-apple-system,'Segoe UI',Roboto,sans-serif;padding:24px;box-sizing:border-box">
 <main style="max-width:420px;background:#1B1840;border-radius:24px;padding:28px;color:#E6E0FB">
-<p style="margin:0 0 14px;font-size:26px;font-weight:800;color:#FFE3A3;font-family:Georgia,serif">Lumi</p>
+<p style="margin:0 0 14px;font-size:26px;font-weight:800;color:#FFE3A3;font-family:Georgia,serif">Lampi</p>
 <h1 style="margin:0 0 12px;font-size:22px;line-height:1.3;color:#F4F0FF;font-family:Georgia,serif">${esc(title)}</h1>
 <p style="margin:0;font-size:16px;line-height:1.55">${esc(body)}</p>${action}
 </main></body></html>`;

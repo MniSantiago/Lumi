@@ -1,5 +1,5 @@
 /**
- * Textos de la postal nocturna. Lumi vuelve contenta, cuenta y nunca juzga.
+ * Textos de la postal nocturna. Lampi vuelve contenta, cuenta y nunca juzga.
  * (El texto del aviso lo escribe `notifications/`.)
  */
 import { withSiteLink } from '@/constants/site';

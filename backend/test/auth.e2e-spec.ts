@@ -275,7 +275,7 @@ describe('Cuentas (e2e)', () => {
       .set(auth)
       .send({ name: 'Santiago', lumiName: '' })
       .expect(200);
-    expect(updated.body).toMatchObject({ name: 'Santiago', lumiName: 'Lumi' });
+    expect(updated.body).toMatchObject({ name: 'Santiago', lumiName: 'Lampi' });
 
     await http()
       .post('/me/password')
@@ -345,7 +345,7 @@ describe('Cuentas (e2e)', () => {
     const welcome = mail.sent
       .filter((m) => m.to === 'baja@correo.com')
       .at(-1)!.mail;
-    expect(welcome.subject).toBe('Tu es sur la liste de Lumi ! ✨');
+    expect(welcome.subject).toBe('Tu es sur la liste de Lampi ! ✨');
     const link = welcome.text.match(/https?:\/\/\S+/)![0];
     expect(welcome.headers?.['List-Unsubscribe']).toBe(`<${link}>`);
     const url = new URL(link);
@@ -472,7 +472,7 @@ describe('Cuentas (e2e)', () => {
       .send({ email: 'english@correo.com', password: 'contraseña-larga' })
       .expect(200);
     expect(english.body.user.email).toBe('english@correo.com');
-    expect(mail.sent.at(-1)?.mail.subject).toMatch(/^\d{6} is your Lumi code$/);
+    expect(mail.sent.at(-1)?.mail.subject).toMatch(/^\d{6} is your Lampi code$/);
 
     // El correo de recuperación se envía después de responder: el idioma tiene que llegar igual.
     const before = mail.sent.length;

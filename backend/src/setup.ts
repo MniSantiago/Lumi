@@ -36,8 +36,8 @@ export function configureApp(app: NestExpressApplication) {
 
 export function buildOpenApi(app: INestApplication): OpenAPIObject {
   const doc = new DocumentBuilder()
-    .setTitle('Lumi API')
-    .setDescription('Cuentas, sesión y lista de espera de Lumi.')
+    .setTitle('Lampi API')
+    .setDescription('Cuentas, sesión y lista de espera de Lampi.')
     .setVersion('1.0.0')
     .addBearerAuth()
     .build();

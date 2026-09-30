@@ -14,13 +14,13 @@ export type WeekSummary = {
   range: string;
   /** Días de esta semana con expedición (0-7). */
   shone: number;
-  /** Lumi en el ánimo de la semana (nunca apagadita). */
+  /** Lampi en el ánimo de la semana (nunca apagadita). */
   mood: LumiState;
   week: WeekDay[];
   /** Lugares visitados esta semana, sin repetir, en orden. */
   places: Destination[];
   treasure: Treasure;
-  /** Frase de Lumi, en primera persona. */
+  /** Frase de Lampi, en primera persona. */
   line: string;
   streak: number;
 };

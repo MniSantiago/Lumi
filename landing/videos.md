@@ -1,4 +1,4 @@
-# Lumi: vídeos cortos para validar (TikTok y Reels)
+# Lampi: vídeos cortos para validar (TikTok y Reels)
 
 Paso 5 de `PROCESO.md`: antes de programar en serio, medir si la idea engancha.
 Tres vídeos verticales (9:16, 1080×1920) de 15 a 30 s, cada uno con un solo momento de la app.
@@ -31,7 +31,7 @@ Los umbrales son una referencia inicial para comparar vídeos entre sí, no una 
    (para el vídeo 2, `--time "21:04"`; para el 3, `--time "20:30"`). Quítalo con `xcrun simctl status_bar booted clear`.
 3. Graba: `xcrun simctl io booted recordVideo --codec h264 escudo.mp4` y para con Ctrl+C.
 4. Botones de desarrollo que ayudan:
-   - **Ajustes → Desarrollo:** «Ver el escudo», «Ver la postal nocturna», «Cerrar el día» (Lumi vuelve de la expedición), «Pasar al día siguiente».
+   - **Ajustes → Desarrollo:** «Ver el escudo», «Ver la postal nocturna», «Cerrar el día» (Lampi vuelve de la expedición), «Pasar al día siguiente».
    - **Hogar:** «Simular uso» (salta de umbral en umbral: Radiante → Contenta → Cansada → Apagadita).
    - Antes de grabar, ocúltalos del encuadre o recorta en edición.
 5. Monta en CapCut: texto en pantalla con Figtree o la fuente del sistema de TikTok, subtítulos automáticos revisados a mano.
@@ -49,11 +49,11 @@ Los umbrales son una referencia inicial para comparar vídeos entre sí, no una 
 |---|---|---|
 | 0,0-1,5 s | Habitación a oscuras, solo la luz del móvil en la cara (grabado con el iPhone real) o pantalla de inicio del simulador a las 2:07 | El pulgar va a Instagram |
 | 1,5-3 s | Toque en Instagram | Corte seco al escudo (Ajustes → Desarrollo → «Ver el escudo») |
-| 3-7 s | Escudo: Lumi apagadita, «Lumi se estaba echando la siesta… ¿de verdad entramos?» | Quieto 3 s, que se lea. Zoom suave a la cara de Lumi |
+| 3-7 s | Escudo: Lampi apagadita, «Lampi se estaba echando la siesta… ¿de verdad entramos?» | Quieto 3 s, que se lea. Zoom suave a la cara de Lampi |
 | 7-10 s | El dedo duda entre los dos botones | Toque en «5 min más»; aparece «Vale, 5 minutitos. Aquí te espero 🌙» |
 | 10-13 s | Texto en pantalla: «a los 5 min…» | Vuelve el escudo; ahora el botón dice «Vale… 5 min, pero te espero despierta» |
-| 13-16 s | Toque en «Vale, lo dejo» | «Gracias. Me quedo soñando contigo 💤» y Lumi dormida. Fundido a negro |
-| 16-18 s | Cierre | Texto: «se llama Lumi. lista de espera en la bio» |
+| 13-16 s | Toque en «Vale, lo dejo» | «Gracias. Me quedo soñando contigo 💤» y Lampi dormida. Fundido a negro |
+| 16-18 s | Cierre | Texto: «se llama Lampi. lista de espera en la bio» |
 
 **Texto en pantalla / subtítulos:** mínimos, en minúsculas, tono de confesión. Sin voz en off: la gracia es leer el escudo.
 **Alternativa con voz (susurrando):** «Son las dos de la mañana. Solo iba a mirar una cosa… y mi mascota me ha pillado. Me ha mirado así. No he podido.»
@@ -63,7 +63,7 @@ Los umbrales son una referencia inicial para comparar vídeos entre sí, no una 
 
 ---
 
-## Vídeo 2. Lumi vuelve con una postal
+## Vídeo 2. Lampi vuelve con una postal
 
 **Duración:** 20-25 s.
 
@@ -71,14 +71,14 @@ Los umbrales son una referencia inicial para comparar vídeos entre sí, no una 
 
 | Tiempo | Plano | Qué se hace |
 |---|---|---|
-| 0-2 s | Hogar con Lumi radiante, el medidor «Luz de hoy» casi lleno | Lumi flotando entre luciérnagas |
-| 2-5 s | Hogar: «Lumi está explorando…» | Ajustes → Desarrollo → «Cerrar el día». Vuelve a Hogar |
-| 5-8 s | Aviso «¡Lumi ha vuelto! Toca para ver la postal» | Toque |
-| 8-16 s | La postal nocturna a pantalla completa | Se lee el texto de Lumi (por ejemplo, el Bosque de Musgo: «El musgo estaba tan blandito que me eché una siesta sin querer…»). Mostrar los objetos y las chispas ganadas |
+| 0-2 s | Hogar con Lampi radiante, el medidor «Luz de hoy» casi lleno | Lampi flotando entre luciérnagas |
+| 2-5 s | Hogar: «Lampi está explorando…» | Ajustes → Desarrollo → «Cerrar el día». Vuelve a Hogar |
+| 5-8 s | Aviso «¡Lampi ha vuelto! Toca para ver la postal» | Toque |
+| 8-16 s | La postal nocturna a pantalla completa | Se lee el texto de Lampi (por ejemplo, el Bosque de Musgo: «El musgo estaba tan blandito que me eché una siesta sin querer…»). Mostrar los objetos y las chispas ganadas |
 | 16-21 s | Colección | Abrir la pestaña Colección: la postal nueva en el álbum, huecos por llenar |
-| 21-24 s | Cierre | Texto: «20 sitios por descubrir. se llama Lumi, link en la bio» |
+| 21-24 s | Cierre | Texto: «20 sitios por descubrir. se llama Lampi, link en la bio» |
 
-**Voz en off (tranquila, cercana):** «Hoy he dejado el móvil y mi Lumi se ha ido de aventura. Por la noche ha vuelto con esto. Dice que se echó una siesta en el musgo y que alguien la tapó con una hoja. Estoy bien. Todo bien.»
+**Voz en off (tranquila, cercana):** «Hoy he dejado el móvil y mi Lampi se ha ido de aventura. Por la noche ha vuelto con esto. Dice que se echó una siesta en el musgo y que alguien la tapó con una hoja. Estoy bien. Todo bien.»
 **Sonido:** lo-fi cozy o piano suave; nada con letra que tape la voz.
 **Hashtags:** #cozy #cozyaesthetic #tiempodepantalla #desconexiondigital #mascotavirtual #postales #selfcare
 **Qué medir:** guardados (es el vídeo de «lo quiero»), duración media vista (¿se leen la postal?), comentarios sobre la historia.
@@ -93,13 +93,13 @@ Los umbrales son una referencia inicial para comparar vídeos entre sí, no una 
 
 | Tiempo | Plano | Qué se hace |
 |---|---|---|
-| 0-3 s | Hogar, Lumi apagadita (el lunes) | «Simular uso» hasta Apagadita. Texto: «lunes: desastre» |
+| 0-3 s | Hogar, Lampi apagadita (el lunes) | «Simular uso» hasta Apagadita. Texto: «lunes: desastre» |
 | 3-7 s | Montaje rápido de días | «Pasar al día siguiente» + «Simular uso» con estados distintos, un corte por día (1 s cada uno). Texto por día: «martes: mejor», «miércoles: lo intenté», «jueves: radiante ✨» |
 | 7-14 s | Resumen semanal vertical (ruta `resumen`, cuando esté hecho) | Recorrido de arriba abajo: días brillando, postales de la semana |
 | 14-18 s | Toque en compartir | Hoja de compartir de iOS con el resumen como imagen |
 | 18-20 s | Cierre | Texto: «¿la tuya cómo saldría? lista de espera en la bio» |
 
-**Voz en off (con humor):** «El lunes, un desastre. El miércoles, lo intenté. Pero el jueves Lumi volvió de las Cuevas de Cristal y el domingo me hizo esto. Cinco días brillando. Lo voy a poner de fondo de pantalla.»
+**Voz en off (con humor):** «El lunes, un desastre. El miércoles, lo intenté. Pero el jueves Lampi volvió de las Cuevas de Cristal y el domingo me hizo esto. Cinco días brillando. Lo voy a poner de fondo de pantalla.»
 **Sonido:** audio en tendencia de tipo «recap» o «photo dump»; cortes al ritmo.
 **Hashtags:** #resumensemanal #tiempodepantalla #weeklyrecap #cozy #mascotavirtual #habitos #digitalwellbeing
 **Qué medir:** compartidos y duetos o stitches («la mía saldría así»), clics a la landing con `utm_campaign=resumen`.

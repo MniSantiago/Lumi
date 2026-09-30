@@ -24,7 +24,7 @@ CREATE TABLE "users" (
 	"email" text NOT NULL,
 	"password_hash" text NOT NULL,
 	"name" text DEFAULT '' NOT NULL,
-	"lumi_name" text DEFAULT 'Lumi' NOT NULL,
+	"lumi_name" text DEFAULT 'Lampi' NOT NULL,
 	"email_verified_at" timestamp with time zone,
 	"created_at" timestamp with time zone DEFAULT now() NOT NULL,
 	"updated_at" timestamp with time zone DEFAULT now() NOT NULL

@@ -160,7 +160,7 @@ export function Toggle({ value, onChange, label }: { value: boolean; onChange: (
   );
 }
 
-/** Largo máximo de los nombres (el tuyo y el de Lumi): caben en la cabecera, el escudo y las postales. La API admite 40 y 24. */
+/** Largo máximo de los nombres (el tuyo y el de Lampi): caben en la cabecera, el escudo y las postales. La API admite 40 y 24. */
 export const NAME_MAX = 24;
 
 /** Campo de texto del tema: tarjeta redondeada, borde fino y ámbar al enfocar. */
@@ -233,7 +233,7 @@ export function Field({
   );
 }
 
-/** Bocadillo de Lumi, como el del Hogar. */
+/** Bocadillo de Lampi, como el del Hogar. */
 export function SpeechBubble({ children }: { children: ReactNode }) {
   return (
     <View style={styles.bubble}>

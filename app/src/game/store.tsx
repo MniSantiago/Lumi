@@ -62,7 +62,7 @@ export type GameApi = {
   todayRecord: DayRecord;
   /** Destino elegido para hoy, salga o no. */
   todayDestination: Destination | null;
-  /** Adónde ha ido Lumi hoy (null si se queda en casa porque ya no le queda luz). */
+  /** Adónde ha ido Lampi hoy (null si se queda en casa porque ya no le queda luz). */
   currentDestination: Destination | null;
   /** Hora de vuelta de la expedición, para enseñar ('21:00', '9:00 PM'). */
   returnsAt: string;

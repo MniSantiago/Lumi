@@ -27,7 +27,7 @@ export function OnboardingDraftProvider({ children }: { children: ReactNode }) {
   // Parte de los ajustes actuales: si se repite el onboarding, salen las respuestas anteriores.
   const [draft, setDraftState] = useState<OnboardingDraft>(() => ({
     userName: settings.userName,
-    lumiName: settings.lumiName || 'Lumi',
+    lumiName: settings.lumiName || 'Lampi',
     thiefApps: settings.thiefApps,
     limitMinutes: settings.limitMinutes,
     nightStart: settings.nightStart,
@@ -43,7 +43,7 @@ export function OnboardingDraftProvider({ children }: { children: ReactNode }) {
     const nightlyPostcard = draft.nightlyPostcard ? await ensureNotificationPermission() : false;
     updateSettings({
       userName: draft.userName.trim(),
-      lumiName: draft.lumiName.trim() || 'Lumi',
+      lumiName: draft.lumiName.trim() || 'Lampi',
       thiefApps: draft.thiefApps,
       limitMinutes: draft.limitMinutes,
       nightStart: draft.nightStart,
@@ -62,7 +62,7 @@ export function useOnboardingDraft() {
   return ctx;
 }
 
-/** El nombre que el usuario le ha puesto a Lumi, o "Lumi" mientras no escriba nada. */
+/** El nombre que el usuario le ha puesto a Lampi, o "Lampi" mientras no escriba nada. */
 export function useLumiName() {
-  return useOnboardingDraft().draft.lumiName.trim() || 'Lumi';
+  return useOnboardingDraft().draft.lumiName.trim() || 'Lampi';
 }

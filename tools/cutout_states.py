@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Recorta los estados de Lumi (fondo blanco) y los exporta para la app Expo.
+"""Recorta los estados de Lampi (fondo blanco) y los exporta para la app Expo.
 
 Uso (desde la raíz del repo):  python3 tools/cutout_states.py
 

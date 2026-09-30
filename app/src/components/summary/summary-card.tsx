@@ -221,11 +221,11 @@ export function SummaryCard({
         </View>
         <T style={s.tagline} numberOfLines={2}>
           {tr({
-            es: 'Suelta el móvil y tu Lumi sale de aventura',
-            en: 'Put your phone down and your Lumi goes on an adventure',
-            zh: '放下手机，你的 Lumi 就去冒险',
-            hi: 'फ़ोन रखो और तुम्हारी Lumi सफ़र पर निकल जाती है',
-            fr: 'Pose ton téléphone et ta Lumi part à l’aventure',
+            es: 'Suelta el móvil y tu Lampi sale de aventura',
+            en: 'Put your phone down and your Lampi goes on an adventure',
+            zh: '放下手机，你的 Lampi 就去冒险',
+            hi: 'फ़ोन रखो और तुम्हारी Lampi सफ़र पर निकल जाती है',
+            fr: 'Pose ton téléphone et ta Lampi part à l’aventure',
           })}
         </T>
         {SITE_DOMAIN ? <T style={s.url}>{SITE_DOMAIN}</T> : null}

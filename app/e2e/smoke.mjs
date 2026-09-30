@@ -55,7 +55,7 @@ const LOCALES = { 'es-ES': 'Hogar', 'en-US': 'Home', 'zh-CN': 'хо╢', 'hi-IN': 'р
 const NON_LATIN = new Set(['zh-CN', 'hi-IN']);
 /** Nombres propios y marcas que se escriben igual en todos los idiomas. */
 const LATIN_OK = new Set(
-  'Lumi lumi Plus PLUS Ana TikTok Instagram YouTube Shorts Reddit Snapchat Facebook Twitch iOS iPhone Apple App Store Screen Time Family Controls Device Activity Zzz min Resend'.split(
+  'Lampi lumi Plus PLUS Ana TikTok Instagram YouTube Shorts Reddit Snapchat Facebook Twitch iOS iPhone Apple App Store Screen Time Family Controls Device Activity Zzz min Resend'.split(
     ' ',
   ),
 );
@@ -71,7 +71,7 @@ for (const [locale, homeWord] of Object.entries(LOCALES)) {
   page.on('pageerror', (e) => failures.push(`${locale} ${route}: ${e.message}`));
   await page.goto(base);
   await page.evaluate(() =>
-    localStorage.setItem('lumi.settings.v1', JSON.stringify({ onboarded: true, userName: 'Ana', lumiName: 'Lumi' })),
+    localStorage.setItem('lumi.settings.v1', JSON.stringify({ onboarded: true, userName: 'Ana', lumiName: 'Lampi' })),
   );
   for (route of ROUTES) {
     await page.goto(base + route);

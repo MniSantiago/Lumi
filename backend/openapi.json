@@ -484,8 +484,8 @@
     }
   },
   "info": {
-    "title": "Lumi API",
-    "description": "Cuentas, sesión y lista de espera de Lumi.",
+    "title": "Lampi API",
+    "description": "Cuentas, sesión y lista de espera de Lampi.",
     "version": "1.0.0",
     "contact": {}
   },

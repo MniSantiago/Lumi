@@ -1,7 +1,7 @@
 {
   "name": "lumi-backend",
   "version": "0.0.1",
-  "description": "API de Lumi: cuentas, sesión y lista de espera.",
+  "description": "API de Lampi: cuentas, sesión y lista de espera.",
   "author": "",
   "private": true,
   "license": "UNLICENSED",

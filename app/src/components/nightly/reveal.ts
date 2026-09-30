@@ -24,7 +24,7 @@ export type Timeline = {
   end: number;
 };
 
-/** Reparto de la vuelta de Lumi: cabecera, postal, historia, objetos uno a uno, chispas y botones. */
+/** Reparto de la vuelta de Lampi: cabecera, postal, historia, objetos uno a uno, chispas y botones. */
 export function buildTimeline(rewardCount: number): Timeline {
   const header = { start: 150, duration: 500 };
   const card = { start: 550, duration: 950 };

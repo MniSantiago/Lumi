@@ -9,7 +9,7 @@ import { closeSheet, Sheet } from '@/components/sheet';
 import { useLumi } from '@/lumi/store';
 import { tr } from '@/i18n';
 
-/** Cambiar tu nombre y el de Lumi desde Ajustes. Se guarda al pulsar "Guardar". */
+/** Cambiar tu nombre y el de Lampi desde Ajustes. Se guarda al pulsar "Guardar". */
 export default function NamesSheet() {
   const { settings, updateSettings } = useLumi();
   const { user, setUser } = useSession();
@@ -17,10 +17,10 @@ export default function NamesSheet() {
   const [lumiName, setLumiName] = useState(settings.lumiName);
   const lumiNameRef = useRef<TextInput>(null);
 
-  const changed = userName.trim() !== settings.userName || (lumiName.trim() || 'Lumi') !== settings.lumiName;
+  const changed = userName.trim() !== settings.userName || (lumiName.trim() || 'Lampi') !== settings.lumiName;
 
   const save = () => {
-    const patch = { userName: userName.trim(), lumiName: lumiName.trim() || 'Lumi' };
+    const patch = { userName: userName.trim(), lumiName: lumiName.trim() || 'Lampi' };
     updateSettings(patch);
     // Con cuenta, también en el servidor. Si falla (sin conexión), el cambio local se queda igual.
     if (user) updateMe({ name: patch.userName, lumiName: patch.lumiName }).then(setUser, () => {});
@@ -91,7 +91,7 @@ export default function NamesSheet() {
             hi: 'तुम्हारी नन्ही रोशनी का नाम',
             fr: 'Nom de ta petite lumière',
           })}
-          placeholder="Lumi"
+          placeholder="Lampi"
           value={lumiName}
           onChangeText={setLumiName}
           maxLength={NAME_MAX}

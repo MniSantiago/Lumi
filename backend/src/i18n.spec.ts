@@ -1,7 +1,7 @@
 import { langFrom, translateMessage } from './i18n.js';
 
 describe('langFrom', () => {
-  it('elige el idioma con más peso que Lumi habla', () => {
+  it('elige el idioma con más peso que Lampi habla', () => {
     expect(langFrom('fr-FR,fr;q=0.9,en;q=0.8')).toBe('fr');
     expect(langFrom('de-DE,de;q=0.9,zh-CN;q=0.8,en;q=0.5')).toBe('zh');
     expect(langFrom('en;q=0.2, hi;q=0.9')).toBe('hi');

@@ -12,7 +12,7 @@ import { clockTime } from '@/i18n/dates';
 import { LEGAL_TEXTS } from '@/legal/content';
 
 describe('detectLang', () => {
-  it('usa el primer idioma del iPhone que Lumi habla', () => {
+  it('usa el primer idioma del iPhone que Lampi habla', () => {
     expect(detectLang(['fr'])).toBe('fr');
     expect(detectLang(['de', 'es'])).toBe('es');
     expect(detectLang(['zh-Hans'])).toBe('zh');

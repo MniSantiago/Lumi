@@ -2,6 +2,7 @@ import { router, type Href } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { NativeAppsPanel, pickedCountLabel, thiefAppsTitle, useNativeApps } from '@/components/native-apps';
 import { List, SelectRow } from '@/components/onboarding/controls';
 import { useLumiName, useOnboardingDraft } from '@/components/onboarding/draft';
 import { StepShell } from '@/components/onboarding/step-shell';
@@ -9,12 +10,77 @@ import { AppText } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
 import { THIEF_APP_CATALOG } from '@/lumi/data';
 import { tr } from '@/i18n';
+import { screenTimeControl } from '@/screen-time/control';
 
 /**
- * Paso 2: apps ladronas. Maqueta del `FamilyActivityPicker` de Apple, que es
- * quien las elige de verdad en el iPhone.
+ * Paso 2: apps ladronas. En un iPhone con el módulo nativo las elige el
+ * `FamilyActivityPicker` de Apple; en Expo Go y en web, una maqueta con el catálogo.
  */
 export default function ThiefAppsStep() {
+  return screenTimeControl.available ? <NativeThiefAppsStep /> : <MockThiefAppsStep />;
+}
+
+function NativeThiefAppsStep() {
+  const native = useNativeApps();
+  const lumiName = useLumiName();
+  const count = native.total;
+
+  return (
+    <StepShell
+      step={2}
+      title={thiefAppsTitle}
+      subtitle={tr({
+        es: `Son las que le roban la luz a ${lumiName}. No pasa nada por usarlas: solo se cansa un poquito.`,
+        en: `They’re the ones that steal ${lumiName}’s light. Using them is fine: she just gets a little tired.`,
+        zh: `它们会偷走${lumiName}的光。用它们没关系：她只是会有点累。`,
+        hi: `ये वो ऐप्स हैं जो ${lumiName} की रोशनी चुराती हैं। इन्हें इस्तेमाल करना ठीक है: वो बस थोड़ी थक जाती है।`,
+        fr: `Ce sont celles qui volent la lumière de ${lumiName}. Les utiliser, ce n’est pas grave : elle se fatigue juste un peu.`,
+      })}
+      cta={{
+        label: tr({ es: 'Continuar', en: 'Continue', zh: '继续', hi: 'आगे बढ़ो', fr: 'Continuer' }),
+        disabled: count === 0,
+        hint:
+          count === 0
+            ? tr({
+                es: 'Elige al menos una para seguir',
+                en: 'Pick at least one to continue',
+                zh: '至少选一个才能继续',
+                hi: 'आगे बढ़ने के लिए कम से कम एक चुनो',
+                fr: 'Choisis-en au moins une pour continuer',
+              })
+            : pickedCountLabel(count),
+        onPress: () => router.push('/onboarding/limite' as Href),
+      }}>
+      <View style={{ gap: 10 }}>
+        <AppText variant="label">
+          {tr({
+            es: '¿Cuáles te roban más tiempo?',
+            en: 'Which ones steal the most time?',
+            zh: '哪些最偷你的时间？',
+            hi: 'कौन-सी सबसे ज़्यादा समय चुराती हैं?',
+            fr: 'Lesquelles te volent le plus de temps ?',
+          })}
+        </AppText>
+        <NativeAppsPanel native={native} />
+      </View>
+
+      <View style={styles.privacy}>
+        <SymbolView name="lock.fill" size={15} tintColor={Colors.lavender} style={{ marginTop: 2 }} />
+        <Text style={styles.privacyText}>
+          {tr({
+            es: `Las elige el selector de Apple, y Apple no le dice a nadie cuáles son. ${lumiName} solo se entera de cuándo te acercas a tu límite, nunca de lo que haces dentro de las apps.`,
+            en: `Apple’s picker chooses them, and Apple doesn’t tell anyone which ones. ${lumiName} only learns when you’re getting close to your limit, never what you do inside the apps.`,
+            zh: `由 Apple 的选择器来选，Apple 不会告诉任何人选了哪些。${lumiName}只知道你什么时候接近上限，永远不知道你在 App 里做什么。`,
+            hi: `इन्हें Apple का चयनकर्ता चुनता है, और Apple किसी को नहीं बताता कि कौन-सी हैं। ${lumiName} को बस यह पता चलता है कि तुम अपनी सीमा के पास कब पहुँचते हो, कभी नहीं कि ऐप्स के अंदर क्या करते हो।`,
+            fr: `C’est le sélecteur d’Apple qui les choisit, et Apple ne dit à personne lesquelles. ${lumiName} sait seulement quand tu approches de ta limite, jamais ce que tu fais dans les applis.`,
+          })}
+        </Text>
+      </View>
+    </StepShell>
+  );
+}
+
+function MockThiefAppsStep() {
   const { draft, setDraft } = useOnboardingDraft();
   const lumiName = useLumiName();
   const selected = new Set(draft.thiefApps);

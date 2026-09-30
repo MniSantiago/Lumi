@@ -6,7 +6,7 @@ import { Colors } from '@/constants/theme';
 import { LUMI_STATES } from '@/lumi/states';
 
 /**
- * Lumi dormida (`lumiShield` del mockup: apagadita con sus "z"), con un halo
+ * Lampi dormida (`lumiShield` del mockup: apagadita con sus "z"), con un halo
  * extra que `warmth` (0-1) enciende cuando el usuario elige dejarlo.
  */
 export function SleepingLumi({ size = 190, warmth }: { size?: number; warmth: SharedValue<number> }) {

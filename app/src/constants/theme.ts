@@ -1,5 +1,5 @@
 /**
- * Sistema visual de Lumi (ver PROCESO.md, sección 4). Todo sale de la criatura:
+ * Sistema visual de Lampi (ver PROCESO.md, sección 4). Todo sale de la criatura:
  * noche índigo de fondo, lavanda de su piel y ámbar de su luz.
  * Tema oscuro único a propósito: la app es un mundo nocturno.
  */
@@ -13,7 +13,7 @@ export const Colors = {
   violet: '#8C7BD8',
   lavender: '#C9BFF2',
   lavenderPale: '#E6E0FB',
-  /** La luz de Lumi: se reserva para "luz", acentos y acciones principales. */
+  /** La luz de Lampi: se reserva para "luz", acentos y acciones principales. */
   amber: '#FFC96B',
   amberPale: '#FFE3A3',
   peach: '#FFB4A2',

@@ -1,6 +1,6 @@
-# Lumi: app (Expo)
+# Lampi: app (Expo)
 
-App de iOS de Lumi con Expo SDK 57, Expo Router (pestañas nativas) y TypeScript.
+App de iOS de Lampi con Expo SDK 57, Expo Router (pestañas nativas) y TypeScript.
 
 ## Arrancar
 
@@ -10,7 +10,7 @@ npm install
 npx expo start        # pulsa i para el simulador de iOS, o escanea el QR con Expo Go
 ```
 
-En desarrollo, el hogar muestra **Simular uso** (0/25/50/75/100 %) para ver los 4 estados de Lumi.
+En desarrollo, el hogar muestra **Simular uso** (0/25/50/75/100 %) para ver los 4 estados de Lampi.
 
 ## Probar sin el Mac (EAS Update)
 
@@ -32,19 +32,19 @@ Cada perfil de build escucha su canal (`eas.json`): `development`, `preview` y `
 | Ruta | Qué es |
 |---|---|
 | `src/app/` | Pantallas (una por pestaña): `index` (Hogar), `expediciones`, `coleccion`, `progreso`, `ajustes` |
-| `src/constants/theme.ts` | Colores, tipografías y espaciado (salen de Lumi, ver `PROCESO.md`) |
-| `src/lumi/states.ts` | Los 4 estados de Lumi y su relación con los umbrales de uso |
+| `src/constants/theme.ts` | Colores, tipografías y espaciado (salen de Lampi, ver `PROCESO.md`) |
+| `src/lumi/states.ts` | Los 4 estados de Lampi y su relación con los umbrales de uso |
 | `src/lumi/store.tsx` | Estado global: umbral actual y ajustes (guardados en AsyncStorage) |
 | `src/lumi/data.ts` | Contenido de ejemplo: zonas, postales, objetos, semana |
 | `src/screen-time/` | Fuente de uso de pantalla. Hoy es un mock; mañana, el módulo nativo |
-| `src/components/` | Lumi animada, luciérnagas, medidor de luz y piezas de UI |
-| `assets/lumi/` | Lumi en sus 4 estados, recortada (`python3 tools/cutout_states.py` desde la raíz) |
+| `src/components/` | Lampi animada, luciérnagas, medidor de luz y piezas de UI |
+| `assets/lumi/` | Lampi en sus 4 estados, recortada (`python3 tools/cutout_states.py` desde la raíz) |
 | `src/tour/` | Tutoriales guiados con foco sobre la pantalla real (ver abajo) |
 | `assets/tutorial/` | Manita, estrellas, medalla… de los tutoriales (APIMart: `python3 tools/apimart_generate.py tutorial` y `tools/slice_sheets.py tutorial`) |
 
 ## Tutoriales guiados
 
-Un tour por pestaña, que sale solo la primera vez que se abre y se repite desde Ajustes → Tutoriales. Un foco oscurece la pantalla salvo el elemento señalado, y Lumi lo explica en una tarjeta. En los pasos `tap` hay que tocar el elemento de verdad.
+Un tour por pestaña, que sale solo la primera vez que se abre y se repite desde Ajustes → Tutoriales. Un foco oscurece la pantalla salvo el elemento señalado, y Lampi lo explica en una tarjeta. En los pasos `tap` hay que tocar el elemento de verdad.
 
 Para añadir o cambiar un tour:
 

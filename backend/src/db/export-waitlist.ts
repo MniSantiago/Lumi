@@ -41,7 +41,7 @@ try {
   const lines = rows.map((r) =>
     [
       r.email,
-      // El idioma normalizado a los de Lumi (es, en, zh, hi, fr); sin dato, español.
+      // El idioma normalizado a los de Lampi (es, en, zh, hi, fr); sin dato, español.
       langFrom(r.lang ?? undefined),
       r.app,
       r.utmSource,

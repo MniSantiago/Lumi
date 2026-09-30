@@ -14,7 +14,7 @@ import { Colors } from '@/constants/theme';
 
 type Fly = { x: number; y: number; r: number; dx: number; dy: number; period: number; delay: number };
 
-/** Luciérnagas sobre la ilustración. Brillan menos cuanta menos luz le queda a Lumi. */
+/** Luciérnagas sobre la ilustración. Brillan menos cuanta menos luz le queda a Lampi. */
 export function Fireflies({ glow, count = 12 }: { glow: number; count?: number }) {
   const flies = useMemo<Fly[]>(
     () =>

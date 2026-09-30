@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "Lumi",
+    "name": "Lampi",
     "slug": "lumi",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "lumi",
+    "scheme": "lampi",
     "locales": {
       "es": "./locales/es.json",
       "en": "./locales/en.json",
@@ -16,12 +16,18 @@
     "userInterfaceStyle": "dark",
     "ios": {
       "icon": "./assets/images/icon.png",
-      "bundleIdentifier": "com.gonzalez.lumi",
+      "bundleIdentifier": "com.gonzalez.lampi",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false,
         "CFBundleDevelopmentRegion": "es",
         "CFBundleAllowMixedLocalizations": true,
-        "CFBundleLocalizations": ["es", "en", "zh-Hans", "hi", "fr"]
+        "CFBundleLocalizations": [
+          "es",
+          "en",
+          "zh-Hans",
+          "hi",
+          "fr"
+        ]
       },
       "supportsTablet": false,
       "privacyManifests": {
@@ -79,6 +85,13 @@
             ]
           }
         ]
+      },
+      "appleTeamId": "3Z5K3CGW8B",
+      "entitlements": {
+        "com.apple.developer.family-controls": true,
+        "com.apple.security.application-groups": [
+          "group.com.gonzalez.lampi"
+        ]
       }
     },
     "android": {
@@ -110,7 +123,9 @@
         {
           "faceIDPermission": false
         }
-      ]
+      ],
+      "expo-video",
+      "@bacons/apple-targets"
     ],
     "experiments": {
       "typedRoutes": true,

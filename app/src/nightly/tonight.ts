@@ -1,5 +1,5 @@
 /**
- * Lo que Lumi trae esta noche de su expedición (BRIEF.md, "Ciclo diario"),
+ * Lo que Lampi trae esta noche de su expedición (BRIEF.md, "Ciclo diario"),
  * listo para la postal nocturna. Sale de la vuelta pendiente del juego.
  */
 import { friendById, itemById } from '@/game/catalog';
@@ -8,7 +8,7 @@ import type { CatalogEntry, Destination } from '@/game/types';
 
 export type NightlyReturn = {
   destination: Destination;
-  /** Fragmento de historia elegido para esta vuelta, en la voz de Lumi. */
+  /** Fragmento de historia elegido para esta vuelta, en la voz de Lampi. */
   story: string;
   /** Lo que se trae en el bolsillo. */
   keepsakes: CatalogEntry[];

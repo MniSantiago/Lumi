@@ -44,7 +44,7 @@ const broughtFrom = (d: Destination) =>
     fr: `Rapporte des souvenirs ${d.from}`,
   });
 
-/** Lumi durmiendo en el horario de noche: la ilustración de apagadita con su frase de buenas noches. */
+/** Lampi durmiendo en el horario de noche: la ilustración de apagadita con su frase de buenas noches. */
 function nightState(wakesAt: string): LumiState {
   const at = clockTime(wakesAt);
   return {
@@ -63,14 +63,14 @@ function nightState(wakesAt: string): LumiState {
 export default function HomeScreen() {
   const insets = useSafeAreaInsets();
   const { state: dayState, threshold, settings } = useLumi();
-  // En el horario de noche Lumi duerme (como promete el onboarding), sea cual sea su luz.
+  // En el horario de noche Lampi duerme (como promete el onboarding), sea cual sea su luz.
   const night = isNightTime(settings.nightStart, settings.nightEnd);
   const state = night ? nightState(settings.nightEnd) : dayState;
   const game = useGame();
   useTourOnFocus('home');
   // El primer día se explica la regla: sin pasar de la mitad del límite, hay postal.
   const firstDay = game.ready && game.history.length <= 1 && !game.pendingReturn && !night && dayState.lit > 2;
-  // Al tocar a Lumi dice otra cosa; con cada cambio de estado vuelve a su frase principal.
+  // Al tocar a Lampi dice otra cosa; con cada cambio de estado vuelve a su frase principal.
   const [talk, setTalk] = useState<{ key: string; i: number }>({ key: state.key, i: -1 });
   const line = talk.key === state.key && talk.i >= 0 ? state.chatter[talk.i % state.chatter.length] : state.bubble;
   const onPokeLumi = () => {
@@ -82,7 +82,7 @@ export default function HomeScreen() {
     <View style={styles.root}>
       <LivingBackground />
       <Fireflies glow={state.glow} />
-      {/* El mundo se oscurece al gastarse la luz de Lumi. */}
+      {/* El mundo se oscurece al gastarse la luz de Lampi. */}
       <View
         pointerEvents="none"
         style={[StyleSheet.absoluteFill, { backgroundColor: Colors.nightDeep, opacity: state.dim }]}
@@ -138,7 +138,7 @@ export default function HomeScreen() {
                 })}
               </AppText>
             ) : null}
-            {__DEV__ ? <ThresholdSimulator value={threshold} /> : null}
+            {__DEV__ && screenTime.simulate ? <ThresholdSimulator value={threshold} /> : null}
           </Card>
         </TourTarget>
 
@@ -180,7 +180,7 @@ export default function HomeScreen() {
 }
 
 /**
- * Qué hace Lumi hoy: de expedición (con la barra hacia las 21:00), en casa, o
+ * Qué hace Lampi hoy: de expedición (con la barra hacia las 21:00), en casa, o
  * de vuelta con una postal por abrir.
  */
 function ExpeditionCard({
@@ -236,7 +236,7 @@ function ExpeditionCard({
   const back = todayRecord.closed && todayRecord.expedition;
   const exploring = !!currentDestination && !todayRecord.closed;
 
-  // De madrugada el día ya ha empezado, pero Lumi aún duerme: sale al despertar.
+  // De madrugada el día ya ha empezado, pero Lampi aún duerme: sale al despertar.
   if (night && exploring && game.expeditionProgress === 0) {
     return (
       <Card style={{ gap: 6 }}>

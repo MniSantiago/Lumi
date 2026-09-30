@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createContext, use, useEffect, useState, type ReactNode } from 'react';
 
 import { screenTime } from '@/screen-time';
+import { screenTimeControl } from '@/screen-time/control';
 import { tr } from '@/i18n';
 import { stateForThreshold, type LumiState, type Threshold } from '@/lumi/states';
 
@@ -12,7 +13,7 @@ export type Settings = {
   lumiName: string;
   /** Límite diario suave, en minutos. */
   limitMinutes: number;
-  /** Ids de `THIEF_APP_CATALOG` que apagan la luz de Lumi. */
+  /** Ids de `THIEF_APP_CATALOG` que apagan la luz de Lampi. */
   thiefApps: string[];
   nightStart: string;
   nightEnd: string;
@@ -22,16 +23,16 @@ export type Settings = {
   /** Aviso a la hora de dormir (empieza el horario de noche). Desactivado de entrada. */
   bedtimeReminder: boolean;
   restDays: boolean;
-  /** Escudo estricto (Lumi Plus): sin «5 min más». */
+  /** Escudo estricto (Lampi Plus): sin «5 min más». */
   strictShield: boolean;
-  /** Suscripción a Lumi Plus activa (de momento, compra simulada). */
+  /** Suscripción a Lampi Plus activa (de momento, compra simulada). */
   isPlus: boolean;
 };
 
 const DEFAULT_SETTINGS: Settings = {
   onboarded: false,
   userName: '',
-  lumiName: 'Lumi',
+  lumiName: 'Lampi',
   limitMinutes: 60,
   thiefApps: ['tiktok', 'instagram', 'youtube'],
   nightStart: '23:00',
@@ -75,6 +76,16 @@ export function LumiProvider({ children }: { children: ReactNode }) {
       .catch(() => {})
       .finally(() => setReady(true));
   }, []);
+
+  // En un iPhone con el módulo nativo, las extensiones no leen nuestros ajustes:
+  // se los mandamos (límite, noche, nombre, escudo) y reprograman el monitor.
+  const { onboarded, lumiName, limitMinutes, nightStart, nightEnd, strictShield, isPlus } = settings;
+  useEffect(() => {
+    if (!ready || !onboarded) return;
+    screenTimeControl
+      .configure({ lumiName, limitMinutes, nightStart, nightEnd, strictShield, isPlus })
+      .catch((e) => console.warn('Screen Time: no se pudo configurar', e));
+  }, [ready, onboarded, lumiName, limitMinutes, nightStart, nightEnd, strictShield, isPlus]);
 
   const updateSettings = (patch: Partial<Settings>) =>
     setSettings((prev) => {

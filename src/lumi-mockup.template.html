@@ -1,9 +1,9 @@
-<title>Lumi</title>
+<title>Lampi</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,400..800,100,1&family=Figtree:wght@400;500;600;700&display=swap">
 <style>
-/* Layout: presentation page — notes column on the left, iPhone frame in the centre; the app theme is lifted from Lumi (night indigo body, lavender skin, amber light, peach cheeks). Single dark world by choice. */
+/* Layout: presentation page — notes column on the left, iPhone frame in the centre; the app theme is lifted from Lampi (night indigo body, lavender skin, amber light, peach cheeks). Single dark world by choice. */
 :root {
   --night-900: #13112E;
   --night-800: #1B1840;
@@ -92,7 +92,7 @@ button { font: inherit; color: inherit; }
 .state-label { position: absolute; top: -4px; right: 22%; display: flex; gap: 6px; align-items: center; padding: 4px 11px; border-radius: 999px; background: rgba(19,17,46,0.7); font-size: 12.5px; font-weight: 600; color: var(--amber-200); backdrop-filter: blur(6px); white-space: nowrap; }
 .home .exp-card { position: absolute; left: 12px; right: 12px; bottom: 102px; padding: 12px 14px; }
 
-/* Lumi image + light states */
+/* Lampi image + light states */
 .lumi-img { position: relative; display: block; max-width: 100%; }
 .lumi-img img { display: block; width: 100%; height: auto; transition: filter .8s; }
 .lumi-img .breathe { animation: breathe 3.4s ease-in-out infinite; transform-origin: 50% 100%; }
@@ -255,14 +255,14 @@ button { font: inherit; color: inherit; }
 <main class="stage">
   <section class="notes" aria-label="Controles del mockup">
     <div>
-      <h1>Lumi</h1>
+      <h1>Lampi</h1>
     </div>
     <p class="lede">Un espíritu de luz que vive contigo todo el día. Cuando sueltas el móvil, brilla y sale de aventura. Cuando haces scroll, se atenúa y te espera en casa.</p>
 
     <div class="ctl">
       <h2>Luz de hoy</h2>
       <p>Simula los avisos de Screen Time al 25, 50, 75 y 100 % del límite.</p>
-      <div class="seg" id="stateSeg" role="group" aria-label="Estado de Lumi">
+      <div class="seg" id="stateSeg" role="group" aria-label="Estado de Lampi">
         <button type="button" data-state="radiante" aria-pressed="false">Radiante</button>
         <button type="button" data-state="contenta" aria-pressed="true">Contenta</button>
         <button type="button" data-state="cansada" aria-pressed="false">Cansada</button>
@@ -281,7 +281,7 @@ button { font: inherit; color: inherit; }
     </div>
 
     <div class="ctl">
-      <h2>Paleta sacada de Lumi</h2>
+      <h2>Paleta sacada de Lampi</h2>
       <div class="swatches">
         <div class="sw"><i style="background:#1B1840"></i>Noche</div>
         <div class="sw"><i style="background:#2A2560"></i>Índigo</div>
@@ -315,7 +315,7 @@ button { font: inherit; color: inherit; }
             </div>
             <div class="home">
               <div class="home-top">
-                <div class="who"><small id="greet">Buenas noches, Santi</small><b>Lumi</b></div>
+                <div class="who"><small id="greet">Buenas noches, Santi</small><b>Lampi</b></div>
                 <span class="chip" title="Chispas de hoy"><svg class="spark" viewBox="0 0 16 16"><path d="M8 0 L9.6 6.4 L16 8 L9.6 9.6 L8 16 L6.4 9.6 L0 8 L6.4 6.4Z" fill="#FFC96B"/></svg><span id="sparks">+14</span></span>
               </div>
               <div class="panel meter-card">
@@ -344,13 +344,13 @@ button { font: inherit; color: inherit; }
             <div class="inner-bg" aria-hidden="true"></div>
             <div class="scroll">
               <h2 class="page-title">Expediciones</h2>
-              <p class="page-sub">Lumi explora una zona nueva cada día que le dejas brillar.</p>
+              <p class="page-sub">Lampi explora una zona nueva cada día que le dejas brillar.</p>
               <div class="trail">
                 <div class="zone done"><span class="dot"></span><div class="thumb" style="background:linear-gradient(160deg,#FFE3A3,#FFB4A2 60%,#8C7BD8)"></div><div class="txt"><b>Colina de los Dientes de León</b><span>Visitada el lunes. Trajo una semilla que vuela.</span></div></div>
                 <div class="zone done"><span class="dot"></span><div class="thumb" style="background:linear-gradient(160deg,#C9BFF2,#5F82C8 60%,#2A2560)"></div><div class="txt"><b>Lago de las Lunas</b><span>Visitada el miércoles. Postal y una piedra lisa.</span></div></div>
                 <div class="zone now"><span class="dot"></span><div class="thumb" style="background:radial-gradient(circle at 40% 70%, #8FD1A6 0 10%, transparent 11%), linear-gradient(160deg,#3E6A6A,#1D2446)"></div><div class="txt"><b>Bosque de Musgo</b><span>Ahora mismo. Vuelve a las 21:00.</span></div></div>
                 <div class="zone locked"><span class="dot"></span><div class="thumb" style="background:linear-gradient(160deg,#9FE3F0,#6A5FC0 60%,#1B1840)"></div><div class="txt"><b>Cuevas de Cristal</b><span>Se abre con 3 días más de luz.</span></div></div>
-                <div class="zone locked"><span class="dot"></span><div class="thumb" style="background:linear-gradient(160deg,#FFC96B,#B06A7A 60%,#2A2560)"></div><div class="txt"><b>Faro Dormido</b><span>Zona de Lumi Plus.</span></div></div>
+                <div class="zone locked"><span class="dot"></span><div class="thumb" style="background:linear-gradient(160deg,#FFC96B,#B06A7A 60%,#2A2560)"></div><div class="txt"><b>Faro Dormido</b><span>Zona de Lampi Plus.</span></div></div>
               </div>
               <div class="section-h"><h4>Postales recibidas</h4><button class="link" type="button" data-goto="col">Ver álbum</button></div>
               <div class="cards-row">
@@ -366,7 +366,7 @@ button { font: inherit; color: inherit; }
             <div class="inner-bg" aria-hidden="true"></div>
             <div class="scroll">
               <h2 class="page-title">Colección</h2>
-              <p class="page-sub">Todo lo que Lumi ha traído de sus viajes.</p>
+              <p class="page-sub">Todo lo que Lampi ha traído de sus viajes.</p>
               <div class="tabs-mini" role="tablist" aria-label="Tipo de colección">
                 <button type="button" role="tab" aria-selected="true" data-col="post">Postales</button>
                 <button type="button" role="tab" aria-selected="false" data-col="obj">Objetos</button>
@@ -424,14 +424,14 @@ button { font: inherit; color: inherit; }
                 </div>
               </div>
               <div class="panel" style="margin-top:12px">
-                <div class="meter-head"><h3>Cuánto brilló Lumi</h3><span>Por tramo de tu límite</span></div>
+                <div class="meter-head"><h3>Cuánto brilló Lampi</h3><span>Por tramo de tu límite</span></div>
                 <div class="week" id="week"></div>
-                <p class="chart-note">Cuanto más alta la barra, más luz le quedó a Lumi al final del día.</p>
+                <p class="chart-note">Cuanto más alta la barra, más luz le quedó a Lampi al final del día.</p>
               </div>
               <div class="share">
                 <div id="lumiShare"></div>
                 <div class="txt">
-                  <b>Lumi brilló 6 de 7 días y visitó 4 lugares nuevos</b>
+                  <b>Lampi brilló 6 de 7 días y visitó 4 lugares nuevos</b>
                   <button class="btn" type="button">Compartir resumen</button>
                 </div>
               </div>
@@ -452,7 +452,7 @@ button { font: inherit; color: inherit; }
             <div class="inner-bg" aria-hidden="true"></div>
             <div class="scroll">
               <h2 class="page-title">Ajustes</h2>
-              <p class="page-sub">Lo que apaga la luz de Lumi y cuándo se va a dormir.</p>
+              <p class="page-sub">Lo que apaga la luz de Lampi y cuándo se va a dormir.</p>
               <div class="section-h" style="margin-top:4px"><h4>Apps ladronas</h4><button class="link" type="button">Editar</button></div>
               <div class="list">
                 <div class="row"><span class="ic" style="background:#111">T</span><span class="lbl">TikTok</span></div>
@@ -461,14 +461,14 @@ button { font: inherit; color: inherit; }
               </div>
               <div class="section-h"><h4>Límite y noche</h4></div>
               <div class="list">
-                <div class="row"><span class="lbl">Límite diario suave<small>Lumi se cansa al acercarte</small></span>
+                <div class="row"><span class="lbl">Límite diario suave<small>Lampi se cansa al acercarte</small></span>
                   <div class="stepper"><button type="button" id="limMinus" aria-label="Reducir límite">−</button><output id="limOut" aria-live="polite">1 h</output><button type="button" id="limPlus" aria-label="Aumentar límite">+</button></div></div>
-                <div class="row"><span class="lbl">Horario de noche<small>Lumi duerme y las apps ladronas se tapan</small></span><span class="val">23:00 a 07:00</span></div>
-                <div class="row"><span class="lbl">Postal nocturna<small>Aviso cuando Lumi vuelve</small></span><button type="button" class="toggle" role="switch" aria-checked="true" aria-label="Postal nocturna"></button></div>
+                <div class="row"><span class="lbl">Horario de noche<small>Lampi duerme y las apps ladronas se tapan</small></span><span class="val">23:00 a 07:00</span></div>
+                <div class="row"><span class="lbl">Postal nocturna<small>Aviso cuando Lampi vuelve</small></span><button type="button" class="toggle" role="switch" aria-checked="true" aria-label="Postal nocturna"></button></div>
                 <div class="row"><span class="lbl">Días de descanso<small>2 por semana, la racha no se rompe</small></span><button type="button" class="toggle" role="switch" aria-checked="true" aria-label="Días de descanso"></button></div>
               </div>
               <div class="plus">
-                <b>Lumi Plus</b>
+                <b>Lampi Plus</b>
                 <ul>
                   <li>Más especies y colores de luz</li>
                   <li>Zonas exclusivas y capítulos de historia</li>
@@ -476,7 +476,7 @@ button { font: inherit; color: inherit; }
                   <li>Decoración premium para la madriguera</li>
                 </ul>
                 <button class="btn" type="button">Probar 7 días gratis</button>
-                <small>Luego 49,99 $ al año. Lumi no se pone triste si no lo pruebas.</small>
+                <small>Luego 49,99 $ al año. Lampi no se pone triste si no lo pruebas.</small>
               </div>
             </div>
           </div>
@@ -495,7 +495,7 @@ button { font: inherit; color: inherit; }
           <div class="shield">
             <span class="app-tag">Instagram está tapada hasta mañana</span>
             <div id="lumiShield"></div>
-            <h2>Lumi se estaba echando la siesta… ¿de verdad entramos?</h2>
+            <h2>Lampi se estaba echando la siesta… ¿de verdad entramos?</h2>
             <p>Ya habéis pasado de tu hora de hoy. Si lo dejas ahora, mañana se despierta con más luz.</p>
             <div class="actions">
               <button class="btn" type="button">Vale, lo dejo</button>
@@ -517,7 +517,7 @@ button { font: inherit; color: inherit; }
           <div class="home-widget">
             <div id="lumiW3"></div>
             <div class="txt">
-              <b id="wState2">Lumi está contenta</b>
+              <b id="wState2">Lampi está contenta</b>
               <div class="meter" id="meterW" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
               <small id="wNote">Explorando el Bosque de Musgo</small>
             </div>
@@ -535,7 +535,7 @@ button { font: inherit; color: inherit; }
 (function () {
   "use strict";
 
-  // ---------- Lumi (Higgsfield illustration) ----------
+  // ---------- Lampi (Higgsfield illustration) ----------
   // Placeholder until the 4 state illustrations exist: one image, light changed with CSS filters.
   const LUMI_SRC = "{{LUMI}}";
   const STATES = {
@@ -547,15 +547,15 @@ button { font: inherit; color: inherit; }
   function lumiIMG(stateKey, animate) {
     const s = STATES[stateKey];
     const zzz = stateKey === "apagadita" ? '<span class="zzz" aria-hidden="true"><span>z</span><span>z</span></span>' : "";
-    return `<div class="lumi-img s-${stateKey}${animate && stateKey !== "apagadita" ? " float" : ""}"><div class="${animate ? "breathe" : ""}"><img src="${LUMI_SRC}" alt="Lumi, ${s.label.toLowerCase()}"></div>${zzz}</div>`;
+    return `<div class="lumi-img s-${stateKey}${animate && stateKey !== "apagadita" ? " float" : ""}"><div class="${animate ? "breathe" : ""}"><img src="${LUMI_SRC}" alt="Lampi, ${s.label.toLowerCase()}"></div>${zzz}</div>`;
   }
 
   // ---------- state ----------
   const COPY = {
     radiante: { bubble: "¡Hoy brillo muchísimo! Me voy de viaje, te traigo algo bonito.", note: "Menos del 25 % de tu hora", exp: ["Expedición en curso", "Explorando las Cuevas de Cristal", "Vuelve a las 21:00 con una postal"], bar: 45, sparks: "+22", home: false },
     contenta: { bubble: "Hoy vamos bien. Si aguantas un ratito más, esta noche te traigo una postal.", note: "Entre el 25 y el 50 % de tu hora", exp: ["Expedición en curso", "Explorando el Bosque de Musgo", "Vuelve a las 21:00 con una postal"], bar: 68, sparks: "+14", home: false },
-    cansada:  { bubble: "Uff, se me está gastando la luz… ¿dejamos el móvil un rato y miramos las estrellas?", note: "Entre el 50 y el 75 % de tu hora", exp: ["Hoy se queda en casa", "Lumi está descansando en la madriguera", "Mañana sale de viaje con la luz llena"], bar: 0, sparks: "+6", home: true },
-    apagadita:{ bubble: "Me echo una siestecita. Te echaba de menos, mañana empezamos de cero.", note: "Has llegado a tu hora de hoy", exp: ["Hoy se queda en casa", "Lumi duerme la siesta", "Mañana se despierta con la luz al máximo"], bar: 0, sparks: "+2", home: true }
+    cansada:  { bubble: "Uff, se me está gastando la luz… ¿dejamos el móvil un rato y miramos las estrellas?", note: "Entre el 50 y el 75 % de tu hora", exp: ["Hoy se queda en casa", "Lampi está descansando en la madriguera", "Mañana sale de viaje con la luz llena"], bar: 0, sparks: "+6", home: true },
+    apagadita:{ bubble: "Me echo una siestecita. Te echaba de menos, mañana empezamos de cero.", note: "Has llegado a tu hora de hoy", exp: ["Hoy se queda en casa", "Lampi duerme la siesta", "Mañana se despierta con la luz al máximo"], bar: 0, sparks: "+2", home: true }
   };
   let state = "contenta";
 
@@ -580,7 +580,7 @@ button { font: inherit; color: inherit; }
     bar.hidden = c.home;
     bar.querySelector("i").style.width = c.bar + "%";
     document.getElementById("wState").textContent = s.label;
-    document.getElementById("wState2").textContent = "Lumi está " + s.label.toLowerCase();
+    document.getElementById("wState2").textContent = "Lampi está " + s.label.toLowerCase();
     document.getElementById("wNote").textContent = c.home ? "Descansando en casa" : c.exp[1];
     document.querySelectorAll("#stateSeg button").forEach(b => b.setAttribute("aria-pressed", String(b.dataset.state === state)));
   }

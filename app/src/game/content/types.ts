@@ -9,7 +9,7 @@ export type PlaceText = {
   caption: string;
   /** Frase para releer la postal en el álbum. */
   quote: string;
-  /** Fragmentos de historia en la voz de Lumi (el índice es el mismo en todos los idiomas). */
+  /** Fragmentos de historia en la voz de Lampi (el índice es el mismo en todos los idiomas). */
   stories: [string, string, string];
 };
 

@@ -30,7 +30,7 @@ PAGE = """<!doctype html>
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>{title} · Lumi</title>
+<title>{title} · Lampi</title>
 <meta name="description" content="{intro}">
 <meta name="theme-color" content="#13112E">
 {alternates}
@@ -44,14 +44,14 @@ PAGE = """<!doctype html>
 </head>
 <body class="legal-page">
 <header class="legal-top">
-  <a class="wordmark" href="./" aria-label="Lumi, inicio">Lumi</a>
+  <a class="wordmark" href="./" aria-label="Lampi, inicio">Lampi</a>
 </header>
 <main class="wrap narrow legal">
 {blocks}
 </main>
 <footer class="foot">
   <div class="wrap foot-inner">
-    <span class="wordmark small">Lumi</span>
+    <span class="wordmark small">Lampi</span>
     <p><a href="ayuda.html">Ayuda</a> · <a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a></p>
     <p class="langs" data-langs><a href="?lang=es" hreflang="es" lang="es">Español</a> · <a href="?lang=en" hreflang="en" lang="en">English</a> · <a href="?lang=zh" hreflang="zh-Hans" lang="zh-Hans">中文</a> · <a href="?lang=hi" hreflang="hi" lang="hi">हिन्दी</a> · <a href="?lang=fr" hreflang="fr" lang="fr">Français</a></p>
   </div>
@@ -61,7 +61,7 @@ PAGE = """<!doctype html>
 """
 
 
-BLOCK = """  <article data-lang="{lang}" lang="{lang}" data-title="{title} · Lumi"{hidden}>
+BLOCK = """  <article data-lang="{lang}" lang="{lang}" data-title="{title} · Lampi"{hidden}>
     <h1>{title}</h1>
     <p class="legal-intro">{intro}</p>
 {sections}

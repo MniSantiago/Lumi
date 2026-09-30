@@ -1,4 +1,4 @@
-# Lumi: brief del proyecto (contexto para una nueva sesión)
+# Lampi: brief del proyecto (contexto para una nueva sesión)
 
 > Pega este documento al inicio de una nueva sesión con Claude para continuar donde lo dejamos.
 
@@ -7,7 +7,7 @@
 ## 0. Qué quiero que hagas en esta sesión
 
 1. **Construir el mockup de la app móvil**: la pantalla principal y las pestañas principales, con el skill `frontend-design` (y después revisarlo con `design:design-critique`).
-2. **Generar la criatura (Lumi) y el fondo con Higgsfield MCP** (imágenes y, si se puede, vídeo o animación en bucle). Si Higgsfield no está conectado, avísame antes de empezar.
+2. **Generar la criatura (Lampi) y el fondo con Higgsfield MCP** (imágenes y, si se puede, vídeo o animación en bucle). Si Higgsfield no está conectado, avísame antes de empezar.
 3. El **fondo tiene que hacer match con la criatura**, y **el estilo y los colores del tema de la app tienen que salir de la criatura**.
 
 ---
@@ -59,10 +59,10 @@
 
 ---
 
-## 3. La criatura elegida: **Lumi** ✨
+## 3. La criatura elegida: **Lampi** ✨
 
 - **Qué es:** un espíritu de luz pequeño, redondo y suave, **con carita** (ojos grandes y expresivos) y **una luz propia** (en la cola, las antenas o la barriga, por definir en el diseño).
-- **Metáfora:** *tu atención es luz.* Cuando no haces scroll, Lumi brilla y sale de aventura. Cuando haces scroll, se atenúa y se queda en casa esperándote.
+- **Metáfora:** *tu atención es luz.* Cuando no haces scroll, Lampi brilla y sale de aventura. Cuando haces scroll, se atenúa y se queda en casa esperándote.
 - **Por qué:** los ojos permiten crear vínculo, y el brillo es un indicador de estado que se lee al instante (ideal para el widget). Encaja con la noche (luciérnagas, dormir) y ningún competidor lo usa.
 - **Estados** (siempre tiernos, nunca muere):
   - ✨ **Radiante** (0-25 % del límite): brillo máximo, energía, sale de expedición.
@@ -76,26 +76,26 @@
 - **Paleta (el tema de la app sale de la criatura):**
   - Fondo o noche: **índigo profundo / azul noche** (~#1B1840, #2A2560)
   - Secundario: **lavanda / violeta suave** (~#8C7BD8, #C9BFF2)
-  - Acento (la luz de Lumi): **ámbar / dorado cálido** (~#FFC96B, #FFE3A3)
+  - Acento (la luz de Lampi): **ámbar / dorado cálido** (~#FFC96B, #FFE3A3)
   - Detalles: rosa melocotón suave para las mejillas y los estados cálidos
-- **Fondo:** un mundo nocturno y mágico que haga match con Lumi (bosque o pradera al anochecer, luciérnagas, estrellas, una casita o madriguera acogedora). Idealmente animado: partículas de luz flotando y un ligero parallax.
-- **Tono de los textos:** cozy y tierno con toques de humor. Siempre habla Lumi, nunca juzga ("te echaba de menos", no "has fallado").
+- **Fondo:** un mundo nocturno y mágico que haga match con Lampi (bosque o pradera al anochecer, luciérnagas, estrellas, una casita o madriguera acogedora). Idealmente animado: partículas de luz flotando y un ligero parallax.
+- **Tono de los textos:** cozy y tierno con toques de humor. Siempre habla Lampi, nunca juzga ("te echaba de menos", no "has fallado").
 
 ---
 
 ## 4. Mecánica
 
 ### Metáfora central
-> Cuando sueltas el móvil, Lumi sale de aventura. Cuando haces scroll, se queda en casa, aburrida, esperándote.
+> Cuando sueltas el móvil, Lampi sale de aventura. Cuando haces scroll, se queda en casa, aburrida, esperándote.
 
 ### Onboarding
-1. Eliges a tu Lumi y le pones nombre.
+1. Eliges a tu Lampi y le pones nombre.
 2. Eliges tus "apps ladronas" (TikTok, Instagram…) con el `FamilyActivityPicker` de Apple.
 3. Defines un **límite diario suave** (por ejemplo, 1 h) y el **horario de noche** (por ejemplo, 23:00-07:00).
 
 ### Ciclo diario
 ```
-Mañana: Lumi se despierta con la luz al máximo
+Mañana: Lampi se despierta con la luz al máximo
    ↓
 Durante el día: la app recibe avisos al 25 / 50 / 75 / 100 % del límite
    ↓
@@ -108,38 +108,38 @@ Por la noche (fin del día): vuelve con postal + objetos + fragmento de historia
 Si respetas el horario de noche: duerme bien y bonus al día siguiente
 ```
 
-### La pantalla de bloqueo ES Lumi ⭐
-- Al superar el límite y abrir una app ladrona aparece un `ShieldConfiguration` personalizado con Lumi:
-  *"Lumi se estaba echando la siesta… ¿de verdad entramos?"*, con los botones **[Vale, lo dejo]** y **[5 min más]**.
+### La pantalla de bloqueo ES Lampi ⭐
+- Al superar el límite y abrir una app ladrona aparece un `ShieldConfiguration` personalizado con Lampi:
+  *"Lampi se estaba echando la siesta… ¿de verdad entramos?"*, con los botones **[Vale, lo dejo]** y **[5 min más]**.
 - Fricción emocional, no punitiva. Es el momento más compartible ("mi mascota me pilló abriendo Instagram a las 2 am").
 
 ### Reglas sin culpa
 - Nunca muere ni enferma; lo peor es que se aburra o se duerma.
 - Cada día empieza de cero.
 - Rachas con perdón ("días de descanso").
-- Los textos hablan desde Lumi, con cariño.
+- Los textos hablan desde Lampi, con cariño.
 
 ### Progresión
 | Capa | Qué es | Ritmo |
 |---|---|---|
 | Expediciones | Cada día explora una zona y trae objetos y postales | Diario |
 | Colección | Álbum de lugares, criaturas amigas y objetos raros | Semanal |
-| Evolución | Lumi crece y su luz cambia de color con semanas de constancia | Mensual |
+| Evolución | Lampi crece y su luz cambia de color con semanas de constancia | Mensual |
 | Mundo | Su hogar se amplía y decora con lo que trae | Continuo |
 | Historia | Las postales cuentan una historia larga por capítulos | Por temporadas |
 
 - **Moneda:** "chispas", que se ganan con las expediciones y se gastan en decoración. **Nunca se compran con dinero real.**
 
 ### Superficies clave
-1. **Widget** de pantalla de inicio y de bloqueo (siempre gratis): Lumi con su brillo actual.
-2. **Pantalla de escudo** con Lumi.
-3. **Postal nocturna** (notificación): "Lumi ha vuelto de las Cuevas de Cristal 🌙".
+1. **Widget** de pantalla de inicio y de bloqueo (siempre gratis): Lampi con su brillo actual.
+2. **Pantalla de escudo** con Lampi.
+3. **Postal nocturna** (notificación): "Lampi ha vuelto de las Cuevas de Cristal 🌙".
 4. **Resumen semanal** en formato vertical para stories y TikTok.
 
 ### Monetización
 | Gratis (generoso) | Plus (~49,99 $/año) |
 |---|---|
-| 1 criatura, límite diario, escudo con Lumi | Más especies y colores de luz |
+| 1 criatura, límite diario, escudo con Lampi | Más especies y colores de luz |
 | Expediciones básicas y widget | Zonas exclusivas y capítulos de historia |
 | Modo noche básico | Varios horarios, bloqueo estricto, estadísticas detalladas |
 | | Decoración premium del hogar |
@@ -147,15 +147,15 @@ Si respetas el horario de noche: duerme bien y bonus al día siguiente
 Lección de Opal: el usuario gratis tiene que **recomendarla**; lo que se paga es cosmético y avanzado.
 
 ### Social (fase 2, no para el MVP)
-- Visitas entre amigos: la Lumi de un amigo visita tu mundo si los dos tuvisteis un buen día.
+- Visitas entre amigos: la Lampi de un amigo visita tu mundo si los dos tuvisteis un buen día.
 - Expediciones conjuntas (bucle viral).
 
 ---
 
 ## 5. Alcance del MVP
 1. Onboarding, selección de apps y límite.
-2. 4 estados de Lumi según los umbrales.
-3. Escudo personalizado con Lumi.
+2. 4 estados de Lampi según los umbrales.
+3. Escudo personalizado con Lampi.
 4. Expedición diaria con postal (unos 20 destinos).
 5. Widget.
 6. Paywall con prueba gratuita.
@@ -169,21 +169,21 @@ Lección de Opal: el usuario gratis tiene que **recomendarla**; lo que se paga e
 **Plataforma:** iOS (iPhone), mockup en HTML/CSS con marco de iPhone.
 
 **Pantallas y pestañas (tab bar):**
-1. **Hogar (home):** Lumi en grande sobre el fondo nocturno animado, con su estado actual (brillo y ánimo) y un medidor de "luz de hoy" (uso frente a límite, en tramos). Mensaje de Lumi, chispas del día y estado de la expedición ("Lumi está explorando el Bosque de Musgo… vuelve a las 21:00").
+1. **Hogar (home):** Lampi en grande sobre el fondo nocturno animado, con su estado actual (brillo y ánimo) y un medidor de "luz de hoy" (uso frente a límite, en tramos). Mensaje de Lampi, chispas del día y estado de la expedición ("Lampi está explorando el Bosque de Musgo… vuelve a las 21:00").
 2. **Expediciones:** mapa o lista de zonas, expedición actual, postales recibidas.
 3. **Colección:** álbum de postales, objetos y criaturas amigas.
-4. **Progreso:** racha, resumen semanal (compartible), evolución de Lumi.
+4. **Progreso:** racha, resumen semanal (compartible), evolución de Lampi.
 5. **Ajustes/Perfil:** apps ladronas, límite diario, horario de noche, Plus.
 
-**Extras si da tiempo:** mockup del escudo de bloqueo con Lumi y del widget.
+**Extras si da tiempo:** mockup del escudo de bloqueo con Lampi y del widget.
 
 **Assets a generar con Higgsfield:**
-- Lumi en sus 4 estados (misma criatura, coherente entre imágenes), con fondo transparente o fácil de recortar.
-- Fondo del hogar: mundo nocturno cozy que haga match con Lumi (formato vertical 9:19.5).
-- Opcional: vídeo o bucle animado del fondo (luciérnagas, estrellas) y de Lumi respirando o flotando.
+- Lampi en sus 4 estados (misma criatura, coherente entre imágenes), con fondo transparente o fácil de recortar.
+- Fondo del hogar: mundo nocturno cozy que haga match con Lampi (formato vertical 9:19.5).
+- Opcional: vídeo o bucle animado del fondo (luciérnagas, estrellas) y de Lampi respirando o flotando.
 - Opcional: 2-3 ilustraciones de postales de expedición.
 
-**Requisito clave:** la paleta del tema de la app (fondos, tarjetas, botones, tab bar, tipografía) sale de los colores de Lumi y del fondo.
+**Requisito clave:** la paleta del tema de la app (fondos, tarjetas, botones, tab bar, tipografía) sale de los colores de Lampi y del fondo.
 
 ---
 

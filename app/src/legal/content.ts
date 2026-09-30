@@ -8,7 +8,7 @@ import hi from './i18n/hi.json';
 import zh from './i18n/zh.json';
 
 /**
- * Textos legales y de ayuda de Lumi, uno por idioma en `i18n/<idioma>.json`. Los
+ * Textos legales y de ayuda de Lampi, uno por idioma en `i18n/<idioma>.json`. Los
  * mismos archivos generan `landing/privacidad.html`, `landing/terminos.html` y
  * `landing/ayuda.html` (`python3 landing/tools/legal.py`).
  *

@@ -58,7 +58,7 @@ export function validateEnv(raw: Record<string, unknown>): Env {
     // En producción, un remitente de un dominio verificado en Resend. En desarrollo, el de pruebas de Resend.
     MAIL_FROM: str(
       'MAIL_FROM',
-      prod ? undefined : 'Lumi <onboarding@resend.dev>',
+      prod ? undefined : 'Lampi <onboarding@resend.dev>',
     ),
     CORS_ORIGINS: str('CORS_ORIGINS', '')
       .split(',')

@@ -11,7 +11,7 @@ import { bedtimeContent, nightlyReturnContent, trialReminderContent, weeklySumma
 export { permissionDeniedCopy } from '@/notifications/copy';
 
 /**
- * Notificaciones locales de Lumi con `expo-notifications` (funcionan en Expo Go;
+ * Notificaciones locales de Lampi con `expo-notifications` (funcionan en Expo Go;
  * no hay push, así que no hace falta el config plugin).
  *
  * - El permiso se pide tarde: la primera vez que algo se programa o al
@@ -120,7 +120,7 @@ async function cancel(identifier: string) {
   }
 }
 
-/** Aviso de la vuelta de Lumi ("Lumi ha vuelto del Bosque de Musgo 🌙") a la hora indicada. Sustituye al anterior. */
+/** Aviso de la vuelta de Lampi ("Lampi ha vuelto del Bosque de Musgo 🌙") a la hora indicada. Sustituye al anterior. */
 export async function scheduleNightlyReturn(args: {
   lumiName: string;
   destination: Destination;
@@ -133,7 +133,7 @@ export async function cancelNightlyReturn(): Promise<void> {
   await cancel(NIGHTLY_ID);
 }
 
-/** Recordatorio 2 días antes de que acabe la prueba de Lumi Plus. */
+/** Recordatorio 2 días antes de que acabe la prueba de Lampi Plus. */
 export async function scheduleTrialReminder(args: { lumiName: string; at: Date }): Promise<void> {
   // El paywall acaba de prometer este aviso: aquí sí tiene sentido pedir permiso.
   await scheduleAt(TRIAL_ID, args.at, trialReminderContent(args.lumiName), '/plus', { ask: true });
@@ -200,7 +200,7 @@ export async function cancelWeeklySummary(): Promise<void> {
 
 /**
  * Montado en el layout raíz: mantiene el aviso del domingo al día con el
- * ajuste y el nombre de Lumi (y con el idioma, que se lee al programarlo).
+ * ajuste y el nombre de Lampi (y con el idioma, que se lee al programarlo).
  */
 export function useWeeklySummaryReminder(): void {
   const { ready, settings } = useLumi();
@@ -228,7 +228,7 @@ export async function debugScheduleNightlyIn(
 ): Promise<void> {
   const destination = args.destination ?? DESTINATIONS[0];
   const at = new Date(Date.now() + seconds * 1000);
-  await scheduleAt(NIGHTLY_ID, at, nightlyReturnContent(args.lumiName ?? 'Lumi', destination, at), '/postal', {
+  await scheduleAt(NIGHTLY_ID, at, nightlyReturnContent(args.lumiName ?? 'Lampi', destination, at), '/postal', {
     ask: true,
   });
 }

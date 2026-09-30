@@ -31,9 +31,9 @@ type DestinationData = Omit<Destination, 'image' | 'name' | 'the' | 'from' | 'ch
 /**
  * Los 20 destinos del MVP, en 4 capítulos de 5 lugares.
  * El orden del array es el orden de la historia: `pickDestination` propone
- * primero los que Lumi aún no conoce, en este orden.
+ * primero los que Lampi aún no conoce, en este orden.
  *
- * Hilo largo: una estrellita se cayó del cielo hace poco. Lumi encuentra
+ * Hilo largo: una estrellita se cayó del cielo hace poco. Lampi encuentra
  * pistas sueltas (polvo dorado, una carta sin remite, un reflejo sin dueña)
  * hasta dar con ella en el Jardín de las Estrellas Caídas.
  */

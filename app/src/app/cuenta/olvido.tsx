@@ -73,11 +73,11 @@ export default function ForgotPasswordSheet() {
           fr: 'Oublié ?',
         })}
         subtitle={tr({
-          es: 'No pasa nada, a Lumi también se le olvidan cosas. Te enviamos un código para elegir una contraseña nueva.',
-          en: 'No worries, Lumi forgets things too. We’ll send you a code to choose a new password.',
-          zh: '没关系，Lumi 也会忘事。我们会发一个验证码，让你设置新密码。',
-          hi: 'कोई बात नहीं, Lumi भी चीज़ें भूल जाती है। हम तुम्हें नया पासवर्ड चुनने के लिए एक कोड भेजेंगे।',
-          fr: 'Pas de souci, Lumi aussi oublie des choses. On t’envoie un code pour choisir un nouveau mot de passe.',
+          es: 'No pasa nada, a Lampi también se le olvidan cosas. Te enviamos un código para elegir una contraseña nueva.',
+          en: 'No worries, Lampi forgets things too. We’ll send you a code to choose a new password.',
+          zh: '没关系，Lampi 也会忘事。我们会发一个验证码，让你设置新密码。',
+          hi: 'कोई बात नहीं, Lampi भी चीज़ें भूल जाती है। हम तुम्हें नया पासवर्ड चुनने के लिए एक कोड भेजेंगे।',
+          fr: 'Pas de souci, Lampi aussi oublie des choses. On t’envoie un code pour choisir un nouveau mot de passe.',
         })}
         footer={
           <>

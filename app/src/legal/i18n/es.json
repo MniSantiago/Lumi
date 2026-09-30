@@ -1,27 +1,27 @@
 {
   "privacidad": {
     "title": "Privacidad",
-    "intro": "Lumi está hecha para que pases menos rato en el móvil, no para saber más de ti. Esto es lo que usa y por qué.",
+    "intro": "Lampi está hecha para que pases menos rato en el móvil, no para saber más de ti. Esto es lo que usa y por qué.",
     "updated": "Septiembre de 2026",
     "sections": [
       {
-        "heading": "Lo que Lumi no ve",
+        "heading": "Lo que Lampi no ve",
         "body": [
-          "Lumi usa Tiempo de uso de Apple (Family Controls y Device Activity). Solo recibe avisos del tipo «ya vas por la mitad de tu límite».",
+          "Lampi usa Tiempo de uso de Apple (Family Controls y Device Activity). Solo recibe avisos del tipo «ya vas por la mitad de tu límite».",
           "No sabe qué vídeos ves, qué escribes ni con quién hablas. iOS tampoco se lo permitiría."
         ]
       },
       {
         "heading": "Lo que se guarda en tu iPhone",
         "body": [
-          "Tu nombre, el nombre de Lumi, tu límite diario, tu horario de noche, las apps que has elegido y tu progreso: días, postales, objetos y chispas.",
+          "Tu nombre, el nombre de Lampi, tu límite diario, tu horario de noche, las apps que has elegido y tu progreso: días, postales, objetos y chispas.",
           "Todo esto vive en tu dispositivo. Si no creas una cuenta, no se envía a ningún servidor. Si borras la app, se borra con ella."
         ]
       },
       {
         "heading": "Si creas una cuenta (opcional)",
         "body": [
-          "Guardamos tu correo, tu contraseña cifrada (nunca en claro), tu nombre y el de Lumi, para que no pierdas tu progreso si cambias de iPhone.",
+          "Guardamos tu correo, tu contraseña cifrada (nunca en claro), tu nombre y el de Lampi, para que no pierdas tu progreso si cambias de iPhone.",
           "Usamos tu correo solo para cosas de tu cuenta: confirmar que es tuyo, recuperar la contraseña y avisarte de cambios de seguridad. Los enviamos con Resend.",
           "Puedes eliminar la cuenta cuando quieras desde Ajustes › Cuenta › Eliminar la cuenta. Se borra al momento con todos sus datos."
         ]
@@ -29,52 +29,52 @@
       {
         "heading": "Notificaciones",
         "body": [
-          "Si las activas, Lumi programa en tu iPhone el aviso de la postal nocturna, el resumen del domingo, el «buenas noches» (si lo enciendes) y el recordatorio antes de que acabe la prueba gratis. Son notificaciones locales: no pasan por ningún servidor."
+          "Si las activas, Lampi programa en tu iPhone el aviso de la postal nocturna, el resumen del domingo, el «buenas noches» (si lo enciendes) y el recordatorio antes de que acabe la prueba gratis. Son notificaciones locales: no pasan por ningún servidor."
         ]
       },
       {
         "heading": "Compras",
         "body": [
-          "Las suscripciones a Lumi Plus las cobra Apple. Nosotros no vemos tu tarjeta. Para saber si tienes Plus activo usamos un identificador anónimo de compra."
+          "Las suscripciones a Lampi Plus las cobra Apple. Nosotros no vemos tu tarjeta. Para saber si tienes Plus activo usamos un identificador anónimo de compra."
         ]
       },
       {
         "heading": "Lista de espera",
         "body": [
-          "Si te apuntas en la web, guardamos tu correo y de dónde llegaste (por ejemplo, un vídeo de TikTok) solo para avisarte cuando Lumi esté lista. No lo vendemos ni lo compartimos, y puedes pedir que lo borremos cuando quieras. Cada correo trae un enlace para darte de baja."
+          "Si te apuntas en la web, guardamos tu correo y de dónde llegaste (por ejemplo, un vídeo de TikTok) solo para avisarte cuando Lampi esté lista. No lo vendemos ni lo compartimos, y puedes pedir que lo borremos cuando quieras. Cada correo trae un enlace para darte de baja."
         ]
       },
       {
         "heading": "Menores",
         "body": [
-          "Lumi no está pensada para menores de 13 años. Para crear una cuenta necesitas tener al menos 13 años, o la edad que pida tu país para aceptar esto por tu cuenta si es mayor (en España, 14).",
+          "Lampi no está pensada para menores de 13 años. Para crear una cuenta necesitas tener al menos 13 años, o la edad que pida tu país para aceptar esto por tu cuenta si es mayor (en España, 14).",
           "Sin cuenta, nada sale de tu iPhone. Si crees que un menor nos ha dado su correo, escríbenos y lo borramos."
         ]
       },
       {
         "heading": "Tus derechos",
         "body": [
-          "Desde Ajustes › Cuenta puedes descargar todos tus datos en un archivo (Tus datos › Descargar), corregir tus nombres y eliminar la cuenta. También puedes pedírnoslo escribiendo al correo de soporte que aparece en la ficha de Lumi en la App Store."
+          "Desde Ajustes › Cuenta puedes descargar todos tus datos en un archivo (Tus datos › Descargar), corregir tus nombres y eliminar la cuenta. También puedes pedírnoslo escribiendo al correo de soporte que aparece en la ficha de Lampi en la App Store."
         ]
       }
     ]
   },
   "terminos": {
     "title": "Términos",
-    "intro": "Las reglas de convivencia con Lumi, en corto.",
+    "intro": "Las reglas de convivencia con Lampi, en corto.",
     "updated": "Septiembre de 2026",
     "sections": [
       {
-        "heading": "Qué es Lumi",
+        "heading": "Qué es Lampi",
         "body": [
-          "Lumi es una mascota virtual que te ayuda a usar menos las apps que tú eliges. No es una herramienta médica ni sustituye a un profesional si el uso del móvil te preocupa de verdad."
+          "Lampi es una mascota virtual que te ayuda a usar menos las apps que tú eliges. No es una herramienta médica ni sustituye a un profesional si el uso del móvil te preocupa de verdad."
         ]
       },
       {
-        "heading": "Gratis y Lumi Plus",
+        "heading": "Gratis y Lampi Plus",
         "body": [
-          "Lo importante de Lumi es gratis y lo seguirá siendo: tu Lumi y su escudo, el límite diario, las expediciones y postales, el widget y el modo noche.",
-          "Lumi Plus es una suscripción opcional (anual o mensual) con prueba gratis de 7 días. Se renueva sola hasta que la canceles.",
+          "Lo importante de Lampi es gratis y lo seguirá siendo: tu Lampi y su escudo, el límite diario, las expediciones y postales, el widget y el modo noche.",
+          "Lampi Plus es una suscripción opcional (anual o mensual) con prueba gratis de 7 días. Se renueva sola hasta que la canceles.",
           "Puedes cancelarla cuando quieras desde Ajustes de tu iPhone › tu nombre › Suscripciones, al menos 24 horas antes de la renovación. Si cancelas durante la prueba, no se cobra nada.",
           "Los reembolsos los gestiona Apple según sus condiciones."
         ]
@@ -82,7 +82,7 @@
       {
         "heading": "Uso justo",
         "body": [
-          "Lumi es para tu uso personal. No intentes copiar, revender ni modificar la app o sus ilustraciones.",
+          "Lampi es para tu uso personal. No intentes copiar, revender ni modificar la app o sus ilustraciones.",
           "Para crear una cuenta necesitas tener al menos 13 años (o la edad mínima de tu país, si es mayor)."
         ]
       },
@@ -96,17 +96,17 @@
   },
   "ayuda": {
     "title": "Ayuda",
-    "intro": "Las dudas más frecuentes sobre Lumi. Si no encuentras la tuya, escríbenos.",
+    "intro": "Las dudas más frecuentes sobre Lampi. Si no encuentras la tuya, escríbenos.",
     "updated": "Septiembre de 2026",
     "sections": [
       {
-        "heading": "¿Por qué Lumi se ha cansado si casi no he usado el móvil?",
+        "heading": "¿Por qué Lampi se ha cansado si casi no he usado el móvil?",
         "body": [
-          "Lumi solo cuenta el tiempo en las apps ladronas que elegiste, sumando todas. Puedes cambiarlas en Ajustes › Apps ladronas y subir o bajar tu límite en Ajustes › Límite y noche."
+          "Lampi solo cuenta el tiempo en las apps ladronas que elegiste, sumando todas. Puedes cambiarlas en Ajustes › Apps ladronas y subir o bajar tu límite en Ajustes › Límite y noche."
         ]
       },
       {
-        "heading": "¿Lumi ve lo que hago en mis apps?",
+        "heading": "¿Lampi ve lo que hago en mis apps?",
         "body": [
           "No. Usa Tiempo de uso de Apple y solo recibe avisos del tipo «ya vas por la mitad de tu límite». No sabe qué ves, qué escribes ni con quién hablas."
         ]
@@ -114,14 +114,14 @@
       {
         "heading": "¿Qué pasa de noche?",
         "body": [
-          "En tu horario de noche (Ajustes › Límite y noche) Lumi duerme y tus apps ladronas se tapan con su escudo hasta la hora de despertar, aunque no hayas llegado al límite.",
+          "En tu horario de noche (Ajustes › Límite y noche) Lampi duerme y tus apps ladronas se tapan con su escudo hasta la hora de despertar, aunque no hayas llegado al límite.",
           "Puedes pedir «5 min más» si lo necesitas (salvo con el escudo estricto). Si no lo pides en toda la noche, su siguiente expedición trae 5 chispas de más."
         ]
       },
       {
         "heading": "No me llega la postal nocturna",
         "body": [
-          "Revisa que las notificaciones de Lumi estén activadas en Ajustes de tu iPhone › Notificaciones › Lumi, y que la postal nocturna esté encendida en Ajustes › Límite y noche dentro de la app."
+          "Revisa que las notificaciones de Lampi estén activadas en Ajustes de tu iPhone › Notificaciones › Lampi, y que la postal nocturna esté encendida en Ajustes › Límite y noche dentro de la app."
         ]
       },
       {
@@ -139,19 +139,19 @@
       {
         "heading": "¿Cómo elimino mi cuenta?",
         "body": [
-          "En Ajustes › Cuenta › Eliminar la cuenta. Se borra al momento con todos sus datos. Lumi y su progreso en tu iPhone se quedan contigo."
+          "En Ajustes › Cuenta › Eliminar la cuenta. Se borra al momento con todos sus datos. Lampi y su progreso en tu iPhone se quedan contigo."
         ]
       },
       {
-        "heading": "¿Cómo cancelo Lumi Plus?",
+        "heading": "¿Cómo cancelo Lampi Plus?",
         "body": [
-          "Las suscripciones las gestiona Apple: Ajustes de tu iPhone › tu nombre › Suscripciones › Lumi. Si cancelas durante la prueba gratis, no se cobra nada. Eliminar la cuenta o la app no cancela la suscripción."
+          "Las suscripciones las gestiona Apple: Ajustes de tu iPhone › tu nombre › Suscripciones › Lampi. Si cancelas durante la prueba gratis, no se cobra nada. Eliminar la cuenta o la app no cancela la suscripción."
         ]
       },
       {
-        "heading": "He cambiado de iPhone y no está Lumi Plus",
+        "heading": "He cambiado de iPhone y no está Lampi Plus",
         "body": [
-          "En la pantalla de Lumi Plus, toca «Restaurar compras» con el mismo Apple ID con el que te suscribiste."
+          "En la pantalla de Lampi Plus, toca «Restaurar compras» con el mismo Apple ID con el que te suscribiste."
         ]
       }
     ]

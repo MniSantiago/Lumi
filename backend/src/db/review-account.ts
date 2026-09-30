@@ -32,7 +32,7 @@ try {
       email,
       passwordHash,
       name: 'App Review',
-      lumiName: 'Lumi',
+      lumiName: 'Lampi',
       emailVerifiedAt: now,
     })
     .onConflictDoUpdate({

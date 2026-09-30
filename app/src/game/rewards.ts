@@ -3,7 +3,7 @@ import type { Destination, ExpeditionResult } from '@/game/types';
 import type { Threshold } from '@/lumi/states';
 
 /**
- * Reglas de las expediciones: adónde va Lumi y qué trae.
+ * Reglas de las expediciones: adónde va Lampi y qué trae.
  * Funciones puras y deterministas por `seed` (mismo día → mismo resultado).
  *
  * Recompensas según el umbral máximo del día (menos uso → mejor):
@@ -56,7 +56,7 @@ function shuffled<T>(list: readonly T[], rand: () => number): T[] {
   return out;
 }
 
-/** Destinos a los que Lumi puede ir hoy, en orden de historia (capítulo, luego orden del array). */
+/** Destinos a los que Lampi puede ir hoy, en orden de historia (capítulo, luego orden del array). */
 export function availableDestinations(ctx: Pick<PickContext, 'brightDays' | 'isPlus'>): Destination[] {
   return DESTINATIONS.map((d, i) => ({ d, i }))
     .filter(({ d }) => (!d.plus || ctx.isPlus) && d.unlockAfterBrightDays <= ctx.brightDays)
@@ -65,7 +65,7 @@ export function availableDestinations(ctx: Pick<PickContext, 'brightDays' | 'isP
 }
 
 /**
- * Destino del día. Lumi solo sale si `threshold` < 50 (ver LUMI_STATES.*.exploring).
+ * Destino del día. Lampi solo sale si `threshold` < 50 (ver LUMI_STATES.*.exploring).
  * Primero, el siguiente lugar sin visitar en orden de historia; si ya los conoce
  * todos, una revisita al azar (evitando repetir el último visitado si hay más).
  */
@@ -88,7 +88,7 @@ export type RollContext = {
   threshold: Threshold;
   seed: number;
   /**
-   * Opcional: cuántas veces había ido Lumi antes a este destino. Con 0, cuenta
+   * Opcional: cuántas veces había ido Lampi antes a este destino. Con 0, cuenta
    * siempre la primera historia (la de presentación); con 1 o más, una de las
    * otras. Sin el dato, cualquiera al azar.
    */

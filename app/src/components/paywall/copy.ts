@@ -2,7 +2,7 @@ import { tr } from '@/i18n';
 import { dayMonth } from '@/i18n/dates';
 import type { PlusPackage } from '@/purchases';
 
-/** Textos del paywall. Lumi invita, nunca presiona. */
+/** Textos del paywall. Lampi invita, nunca presiona. */
 
 /** "5 de octubre", "October 5". */
 export const formatDayMonth = dayMonth;
@@ -78,12 +78,12 @@ export const plusFeatures = [
 ] as const;
 
 export const freeForever = tr({
-  es: ['Tu Lumi y su escudo', 'El límite diario', 'Expediciones y postales', 'El widget', 'El modo noche'],
-  en: ['Your Lumi and her shield', 'The daily limit', 'Expeditions and postcards', 'The widget', 'Night mode'],
-  zh: ['你的 Lumi 和她的护盾', '每日上限', '探险和明信片', '小组件', '夜间模式'],
-  hi: ['तुम्हारी Lumi और उसकी ढाल', 'रोज़ की सीमा', 'सफ़र और पोस्टकार्ड', 'विजेट', 'रात का मोड'],
+  es: ['Tu Lampi y su escudo', 'El límite diario', 'Expediciones y postales', 'El widget', 'El modo noche'],
+  en: ['Your Lampi and her shield', 'The daily limit', 'Expeditions and postcards', 'The widget', 'Night mode'],
+  zh: ['你的 Lampi 和她的护盾', '每日上限', '探险和明信片', '小组件', '夜间模式'],
+  hi: ['तुम्हारी Lampi और उसकी ढाल', 'रोज़ की सीमा', 'सफ़र और पोस्टकार्ड', 'विजेट', 'रात का मोड'],
   fr: [
-    'Ta Lumi et son bouclier',
+    'Ta Lampi et son bouclier',
     'La limite quotidienne',
     'Expéditions et cartes postales',
     'Le widget',
@@ -95,7 +95,7 @@ const dayN = (day: number) =>
   tr({ es: `Día ${day}`, en: `Day ${day}`, zh: `第${day}天`, hi: `दिन ${day}`, fr: `Jour ${day}` });
 
 export const paywallCopy = {
-  title: 'Lumi Plus',
+  title: 'Lampi Plus',
   subtitle: (name: string) =>
     tr({
       es: `Para quien quiere ir un poco más lejos con ${name}.`,
@@ -250,19 +250,19 @@ export const paywallCopy = {
   terms: tr({ es: 'Términos', en: 'Terms', zh: '条款', hi: 'शर्तें', fr: 'Conditions' }),
   privacy: tr({ es: 'Privacidad', en: 'Privacy', zh: '隐私', hi: 'गोपनीयता', fr: 'Confidentialité' }),
   noPressure: tr({
-    es: 'Lumi no se pone triste si no lo pruebas.',
-    en: 'Lumi won’t be sad if you don’t try it.',
-    zh: '你不试，Lumi 也不会难过。',
-    hi: 'अगर तुम नहीं आज़माओगे, तो Lumi उदास नहीं होगी।',
-    fr: 'Lumi ne sera pas triste si tu ne l’essaies pas.',
+    es: 'Lampi no se pone triste si no lo pruebas.',
+    en: 'Lampi won’t be sad if you don’t try it.',
+    zh: '你不试，Lampi 也不会难过。',
+    hi: 'अगर तुम नहीं आज़माओगे, तो Lampi उदास नहीं होगी।',
+    fr: 'Lampi ne sera pas triste si tu ne l’essaies pas.',
   }),
 
   plansUnavailable: tr({
-    es: 'Lumi Plus no está disponible ahora mismo. Vuelve a intentarlo más tarde.',
-    en: 'Lumi Plus isn’t available right now. Try again later.',
-    zh: 'Lumi Plus 暂时无法使用。请稍后再试。',
-    hi: 'Lumi Plus अभी उपलब्ध नहीं है। बाद में फिर कोशिश करो।',
-    fr: 'Lumi Plus n’est pas disponible pour le moment. Réessaie plus tard.',
+    es: 'Lampi Plus no está disponible ahora mismo. Vuelve a intentarlo más tarde.',
+    en: 'Lampi Plus isn’t available right now. Try again later.',
+    zh: 'Lampi Plus 暂时无法使用。请稍后再试。',
+    hi: 'Lampi Plus अभी उपलब्ध नहीं है। बाद में फिर कोशिश करो।',
+    fr: 'Lampi Plus n’est pas disponible pour le moment. Réessaie plus tard.',
   }),
   loadingPlans: tr({
     es: 'Buscando los planes…',
@@ -317,11 +317,11 @@ export const paywallCopy = {
   }),
 
   ownedTitle: tr({
-    es: 'Ya tienes Lumi Plus',
-    en: 'You have Lumi Plus',
-    zh: '你已拥有 Lumi Plus',
-    hi: 'तुम्हारे पास Lumi Plus है',
-    fr: 'Tu as Lumi Plus',
+    es: 'Ya tienes Lampi Plus',
+    en: 'You have Lampi Plus',
+    zh: '你已拥有 Lampi Plus',
+    hi: 'तुम्हारे पास Lampi Plus है',
+    fr: 'Tu as Lampi Plus',
   }),
   ownedBody: (name: string) =>
     tr({
@@ -333,11 +333,11 @@ export const paywallCopy = {
     }),
   close: tr({ es: 'Cerrar', en: 'Close', zh: '关闭', hi: 'बंद करो', fr: 'Fermer' }),
   closeA11y: tr({
-    es: 'Cerrar Lumi Plus',
-    en: 'Close Lumi Plus',
-    zh: '关闭 Lumi Plus',
-    hi: 'Lumi Plus बंद करो',
-    fr: 'Fermer Lumi Plus',
+    es: 'Cerrar Lampi Plus',
+    en: 'Close Lampi Plus',
+    zh: '关闭 Lampi Plus',
+    hi: 'Lampi Plus बंद करो',
+    fr: 'Fermer Lampi Plus',
   }),
   devRemove: 'Quitar Plus (desarrollo)',
 };

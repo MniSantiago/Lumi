@@ -1,4 +1,4 @@
-# API de Lumi. Construye con: docker build -t lumi-api backend/
+# API de Lampi. Construye con: docker build -t lumi-api backend/
 FROM node:24-alpine AS build
 WORKDIR /app
 # El lockfile es de npm 11.
