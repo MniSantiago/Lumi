@@ -200,6 +200,26 @@ Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1`
 - **Descargas:** el servidor de imágenes de APIMart (`getapib.org`) no está en la lista de dominios permitidos de Claude, así que hubo que descargar las hojas a mano. Si se añade el dominio, `--fetch` las baja solo.
 - **Clave:** se lee de la variable `APIMART_API_KEY` (o de `~/.apimart_key`). No está en el repositorio.
 
+### Sesión 5 (30 sep): Lumi con vida y vídeo con Seedance 2.5
+
+- **Lumi con vida** (`app/src/components/lumi-avatar.tsx`):
+  - Parpadeo con fotogramas de ojos cerrados alineados píxel a píxel (`tools/make_blink.py`).
+  - Las luces de las antenas laten.
+  - Gestos espontáneos según el estado y chispas al tocarla.
+- **Vídeos** (`tools/apimart_video.py`), con Seedance 2.5 en 1080p y primer y último fotograma:
+  - `fondo-hogar`: bucle sin corte del prado (6 s, 3,22 $).
+  - `lumi-vuelve`: Lumi baja del cielo, las luciérnagas le hacen un corro y aterriza sonriendo (5 s, 2,69 $). El último fotograma es un montaje de Radiante en el claro (`assets/apimart/video-frames/`).
+- **Fotogramas por URL:** Seedance no acepta base64, solo URLs públicas. El script "aloja" cada fotograma pidiendo a Seedream una copia idéntica (0,03 $), cuya URL dura 24 h.
+- **Postproceso** (`tools/encode_videos.sh`):
+  - H.264 1080×1920 sin audio.
+  - El bucle funde los últimos 0,4 s con el principio.
+  - Póster `fondo-hogar-video.jpg` para que no haya salto mientras carga.
+  - En `lumi-vuelve` se retocó a mano la sombra bajo los pies: en el montaje salió rectangular y Seedance la copió. Para la próxima, sombra elíptica en el fotograma.
+- **En la app:**
+  - `LivingBackground` en la home y el onboarding: vídeo en bucle solo con la pantalla a la vista, y la ilustración quieta con movimiento reducido.
+  - `LumiArrival` antes de la postal nocturna: se puede tocar para saltar; con movimiento reducido o lector de pantalla se omite.
+- **Dependencia nueva:** `expo-video`. Hay que instalarla en el Mac (`cd app && npx expo install expo-video`) y rehacer el development build (`npx expo run:ios`), porque tiene código nativo.
+
 ### Prompts de Higgsfield (reutilizables)
 
 **Lumi:**

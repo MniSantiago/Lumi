@@ -1,4 +1,3 @@
-import { Image } from 'expo-image';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, type Href } from 'expo-router';
 import { useRef } from 'react';
@@ -6,6 +5,7 @@ import { ScrollView, StyleSheet, TextInput, View } from 'react-native';
 
 import { apiAvailable } from '@/api/client';
 import { Fireflies } from '@/components/fireflies';
+import { LivingBackground } from '@/components/living-background';
 import { LumiAvatar } from '@/components/lumi-avatar';
 import { SecondaryLink } from '@/components/account/form';
 import { Field, NAME_MAX, SpeechBubble } from '@/components/onboarding/controls';
@@ -135,7 +135,7 @@ export default function MeetLumiStep() {
 function NightBackground() {
   return (
     <View pointerEvents="none" style={StyleSheet.absoluteFill}>
-      <Image source={require('@/assets/images/fondo-hogar.jpg')} style={StyleSheet.absoluteFill} contentFit="cover" />
+      <LivingBackground />
       <Fireflies glow={1} count={10} />
       <View style={[StyleSheet.absoluteFill, { backgroundColor: Colors.nightDeep, opacity: 0.35 }]} />
       <LinearGradient

@@ -19,6 +19,7 @@ import { haptic } from '@/haptics';
 import { Fireflies } from '@/components/fireflies';
 import { NightPostcard } from '@/components/nightly/night-postcard';
 import { buildTimeline, stageProgress, useReveal } from '@/components/nightly/reveal';
+import { LumiArrival } from '@/components/nightly/lumi-arrival';
 import { CardIn, FadeUp, RewardTile, SparksCounter } from '@/components/nightly/reveal-parts';
 import { ShieldButton } from '@/components/shield/shield-parts';
 import { Colors, Fonts } from '@/constants/theme';
@@ -62,9 +63,17 @@ export default function PostcardScreen() {
 
   const destination = id ? destinationById(id) : undefined;
   if (destination) return <RereadPostcard destination={destination} />;
-  if (held) return <TonightPostcard pending={held} />;
+  if (held) return <ArrivalThenPostcard pending={held} />;
   if (!game.ready) return <View style={styles.screen} />;
   return <NoPostcard />;
+}
+
+/** Primero Lumi llega volando al prado; después, la postal de esta noche. */
+function ArrivalThenPostcard({ pending }: { pending: PendingReturn }) {
+  const { settings } = useLumi();
+  const [arrived, setArrived] = useState(false);
+  if (!arrived) return <LumiArrival name={settings.lumiName} onDone={() => setArrived(true)} />;
+  return <TonightPostcard pending={pending} />;
 }
 
 function NoPostcard() {

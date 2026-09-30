@@ -1,4 +1,3 @@
-import { Image } from 'expo-image';
 import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
 import { useState } from 'react';
@@ -7,6 +6,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { haptic } from '@/haptics';
 import { Fireflies } from '@/components/fireflies';
+import { LivingBackground } from '@/components/living-background';
 import { LightMeter } from '@/components/light-meter';
 import { LumiAvatar } from '@/components/lumi-avatar';
 import { AppText, Card, Pill, WEB_TABS_INSET } from '@/components/ui';
@@ -77,7 +77,7 @@ export default function HomeScreen() {
 
   return (
     <View style={styles.root}>
-      <Image source={require('@/assets/images/fondo-hogar.jpg')} style={StyleSheet.absoluteFill} contentFit="cover" />
+      <LivingBackground />
       <Fireflies glow={state.glow} />
       {/* El mundo se oscurece al gastarse la luz de Lumi. */}
       <View

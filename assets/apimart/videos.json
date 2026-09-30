@@ -1,0 +1,36 @@
+{
+  "_hosted": {
+    "fondo-hogar.jpg": {
+      "url": "https://getapib.org/image/9998209218902895-fb56f71a-3f1b-4dd8-b912-663871106644-image_task_01M3SDY13QAHAMF57NZRSPST7S_0.jpg",
+      "expires_at": 1790867497,
+      "cost": 0.028
+    },
+    "lumi-llega.jpg": {
+      "url": "https://getapib.org/image/9998209218841740-5df7061a-8dca-4c4b-917e-dbf0641848b2-image_task_01M3SDZWV6M9KGYTXZQF09A95D_0.jpg",
+      "expires_at": 1790867558,
+      "cost": 0.028
+    }
+  },
+  "fondo-hogar": {
+    "first": "fondo-hogar.jpg",
+    "last": "fondo-hogar.jpg",
+    "duration": 6,
+    "resolution": "1080p",
+    "prompt": "A magical calm night meadow comes alive in a seamless loop: many glowing amber fireflies drift slowly and lazily in soft curving paths and twinkle, stars twinkle gently, the lavender mist and clouds flow very slowly, grass and flowers sway softly in a light breeze, the glowing mushrooms pulse softly, the warm window of the little burrow flickers like candlelight. No characters appear. Soft cozy 2D painterly animation, Studio Ghibli inspired, gentle and dreamy, keep the exact art style, colours and composition of the images. Camera completely static, no zoom, no pan. No text.",
+    "task_id": "task_01M3SDY2ZQWPP64Q3WEV7N1M31",
+    "url": "https://getapib.org/video/9998209218788582-7d10cb26-5e2e-4be8-89e5-fcc3513e5e2c-video_task_01M3SDY2ZQWPP64Q3WEV7N1M31.mp4",
+    "cost": 3.223892,
+    "file": "fondo-hogar.mp4"
+  },
+  "lumi-vuelve": {
+    "first": "fondo-hogar.jpg",
+    "last": "lumi-llega.jpg",
+    "duration": 5,
+    "resolution": "1080p",
+    "prompt": "Lumi, the tiny round lavender light spirit with two glowing amber antennae and a glowing belly, comes home from an adventure: she floats down from the starry sky like a little falling star, trailing golden sparkles, while the fireflies swirl around to welcome her, lands softly on the grass of the clearing with a small squishy bounce, then raises her little arms and smiles with a big happy face, her light glowing brighter. Joyful, tender, magical. Soft cozy 2D painterly animation, Studio Ghibli inspired, gentle and dreamy, keep the exact art style, colours and composition of the images. Camera completely static, no zoom, no pan. No text.",
+    "task_id": "task_01M3SE02XR42G3MSX4SQTP6RW4",
+    "url": "https://getapib.org/video/9998209218717368-8268d162-8285-4a05-87a4-34f03cb4764a-video_task_01M3SE02XR42G3MSX4SQTP6RW4.mp4",
+    "cost": 2.690282,
+    "file": "lumi-vuelve.mp4"
+  }
+}
