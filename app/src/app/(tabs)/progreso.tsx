@@ -17,6 +17,8 @@ import { LUMI_STATES } from '@/lumi/states';
 import { useLumi } from '@/lumi/store';
 import { tr } from '@/i18n';
 import { weekdayName, weekLetter } from '@/i18n/dates';
+import { useTourOnFocus } from '@/tour/store';
+import { TourTarget } from '@/tour/target';
 
 const WEEK_HEIGHT = 130;
 const LABEL_SPACE = 22;
@@ -72,6 +74,7 @@ function restNote(game: GameApi, restDaysOn: boolean): string {
 }
 
 export default function ProgressScreen() {
+  useTourOnFocus('progreso');
   const game = useGame();
   const { settings } = useLumi();
   const { week, evolution } = game;
@@ -119,114 +122,118 @@ export default function ProgressScreen() {
   return (
     <Screen title={tr({ es: 'Progreso', en: 'Progress', zh: '进度', hi: 'प्रगति', fr: 'Progrès' })} subtitle={subtitle}>
       <View style={{ gap: 12 }}>
-        <Card style={styles.streak}>
-          <Text style={styles.streakNum}>{game.streak}</Text>
-          <View style={styles.streakTxt}>
-            <Text style={styles.streakTitle}>
-              {game.streak === 0
-                ? tr({
-                    es: 'Hoy puede empezar una racha nueva',
-                    en: 'A new streak can start today',
-                    zh: '今天可以开始新的连续记录',
-                    hi: 'आज एक नया सिलसिला शुरू हो सकता है',
-                    fr: 'Une nouvelle série peut commencer aujourd’hui',
-                  })
-                : game.streak === 1
+        <TourTarget id="prog.streak">
+          <Card style={styles.streak}>
+            <Text style={styles.streakNum}>{game.streak}</Text>
+            <View style={styles.streakTxt}>
+              <Text style={styles.streakTitle}>
+                {game.streak === 0
                   ? tr({
-                      es: 'día seguido brillando',
-                      en: 'day shining in a row',
-                      zh: '天连续发光',
-                      hi: 'दिन लगातार चमक',
-                      fr: 'jour de lumière d’affilée',
+                      es: 'Hoy puede empezar una racha nueva',
+                      en: 'A new streak can start today',
+                      zh: '今天可以开始新的连续记录',
+                      hi: 'आज एक नया सिलसिला शुरू हो सकता है',
+                      fr: 'Une nouvelle série peut commencer aujourd’hui',
                     })
-                  : tr({
-                      es: 'días seguidos brillando',
-                      en: 'days shining in a row',
-                      zh: '天连续发光',
-                      hi: 'दिन लगातार चमक',
-                      fr: 'jours de lumière d’affilée',
-                    })}
-            </Text>
-            <Text style={styles.streakSub}>{restNote(game, settings.restDays)}</Text>
-          </View>
-        </Card>
-
-        <Card>
-          <View style={styles.meterHead}>
-            <Text style={styles.panelTitle}>
-              {tr({
-                es: `Cuánto brilló ${name}`,
-                en: `How much ${name} shone`,
-                zh: `${name}亮了多少`,
-                hi: `${name} कितना चमकी`,
-                fr: `Combien ${name} a brillé`,
-              })}
-            </Text>
-            <Text style={styles.meterHeadSide}>
-              {tr({
-                es: 'Por tramo de tu límite',
-                en: 'By part of your limit',
-                zh: '按上限分段',
-                hi: 'तुम्हारी सीमा के हिस्सों में',
-                fr: 'Par tranche de ta limite',
-              })}
-            </Text>
-          </View>
-          <View style={styles.week}>
-            {week.map((d) => {
-              const empty = d.lit === 0 && !d.restDay;
-              const day = weekdayName(d.label);
-              const label = `${day}: ${
-                d.restDay
-                  ? tr({ es: 'día de descanso', en: 'rest day', zh: '休息日', hi: 'आराम का दिन', fr: 'jour de repos' })
-                  : d.future
+                  : game.streak === 1
                     ? tr({
-                        es: 'aún no ha llegado',
-                        en: 'not here yet',
-                        zh: '还没到',
-                        hi: 'अभी नहीं आया',
-                        fr: 'pas encore arrivé',
+                        es: 'día seguido brillando',
+                        en: 'day shining in a row',
+                        zh: '天连续发光',
+                        hi: 'दिन लगातार चमक',
+                        fr: 'jour de lumière d’affilée',
                       })
-                    : empty
+                    : tr({
+                        es: 'días seguidos brillando',
+                        en: 'days shining in a row',
+                        zh: '天连续发光',
+                        hi: 'दिन लगातार चमक',
+                        fr: 'jours de lumière d’affilée',
+                      })}
+              </Text>
+              <Text style={styles.streakSub}>{restNote(game, settings.restDays)}</Text>
+            </View>
+          </Card>
+        </TourTarget>
+
+        <TourTarget id="prog.week">
+          <Card>
+            <View style={styles.meterHead}>
+              <Text style={styles.panelTitle}>
+                {tr({
+                  es: `Cuánto brilló ${name}`,
+                  en: `How much ${name} shone`,
+                  zh: `${name}亮了多少`,
+                  hi: `${name} कितना चमकी`,
+                  fr: `Combien ${name} a brillé`,
+                })}
+              </Text>
+              <Text style={styles.meterHeadSide}>
+                {tr({
+                  es: 'Por tramo de tu límite',
+                  en: 'By part of your limit',
+                  zh: '按上限分段',
+                  hi: 'तुम्हारी सीमा के हिस्सों में',
+                  fr: 'Par tranche de ta limite',
+                })}
+              </Text>
+            </View>
+            <View style={styles.week}>
+              {week.map((d) => {
+                const empty = d.lit === 0 && !d.restDay;
+                const day = weekdayName(d.label);
+                const label = `${day}: ${
+                  d.restDay
+                    ? tr({ es: 'día de descanso', en: 'rest day', zh: '休息日', hi: 'आराम का दिन', fr: 'jour de repos' })
+                    : d.future
                       ? tr({
-                          es: 'sin datos',
-                          en: 'no data',
-                          zh: '没有数据',
-                          hi: 'कोई डेटा नहीं',
-                          fr: 'pas de données',
+                          es: 'aún no ha llegado',
+                          en: 'not here yet',
+                          zh: '还没到',
+                          hi: 'अभी नहीं आया',
+                          fr: 'pas encore arrivé',
                         })
-                      : tr({
-                          es: `${d.lit} de 4 tramos de luz`,
-                          en: `${d.lit} of 4 light segments`,
-                          zh: `4 段光中的 ${d.lit} 段`,
-                          hi: `रोशनी के 4 में से ${d.lit} हिस्से`,
-                          fr: `${d.lit} ${d.lit <= 1 ? 'tranche' : 'tranches'} de lumière sur 4`,
-                        })
-              }`;
-              return (
-                <View key={d.date} style={styles.day} accessible accessibilityLabel={label}>
-                  <View
-                    style={[
-                      styles.bar,
-                      { height: ((d.lit || 1) / 4) * (WEEK_HEIGHT - LABEL_SPACE) },
-                      d.restDay ? styles.barRest : empty ? styles.barEmpty : styles.barLit,
-                    ]}
-                  />
-                  <Text style={[styles.dayLabel, d.isToday && { color: Colors.amberPale }]}>{weekLetter(d.label)}</Text>
-                </View>
-              );
-            })}
-          </View>
-          <Text style={styles.chartNote}>
-            {tr({
-              es: `Cuanto más alta la barra, más luz le quedó a ${name} al final del día.`,
-              en: `The taller the bar, the more light ${name} had left at the end of the day.`,
-              zh: `柱子越高，${name}一天结束时剩下的光越多。`,
-              hi: `पट्टी जितनी ऊँची, दिन के आख़िर में ${name} के पास उतनी ज़्यादा रोशनी बची।`,
-              fr: `Plus la barre est haute, plus il restait de lumière à ${name} en fin de journée.`,
-            })}
-          </Text>
-        </Card>
+                      : empty
+                        ? tr({
+                            es: 'sin datos',
+                            en: 'no data',
+                            zh: '没有数据',
+                            hi: 'कोई डेटा नहीं',
+                            fr: 'pas de données',
+                          })
+                        : tr({
+                            es: `${d.lit} de 4 tramos de luz`,
+                            en: `${d.lit} of 4 light segments`,
+                            zh: `4 段光中的 ${d.lit} 段`,
+                            hi: `रोशनी के 4 में से ${d.lit} हिस्से`,
+                            fr: `${d.lit} ${d.lit <= 1 ? 'tranche' : 'tranches'} de lumière sur 4`,
+                          })
+                }`;
+                return (
+                  <View key={d.date} style={styles.day} accessible accessibilityLabel={label}>
+                    <View
+                      style={[
+                        styles.bar,
+                        { height: ((d.lit || 1) / 4) * (WEEK_HEIGHT - LABEL_SPACE) },
+                        d.restDay ? styles.barRest : empty ? styles.barEmpty : styles.barLit,
+                      ]}
+                    />
+                    <Text style={[styles.dayLabel, d.isToday && { color: Colors.amberPale }]}>{weekLetter(d.label)}</Text>
+                  </View>
+                );
+              })}
+            </View>
+            <Text style={styles.chartNote}>
+              {tr({
+                es: `Cuanto más alta la barra, más luz le quedó a ${name} al final del día.`,
+                en: `The taller the bar, the more light ${name} had left at the end of the day.`,
+                zh: `柱子越高，${name}一天结束时剩下的光越多。`,
+                hi: `पट्टी जितनी ऊँची, दिन के आख़िर में ${name} के पास उतनी ज़्यादा रोशनी बची।`,
+                fr: `Plus la barre est haute, plus il restait de lumière à ${name} en fin de journée.`,
+              })}
+            </Text>
+          </Card>
+        </TourTarget>
 
         <View style={styles.share}>
           <Image

@@ -17,6 +17,9 @@ import { stepTime } from '@/lumi/time';
 import { cancelNightlyReturn, ensureNotificationPermission, permissionDeniedCopy } from '@/notifications';
 import { lang, LANG_NAMES, tr } from '@/i18n';
 import { clockTime, dayMonth } from '@/i18n/dates';
+import { useTourOnFocus } from '@/tour/store';
+import { TourTarget } from '@/tour/target';
+import { TutorialsSection } from '@/tour/tutorials-section';
 
 const strictTitle = tr({
   es: 'Escudo estricto',
@@ -73,6 +76,7 @@ const weeklyTitle = tr({
 });
 
 export default function SettingsScreen() {
+  useTourOnFocus('ajustes');
   const { settings, updateSettings } = useLumi();
   const game = useGame();
   const apps = settings.thiefApps.map(thiefAppById).filter((a): a is ThiefApp => !!a);
@@ -179,51 +183,53 @@ export default function SettingsScreen() {
         </List>
       </View>
 
-      <View style={{ gap: 10 }}>
-        <SectionTitle
-          action={
-            <TextLink
-              label={tr({
-                es: 'Editar',
-                en: 'Edit',
-                zh: '编辑',
-                hi: 'बदलो',
-                fr: 'Modifier',
-              })}
-              onPress={() => router.push('/apps')}
-            />
-          }>
-          {tr({ es: 'Apps ladronas', en: 'Thief apps', zh: '偷时间的 App', hi: 'चोर ऐप्स', fr: 'Applis voleuses' })}
-        </SectionTitle>
-        <List>
-          {apps.length === 0 ? (
-            <Row last>
-              <Label
-                title={tr({
-                  es: 'Ninguna todavía',
-                  en: 'None yet',
-                  zh: '还没有',
-                  hi: 'अभी कोई नहीं',
-                  fr: 'Aucune pour l’instant',
+      <TourTarget id="set.apps">
+        <View style={{ gap: 10 }}>
+          <SectionTitle
+            action={
+              <TextLink
+                label={tr({
+                  es: 'Editar',
+                  en: 'Edit',
+                  zh: '编辑',
+                  hi: 'बदलो',
+                  fr: 'Modifier',
                 })}
-                sub={tr({
-                  es: 'Elige las apps que más te roban la atención',
-                  en: 'Pick the apps that steal your attention the most',
-                  zh: '选出最偷走你注意力的 App',
-                  hi: 'वो ऐप्स चुनो जो सबसे ज़्यादा ध्यान चुराती हैं',
-                  fr: 'Choisis les applis qui te volent le plus d’attention',
-                })}
+                onPress={() => router.push('/apps')}
               />
-            </Row>
-          ) : null}
-          {apps.map((app, i) => (
-            <Row key={app.id} last={i === apps.length - 1}>
-              <AppIcon app={app} />
-              <Label title={app.name} sub={app.note} />
-            </Row>
-          ))}
-        </List>
-      </View>
+            }>
+            {tr({ es: 'Apps ladronas', en: 'Thief apps', zh: '偷时间的 App', hi: 'चोर ऐप्स', fr: 'Applis voleuses' })}
+          </SectionTitle>
+          <List>
+            {apps.length === 0 ? (
+              <Row last>
+                <Label
+                  title={tr({
+                    es: 'Ninguna todavía',
+                    en: 'None yet',
+                    zh: '还没有',
+                    hi: 'अभी कोई नहीं',
+                    fr: 'Aucune pour l’instant',
+                  })}
+                  sub={tr({
+                    es: 'Elige las apps que más te roban la atención',
+                    en: 'Pick the apps that steal your attention the most',
+                    zh: '选出最偷走你注意力的 App',
+                    hi: 'वो ऐप्स चुनो जो सबसे ज़्यादा ध्यान चुराती हैं',
+                    fr: 'Choisis les applis qui te volent le plus d’attention',
+                  })}
+                />
+              </Row>
+            ) : null}
+            {apps.map((app, i) => (
+              <Row key={app.id} last={i === apps.length - 1}>
+                <AppIcon app={app} />
+                <Label title={app.name} sub={app.note} />
+              </Row>
+            ))}
+          </List>
+        </View>
+      </TourTarget>
 
       <View style={{ gap: 10 }}>
         <SectionTitle>
@@ -236,52 +242,54 @@ export default function SettingsScreen() {
           })}
         </SectionTitle>
         <List>
-          <Row>
-            <Label
-              title={tr({
-                es: 'Límite diario suave',
-                en: 'Gentle daily limit',
-                zh: '温和的每日上限',
-                hi: 'रोज़ की नरम सीमा',
-                fr: 'Limite quotidienne douce',
-              })}
-              sub={tr({
-                es: 'Lumi se cansa al acercarte',
-                en: 'Lumi gets tired as you get close',
-                zh: '快到上限时 Lumi 会累',
-                hi: 'पास पहुँचने पर Lumi थक जाती है',
-                fr: 'Lumi se fatigue quand tu t’en approches',
-              })}
-            />
-            <Stepper
-              label={tr({
-                es: 'Límite diario suave',
-                en: 'Gentle daily limit',
-                zh: '温和的每日上限',
-                hi: 'रोज़ की नरम सीमा',
-                fr: 'Limite quotidienne douce',
-              })}
-              value={formatLimit(settings.limitMinutes)}
-              onDecrease={() => stepLimit(-1)}
-              onIncrease={() => stepLimit(1)}
-              canDecrease={limitIndex > 0}
-              canIncrease={limitIndex < LIMIT_OPTIONS.length - 1}
-              decreaseLabel={tr({
-                es: 'Reducir límite',
-                en: 'Lower limit',
-                zh: '减少上限',
-                hi: 'सीमा घटाओ',
-                fr: 'Réduire la limite',
-              })}
-              increaseLabel={tr({
-                es: 'Aumentar límite',
-                en: 'Raise limit',
-                zh: '增加上限',
-                hi: 'सीमा बढ़ाओ',
-                fr: 'Augmenter la limite',
-              })}
-            />
-          </Row>
+          <TourTarget id="set.limit">
+            <Row>
+              <Label
+                title={tr({
+                  es: 'Límite diario suave',
+                  en: 'Gentle daily limit',
+                  zh: '温和的每日上限',
+                  hi: 'रोज़ की नरम सीमा',
+                  fr: 'Limite quotidienne douce',
+                })}
+                sub={tr({
+                  es: 'Lumi se cansa al acercarte',
+                  en: 'Lumi gets tired as you get close',
+                  zh: '快到上限时 Lumi 会累',
+                  hi: 'पास पहुँचने पर Lumi थक जाती है',
+                  fr: 'Lumi se fatigue quand tu t’en approches',
+                })}
+              />
+              <Stepper
+                label={tr({
+                  es: 'Límite diario suave',
+                  en: 'Gentle daily limit',
+                  zh: '温和的每日上限',
+                  hi: 'रोज़ की नरम सीमा',
+                  fr: 'Limite quotidienne douce',
+                })}
+                value={formatLimit(settings.limitMinutes)}
+                onDecrease={() => stepLimit(-1)}
+                onIncrease={() => stepLimit(1)}
+                canDecrease={limitIndex > 0}
+                canIncrease={limitIndex < LIMIT_OPTIONS.length - 1}
+                decreaseLabel={tr({
+                  es: 'Reducir límite',
+                  en: 'Lower limit',
+                  zh: '减少上限',
+                  hi: 'सीमा घटाओ',
+                  fr: 'Réduire la limite',
+                })}
+                increaseLabel={tr({
+                  es: 'Aumentar límite',
+                  en: 'Raise limit',
+                  zh: '增加上限',
+                  hi: 'सीमा बढ़ाओ',
+                  fr: 'Augmenter la limite',
+                })}
+              />
+            </Row>
+          </TourTarget>
           <Row>
             <Label
               title={tr({
@@ -481,6 +489,8 @@ export default function SettingsScreen() {
           </Row>
         </List>
       </View>
+
+      <TutorialsSection />
 
       <View style={{ gap: 10 }}>
         <SectionTitle>{tr({ es: 'Cuenta', en: 'Account', zh: '账户', hi: 'खाता', fr: 'Compte' })}</SectionTitle>

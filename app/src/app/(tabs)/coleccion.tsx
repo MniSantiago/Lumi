@@ -16,6 +16,8 @@ import { useLumi } from '@/lumi/store';
 import { tr } from '@/i18n';
 import { dayMonth } from '@/i18n/dates';
 import { nightlyCopy } from '@/nightly/copy';
+import { useTourOnFocus } from '@/tour/store';
+import { TourTarget } from '@/tour/target';
 
 const undiscovered = tr({
   es: 'Por descubrir',
@@ -36,6 +38,7 @@ const SECTIONS: { key: Section; label: string }[] = [
 const MYSTERY_ICONS = ['misterio-arco', 'misterio-caja', 'misterio-bola', 'misterio-ovalo', 'misterio-pico'];
 
 export default function CollectionScreen() {
+  useTourOnFocus('coleccion');
   const [section, setSection] = useState<Section>('postales');
   const { settings } = useLumi();
   const game = useGame();
@@ -63,30 +66,32 @@ export default function CollectionScreen() {
         fr: `Tout ce que ${settings.lumiName} a rapporté de ses voyages.`,
       })}>
       <View>
-        <View
-          style={styles.tabs}
-          accessibilityRole="tablist"
-          accessibilityLabel={tr({
-            es: 'Tipo de colección',
-            en: 'Collection type',
-            zh: '收藏类型',
-            hi: 'संग्रह का प्रकार',
-            fr: 'Type de collection',
-          })}>
-          {SECTIONS.map((s) => {
-            const on = s.key === section;
-            return (
-              <Pressable
-                key={s.key}
-                accessibilityRole="tab"
-                accessibilityState={{ selected: on }}
-                onPress={() => setSection(s.key)}
-                style={[styles.tab, on && styles.tabOn]}>
-                <Text style={[styles.tabText, on && { color: Colors.text }]}>{s.label}</Text>
-              </Pressable>
-            );
-          })}
-        </View>
+        <TourTarget id="col.tabs">
+          <View
+            style={styles.tabs}
+            accessibilityRole="tablist"
+            accessibilityLabel={tr({
+              es: 'Tipo de colección',
+              en: 'Collection type',
+              zh: '收藏类型',
+              hi: 'संग्रह का प्रकार',
+              fr: 'Type de collection',
+            })}>
+            {SECTIONS.map((s) => {
+              const on = s.key === section;
+              return (
+                <Pressable
+                  key={s.key}
+                  accessibilityRole="tab"
+                  accessibilityState={{ selected: on }}
+                  onPress={() => setSection(s.key)}
+                  style={[styles.tab, on && styles.tabOn]}>
+                  <Text style={[styles.tabText, on && { color: Colors.text }]}>{s.label}</Text>
+                </Pressable>
+              );
+            })}
+          </View>
+        </TourTarget>
 
         {section === 'postales' ? (
           <>

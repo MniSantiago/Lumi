@@ -8,3 +8,6 @@
 
 # Worktrees de los agentes de Claude Code
 .claude/worktrees/
+
+# Python
+__pycache__/

@@ -39,6 +39,20 @@ Cada perfil de build escucha su canal (`eas.json`): `development`, `preview` y `
 | `src/screen-time/` | Fuente de uso de pantalla. Hoy es un mock; mañana, el módulo nativo |
 | `src/components/` | Lumi animada, luciérnagas, medidor de luz y piezas de UI |
 | `assets/lumi/` | Lumi en sus 4 estados, recortada (`python3 tools/cutout_states.py` desde la raíz) |
+| `src/tour/` | Tutoriales guiados con foco sobre la pantalla real (ver abajo) |
+| `assets/tutorial/` | Manita, estrellas, medalla… de los tutoriales (APIMart: `python3 tools/apimart_generate.py tutorial` y `tools/slice_sheets.py tutorial`) |
+
+## Tutoriales guiados
+
+Un tour por pestaña, que sale solo la primera vez que se abre y se repite desde Ajustes → Tutoriales. Un foco oscurece la pantalla salvo el elemento señalado, y Lumi lo explica en una tarjeta. En los pasos `tap` hay que tocar el elemento de verdad.
+
+Para añadir o cambiar un tour:
+
+1. Envuelve el trozo de pantalla con `<TourTarget id="pestaña.algo">…</TourTarget>` (`tour/target.tsx`) y llama a `useTourOnFocus('id-del-tour')` en la pantalla.
+2. Escribe los pasos en `tour/definitions.ts` (`tourSteps`), con los textos en los 5 idiomas. El último paso va sin foco: sale la medalla y el confeti.
+3. Si es un tour nuevo, añade su id a `TOUR_IDS` (`tour/engine.ts`), su ruta a `TOUR_ROUTE` y su nombre a `tourTitle`.
+
+Los tests (`src/tour/__tests__/`) comprueban las reglas y que cada paso apunte a un `TourTarget` que existe. El foco usa la barra nativa de pestañas por debajo, así que no puede señalar sus iconos, solo elementos dentro de la pantalla.
 
 ## Screen Time real
 

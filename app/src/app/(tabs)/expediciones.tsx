@@ -13,6 +13,8 @@ import type { Destination } from '@/game/types';
 import { quoted, tr } from '@/i18n';
 import { useLumi } from '@/lumi/store';
 import { nightlyCopy } from '@/nightly/copy';
+import { useTourOnFocus } from '@/tour/store';
+import { TourTarget } from '@/tour/target';
 
 const CARD_TILT = [-2, 1.5, -1];
 /** Cuántas visitas recientes se ven en el camino. */
@@ -145,6 +147,7 @@ function buildTrail(game: GameApi, lumiName: string, isPlus: boolean): Zone[] {
 }
 
 export default function ExpeditionsScreen() {
+  useTourOnFocus('expediciones');
   const { settings } = useLumi();
   const game = useGame();
   const zones = buildTrail(game, settings.lumiName, settings.isPlus);
@@ -165,42 +168,44 @@ export default function ExpeditionsScreen() {
         hi: `जिस दिन तुम ${settings.lumiName} को चमकने देते हो, वो एक नई जगह घूमती है।`,
         fr: `${settings.lumiName} explore un nouveau lieu chaque jour où tu la laisses briller.`,
       })}>
-      <View style={styles.trail}>
-        <View style={styles.trailLine} />
-        {zones.map((zone) => {
-          const { status } = zone;
-          const locked = status === 'locked' || status === 'plus' || status === 'waiting';
-          return (
-            <Pressable
-              key={zone.key}
-              disabled={status !== 'plus'}
-              onPress={() => router.push('/plus')}
-              accessibilityRole={status === 'plus' ? 'button' : undefined}
-              style={styles.zone}>
-              <View
-                style={[
-                  styles.dot,
-                  status === 'visited' && styles.dotDone,
-                  status === 'current' && styles.dotNow,
-                  locked && styles.faded,
-                ]}
-              />
-              {/* Bloqueada: se apagan el punto y la miniatura; el texto sigue legible (contraste AA). */}
-              <DestinationArt
-                art={zone.destination.art}
-                image={zone.destination.image}
-                style={[styles.thumb, locked && styles.faded]}
-              />
-              <View style={styles.txt}>
-                <Text style={[styles.zoneName, locked && { color: Colors.textSecondary }]}>
-                  {zone.destination.name}
-                </Text>
-                <Text style={styles.zoneNote}>{zone.note}</Text>
-              </View>
-            </Pressable>
-          );
-        })}
-      </View>
+      <TourTarget id="exp.trail">
+        <View style={styles.trail}>
+          <View style={styles.trailLine} />
+          {zones.map((zone) => {
+            const { status } = zone;
+            const locked = status === 'locked' || status === 'plus' || status === 'waiting';
+            return (
+              <Pressable
+                key={zone.key}
+                disabled={status !== 'plus'}
+                onPress={() => router.push('/plus')}
+                accessibilityRole={status === 'plus' ? 'button' : undefined}
+                style={styles.zone}>
+                <View
+                  style={[
+                    styles.dot,
+                    status === 'visited' && styles.dotDone,
+                    status === 'current' && styles.dotNow,
+                    locked && styles.faded,
+                  ]}
+                />
+                {/* Bloqueada: se apagan el punto y la miniatura; el texto sigue legible (contraste AA). */}
+                <DestinationArt
+                  art={zone.destination.art}
+                  image={zone.destination.image}
+                  style={[styles.thumb, locked && styles.faded]}
+                />
+                <View style={styles.txt}>
+                  <Text style={[styles.zoneName, locked && { color: Colors.textSecondary }]}>
+                    {zone.destination.name}
+                  </Text>
+                  <Text style={styles.zoneNote}>{zone.note}</Text>
+                </View>
+              </Pressable>
+            );
+          })}
+        </View>
+      </TourTarget>
 
       <View style={{ gap: 10 }}>
         <SectionTitle

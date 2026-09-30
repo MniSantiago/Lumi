@@ -1,7 +1,7 @@
 import { content } from '@/game/content';
 import type { Destination } from '@/game/types';
 
-/** Ilustración de cada lugar (`assets/expeditions`). Los que faltan usan solo el degradado. */
+/** Ilustración de cada lugar (`assets/expeditions`); un lugar sin ella usaría solo el degradado de `art`. */
 const IMAGES: Record<string, Destination['image']> = {
   'lago-lunas': require('../../assets/expeditions/lago-lunas.jpg'),
   'dientes-de-leon': require('../../assets/expeditions/dientes-de-leon.jpg'),
@@ -12,6 +12,17 @@ const IMAGES: Record<string, Destination['image']> = {
   'bosque-musgo': require('../../assets/expeditions/bosque-musgo.jpg'),
   'cuevas-cristal': require('../../assets/expeditions/cuevas-cristal.jpg'),
   'faro-dormido': require('../../assets/expeditions/faro-dormido.jpg'),
+  'puente-raices': require('../../assets/expeditions/puente-raices.jpg'),
+  'charca-ranas': require('../../assets/expeditions/charca-ranas.jpg'),
+  'cascada-timida': require('../../assets/expeditions/cascada-timida.jpg'),
+  'playa-conchas': require('../../assets/expeditions/playa-conchas.jpg'),
+  'muelle-barcas': require('../../assets/expeditions/muelle-barcas.jpg'),
+  'isla-reloj': require('../../assets/expeditions/isla-reloj.jpg'),
+  'mercadillo-buhos': require('../../assets/expeditions/mercadillo-buhos.jpg'),
+  'tejados-aldea': require('../../assets/expeditions/tejados-aldea.jpg'),
+  'montana-manta': require('../../assets/expeditions/montana-manta.jpg'),
+  'jardin-estrellas': require('../../assets/expeditions/jardin-estrellas.jpg'),
+  'observatorio-cometas': require('../../assets/expeditions/observatorio-cometas.jpg'),
 };
 
 /** Lo que no depende del idioma; los textos vienen de `game/content/<idioma>.ts`. */

@@ -182,6 +182,44 @@ Están apilados: cada uno va encima del anterior. Al fusionar uno, GitHub cambia
 
 Los borradores se activan al compilar con `LUMI_SCREEN_TIME=1` y `LUMI_WIDGET=1` (ver `app/app.config.ts`); sin esas variables, la app es la de siempre.
 
+### Sesión 4 (30 sep): ilustraciones con APIMart
+
+- **Generador:** `tools/apimart_generate.py` lanza en paralelo 7 hojas con Seedream 5.0 Lite (4K, con referencia de estilo en base64) y las recoge con `--fetch`. Prompts, tareas, coste y enlaces quedan en `assets/apimart/manifest.json`. Coste total: 0,20 $ (0,028 $ por hoja).
+- **Qué se generó:**
+  - 2 hojas de postales: las 11 que faltaban. Las 7 "alternativas" de la hoja B salieron casi calcadas de la referencia y no se usan.
+  - 4 hojas de objetos (36).
+  - 1 hoja de amigos (12).
+- **Cortador:** `tools/slice_sheets.py` corta cada hoja:
+  - Postales a 768 px, en `assets/apimart/postales/`.
+  - Objetos y amigos en PNG transparente de 512 px, en `assets/apimart/{objetos,amigos}/`.
+  - Hojas de contacto `*-contacto.jpg` para revisar el resultado.
+  - Necesita `scipy`, que no está en el shell del Mac; se ejecutó en el espacio de trabajo en la nube.
+- **En la app:**
+  - Los 20 destinos ya tienen ilustración (`app/assets/expeditions`, registradas en `destinations.ts`).
+  - `CollectionIcon` enseña las ilustraciones de `app/assets/collection/*.webp` (320 px, 766 KB en total). Los SVG solo quedan para las siluetas de lo no descubierto.
+- **Descargas:** el servidor de imágenes de APIMart (`getapib.org`) no está en la lista de dominios permitidos de Claude, así que hubo que descargar las hojas a mano. Si se añade el dominio, `--fetch` las baja solo.
+- **Clave:** se lee de la variable `APIMART_API_KEY` (o de `~/.apimart_key`). No está en el repositorio.
+
+### Sesión 5 (30 sep): Lumi con vida y vídeo con Seedance 2.5
+
+- **Lumi con vida** (`app/src/components/lumi-avatar.tsx`):
+  - Parpadeo con fotogramas de ojos cerrados alineados píxel a píxel (`tools/make_blink.py`).
+  - Las luces de las antenas laten.
+  - Gestos espontáneos según el estado y chispas al tocarla.
+- **Vídeos** (`tools/apimart_video.py`), con Seedance 2.5 en 1080p y primer y último fotograma:
+  - `fondo-hogar`: bucle sin corte del prado (6 s, 3,22 $).
+  - `lumi-vuelve`: Lumi baja del cielo, las luciérnagas le hacen un corro y aterriza sonriendo (5 s, 2,69 $). El último fotograma es un montaje de Radiante en el claro (`assets/apimart/video-frames/`).
+- **Fotogramas por URL:** Seedance no acepta base64, solo URLs públicas. El script "aloja" cada fotograma pidiendo a Seedream una copia idéntica (0,03 $), cuya URL dura 24 h.
+- **Postproceso** (`tools/encode_videos.sh`):
+  - H.264 1080×1920 sin audio.
+  - El bucle funde los últimos 0,4 s con el principio.
+  - Póster `fondo-hogar-video.jpg` para que no haya salto mientras carga.
+  - En `lumi-vuelve` se retocó a mano la sombra bajo los pies: en el montaje salió rectangular y Seedance la copió. Para la próxima, sombra elíptica en el fotograma.
+- **En la app:**
+  - `LivingBackground` en la home y el onboarding: vídeo en bucle solo con la pantalla a la vista, y la ilustración quieta con movimiento reducido.
+  - `LumiArrival` antes de la postal nocturna: se puede tocar para saltar; con movimiento reducido o lector de pantalla se omite.
+- **Dependencia nueva:** `expo-video`. Hay que instalarla en el Mac (`cd app && npx expo install expo-video`) y rehacer el development build (`npx expo run:ios`), porque tiene código nativo.
+
 ### Prompts de Higgsfield (reutilizables)
 
 **Lumi:**
