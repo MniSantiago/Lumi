@@ -1,0 +1,145 @@
+{
+  "postales-a": {
+    "ids": [
+      "puente-raices",
+      "charca-ranas",
+      "cascada-timida",
+      "playa-conchas",
+      "muelle-barcas",
+      "isla-reloj",
+      "mercadillo-buhos",
+      "tejados-aldea",
+      "montana-manta"
+    ],
+    "size": "1:1",
+    "prompt": "A clean 3x3 grid of nine separate square illustrations, like a sheet of nine postcard pictures, separated by thin straight white gutters of equal width, all tiles exactly the same size and perfectly aligned. Every tile in exactly the same soft cozy 2D painterly illustration style as the reference image (Studio Ghibli inspired, gentle grain texture, rounded shapes, dreamy light), sharing one palette: deep indigo night blues, lavender and soft violet, warm amber-gold light, peach-pink accents and soft moss green. No people, no text, no letters, no borders inside the tiles; small animals only as tiny distant details when mentioned. Row 1 left: a natural bridge made of giant intertwined tree roots over a gentle stream, moss and ferns, soft dusk light. Row 1 center: a small pond at night with lily pads, reeds and fireflies, tiny frog silhouettes on the pads. Row 1 right: a small shy waterfall half hidden behind ferns and mossy rocks, lavender mist, soft morning light. Row 2 left: a warm sandy beach with pink seashells and gentle waves at golden sunset. Row 2 center: a small wooden pier at dusk with many white paper boats floating on calm water, warm lanterns. Row 2 right: a tiny island in a calm sea with an old clock tower whose hands show a quarter past eleven, pastel twilight. Row 3 left: a cozy night market in a forest clearing with paper lanterns and small wooden stalls, tiny owl silhouettes on branches. Row 3 center: rooftops of a sleeping village at night, chimneys with warm smoke, a small cat silhouette on a roof, big moon. Row 3 right: a round snowy mountain that looks soft like a quilted blanket, warm pastel light, cozy.",
+    "task_id": "task_01M3SAEC7JDPJ4SJPZ1B3J5FJV",
+    "cost": 0.028,
+    "credits_cost": 0.28,
+    "url": "https://getapib.org/image/9998209222468856-00325a9a-1cb1-4cc2-8268-f183c46002ae-image_task_01M3SAH6Q9N6FHHWYJG4QY172Y_0.jpg",
+    "url_expires_at": 1790863931
+  },
+  "postales-b": {
+    "ids": [
+      "jardin-estrellas",
+      "observatorio-cometas",
+      "pradera-suave",
+      "nube-baja",
+      "dientes-de-leon",
+      "bosque-musgo",
+      "faro-dormido",
+      "lago-lunas",
+      "madriguera-vecino"
+    ],
+    "size": "1:1",
+    "prompt": "A clean 3x3 grid of nine separate square illustrations, like a sheet of nine postcard pictures, separated by thin straight white gutters of equal width, all tiles exactly the same size and perfectly aligned. Every tile in exactly the same soft cozy 2D painterly illustration style as the reference image (Studio Ghibli inspired, gentle grain texture, rounded shapes, dreamy light), sharing one palette: deep indigo night blues, lavender and soft violet, warm amber-gold light, peach-pink accents and soft moss green. No people, no text, no letters, no borders inside the tiles; small animals only as tiny distant details when mentioned. Row 1 left: a garden of glowing white moonflowers at night with small fallen stars resting among the flowers. Row 1 center: an old abandoned observatory dome on a hill, its telescope pointing at a sky full of comets. Row 1 right: a gentle meadow with tall soft grass, clover and tiny flowers under a pale morning sky. Row 2 left: a fluffy cloud resting on the ground on a round grassy hilltop at pastel dawn. Row 2 center: a hill covered in dandelions at golden sunset, fluffy seeds flying in a neat line. Row 2 right: an ancient mossy forest floor so soft it looks like a bed, beams of green-gold light, fireflies. Row 3 left: a small sleeping lighthouse on a cliff by a calm sea at twilight, its lamp off, first stars. Row 3 center: a still lake at night reflecting two crescent moons, lavender mist, reeds. Row 3 right: a cozy round wooden burrow door in a mossy hill, warm glowing window, smoke from a tiny chimney, evening.",
+    "task_id": "task_01M3SAED0JAHBPY0EW8W6JMNMG",
+    "cost": 0.028,
+    "credits_cost": 0.28,
+    "url": "https://getapib.org/image/9998209222468206-da6be79c-0d8b-436a-81c8-ad5b87376563-image_task_01M3SAH7BK20PJ3S3C1MNHBES7_0.jpg",
+    "url_expires_at": 1790863931
+  },
+  "objetos-1": {
+    "ids": [
+      "piedra",
+      "semilla",
+      "trebol",
+      "seta",
+      "cristal",
+      "farolillo",
+      "bellota",
+      "pluma",
+      "hoja"
+    ],
+    "size": "1:1",
+    "prompt": "A 3x3 grid of nine small collectible objects for a cozy game inventory. Each one centered alone in its own cell, clearly separated from the others with generous empty space, on one continuous plain flat pure white background, no gutters, no frames, no ground shadows, no text, no letters. Same soft cozy 2D painterly illustration style as the reference character (gentle grain, rounded shapes, soft glow), palette of lavender, soft violet, warm amber-gold, peach-pink, mint green and cream. Cute, readable at small size. Row 1 left: a smooth lavender river stone with a soft highlight. Row 1 center: a single dandelion flying seed. Row 1 right: a three-leaf mint green clover. Row 2 left: a small glowing peach mushroom with white dots. Row 2 center: a little aqua crystal. Row 2 right: a glowing amber paper lantern. Row 3 left: an acorn with its little hat. Row 3 center: a soft lavender owl feather. Row 3 right: a golden autumn leaf.",
+    "task_id": "task_01M3SAEDKRHNWPNAJHV4Z72PWV",
+    "cost": 0.028,
+    "credits_cost": 0.28,
+    "url": "https://getapib.org/image/9998209222499061-8c14ab51-a533-4316-9ae4-0c622ec9b747-image_task_01M3SAG97MYR8EP5K3TW2TD7BH_0.jpg",
+    "url_expires_at": 1790863900
+  },
+  "objetos-2": {
+    "ids": [
+      "concha",
+      "gota",
+      "llave",
+      "boton",
+      "galleta",
+      "taza",
+      "barquito",
+      "canica",
+      "campanilla"
+    ],
+    "size": "1:1",
+    "prompt": "A 3x3 grid of nine small collectible objects for a cozy game inventory. Each one centered alone in its own cell, clearly separated from the others with generous empty space, on one continuous plain flat pure white background, no gutters, no frames, no ground shadows, no text, no letters. Same soft cozy 2D painterly illustration style as the reference character (gentle grain, rounded shapes, soft glow), palette of lavender, soft violet, warm amber-gold, peach-pink, mint green and cream. Cute, readable at small size. Row 1 left: a pink scallop seashell. Row 1 center: a single sparkling dewdrop. Row 1 right: a tiny ornate golden key. Row 2 left: a lost round wooden button with four holes. Row 2 center: an oat biscuit. Row 2 right: a small cream teacup without a handle. Row 3 left: a white folded paper boat. Row 3 center: a glass marble with water swirling inside. Row 3 right: a bluebell flower.",
+    "task_id": "task_01M3SAEE68GFJJ2PD264SP4S96",
+    "cost": 0.028,
+    "credits_cost": 0.28,
+    "url": "https://getapib.org/image/9998209222507458-628c2a66-c534-4f98-85c5-0a2c7abe7592-image_task_01M3SAG11GQ7JE8T1F54NS2JBD_0.jpg",
+    "url_expires_at": 1790863892
+  },
+  "objetos-3": {
+    "ids": [
+      "flor-luna",
+      "fresa",
+      "ovillo",
+      "mapa",
+      "carta",
+      "reloj",
+      "engranaje",
+      "vela",
+      "catalejo"
+    ],
+    "size": "1:1",
+    "prompt": "A 3x3 grid of nine small collectible objects for a cozy game inventory. Each one centered alone in its own cell, clearly separated from the others with generous empty space, on one continuous plain flat pure white background, no gutters, no frames, no ground shadows, no text, no letters. Same soft cozy 2D painterly illustration style as the reference character (gentle grain, rounded shapes, soft glow), palette of lavender, soft violet, warm amber-gold, peach-pink, mint green and cream. Cute, readable at small size. Row 1 left: a glowing white and lavender moonflower. Row 1 center: a wild strawberry with a leaf. Row 1 right: a peach ball of wool yarn. Row 2 left: a crumpled old paper map. Row 2 center: a sealed envelope with a wax seal and no address. Row 2 right: a brass pocket watch. Row 3 left: a small brass cog. Row 3 center: a lit wax candle with a warm flame. Row 3 right: a small brass spyglass.",
+    "task_id": "task_01M3SAEF2Y90RMXPCQSD50KQM7",
+    "cost": 0.028,
+    "credits_cost": 0.28,
+    "url": "https://getapib.org/image/9998209222491977-cb4e4363-6681-405b-b751-e05ff2e33427-image_task_01M3SAGG4X791V5Q8RRQEZN0ND_0.jpg",
+    "url_expires_at": 1790863908
+  },
+  "objetos-4": {
+    "ids": [
+      "polvo-estrella",
+      "trocito-luna",
+      "pina",
+      "geoda",
+      "nenufar",
+      "bufanda",
+      "moneda",
+      "calcetin",
+      "burbuja"
+    ],
+    "size": "1:1",
+    "prompt": "A 3x3 grid of nine small collectible objects for a cozy game inventory. Each one centered alone in its own cell, clearly separated from the others with generous empty space, on one continuous plain flat pure white background, no gutters, no frames, no ground shadows, no text, no letters. Same soft cozy 2D painterly illustration style as the reference character (gentle grain, rounded shapes, soft glow), palette of lavender, soft violet, warm amber-gold, peach-pink, mint green and cream. Cute, readable at small size. Row 1 left: a small glass jar full of glowing golden stardust. Row 1 center: a glowing crescent-shaped piece of the moon. Row 1 right: a pinecone. Row 2 left: a geode cracked open with purple crystals inside. Row 2 center: a pink water lily on a green pad. Row 2 right: a tiny knitted scarf with lavender and amber stripes. Row 3 left: an old gold coin with a star engraved. Row 3 center: a single odd striped sock. Row 3 right: an iridescent soap bubble.",
+    "task_id": "task_01M3SAEG2CF2KY5SNDTKA6A4S0",
+    "cost": 0.028,
+    "credits_cost": 0.28,
+    "url": "https://getapib.org/image/9998209222470433-946c12bd-efe6-4e38-9423-48e8ee4b19af-image_task_01M3SAH56DFTX4MKBF6Z9NZ9TM_0.jpg",
+    "url_expires_at": 1790863929
+  },
+  "amigos": {
+    "ids": [
+      "musguito",
+      "hollin",
+      "nubecilla",
+      "chispin",
+      "topito",
+      "pinchito",
+      "ranita",
+      "caracolina",
+      "burbujo",
+      "pinzas",
+      "mochuelito",
+      "estrellita"
+    ],
+    "size": "4:3",
+    "prompt": "A grid of 3 rows by 4 columns with twelve tiny cute creature friends of the reference character, full body, chibi proportions like the reference (soft round bodies, big glossy eyes, peach blush cheeks, gentle smiles). Each one centered alone in its own cell, clearly separated from the others with generous empty space, on one continuous plain flat pure white background, no gutters, no frames, no ground shadows, no text, no letters. Same soft cozy 2D painterly illustration style as the reference character (gentle grain, rounded shapes, soft glow), palette of lavender, soft violet, warm amber-gold, peach-pink, mint green and cream. Cute, readable at small size. Row 1 1st: a round mint-green moss creature with two little sprout antennae. Row 1 2nd: a small round fluffy charcoal-indigo ember creature with a soft violet rim glow, tiny amber sparks and big white eyes. Row 1 3rd: a tiny soft lavender-white cloud creature with a sleepy smile. Row 1 4th: a tiny amber firefly creature with translucent lavender wings and a glowing belly. Row 2 1st: a chubby lavender mole with round golden glasses and a pink nose, holding a biscuit. Row 2 2nd: a small hedgehog with soft violet spines and a cream face. Row 2 3rd: a little mint-green frog singing with its mouth open. Row 2 4th: a lavender snail with a peach spiral shell. Row 3 1st: a small aqua fish with a floating bubble above it. Row 3 2nd: a small peach crab happily waving its claws. Row 3 3rd: a fluffy lavender baby owl with big round eyes and a tiny amber beak. Row 3 4th: a small pale golden star with a shy smile and a soft glow.",
+    "task_id": "task_01M3SAEGK9GE1QBGSG2EPM3CJJ",
+    "cost": 0.028,
+    "credits_cost": 0.28,
+    "url": "https://getapib.org/image/9998209222489274-6c34fb61-2ac2-40ed-9e1d-51b5b5e09cef-image_task_01M3SAGJSA076JF3KMD9XV4SCA_0.jpg",
+    "url_expires_at": 1790863910
+  }
+}
