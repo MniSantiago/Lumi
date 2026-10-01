@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { haptic } from '@/haptics';
+import { CollectionDetail, type CollectionDetailData } from '@/components/collection-detail';
 import { CollectionIcon } from '@/components/collection-icon';
 import { PostcardView } from '@/components/postcard';
 import { Screen } from '@/components/ui';
@@ -25,6 +26,14 @@ const undiscovered = tr({
   zh: '待发现',
   hi: 'अभी खोजना है',
   fr: 'À découvrir',
+});
+
+const tapHint = tr({
+  es: 'Abre una vista grande',
+  en: 'Opens a large view',
+  zh: '打开大图',
+  hi: 'बड़ा दृश्य खुलता है',
+  fr: 'Ouvre une vue agrandie',
 });
 
 type Section = 'postales' | 'objetos' | 'amigos';
@@ -137,6 +146,8 @@ export default function CollectionScreen() {
           <ItemGrid
             entries={ITEM_CATALOG}
             owned={game.items}
+            kind="item"
+            countTimes={(entry) => countFound(game.history, (r) => r.itemIds.includes(entry.id))}
             describe={(entry) => {
               const found = firstFound(game.history, (r) => r.itemIds.includes(entry.id));
               return found
@@ -161,6 +172,8 @@ export default function CollectionScreen() {
           <ItemGrid
             entries={FRIEND_CATALOG}
             owned={game.friends}
+            kind="friend"
+            countTimes={(entry) => countFound(game.history, (r) => r.friendId === entry.id)}
             describe={(entry) => {
               const found = firstFound(game.history, (r) => r.friendId === entry.id);
               return found
@@ -212,41 +225,56 @@ function firstFound(history: DayRecord[], match: (result: ExpeditionResult) => b
   return day && destination ? { destination, date: parseDateKey(day.date) } : null;
 }
 
+/** Cuántas expediciones han traído algo que cumple `match`. */
+function countFound(history: DayRecord[], match: (result: ExpeditionResult) => boolean) {
+  return history.filter((d) => d.expedition && match(d.expedition)).length;
+}
+
 /** Lo que ya ha traído, primero; lo demás, como siluetas por descubrir. Al tocar uno, de dónde vino. */
 function ItemGrid({
   entries,
   owned,
   caption,
   describe,
+  countTimes,
+  kind,
 }: {
   entries: CatalogEntry[];
   owned: string[];
   caption: string;
+  kind: 'item' | 'friend';
   describe: (entry: CatalogEntry) => string | null;
+  countTimes: (entry: CatalogEntry) => number;
 }) {
   const [selected, setSelected] = useState<string | null>(null);
   const selectedEntry = entries.find((e) => e.id === selected && owned.includes(e.id));
-  const detail = selectedEntry ? describe(selectedEntry) : null;
+  const detail: CollectionDetailData | null = selectedEntry
+    ? {
+        entry: selectedEntry,
+        kind,
+        origin: describe(selectedEntry),
+        times: countTimes(selectedEntry),
+        number: entries.indexOf(selectedEntry) + 1,
+        total: entries.length,
+      }
+    : null;
   const sorted = [...entries.filter((e) => owned.includes(e.id)), ...entries.filter((e) => !owned.includes(e.id))];
   let mystery = 0;
   return (
     <>
       <Text style={styles.count}>{caption}</Text>
-      {detail ? (
-        <Text style={styles.detail} accessibilityLiveRegion="polite">
-          {detail}
-        </Text>
-      ) : owned.some((id) => entries.some((e) => e.id === id)) ? (
+      {owned.some((id) => entries.some((e) => e.id === id)) ? (
         <Text style={styles.detail}>
           {tr({
-            es: 'Toca uno para ver de dónde vino.',
-            en: 'Tap one to see where it came from.',
-            zh: '轻点一个，看看它从哪里来。',
-            hi: 'कोई एक टैप करो और देखो वो कहाँ से आया।',
-            fr: 'Touche-en un pour voir d’où il vient.',
+            es: 'Toca uno para verlo en grande.',
+            en: 'Tap one to see it up close.',
+            zh: '轻点一个，大图查看。',
+            hi: 'कोई एक टैप करो और उसे बड़ा देखो।',
+            fr: 'Touche-en un pour le voir en grand.',
           })}
         </Text>
       ) : null}
+      <CollectionDetail data={detail} onClose={() => setSelected(null)} />
       <View style={styles.itemGrid}>
         {sorted.map((entry) => {
           const known = owned.includes(entry.id);
@@ -254,14 +282,14 @@ function ItemGrid({
           return (
             <View key={entry.id} style={styles.itemCell}>
               <Pressable
-                style={[styles.item, known && selected === entry.id && styles.itemOn]}
+                style={styles.item}
                 disabled={!known}
                 accessibilityRole={known ? 'button' : undefined}
                 accessibilityLabel={known ? entry.name : undiscovered}
-                accessibilityState={known ? { selected: selected === entry.id } : undefined}
+                accessibilityHint={known ? tapHint : undefined}
                 onPress={() => {
                   haptic.selection();
-                  setSelected((id) => (id === entry.id ? null : entry.id));
+                  setSelected(entry.id);
                 }}>
                 <CollectionIcon name={icon} locked={!known} />
                 <Text style={[styles.itemLabel, !known && { color: Colors.textTertiary }]} numberOfLines={2}>
@@ -345,7 +373,6 @@ const styles = StyleSheet.create({
     gap: 4,
     padding: 6,
   },
-  itemOn: { borderColor: Colors.amber },
   detail: { fontFamily: Fonts.body, fontSize: 14, lineHeight: 20, color: Colors.textSecondary, marginBottom: 14 },
   itemLabel: { fontFamily: Fonts.body, fontSize: 11, lineHeight: 14, color: Colors.textSecondary, textAlign: 'center' },
 });
