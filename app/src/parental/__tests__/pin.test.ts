@@ -11,6 +11,7 @@ import {
   RESET_WAIT_MS,
   resetRemainingMs,
   sanitizePin,
+  unlocksAfterSetPin,
 } from '../pin';
 
 describe('PIN parental', () => {
@@ -71,5 +72,10 @@ describe('PIN parental', () => {
     expect(resetRemainingMs(1000, 1000 + RESET_WAIT_MS)).toBe(0);
     expect(hoursLeft(RESET_WAIT_MS)).toBe(24);
     expect(hoursLeft(1)).toBe(1);
+  });
+
+  it('crear el PIN no deja desbloqueado; cambiarlo sí (acaba de acertar el actual)', () => {
+    expect(unlocksAfterSetPin(false)).toBe(false);
+    expect(unlocksAfterSetPin(true)).toBe(true);
   });
 });

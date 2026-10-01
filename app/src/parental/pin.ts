@@ -19,6 +19,15 @@ export const UNLOCK_MS = 5 * 60_000;
 /** Espera para quitar el PIN cuando no hay cuenta con la que comprobar que eres tú. */
 export const RESET_WAIT_MS = 24 * 60 * 60_000;
 
+/**
+ * ¿Queda la sesión desbloqueada tras guardar un PIN?
+ * - Crearlo (no había PIN): no. Hay que ver la protección activa al momento; si se desbloqueara
+ *   5 minutos, los horarios y las apps ladronas seguirían sin pedir PIN y parecería que no
+ *   funciona hasta reiniciar la app.
+ * - Cambiarlo (ya había PIN): sí, porque acaba de acertar el actual para poder cambiarlo.
+ */
+export const unlocksAfterSetPin = (hadPin: boolean) => hadPin;
+
 export type ParentalRecord = {
   pin: string;
   /** Fallos seguidos desde el último acierto. */
