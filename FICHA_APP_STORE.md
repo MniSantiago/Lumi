@@ -58,6 +58,7 @@ Para quien quiere ir un poco más lejos: zonas exclusivas con sus propias histor
 
 Términos: https://<dominio>/terminos.html
 Privacidad: https://<dominio>/privacidad.html
+Términos de uso (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ## Novedades de esta versión (máx. 4000)

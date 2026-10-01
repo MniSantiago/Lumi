@@ -56,6 +56,7 @@ LAMPI PLUS (वैकल्पिक)
 
 शर्तें: https://<डोमेन>/terminos.html?lang=hi
 गोपनीयता: https://<डोमेन>/privacidad.html?lang=hi
+उपयोग की शर्तें (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ## Novedades de esta versión (máx. 4000)

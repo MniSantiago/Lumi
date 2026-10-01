@@ -56,6 +56,7 @@ LAMPI PLUS（可选）
 
 条款：https://<域名>/terminos.html?lang=zh
 隐私：https://<域名>/privacidad.html?lang=zh
+使用条款（EULA）：https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ## Novedades de esta versión (máx. 4000)
