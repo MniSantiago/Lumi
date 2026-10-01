@@ -17,5 +17,5 @@ COPY --from=build /app/dist ./dist
 COPY --from=build /app/drizzle ./drizzle
 USER node
 EXPOSE 3000
-# Aplica las migraciones pendientes y arranca.
-CMD ["sh", "-c", "node dist/db/migrate.js && node dist/main.js"]
+# main.js aplica las migraciones pendientes antes de aceptar tráfico.
+CMD ["node", "dist/main.js"]
