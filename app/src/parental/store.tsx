@@ -4,7 +4,7 @@ import * as SecureStore from 'expo-secure-store';
 import { createContext, use, useEffect, useRef, useState, type ReactNode } from 'react';
 import { AppState, Platform } from 'react-native';
 
-import { checkPin, newRecord, UNLOCK_MS, type ParentalRecord } from '@/parental/pin';
+import { checkPin, newRecord, UNLOCK_MS, unlocksAfterSetPin, type ParentalRecord } from '@/parental/pin';
 
 /**
  * Control parental: un PIN de 4 dígitos que protege los horarios y las apps ladronas.
@@ -144,9 +144,12 @@ export function ParentalProvider({ children }: { children: ReactNode }) {
     verify: (pin) => attempt(pin, true),
     check: (pin) => attempt(pin, false),
     setPin: async (pin) => {
+      const hadPin = recordRef.current != null;
       await commit(newRecord(pin));
-      // Quien acaba de crear o cambiar el PIN es el adulto: sigue desbloqueado unos minutos.
-      unlock();
+      // Crear el PIN deja la protección activa al instante (bloqueado); cambiarlo, tras acertar el
+      // actual, mantiene el desbloqueo unos minutos. Ver unlocksAfterSetPin.
+      if (unlocksAfterSetPin(hadPin)) unlock();
+      else relock();
     },
     removePin: async () => {
       pending.current = null;
