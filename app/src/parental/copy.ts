@@ -1,0 +1,226 @@
+import { tr } from '@/i18n';
+
+/** Textos del control parental (Ajustes y pantalla del PIN). */
+export const parentalCopy = {
+  section: tr({
+    es: 'Control parental',
+    en: 'Parental controls',
+    zh: '家长控制',
+    hi: 'पैरेंटल कंट्रोल',
+    fr: 'Contrôle parental',
+  }),
+  rowOffSub: tr({
+    es: 'Un PIN de 4 dígitos para que nadie cambie los horarios ni las apps ladronas',
+    en: 'A 4-digit PIN so nobody changes the schedule or the thief apps',
+    zh: '设置 4 位 PIN，防止别人修改时间安排和偷时间的 App',
+    hi: '4 अंकों का PIN, ताकि कोई समय-सारणी या चोर ऐप्स न बदल सके',
+    fr: 'Un code PIN à 4 chiffres pour que personne ne change les horaires ni les applis voleuses',
+  }),
+  rowOnSub: tr({
+    es: 'Horarios y apps ladronas protegidos con PIN',
+    en: 'Schedule and thief apps are PIN-protected',
+    zh: '时间安排和偷时间的 App 已用 PIN 保护',
+    hi: 'समय-सारणी और चोर ऐप्स PIN से सुरक्षित हैं',
+    fr: 'Horaires et applis voleuses protégés par PIN',
+  }),
+  activate: tr({ es: 'Activar', en: 'Turn on', zh: '开启', hi: 'चालू करो', fr: 'Activer' }),
+  change: tr({ es: 'Cambiar PIN', en: 'Change PIN', zh: '修改 PIN', hi: 'PIN बदलो', fr: 'Changer le PIN' }),
+  remove: tr({ es: 'Quitar PIN', en: 'Remove PIN', zh: '移除 PIN', hi: 'PIN हटाओ', fr: 'Retirer le PIN' }),
+  lockedHint: tr({
+    es: 'Protegido con PIN',
+    en: 'PIN-protected',
+    zh: '已用 PIN 保护',
+    hi: 'PIN से सुरक्षित',
+    fr: 'Protégé par PIN',
+  }),
+  lockedA11y: tr({
+    es: 'Bloqueado. Pide el PIN parental',
+    en: 'Locked. Asks for the parental PIN',
+    zh: '已锁定。需要家长 PIN',
+    hi: 'लॉक है। पैरेंटल PIN माँगेगा',
+    fr: 'Verrouillé. Demande le PIN parental',
+  }),
+
+  pinLabel: tr({ es: 'PIN', en: 'PIN', zh: 'PIN', hi: 'PIN', fr: 'PIN' }),
+  pinPlaceholder: tr({
+    es: '4 dígitos',
+    en: '4 digits',
+    zh: '4 位数字',
+    hi: '4 अंक',
+    fr: '4 chiffres',
+  }),
+  currentPin: tr({
+    es: 'PIN actual',
+    en: 'Current PIN',
+    zh: '当前 PIN',
+    hi: 'मौजूदा PIN',
+    fr: 'PIN actuel',
+  }),
+  newPin: tr({ es: 'PIN nuevo', en: 'New PIN', zh: '新 PIN', hi: 'नया PIN', fr: 'Nouveau PIN' }),
+  repeatPin: tr({
+    es: 'Repite el PIN',
+    en: 'Repeat the PIN',
+    zh: '再输入一次 PIN',
+    hi: 'PIN दोबारा लिखो',
+    fr: 'Répète le PIN',
+  }),
+  continue: tr({ es: 'Continuar', en: 'Continue', zh: '继续', hi: 'आगे बढ़ो', fr: 'Continuer' }),
+  save: tr({ es: 'Guardar', en: 'Save', zh: '保存', hi: 'सहेजो', fr: 'Enregistrer' }),
+  busy: tr({ es: 'Un momento…', en: 'One moment…', zh: '请稍候……', hi: 'एक पल…', fr: 'Un instant…' }),
+  forgot: tr({
+    es: 'No recuerdo el PIN',
+    en: 'I forgot the PIN',
+    zh: '我忘了 PIN',
+    hi: 'मुझे PIN याद नहीं',
+    fr: 'J’ai oublié le PIN',
+  }),
+
+  createTitle: tr({
+    es: 'Crea un PIN parental',
+    en: 'Create a parental PIN',
+    zh: '创建家长 PIN',
+    hi: 'पैरेंटल PIN बनाओ',
+    fr: 'Crée un PIN parental',
+  }),
+  createSub: tr({
+    es: 'Sin el PIN no se podrán cambiar el límite, la hora de dormir, el escudo estricto ni las apps ladronas. Elige uno que un menor no adivine.',
+    en: 'Without the PIN, the limit, bedtime, strict shield and thief apps can’t be changed. Pick one a child won’t guess.',
+    zh: '没有 PIN 就无法修改上限、睡觉时间、严格护盾和偷时间的 App。请选一个孩子猜不到的。',
+    hi: 'PIN के बिना सीमा, सोने का समय, सख़्त ढाल और चोर ऐप्स नहीं बदले जा सकेंगे। ऐसा PIN चुनो जो बच्चा न भाँप सके।',
+    fr: 'Sans le PIN, on ne peut changer ni la limite, ni l’heure du coucher, ni le bouclier strict, ni les applis voleuses. Choisis-en un qu’un enfant ne devine pas.',
+  }),
+  changeTitle: tr({
+    es: 'Cambiar el PIN',
+    en: 'Change the PIN',
+    zh: '修改 PIN',
+    hi: 'PIN बदलो',
+    fr: 'Changer le PIN',
+  }),
+  changeSub: tr({
+    es: 'Escribe el actual y elige uno nuevo.',
+    en: 'Enter the current one and pick a new one.',
+    zh: '输入当前 PIN，再选一个新的。',
+    hi: 'मौजूदा PIN लिखो और नया चुनो।',
+    fr: 'Saisis l’actuel et choisis-en un nouveau.',
+  }),
+  verifyTitle: tr({
+    es: 'Introduce el PIN',
+    en: 'Enter the PIN',
+    zh: '输入 PIN',
+    hi: 'PIN लिखो',
+    fr: 'Saisis le PIN',
+  }),
+  verifySub: tr({
+    es: 'Los horarios y las apps ladronas están protegidos. Quedan desbloqueados unos minutos.',
+    en: 'The schedule and thief apps are protected. They stay unlocked for a few minutes.',
+    zh: '时间安排和偷时间的 App 受保护。解锁后会保持几分钟。',
+    hi: 'समय-सारणी और चोर ऐप्स सुरक्षित हैं। कुछ मिनट के लिए अनलॉक रहेंगे।',
+    fr: 'Les horaires et les applis voleuses sont protégés. Ils restent déverrouillés quelques minutes.',
+  }),
+  removeTitle: tr({
+    es: 'Quitar el PIN',
+    en: 'Remove the PIN',
+    zh: '移除 PIN',
+    hi: 'PIN हटाओ',
+    fr: 'Retirer le PIN',
+  }),
+  removeSub: tr({
+    es: 'Escribe el PIN para dejar de protegerlo todo. Cualquiera podrá cambiar los ajustes.',
+    en: 'Enter the PIN to stop protecting everything. Anyone will be able to change the settings.',
+    zh: '输入 PIN 以取消全部保护。任何人都可以修改设置。',
+    hi: 'सब कुछ असुरक्षित करने के लिए PIN लिखो। फिर कोई भी सेटिंग्स बदल सकेगा।',
+    fr: 'Saisis le PIN pour tout déprotéger. Tout le monde pourra changer les réglages.',
+  }),
+
+  mismatch: tr({
+    es: 'Los dos PIN no coinciden.',
+    en: 'The two PINs don’t match.',
+    zh: '两次输入的 PIN 不一致。',
+    hi: 'दोनों PIN मेल नहीं खाते।',
+    fr: 'Les deux PIN ne correspondent pas.',
+  }),
+  weak: tr({
+    es: 'Ese PIN es demasiado fácil (0000, 1234…). Elige otro.',
+    en: 'That PIN is too easy (0000, 1234…). Pick another.',
+    zh: '这个 PIN 太容易猜了（0000、1234……）。换一个。',
+    hi: 'यह PIN बहुत आसान है (0000, 1234…)। कोई और चुनो।',
+    fr: 'Ce PIN est trop facile (0000, 1234…). Choisis-en un autre.',
+  }),
+  wrong: (attemptsLeft: number) =>
+    tr({
+      es: `PIN incorrecto. ${attemptsLeft > 0 ? `Te quedan ${attemptsLeft} intentos antes de esperar.` : ''}`.trim(),
+      en: `Wrong PIN. ${attemptsLeft > 0 ? `${attemptsLeft} tries left before a wait.` : ''}`.trim(),
+      zh: `PIN 不对。${attemptsLeft > 0 ? `还有 ${attemptsLeft} 次机会，之后需要等待。` : ''}`,
+      hi: `PIN गलत है। ${attemptsLeft > 0 ? `इंतज़ार से पहले ${attemptsLeft} कोशिशें बची हैं।` : ''}`.trim(),
+      fr: `PIN incorrect. ${attemptsLeft > 0 ? `Il te reste ${attemptsLeft} essais avant l’attente.` : ''}`.trim(),
+    }),
+  waitFor: (seconds: number) => {
+    const t = seconds >= 60 ? Math.ceil(seconds / 60) : seconds;
+    const unit = seconds >= 60;
+    return tr({
+      es: `Demasiados intentos. Espera ${t} ${unit ? 'min' : 's'}.`,
+      en: `Too many tries. Wait ${t} ${unit ? 'min' : 's'}.`,
+      zh: `尝试次数过多。请等待 ${t} ${unit ? '分钟' : '秒'}。`,
+      hi: `बहुत ज़्यादा कोशिशें। ${t} ${unit ? 'मिनट' : 'सेकंड'} रुको।`,
+      fr: `Trop d’essais. Attends ${t} ${unit ? 'min' : 's'}.`,
+    });
+  },
+
+  forgotTitle: tr({
+    es: 'Recuperar el acceso',
+    en: 'Get back in',
+    zh: '找回访问权限',
+    hi: 'वापस पहुँच पाओ',
+    fr: 'Retrouver l’accès',
+  }),
+  forgotAccountSub: tr({
+    es: 'Escribe la contraseña de tu cuenta de Lampi para quitar el PIN y crear uno nuevo.',
+    en: 'Enter your Lampi account password to remove the PIN and create a new one.',
+    zh: '输入你的 Lampi 账户密码，即可移除 PIN 并创建新的。',
+    hi: 'PIN हटाने और नया बनाने के लिए अपने Lampi खाते का पासवर्ड लिखो।',
+    fr: 'Saisis le mot de passe de ton compte Lampi pour retirer le PIN et en créer un nouveau.',
+  }),
+  accountPassword: tr({
+    es: 'Contraseña de la cuenta',
+    en: 'Account password',
+    zh: '账户密码',
+    hi: 'खाते का पासवर्ड',
+    fr: 'Mot de passe du compte',
+  }),
+  accountWrong: tr({
+    es: 'Esa contraseña no es correcta.',
+    en: 'That password isn’t right.',
+    zh: '密码不正确。',
+    hi: 'यह पासवर्ड सही नहीं है।',
+    fr: 'Ce mot de passe n’est pas le bon.',
+  }),
+  forgotNoAccountSub: tr({
+    es: 'Sin cuenta no podemos comprobar que eres tú, así que el PIN se puede quitar pasadas 24 horas desde que lo pides. Lo verás aquí cuando llegue la hora.',
+    en: 'Without an account we can’t check it’s you, so the PIN can be removed 24 hours after you ask. You’ll see it here when the time comes.',
+    zh: '没有账户我们无法确认是你本人，所以提出申请 24 小时后才能移除 PIN。时间到了会在这里显示。',
+    hi: 'खाते के बिना हम पुष्टि नहीं कर सकते कि यह तुम हो, इसलिए माँगने के 24 घंटे बाद PIN हटाया जा सकता है। समय आने पर यहीं दिखेगा।',
+    fr: 'Sans compte, on ne peut pas vérifier que c’est toi : le PIN peut être retiré 24 heures après ta demande. Tu le verras ici le moment venu.',
+  }),
+  askReset: tr({
+    es: 'Pedir quitar el PIN',
+    en: 'Ask to remove the PIN',
+    zh: '申请移除 PIN',
+    hi: 'PIN हटाने का अनुरोध करो',
+    fr: 'Demander à retirer le PIN',
+  }),
+  resetPending: (hours: number) =>
+    tr({
+      es: `Pedido. Podrás quitar el PIN en unas ${hours} h.`,
+      en: `Requested. You’ll be able to remove the PIN in about ${hours} h.`,
+      zh: `已申请。大约 ${hours} 小时后可以移除 PIN。`,
+      hi: `अनुरोध हो गया। लगभग ${hours} घंटे बाद PIN हटा सकोगे।`,
+      fr: `Demande enregistrée. Tu pourras retirer le PIN dans environ ${hours} h.`,
+    }),
+  resetReady: tr({
+    es: 'Ya puedes quitar el PIN.',
+    en: 'You can remove the PIN now.',
+    zh: '现在可以移除 PIN 了。',
+    hi: 'अब तुम PIN हटा सकते हो।',
+    fr: 'Tu peux retirer le PIN maintenant.',
+  }),
+};

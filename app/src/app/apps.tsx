@@ -1,11 +1,14 @@
+import { router } from 'expo-router';
+import { useEffect } from 'react';
 import { StyleSheet, Text } from 'react-native';
 
 import { NativeAppsPanel, pickedCountLabel, thiefAppsTitle, useNativeApps } from '@/components/native-apps';
 import { List, SelectRow } from '@/components/onboarding/controls';
-import { Sheet } from '@/components/sheet';
+import { closeSheet, Sheet } from '@/components/sheet';
 import { Colors, Fonts } from '@/constants/theme';
 import { THIEF_APP_CATALOG } from '@/lumi/data';
 import { useLumi } from '@/lumi/store';
+import { useParental } from '@/parental/store';
 import { tr } from '@/i18n';
 import { screenTimeControl } from '@/screen-time/control';
 
@@ -14,6 +17,17 @@ import { screenTimeControl } from '@/screen-time/control';
  * selector de Apple en un iPhone y la maqueta con el catálogo en Expo Go y en web.
  */
 export default function ThiefAppsSheet() {
+  const parental = useParental();
+  // Con PIN parental, esta hoja no se abre sin él (tampoco por un enlace o el tutorial).
+  const { loaded, locked, protect } = parental;
+  useEffect(() => {
+    if (loaded && locked) {
+      closeSheet();
+      protect(() => router.push('/apps'));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `protect` cambia en cada render; solo importa cuándo se bloquea
+  }, [loaded, locked]);
+  if (parental.locked) return null;
   return screenTimeControl.available ? <NativeThiefAppsSheet /> : <MockThiefAppsSheet />;
 }
 

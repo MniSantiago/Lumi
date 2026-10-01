@@ -15,6 +15,8 @@ import { useGame } from '@/game/store';
 import { thiefAppById, type ThiefApp } from '@/lumi/data';
 import { formatLimit, LIMIT_OPTIONS, useLumi } from '@/lumi/store';
 import { stepTime } from '@/lumi/time';
+import { parentalCopy } from '@/parental/copy';
+import { useParental } from '@/parental/store';
 import { cancelNightlyReturn, ensureNotificationPermission, permissionDeniedCopy } from '@/notifications';
 import { lang, LANG_NAMES, tr } from '@/i18n';
 import { screenTimeControl } from '@/screen-time/control';
@@ -80,7 +82,10 @@ const weeklyTitle = tr({
 /** Las apps ladronas de verdad: las dibuja Apple, la app solo sabe cuántas son. */
 function NativeAppsSummary() {
   const native = useNativeApps();
-  if (native.total > 0) return <NativeAppsPanel native={native} />;
+  const { protect } = useParental();
+  // «Cambiar apps» abre el selector de Apple: con PIN parental, antes se pide el PIN.
+  const guarded = { ...native, pick: async () => protect(() => void native.pick()) };
+  if (native.total > 0) return <NativeAppsPanel native={guarded} />;
   return (
     <List>
       <Row last>
@@ -109,11 +114,12 @@ export default function SettingsScreen() {
   useTourOnFocus('ajustes');
   const { settings, updateSettings } = useLumi();
   const game = useGame();
+  const { protect, hasPin } = useParental();
   const apps = settings.thiefApps.map(thiefAppById).filter((a): a is ThiefApp => !!a);
   const limitIndex = Math.max(0, LIMIT_OPTIONS.indexOf(settings.limitMinutes as (typeof LIMIT_OPTIONS)[number]));
   const stepLimit = (dir: -1 | 1) => {
     const next = Math.min(LIMIT_OPTIONS.length - 1, Math.max(0, limitIndex + dir));
-    updateSettings({ limitMinutes: LIMIT_OPTIONS[next] });
+    protect(() => updateSettings({ limitMinutes: LIMIT_OPTIONS[next] }));
   };
   const setNightlyPostcard = async (on: boolean) => {
     if (!on) {
@@ -225,7 +231,7 @@ export default function SettingsScreen() {
                   hi: 'बदलो',
                   fr: 'Modifier',
                 })}
-                onPress={() => router.push('/apps')}
+                onPress={() => protect(() => router.push('/apps'))}
               />
             }>
             {tr({ es: 'Apps ladronas', en: 'Thief apps', zh: '偷时间的 App', hi: 'चोर ऐप्स', fr: 'Applis voleuses' })}
@@ -350,8 +356,12 @@ export default function SettingsScreen() {
                 fr: 'Va dormir',
               })}
               value={clockTime(settings.nightStart)}
-              onDecrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, -1, settings.nightEnd) })}
-              onIncrease={() => updateSettings({ nightStart: stepTime(settings.nightStart, 1, settings.nightEnd) })}
+              onDecrease={() =>
+                protect(() => updateSettings({ nightStart: stepTime(settings.nightStart, -1, settings.nightEnd) }))
+              }
+              onIncrease={() =>
+                protect(() => updateSettings({ nightStart: stepTime(settings.nightStart, 1, settings.nightEnd) }))
+              }
               decreaseLabel={tr({
                 es: 'Acostarse media hora antes',
                 en: 'Go to bed half an hour earlier',
@@ -394,8 +404,12 @@ export default function SettingsScreen() {
                 fr: 'Se réveille',
               })}
               value={clockTime(settings.nightEnd)}
-              onDecrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, -1, settings.nightStart) })}
-              onIncrease={() => updateSettings({ nightEnd: stepTime(settings.nightEnd, 1, settings.nightStart) })}
+              onDecrease={() =>
+                protect(() => updateSettings({ nightEnd: stepTime(settings.nightEnd, -1, settings.nightStart) }))
+              }
+              onIncrease={() =>
+                protect(() => updateSettings({ nightEnd: stepTime(settings.nightEnd, 1, settings.nightStart) }))
+              }
               decreaseLabel={tr({
                 es: 'Despertarse media hora antes',
                 en: 'Wake up half an hour earlier',
@@ -515,12 +529,28 @@ export default function SettingsScreen() {
               <Toggle
                 label={strictTitle}
                 value={settings.strictShield}
-                onChange={(v) => updateSettings({ strictShield: v })}
+                onChange={(v) => protect(() => updateSettings({ strictShield: v }))}
               />
             ) : (
               <TextLink label="Plus" onPress={() => router.push('/plus')} />
             )}
           </Row>
+        </List>
+      </View>
+
+      <View style={{ gap: 10 }}>
+        <SectionTitle>{parentalCopy.section}</SectionTitle>
+        <List>
+          <Row last={!hasPin}>
+            <Label title={parentalCopy.section} sub={hasPin ? parentalCopy.rowOnSub : parentalCopy.rowOffSub} />
+            {hasPin ? null : <TextLink label={parentalCopy.activate} onPress={() => router.push('/pin?modo=crear')} />}
+          </Row>
+          {hasPin ? (
+            <Row last>
+              <TextLink label={parentalCopy.change} onPress={() => router.push('/pin?modo=cambiar')} />
+              <TextLink label={parentalCopy.remove} onPress={() => router.push('/pin?modo=quitar')} />
+            </Row>
+          ) : null}
         </List>
       </View>
 
@@ -574,7 +604,10 @@ export default function SettingsScreen() {
               <TextLink label="Abrir" onPress={() => router.push('/escudo?motivo=limite')} />
             </Row>
             <Row>
-              <Label title="Ver el escudo de noche" sub="Lo que sale en el horario de noche, aunque no se haya llegado al límite" />
+              <Label
+                title="Ver el escudo de noche"
+                sub="Lo que sale en el horario de noche, aunque no se haya llegado al límite"
+              />
               <TextLink label="Abrir" onPress={() => router.push('/escudo?motivo=noche')} />
             </Row>
             <Row>
@@ -768,7 +801,13 @@ function AccountSection() {
   }
   const askSignOut = () =>
     confirmAction({
-      title: tr({ es: '¿Cerrar sesión?', en: 'Sign out?', zh: '退出登录？', hi: 'साइन आउट करें?', fr: 'Se déconnecter ?' }),
+      title: tr({
+        es: '¿Cerrar sesión?',
+        en: 'Sign out?',
+        zh: '退出登录？',
+        hi: 'साइन आउट करें?',
+        fr: 'Se déconnecter ?',
+      }),
       message: tr({
         es: 'Lampi y su progreso se quedan en este iPhone.',
         en: 'Lampi and her progress stay on this iPhone.',
