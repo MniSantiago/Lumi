@@ -49,11 +49,11 @@ export function nightlyReturnContent(lumiName: string, destination: Pick<Destina
   const from = destination.from;
   return {
     title: tr({
-      es: `${lumiName} ha vuelto ${from} 🌙`,
-      en: `${lumiName} is back ${from} 🌙`,
-      zh: `${lumiName}从${from}回来了 🌙`,
-      hi: `${lumiName} ${from} से लौट आई 🌙`,
-      fr: `${lumiName} est rentrée ${from} 🌙`,
+      es: `${lumiName} ha vuelto ${from}`,
+      en: `${lumiName} is back ${from}`,
+      zh: `${lumiName}从${from}回来了`,
+      hi: `${lumiName} ${from} से लौट आई`,
+      fr: `${lumiName} est rentrée ${from}`,
     }),
     body: NIGHTLY_BODIES[dayIndex(at, NIGHTLY_BODIES.length)],
   };
@@ -62,11 +62,11 @@ export function nightlyReturnContent(lumiName: string, destination: Pick<Destina
 export function weeklySummaryContent(lumiName: string) {
   return {
     title: tr({
-      es: `Tu semana con ${lumiName} ✨`,
-      en: `Your week with ${lumiName} ✨`,
-      zh: `你和${lumiName}的一周 ✨`,
-      hi: `${lumiName} के साथ तुम्हारा हफ़्ता ✨`,
-      fr: `Ta semaine avec ${lumiName} ✨`,
+      es: `Tu semana con ${lumiName}`,
+      en: `Your week with ${lumiName}`,
+      zh: `你和${lumiName}的一周`,
+      hi: `${lumiName} के साथ तुम्हारा हफ़्ता`,
+      fr: `Ta semaine avec ${lumiName}`,
     }),
     body: tr({
       es: 'Ya está listo tu resumen: lo que ha brillado y las postales que ha traído. Por si te apetece compartirlo.',
@@ -81,11 +81,11 @@ export function weeklySummaryContent(lumiName: string) {
 export function bedtimeContent(lumiName: string) {
   return {
     title: tr({
-      es: `${lumiName} se va a dormir 🌙`,
-      en: `${lumiName} is going to sleep 🌙`,
-      zh: `${lumiName}要睡觉了 🌙`,
-      hi: `${lumiName} सोने जा रही है 🌙`,
-      fr: `${lumiName} va se coucher 🌙`,
+      es: `${lumiName} se va a dormir`,
+      en: `${lumiName} is going to sleep`,
+      zh: `${lumiName}要睡觉了`,
+      hi: `${lumiName} सोने जा रही है`,
+      fr: `${lumiName} va se coucher`,
     }),
     body: tr({
       es: 'Buenas noches. Si dormís del tirón, mañana trae chispas de más.',
@@ -107,11 +107,11 @@ export function trialReminderContent(lumiName: string) {
       fr: 'Ton essai Lampi Plus se termine dans 2 jours',
     }),
     body: tr({
-      es: `Si no quieres seguir, puedes cancelarla en Ajustes de iOS. ${lumiName} te quiere igual ✨`,
-      en: `If you don’t want to continue, you can cancel it in iOS Settings. ${lumiName} loves you just the same ✨`,
-      zh: `如果不想继续，可以在 iOS 设置里取消。${lumiName}一样爱你 ✨`,
-      hi: `अगर आगे नहीं जारी रखना, तो iOS सेटिंग्स में रद्द कर सकते हो। ${lumiName} तुम्हें फिर भी उतना ही प्यार करती है ✨`,
-      fr: `Si tu ne veux pas continuer, tu peux l’annuler dans les Réglages d’iOS. ${lumiName} t’aime tout pareil ✨`,
+      es: `Si no quieres seguir, puedes cancelarla en Ajustes de iOS. ${lumiName} te quiere igual`,
+      en: `If you don’t want to continue, you can cancel it in iOS Settings. ${lumiName} loves you just the same`,
+      zh: `如果不想继续，可以在 iOS 设置里取消。${lumiName}一样爱你`,
+      hi: `अगर आगे नहीं जारी रखना, तो iOS सेटिंग्स में रद्द कर सकते हो। ${lumiName} तुम्हें फिर भी उतना ही प्यार करती है`,
+      fr: `Si tu ne veux pas continuer, tu peux l’annuler dans les Réglages d’iOS. ${lumiName} t’aime tout pareil`,
     }),
   };
 }

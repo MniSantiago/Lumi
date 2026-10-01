@@ -218,7 +218,7 @@ export function SummaryCard({
       <View style={s.footer}>
         <View style={s.brand}>
           <View style={s.brandDot} />
-          <T style={s.wordmark}>lumi</T>
+          <T style={s.wordmark}>lampi</T>
         </View>
         <T style={s.tagline} numberOfLines={2}>
           {tr({

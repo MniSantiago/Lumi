@@ -20,7 +20,7 @@ export type CollectionDetailData = {
 };
 
 const copy = {
-  close: tr({ es: 'Cerrar', en: 'Close', zh: '关闭', hi: 'बंद करें', fr: 'Fermer' }),
+  close: tr({ es: 'Cerrar', en: 'Close', zh: '关闭', hi: 'बंद करो', fr: 'Fermer' }),
   friend: tr({ es: 'Criatura amiga', en: 'Creature friend', zh: '小伙伴', hi: 'जीव दोस्त', fr: 'Créature amie' }),
   item: tr({ es: 'Objeto', en: 'Keepsake', zh: '物品', hi: 'चीज़', fr: 'Objet' }),
   number: (n: number, total: number) =>

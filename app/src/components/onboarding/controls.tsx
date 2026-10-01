@@ -169,8 +169,9 @@ export function Field({
   ref,
   onFocus,
   onBlur,
+  secretKind = 'password',
   ...input
-}: TextInputProps & { label: string; ref?: Ref<TextInput> }) {
+}: TextInputProps & { label: string; ref?: Ref<TextInput>; secretKind?: 'password' | 'pin' }) {
   const [focused, setFocused] = useState(false);
   // Las contraseñas se pueden enseñar un momento para comprobar lo escrito.
   const secret = !!input.secureTextEntry;
@@ -184,21 +185,37 @@ export function Field({
             hitSlop={10}
             accessibilityRole="button"
             accessibilityLabel={
-              revealed
-                ? tr({
-                    es: 'Ocultar la contraseña',
-                    en: 'Hide password',
-                    zh: '隐藏密码',
-                    hi: 'पासवर्ड छिपाओ',
-                    fr: 'Masquer le mot de passe',
-                  })
-                : tr({
-                    es: 'Mostrar la contraseña',
-                    en: 'Show password',
-                    zh: '显示密码',
-                    hi: 'पासवर्ड दिखाओ',
-                    fr: 'Afficher le mot de passe',
-                  })
+              secretKind === 'pin'
+                ? revealed
+                  ? tr({
+                      es: 'Ocultar el PIN',
+                      en: 'Hide PIN',
+                      zh: '隐藏 PIN 码',
+                      hi: 'पिन छिपाओ',
+                      fr: 'Masquer le code PIN',
+                    })
+                  : tr({
+                      es: 'Mostrar el PIN',
+                      en: 'Show PIN',
+                      zh: '显示 PIN 码',
+                      hi: 'पिन दिखाओ',
+                      fr: 'Afficher le code PIN',
+                    })
+                : revealed
+                  ? tr({
+                      es: 'Ocultar la contraseña',
+                      en: 'Hide password',
+                      zh: '隐藏密码',
+                      hi: 'पासवर्ड छिपाओ',
+                      fr: 'Masquer le mot de passe',
+                    })
+                  : tr({
+                      es: 'Mostrar la contraseña',
+                      en: 'Show password',
+                      zh: '显示密码',
+                      hi: 'पासवर्ड दिखाओ',
+                      fr: 'Afficher le mot de passe',
+                    })
             }
             onPress={() => setRevealed((r) => !r)}>
             <Text style={styles.fieldToggle}>

@@ -129,7 +129,7 @@ export const parentalCopy = {
     en: 'Enter the PIN to stop protecting everything. Anyone will be able to change the settings.',
     zh: '输入 PIN 以取消全部保护。任何人都可以修改设置。',
     hi: 'सब कुछ असुरक्षित करने के लिए PIN लिखो। फिर कोई भी सेटिंग्स बदल सकेगा।',
-    fr: 'Saisis le PIN pour tout déprotéger. Tout le monde pourra changer les réglages.',
+    fr: 'Saisis le PIN pour retirer toute protection. Tout le monde pourra changer les réglages.',
   }),
 
   mismatch: tr({
@@ -148,11 +148,11 @@ export const parentalCopy = {
   }),
   wrong: (attemptsLeft: number) =>
     tr({
-      es: `PIN incorrecto. ${attemptsLeft > 0 ? `Te quedan ${attemptsLeft} intentos antes de esperar.` : ''}`.trim(),
-      en: `Wrong PIN. ${attemptsLeft > 0 ? `${attemptsLeft} tries left before a wait.` : ''}`.trim(),
+      es: `PIN incorrecto. ${attemptsLeft > 0 ? `${attemptsLeft === 1 ? 'Te queda 1 intento' : `Te quedan ${attemptsLeft} intentos`} antes de esperar.` : ''}`.trim(),
+      en: `Wrong PIN. ${attemptsLeft > 0 ? `${attemptsLeft} ${attemptsLeft === 1 ? 'try' : 'tries'} left before a wait.` : ''}`.trim(),
       zh: `PIN 不对。${attemptsLeft > 0 ? `还有 ${attemptsLeft} 次机会，之后需要等待。` : ''}`,
       hi: `PIN गलत है। ${attemptsLeft > 0 ? `इंतज़ार से पहले ${attemptsLeft} कोशिशें बची हैं।` : ''}`.trim(),
-      fr: `PIN incorrect. ${attemptsLeft > 0 ? `Il te reste ${attemptsLeft} essais avant l’attente.` : ''}`.trim(),
+      fr: `PIN incorrect. ${attemptsLeft > 0 ? `Il te reste ${attemptsLeft} ${attemptsLeft === 1 ? 'essai' : 'essais'} avant l’attente.` : ''}`.trim(),
     }),
   waitFor: (seconds: number) => {
     const t = seconds >= 60 ? Math.ceil(seconds / 60) : seconds;
@@ -170,7 +170,7 @@ export const parentalCopy = {
     es: 'Recuperar el acceso',
     en: 'Get back in',
     zh: '找回访问权限',
-    hi: 'वापस पहुँच पाओ',
+    hi: 'फिर से पहुँच पाओ',
     fr: 'Retrouver l’accès',
   }),
   forgotAccountSub: tr({
