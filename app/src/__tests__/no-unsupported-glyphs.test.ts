@@ -5,15 +5,16 @@
  * a una fuente que los tenga. En el texto de la interfaz van iconos
  * vectoriales (p. ej. `SparkGlyph`), nunca caracteres de ese tipo.
  *
- * Excepciones: los avisos locales (`notifications/copy.ts`) los pinta el
- * sistema, no nuestra fuente; y el código generado.
+ * Los avisos locales tampoco llevan emoji: algunos contextos del sistema
+ * (Pantalla de bloqueo, relojes) los muestran como "?". Única excepción: el
+ * código generado.
  */
 import { describe, expect, it } from '@jest/globals';
 import { readdirSync, readFileSync, statSync } from 'fs';
 import { join, relative } from 'path';
 
 const SRC = join(__dirname, '..');
-const ALLOWED = new Set(['notifications/copy.ts', 'api/generated.ts']);
+const ALLOWED = new Set(['api/generated.ts']);
 // Emoji (SMP), símbolos varios y dingbats, selectores de variación y flechas.
 const PROBLEMATIC = /[\u{1F000}-\u{1FFFF}\u{2190}-\u{21FF}\u{2300}-\u{23FF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{FE0F}\u{200D}]/u;
 

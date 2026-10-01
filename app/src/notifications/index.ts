@@ -120,7 +120,7 @@ async function cancel(identifier: string) {
   }
 }
 
-/** Aviso de la vuelta de Lampi ("Lampi ha vuelto del Bosque de Musgo 🌙") a la hora indicada. Sustituye al anterior. */
+/** Aviso de la vuelta de Lampi ("Lampi ha vuelto del Bosque de Musgo") a la hora indicada. Sustituye al anterior. */
 export async function scheduleNightlyReturn(args: {
   lumiName: string;
   destination: Destination;

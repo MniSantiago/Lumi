@@ -100,6 +100,7 @@ function VerifyForm({ remove, onForgot }: { remove?: boolean; onForgot: () => vo
           value={pin}
           onChangeText={(t) => setPin(sanitizePin(t))}
           {...pinInput}
+          secretKind="pin"
           autoFocus
           returnKeyType="go"
           onSubmitEditing={() => isValidPin(pin) && submit()}
@@ -155,6 +156,7 @@ function CreateOrChange({ changing }: { changing?: boolean }) {
             value={current}
             onChangeText={(t) => setCurrent(sanitizePin(t))}
             {...pinInput}
+          secretKind="pin"
             autoFocus
             returnKeyType="next"
             submitBehavior="submit"
@@ -168,6 +170,7 @@ function CreateOrChange({ changing }: { changing?: boolean }) {
           value={pin}
           onChangeText={(t) => setPin(sanitizePin(t))}
           {...pinInput}
+          secretKind="pin"
           autoFocus={!changing}
           returnKeyType="next"
           submitBehavior="submit"
@@ -180,6 +183,7 @@ function CreateOrChange({ changing }: { changing?: boolean }) {
           value={again}
           onChangeText={(t) => setAgain(sanitizePin(t))}
           {...pinInput}
+          secretKind="pin"
           returnKeyType="go"
           onSubmitEditing={() => ready && submit()}
         />
