@@ -107,11 +107,11 @@ export default function CollectionScreen() {
             {postcards.length === 0 ? (
               <Text style={styles.empty}>
                 {tr({
-                  es: 'Aún no hay postales. Esta noche, quizá la primera ✨',
-                  en: 'No postcards yet. Maybe the first one tonight ✨',
-                  zh: '还没有明信片。也许今晚就有第一张 ✨',
-                  hi: 'अभी कोई पोस्टकार्ड नहीं। शायद आज रात पहला आए ✨',
-                  fr: 'Pas encore de cartes. Peut-être la première ce soir ✨',
+                  es: 'Aún no hay postales. Esta noche, quizá la primera',
+                  en: 'No postcards yet. Maybe the first one tonight',
+                  zh: '还没有明信片。也许今晚就有第一张',
+                  hi: 'अभी कोई पोस्टकार्ड नहीं। शायद आज रात पहला आए',
+                  fr: 'Pas encore de cartes. Peut-être la première ce soir',
                 })}
               </Text>
             ) : null}

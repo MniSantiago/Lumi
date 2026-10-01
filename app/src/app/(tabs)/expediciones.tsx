@@ -47,11 +47,11 @@ function buildTrail(game: GameApi, lumiName: string, isPlus: boolean): Zone[] {
       status: 'visited',
       note: unopened
         ? tr({
-            es: `${when}. Ha vuelto con una postal sin abrir ✨`,
-            en: `${when}. Came back with an unopened postcard ✨`,
-            zh: `${when}。带回了一张还没拆开的明信片 ✨`,
-            hi: `${when}। एक बिना खुला पोस्टकार्ड लेकर लौटी ✨`,
-            fr: `${when}. Rentrée avec une carte pas encore ouverte ✨`,
+            es: `${when}. Ha vuelto con una postal sin abrir`,
+            en: `${when}. Came back with an unopened postcard`,
+            zh: `${when}。带回了一张还没拆开的明信片`,
+            hi: `${when}। एक बिना खुला पोस्टकार्ड लेकर लौटी`,
+            fr: `${when}. Rentrée avec une carte pas encore ouverte`,
           })
         : first
           ? tr({
@@ -226,11 +226,11 @@ export default function ExpeditionsScreen() {
         {postcards.length === 0 ? (
           <Text style={styles.empty}>
             {tr({
-              es: 'Aún no hay postales. Esta noche, quizá la primera ✨',
-              en: 'No postcards yet. Maybe the first one tonight ✨',
-              zh: '还没有明信片。也许今晚就有第一张 ✨',
-              hi: 'अभी कोई पोस्टकार्ड नहीं। शायद आज रात पहला आए ✨',
-              fr: 'Pas encore de cartes. Peut-être la première ce soir ✨',
+              es: 'Aún no hay postales. Esta noche, quizá la primera',
+              en: 'No postcards yet. Maybe the first one tonight',
+              zh: '还没有明信片。也许今晚就有第一张',
+              hi: 'अभी कोई पोस्टकार्ड नहीं। शायद आज रात पहला आए',
+              fr: 'Pas encore de cartes. Peut-être la première ce soir',
             })}
           </Text>
         ) : (

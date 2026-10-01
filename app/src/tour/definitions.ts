@@ -107,11 +107,11 @@ export function tourSteps(id: TourId, name: string): TourStep[] {
         }),
         step('home.sparks', 'estrella', {
           title: tr({
-            es: 'Chispas ✦',
-            en: 'Sparks ✦',
-            zh: '火花 ✦',
-            hi: 'चिंगारियाँ ✦',
-            fr: 'Étincelles ✦',
+            es: 'Chispas',
+            en: 'Sparks',
+            zh: '火花',
+            hi: 'चिंगारियाँ',
+            fr: 'Étincelles',
           }),
           body: tr({
             es: 'Las gano en cada viaje y en las noches bien dormidas. Tócalas y te cuento más.',
@@ -205,11 +205,11 @@ export function tourSteps(id: TourId, name: string): TourStep[] {
             fr: 'Tout ce que je trouve',
           }),
           body: tr({
-            es: 'Los huecos sellados son sorpresas por descubrir ✨',
-            en: 'Sealed spots are surprises still to be discovered ✨',
-            zh: '封住的格子是等待发现的惊喜 ✨',
-            hi: 'बंद जगहें वो सरप्राइज़ हैं जो अभी खोजने बाकी हैं ✨',
-            fr: 'Les cases scellées sont des surprises à découvrir ✨',
+            es: 'Los huecos sellados son sorpresas por descubrir',
+            en: 'Sealed spots are surprises still to be discovered',
+            zh: '封住的格子是等待发现的惊喜',
+            hi: 'बंद जगहें वो सरप्राइज़ हैं जो अभी खोजने बाकी हैं',
+            fr: 'Les cases scellées sont des surprises à découvrir',
           }),
         }),
       ];

@@ -14,6 +14,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { SparkGlyph } from '@/components/spark-glyph';
 import { Colors, Fonts } from '@/constants/theme';
 import type { LumiState, LumiStateKey } from '@/lumi/states';
 
@@ -332,9 +333,9 @@ function Spark({ i, size, top }: { i: number; size: number; top: number }) {
     ],
   }));
   return (
-    <Animated.Text style={[styles.spark, { top, color: i % 2 ? Colors.amberPale : Colors.lavenderPale }, s]}>
-      ✦
-    </Animated.Text>
+    <Animated.View style={[styles.spark, { top }, s]}>
+      <SparkGlyph size={16} color={i % 2 ? Colors.amberPale : Colors.lavenderPale} />
+    </Animated.View>
   );
 }
 
@@ -374,6 +375,6 @@ const styles = StyleSheet.create({
     borderRadius: 999,
     experimental_backgroundImage: `radial-gradient(circle, ${Colors.amberPale}cc 0%, ${Colors.amber}55 30%, transparent 68%)`,
   },
-  spark: { position: 'absolute', fontSize: 18 },
+  spark: { position: 'absolute' },
   z: { position: 'absolute', fontFamily: Fonts.displayBold, color: Colors.lavenderPale },
 });

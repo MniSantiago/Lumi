@@ -13,11 +13,11 @@ export const STREAK_MILESTONES = [3, 7, 14, 30, 50, 100, 200, 365];
 export const nightlyCopy = {
   header: (lumiName: string) =>
     tr({
-      es: `${lumiName} ha vuelto 🌙`,
-      en: `${lumiName} is back 🌙`,
-      zh: `${lumiName}回来了 🌙`,
-      hi: `${lumiName} लौट आई 🌙`,
-      fr: `${lumiName} est rentrée 🌙`,
+      es: `${lumiName} ha vuelto`,
+      en: `${lumiName} is back`,
+      zh: `${lumiName}回来了`,
+      hi: `${lumiName} लौट आई`,
+      fr: `${lumiName} est rentrée`,
     }),
   rereadHeader: (d: Destination) =>
     tr({
@@ -53,37 +53,37 @@ export const nightlyCopy = {
   streakMilestone: (days: number) =>
     STREAK_MILESTONES.includes(days)
       ? tr({
-          es: `✨ ${days} días seguidos brillando. ¡Qué racha más bonita!`,
-          en: `✨ ${days} days shining in a row. What a lovely streak!`,
-          zh: `✨ 连续发光 ${days} 天。好棒的连续记录！`,
-          hi: `✨ लगातार ${days} दिन चमक। कितना प्यारा सिलसिला!`,
-          fr: `✨ ${days} jours de lumière d’affilée. Quelle jolie série !`,
+          es: `${days} días seguidos brillando. ¡Qué racha más bonita!`,
+          en: `${days} days shining in a row. What a lovely streak!`,
+          zh: `连续发光 ${days} 天。好棒的连续记录！`,
+          hi: `लगातार ${days} दिन चमक। कितना प्यारा सिलसिला!`,
+          fr: `${days} jours de lumière d’affilée. Quelle jolie série !`,
         })
       : null,
   /** Chispas extra por no pedir «5 min más» de noche (ya van en el total). */
   nightBonus: (n: number) =>
     tr({
-      es: `🌙 +${n} por dormir bien anoche`,
-      en: `🌙 +${n} for sleeping well last night`,
-      zh: `🌙 昨晚睡得好，多得 ${n} 个`,
-      hi: `🌙 कल रात अच्छी नींद के लिए +${n}`,
-      fr: `🌙 +${n} pour avoir bien dormi cette nuit`,
+      es: `+${n} por dormir bien anoche`,
+      en: `+${n} for sleeping well last night`,
+      zh: `昨晚睡得好，多得 ${n} 个`,
+      hi: `कल रात अच्छी नींद के लिए +${n}`,
+      fr: `+${n} pour avoir bien dormi cette nuit`,
     }),
   /** Esta vuelta la ha hecho crecer a la etapa `stageName`. */
   grewUp: (lumiName: string, stageName: string) =>
     tr({
-      es: `🌟 ¡${lumiName} ha crecido! Nueva etapa: ${stageName}.`,
-      en: `🌟 ${lumiName} has grown! New stage: ${stageName}.`,
-      zh: `🌟 ${lumiName}长大了！新阶段：${stageName}。`,
-      hi: `🌟 ${lumiName} बड़ी हो गई! नया पड़ाव: ${stageName}।`,
-      fr: `🌟 ${lumiName} a grandi ! Nouvelle étape : ${stageName}.`,
+      es: `¡${lumiName} ha crecido! Nueva etapa: ${stageName}.`,
+      en: `${lumiName} has grown! New stage: ${stageName}.`,
+      zh: `${lumiName}长大了！新阶段：${stageName}。`,
+      hi: `${lumiName} बड़ी हो गई! नया पड़ाव: ${stageName}।`,
+      fr: `${lumiName} a grandi ! Nouvelle étape : ${stageName}.`,
     }),
   firstPostcard: tr({
-    es: '✨ ¡Tu primera postal! La primera de muchas.',
-    en: '✨ Your first postcard! The first of many.',
-    zh: '✨ 你的第一张明信片！以后还会有很多。',
-    hi: '✨ तुम्हारा पहला पोस्टकार्ड! ऐसे बहुत आएँगे।',
-    fr: '✨ Ta première carte ! La première d’une longue série.',
+    es: ' ¡Tu primera postal! La primera de muchas.',
+    en: ' Your first postcard! The first of many.',
+    zh: ' 你的第一张明信片！以后还会有很多。',
+    hi: ' तुम्हारा पहला पोस्टकार्ड! ऐसे बहुत आएँगे।',
+    fr: ' Ta première carte ! La première d’une longue série.',
   }),
   sparksUnit: tr({ es: 'chispas', en: 'sparks', zh: '火花', hi: 'चिंगारियाँ', fr: 'étincelles' }),
   skipHint: tr({
@@ -102,11 +102,11 @@ export const nightlyCopy = {
     fr: 'Ranger dans l’album',
   }),
   saved: tr({
-    es: 'Guardada. Mañana, más aventuras ✨',
-    en: 'Saved. More adventures tomorrow ✨',
-    zh: '存好了。明天还有新冒险 ✨',
-    hi: 'रख लिया। कल और रोमांच ✨',
-    fr: 'Rangée. Demain, d’autres aventures ✨',
+    es: 'Guardada. Mañana, más aventuras',
+    en: 'Saved. More adventures tomorrow',
+    zh: '存好了。明天还有新冒险',
+    hi: 'रख लिया। कल और रोमांच',
+    fr: 'Rangée. Demain, d’autres aventures',
   }),
   share: tr({ es: 'Compartir', en: 'Share', zh: '分享', hi: 'शेयर करो', fr: 'Partager' }),
   close: tr({ es: 'Cerrar', en: 'Close', zh: '关闭', hi: 'बंद करो', fr: 'Fermer' }),
@@ -114,19 +114,19 @@ export const nightlyCopy = {
   /** Sin vuelta pendiente: aún está fuera, o hoy se ha quedado en casa. */
   stillOut: (lumiName: string, returnsAt: string) =>
     tr({
-      es: `${lumiName} aún está de expedición. Vuelve a las ${returnsAt} 🌙`,
-      en: `${lumiName} is still exploring. She’ll be back at ${returnsAt} 🌙`,
-      zh: `${lumiName}还在探险，${returnsAt}回来 🌙`,
-      hi: `${lumiName} अभी सफ़र पर है। ${returnsAt} को लौटेगी 🌙`,
-      fr: `${lumiName} est encore en expédition. Elle rentre à ${returnsAt} 🌙`,
+      es: `${lumiName} aún está de expedición. Vuelve a las ${returnsAt}`,
+      en: `${lumiName} is still exploring. She’ll be back at ${returnsAt}`,
+      zh: `${lumiName}还在探险，${returnsAt}回来`,
+      hi: `${lumiName} अभी सफ़र पर है। ${returnsAt} को लौटेगी`,
+      fr: `${lumiName} est encore en expédition. Elle rentre à ${returnsAt}`,
     }),
   nothingNew: (lumiName: string) =>
     tr({
-      es: `Hoy no hay postal nueva. ${lumiName} te espera en casa 🌙`,
-      en: `No new postcard today. ${lumiName} is waiting for you at home 🌙`,
-      zh: `今天没有新明信片。${lumiName}在家等你 🌙`,
-      hi: `आज कोई नया पोस्टकार्ड नहीं। ${lumiName} घर पर तुम्हारा इंतज़ार कर रही है 🌙`,
-      fr: `Pas de nouvelle carte aujourd’hui. ${lumiName} t’attend à la maison 🌙`,
+      es: `Hoy no hay postal nueva. ${lumiName} te espera en casa`,
+      en: `No new postcard today. ${lumiName} is waiting for you at home`,
+      zh: `今天没有新明信片。${lumiName}在家等你`,
+      hi: `आज कोई नया पोस्टकार्ड नहीं। ${lumiName} घर पर तुम्हारा इंतज़ार कर रही है`,
+      fr: `Pas de nouvelle carte aujourd’hui. ${lumiName} t’attend à la maison`,
     }),
 };
 
@@ -139,11 +139,11 @@ function shareTonightText(lumiName: string, result: NightlyReturn) {
   const d = result.destination;
   const friend = result.friend?.name;
   return tr({
-    es: `Mi ${lumiName} ha vuelto ${d.from}${first ? ` con ${first.a}` : ''}${friend ? ` y se ha traído a ${friend}` : ''} ✨`,
-    en: `My ${lumiName} came back ${d.from}${first ? ` with ${first.a}` : ''}${friend ? ` and brought ${friend} along` : ''} ✨`,
-    zh: `我的${lumiName}从${d.from}回来了${first ? `，带回了${first.a}` : ''}${friend ? `，还带来了${friend}` : ''} ✨`,
-    hi: `मेरी ${lumiName} ${d.from} से लौट आई${first ? `, ${first.a} लेकर` : ''}${friend ? `, और ${friend} को भी साथ लाई` : ''} ✨`,
-    fr: `Ma ${lumiName} est rentrée ${d.from}${first ? ` avec ${first.a}` : ''}${friend ? ` et elle a ramené ${friend}` : ''} ✨`,
+    es: `Mi ${lumiName} ha vuelto ${d.from}${first ? ` con ${first.a}` : ''}${friend ? ` y se ha traído a ${friend}` : ''}`,
+    en: `My ${lumiName} came back ${d.from}${first ? ` with ${first.a}` : ''}${friend ? ` and brought ${friend} along` : ''}`,
+    zh: `我的${lumiName}从${d.from}回来了${first ? `，带回了${first.a}` : ''}${friend ? `，还带来了${friend}` : ''}`,
+    hi: `मेरी ${lumiName} ${d.from} से लौट आई${first ? `, ${first.a} लेकर` : ''}${friend ? `, और ${friend} को भी साथ लाई` : ''}`,
+    fr: `Ma ${lumiName} est rentrée ${d.from}${first ? ` avec ${first.a}` : ''}${friend ? ` et elle a ramené ${friend}` : ''}`,
   });
 }
 
@@ -153,10 +153,10 @@ export function shareReread(lumiName: string, d: Destination) {
 
 function shareRereadText(lumiName: string, d: Destination) {
   return tr({
-    es: `Mi ${lumiName} me mandó una postal ${d.from}: «${d.quote}» ✨`,
-    en: `My ${lumiName} sent me a postcard ${d.from}: “${d.quote}” ✨`,
-    zh: `我的${lumiName}从${d.from}给我寄了一张明信片：“${d.quote}” ✨`,
-    hi: `मेरी ${lumiName} ने ${d.from} से मुझे पोस्टकार्ड भेजा: "${d.quote}" ✨`,
-    fr: `Ma ${lumiName} m’a envoyé une carte ${d.from} : « ${d.quote} » ✨`,
+    es: `Mi ${lumiName} me mandó una postal ${d.from}: «${d.quote}»`,
+    en: `My ${lumiName} sent me a postcard ${d.from}: “${d.quote}”`,
+    zh: `我的${lumiName}从${d.from}给我寄了一张明信片：“${d.quote}”`,
+    hi: `मेरी ${lumiName} ने ${d.from} से मुझे पोस्टकार्ड भेजा: "${d.quote}"`,
+    fr: `Ma ${lumiName} m’a envoyé une carte ${d.from} : « ${d.quote} »`,
   });
 }

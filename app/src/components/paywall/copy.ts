@@ -302,11 +302,11 @@ export const paywallCopy = {
   }),
   successBody: (name: string) =>
     tr({
-      es: `${name} ya puede ir más lejos ✨`,
-      en: `${name} can go further now ✨`,
-      zh: `${name}现在可以走得更远了 ✨`,
-      hi: `${name} अब और आगे जा सकती है ✨`,
-      fr: `${name} peut aller plus loin maintenant ✨`,
+      es: `${name} ya puede ir más lejos`,
+      en: `${name} can go further now`,
+      zh: `${name}现在可以走得更远了`,
+      hi: `${name} अब और आगे जा सकती है`,
+      fr: `${name} peut aller plus loin maintenant`,
     }),
   restoredTitle: tr({
     es: '¡Ya tienes Plus de vuelta!',
