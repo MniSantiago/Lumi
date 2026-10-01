@@ -1,4 +1,9 @@
-import { Figtree_400Regular, Figtree_500Medium, Figtree_600SemiBold, Figtree_700Bold } from '@expo-google-fonts/figtree';
+import {
+  Figtree_400Regular,
+  Figtree_500Medium,
+  Figtree_600SemiBold,
+  Figtree_700Bold,
+} from '@expo-google-fonts/figtree';
 import { Fraunces_600SemiBold, Fraunces_700Bold, Fraunces_800ExtraBold, useFonts } from '@expo-google-fonts/fraunces';
 import { DarkTheme, Stack, ThemeProvider } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
@@ -12,6 +17,7 @@ import { Colors } from '@/constants/theme';
 import { GameProvider } from '@/game/store';
 import { LumiProvider, useLumi } from '@/lumi/store';
 import { useNotificationRouting, useBedtimeReminder, useWeeklySummaryReminder } from '@/notifications';
+import { ParentalProvider } from '@/parental/store';
 import { PlusSync } from '@/purchases/plus-sync';
 import { TourProvider } from '@/tour/store';
 
@@ -44,10 +50,12 @@ export default function RootLayout() {
         <SessionProvider>
           <GameProvider>
             <TourProvider>
-              <StatusBar style="light" />
-              <RootStack />
-              <ProgressSync />
-              <PlusSync />
+              <ParentalProvider>
+                <StatusBar style="light" />
+                <RootStack />
+                <ProgressSync />
+                <PlusSync />
+              </ParentalProvider>
             </TourProvider>
           </GameProvider>
         </SessionProvider>
@@ -87,6 +95,7 @@ function RootStack() {
         <Stack.Screen name="plus" options={{ presentation: 'modal' }} />
         <Stack.Screen name="apps" options={{ presentation: 'modal' }} />
         <Stack.Screen name="nombres" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="pin" options={{ presentation: 'modal' }} />
         <Stack.Screen name="chispas" options={{ presentation: 'modal' }} />
         <Stack.Screen name="cuenta/contrasena" options={{ presentation: 'modal' }} />
         <Stack.Screen name="cuenta/eliminar" options={{ presentation: 'modal' }} />
