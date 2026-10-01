@@ -130,7 +130,7 @@ La app se creó de cero al renombrarla: proyecto de Expo nuevo, bundle ID nuevo 
 | ⬜ | **Entitlement de Family Controls (Distribution) para los 4 identificadores**, no solo para la app: `com.gonzalez.lampi`, `.monitor`, `.shieldconfig` y `.shieldaction`. Se pide en developer.apple.com › Account › Family Controls. La solicitud de la app antigua no sirve para los bundle ID nuevos. Sin la aprobación, EAS no puede firmar un build de TestFlight que lleve el entitlement | Pedir ya (tarda semanas) |
 | ⬜ | Identificadores y App Group `group.com.gonzalez.lampi`: los crea EAS al hacer el primer build (pide el Apple ID y el código 2FA) | Interactivo |
 | ⬜ | Registro de la app en App Store Connect (nombre, idioma principal, bundle ID `com.gonzalez.lampi`, SKU `lampi`) | En la web de App Store Connect, o lo propone `eas submit` |
-| ⬜ | `ascAppId` en `eas.json` › `submit.production` (el ID numérico de la app en App Store Connect) | Tras crear la app |
+| ✅ | `ascAppId` (`6817946323`) en `eas.json` › `submit.production.ios`. EAS creó la app «Lampi» en App Store Connect en el primer `eas build --auto-submit` | Hecho |
 
 Primer build y envío, desde `app/` con la rama `main` actualizada (son interactivos: piden el Apple ID y el código 2FA):
 
