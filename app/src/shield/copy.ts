@@ -64,11 +64,11 @@ export const shieldCopy = {
     fr: 'D’accord, j’arrête',
   }),
   leaveThanks: tr({
-    es: 'Gracias. Me quedo soñando contigo 💤',
-    en: 'Thank you. I’ll keep dreaming of you 💤',
-    zh: '谢谢你。我继续梦见你 💤',
-    hi: 'शुक्रिया। मैं तुम्हारे सपने देखती रहूँगी 💤',
-    fr: 'Merci. Je continue à rêver de toi 💤',
+    es: 'Gracias. Me quedo soñando contigo',
+    en: 'Thank you. I’ll keep dreaming of you',
+    zh: '谢谢你。我继续梦见你',
+    hi: 'शुक्रिया। मैं तुम्हारे सपने देखती रहूँगी',
+    fr: 'Merci. Je continue à rêver de toi',
   }),
 
   /** Con el escudo estricto (Plus) no hay «5 min más». */
@@ -113,17 +113,17 @@ export const shieldCopy = {
   snoozeGranted: (count: number) =>
     count === 1
       ? tr({
-          es: 'Vale, 5 minutitos. Aquí te espero 🌙',
-          en: 'Okay, 5 little minutes. I’ll wait here 🌙',
-          zh: '好，5 分钟。我在这儿等你 🌙',
-          hi: 'ठीक है, 5 मिनट। मैं यहीं इंतज़ार करूँगी 🌙',
-          fr: 'D’accord, 5 petites minutes. Je t’attends ici 🌙',
+          es: 'Vale, 5 minutitos. Aquí te espero',
+          en: 'Okay, 5 little minutes. I’ll wait here',
+          zh: '好，5 分钟。我在这儿等你',
+          hi: 'ठीक है, 5 मिनट। मैं यहीं इंतज़ार करूँगी',
+          fr: 'D’accord, 5 petites minutes. Je t’attends ici',
         })
       : tr({
-          es: 'Otros 5, vale. Te espero despierta 🌙',
-          en: 'Another 5, okay. I’ll wait up for you 🌙',
-          zh: '再 5 分钟，好吧。我醒着等你 🌙',
-          hi: 'और 5, ठीक है। मैं जागकर इंतज़ार करूँगी 🌙',
-          fr: 'Encore 5, d’accord. Je t’attends réveillée 🌙',
+          es: 'Otros 5, vale. Te espero despierta',
+          en: 'Another 5, okay. I’ll wait up for you',
+          zh: '再 5 分钟，好吧。我醒着等你',
+          hi: 'और 5, ठीक है। मैं जागकर इंतज़ार करूँगी',
+          fr: 'Encore 5, d’accord. Je t’attends réveillée',
         }),
 };

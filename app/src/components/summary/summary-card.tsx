@@ -6,6 +6,7 @@ import { CollectionIcon } from '@/components/collection-icon';
 import { DestinationArt } from '@/components/destination-art';
 import { weekLetter } from '@/i18n/dates';
 import { tr } from '@/i18n';
+import { SparkGlyph } from '@/components/spark-glyph';
 import { Colors, Fonts } from '@/constants/theme';
 import type { WeekDay } from '@/game/store';
 import { SITE_DOMAIN } from '@/constants/site';
@@ -272,7 +273,7 @@ function Places({ summary, s }: { summary: WeekSummary; s: Styles }) {
       <View style={s.fan}>
         {n === 0 ? (
           <View style={[s.mini, s.miniEmpty, { transform: [{ rotate: '-4deg' }] }]}>
-            <T style={s.miniEmptyMark}>✦</T>
+            <SparkGlyph size={s.miniEmptyMark.fontSize} color={s.miniEmptyMark.color} />
           </View>
         ) : (
           places.slice(0, 3).map((d, i) => (
@@ -544,7 +545,7 @@ function makeStyles(u: number, p: Palette) {
       borderStyle: 'dashed',
       borderColor: p.barRest,
     },
-    miniEmptyMark: { fontSize: 18 * u, lineHeight: 22 * u, color: p.faint },
+    miniEmptyMark: { fontSize: 18 * u, color: p.faint },
     caption: {
       fontFamily: Fonts.body,
       fontSize: 11.5 * u,

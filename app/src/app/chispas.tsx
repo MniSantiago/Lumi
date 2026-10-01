@@ -1,9 +1,11 @@
+import type { ReactNode } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { LumiAvatar } from '@/components/lumi-avatar';
 import { Label, List, Row } from '@/components/onboarding/controls';
 import { NIGHT_BONUS } from '@/game/engine';
 import { Sheet } from '@/components/sheet';
+import { SparkGlyph } from '@/components/spark-glyph';
 import { Colors, Fonts } from '@/constants/theme';
 import { useGame } from '@/game/store';
 import { LUMI_STATES } from '@/lumi/states';
@@ -12,7 +14,7 @@ import { useLumi } from '@/lumi/store';
 import { tr } from '@/i18n';
 
 /**
- * Qué son las chispas y cómo se consiguen (se abre al tocar ✦ en el Hogar).
+ * Qué son las chispas y cómo se consiguen (se abre al tocar la chispa en el Hogar).
  * Las cifras son las de `game/rewards.ts`.
  */
 export default function SparksSheet() {
@@ -24,8 +26,8 @@ export default function SparksSheet() {
     <Sheet
       title={
         sparks === 1
-          ? tr({ es: '✦ 1 chispa', en: '✦ 1 spark', zh: '✦ 1 个火花', hi: '✦ 1 चिंगारी', fr: '✦ 1 étincelle' })
-          : `✦ ${sparks} ${nightlyCopy.sparksUnit}`
+          ? tr({ es: '1 chispa', en: '1 spark', zh: '1 个火花', hi: '1 चिंगारी', fr: '1 étincelle' })
+          : `${sparks} ${nightlyCopy.sparksUnit}`
       }
       subtitle={tr({
         es: `Las trae ${name} de sus expediciones, junto con la postal.`,
@@ -66,7 +68,7 @@ export default function SparksSheet() {
                 fr: 'Moins de 25 % de ta limite',
               })}
             />
-            <Text style={styles.amount}>16–24 ✦</Text>
+            <Amount>16–24</Amount>
           </Row>
           <Row>
             <Label
@@ -85,7 +87,7 @@ export default function SparksSheet() {
                 fr: 'Entre 25 et 50 %',
               })}
             />
-            <Text style={styles.amount}>10–17 ✦</Text>
+            <Amount>10–17</Amount>
           </Row>
           <Row last>
             <Label
@@ -104,7 +106,7 @@ export default function SparksSheet() {
                 fr: 'Reste à la maison, pas d’expédition',
               })}
             />
-            <Text style={[styles.amount, styles.muted]}>0 ✦</Text>
+            <Amount muted>0</Amount>
           </Row>
         </List>
         <List>
@@ -125,7 +127,7 @@ export default function SparksSheet() {
                 fr: 'Pas de « 5 min de plus » la nuit : sa prochaine expédition en rapporte plus',
               })}
             />
-            <Text style={styles.amount}>+{NIGHT_BONUS} ✦</Text>
+            <Amount>+{NIGHT_BONUS}</Amount>
           </Row>
         </List>
       </View>
@@ -143,7 +145,18 @@ export default function SparksSheet() {
   );
 }
 
+/** Cantidad de chispas con la chispa vectorial detrás (no un carácter de fuente). */
+function Amount({ children, muted }: { children: ReactNode; muted?: boolean }) {
+  return (
+    <View style={styles.amountRow}>
+      <Text style={[styles.amount, muted && styles.muted]}>{children}</Text>
+      <SparkGlyph size={13} color={muted ? Colors.textTertiary : Colors.amberPale} />
+    </View>
+  );
+}
+
 const styles = StyleSheet.create({
+  amountRow: { flexDirection: 'row', alignItems: 'center', gap: 4 },
   hero: { alignItems: 'center' },
   label: {
     fontFamily: Fonts.bodySemiBold,

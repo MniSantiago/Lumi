@@ -5,6 +5,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 
 import { CollectionIcon } from '@/components/collection-icon';
 import { stageProgress, type Stage } from '@/components/nightly/reveal';
+import { SparkGlyph } from '@/components/spark-glyph';
 import { Colors, Fonts, Radius } from '@/constants/theme';
 
 const easeOut = Easing.out(Easing.cubic);
@@ -121,7 +122,7 @@ export function SparksCounter({
 
   return (
     <Animated.View style={[styles.sparks, animated]} accessible accessibilityLabel={`+${total} ${unit}`}>
-      <Text style={styles.sparkGlyph}>✦</Text>
+      <SparkGlyph size={18} color={Colors.amber} />
       <Text style={styles.sparksValue}>+{shown}</Text>
       <Text style={styles.sparksUnit}>{unit}</Text>
     </Animated.View>
@@ -164,7 +165,6 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 201, 107, 0.12)',
     boxShadow: '0 0 28px -6px rgba(255, 201, 107, 0.55)',
   },
-  sparkGlyph: { fontFamily: Fonts.bodyBold, fontSize: 18, lineHeight: 26, color: Colors.amber },
   sparksValue: {
     fontFamily: Fonts.displayBold,
     fontSize: 26,

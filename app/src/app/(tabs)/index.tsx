@@ -19,6 +19,7 @@ import { meterNote } from '@/lumi/meter';
 import { EVOLUTION } from '@/lumi/data';
 import { LUMI_STATES, THRESHOLDS, type LumiState, type Threshold } from '@/lumi/states';
 import { useLumi } from '@/lumi/store';
+import { SparkGlyph } from '@/components/spark-glyph';
 import { isNightTime } from '@/lumi/time';
 import { nightlyCopy } from '@/nightly/copy';
 import { screenTime } from '@/screen-time';
@@ -119,7 +120,10 @@ export default function HomeScreen() {
               })}
               hitSlop={8}
               onPress={() => router.push('/chispas')}>
-              <Text style={styles.sparksText}>✦ {game.sparks}</Text>
+              <View style={styles.sparksRow}>
+                <SparkGlyph size={14} color={Colors.amberPale} />
+                <Text style={styles.sparksText}>{game.sparks}</Text>
+              </View>
             </Pressable>
           </TourTarget>
         </View>
@@ -211,11 +215,11 @@ function ExpeditionCard({
         <Card style={[{ gap: 6 }, styles.returnCard]}>
           <AppText variant="label">
             {tr({
-              es: 'Postal nueva 🌙',
-              en: 'New postcard 🌙',
-              zh: '新明信片 🌙',
-              hi: 'नया पोस्टकार्ड 🌙',
-              fr: 'Nouvelle carte 🌙',
+              es: 'Postal nueva',
+              en: 'New postcard',
+              zh: '新明信片',
+              hi: 'नया पोस्टकार्ड',
+              fr: 'Nouvelle carte',
             })}
           </AppText>
           <AppText variant="heading">
@@ -330,11 +334,11 @@ function ExpeditionCard({
       })
     : back
       ? tr({
-          es: 'Mañana, otra aventura ✨',
-          en: 'Another adventure tomorrow ✨',
-          zh: '明天，新的冒险 ✨',
-          hi: 'कल, एक और रोमांच ✨',
-          fr: 'Demain, une autre aventure ✨',
+          es: 'Mañana, otra aventura',
+          en: 'Another adventure tomorrow',
+          zh: '明天，新的冒险',
+          hi: 'कल, एक और रोमांच',
+          fr: 'Demain, une autre aventure',
         })
       : asleep
         ? tr({
@@ -402,6 +406,7 @@ const styles = StyleSheet.create({
     paddingVertical: 6,
     marginBottom: 6,
   },
+  sparksRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   sparksText: { fontFamily: Fonts.bodyBold, color: Colors.amberPale, fontSize: 15, fontVariant: ['tabular-nums'] },
   meterCard: { gap: Spacing.three },
   statePill: { alignSelf: 'center', backgroundColor: 'rgba(19, 17, 46, 0.78)' },
