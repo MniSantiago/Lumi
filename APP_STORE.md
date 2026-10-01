@@ -12,7 +12,7 @@ Lo que Apple pide para publicar Lampi y en qué estado está. ✅ hecho · 🟡 
 | ⬜ | **Módulo nativo de Screen Time** | ⬜ | FamilyControls + DeviceActivityMonitor (25/50/75/100 %) + ShieldConfiguration. Hoy es un mock (`app/src/screen-time`). |
 | ⬜ | **Compras reales (StoreKit)** | 🟡 | Código listo con RevenueCat (`app/src/purchases/revenuecat.ts`). Falta: crear los productos en App Store Connect, configurar RevenueCat (entitlement `plus`, paquetes `$rc_annual` y `$rc_monthly`), poner `EXPO_PUBLIC_REVENUECAT_IOS_KEY` en EAS y probar con un development build en sandbox. Sin la clave, una build de la tienda enseña «Lampi Plus no está disponible ahora mismo» (nunca las compras de prueba). |
 | ⬜ | **Backend desplegado con HTTPS** | 🟡 | Código listo (`backend/`, `Dockerfile`). Falta desplegarlo (Railway, Render o Fly.io) y poner `EXPO_PUBLIC_API_URL` en EAS (ver §6). Sin esa variable, la build de producción oculta la cuenta (la app funciona igual), así que no se puede olvidar sin que se note: comprobar que Ajustes › Cuenta aparece antes de enviar. |
-| ⬜ | **Dominio y correo** | ⬜ | Verificar el dominio en Resend (SPF y DKIM), poner `MAIL_FROM` y rellenar `contactEmail` en `app/src/legal/content.json` (sale en Ayuda). |
+| ⬜ | **Dominio y correo** | 🟡 | `contactEmail` ya es `hola@lampi.es` (sale en Ayuda y en la web): crear ese buzón o reenvío. Falta verificar el dominio en Resend (SPF y DKIM) y poner `MAIL_FROM` (p. ej. `Lampi <hola@lampi.es>`). |
 
 ## 2. Cuenta de usuario (guía 5.1.1)
 
@@ -37,16 +37,22 @@ Lo que Apple pide para publicar Lampi y en qué estado está. ✅ hecho · 🟡 
 | Permiso de notificaciones en contexto, con explicación si se deniega | ✅ | Al activar la postal nocturna |
 | Sin App Tracking Transparency | ✅ | No hay tracking ni SDK de anuncios |
 
-**Etiquetas de privacidad («Datos vinculados a ti»), para rellenar en App Store Connect:**
+**Etiquetas de privacidad en App Store Connect (Privacidad de la app), respuestas exactas:**
 
-| Tipo | Dato | Uso | ¿Tracking? |
-|---|---|---|---|
-| Información de contacto | Correo electrónico | Funcionalidad de la app | No |
-| Información de contacto | Nombre (opcional) | Funcionalidad de la app | No |
-| Identificadores | ID de usuario | Funcionalidad de la app | No |
-| Compras | Historial de compras (cuando llegue RevenueCat) | Funcionalidad de la app | No |
+1. «¿Recopilas datos de esta app?» → **Sí, recopilamos datos**.
+2. Marca solo estos 5 tipos; en todos: **vinculado a la identidad del usuario = Sí**, **usado para rastrearte (tracking) = No**, finalidad única **Funcionalidad de la app**.
 
-El uso de pantalla **no se recoge**: se queda en el iPhone (Screen Time por umbrales) y no sale del dispositivo.
+| Categoría de Apple | Tipo de dato | Qué es en Lampi | Vinculado | Tracking | Finalidad |
+|---|---|---|---|---|---|
+| Información de contacto | Dirección de correo electrónico | Correo de la cuenta (y códigos) | Sí | No | Funcionalidad de la app |
+| Información de contacto | Nombre | Tu nombre / el de Lampi en la cuenta | Sí | No | Funcionalidad de la app |
+| Identificadores | ID de usuario | ID de la cuenta; ID de RevenueCat | Sí | No | Funcionalidad de la app |
+| Compras | Historial de compras | Recibo/estado de Lampi Plus (RevenueCat) | Sí | No | Funcionalidad de la app |
+| Contenido del usuario | Contenido del juego (Gameplay Content) | Copia del progreso y ajustes (días, postales, objetos, límite, apps elegidas) | Sí | No | Funcionalidad de la app |
+
+No marcar: Datos de uso / Datos de uso del producto (el tiempo de pantalla no sale del iPhone y no hay analítica), Diagnósticos, Ubicación, Contactos, Datos de salud, Datos financieros (paga Apple), Identificadores › ID de dispositivo (no se lee IDFA/IDFV), Datos sensibles, Historial de navegación, Búsquedas. Terceros que reciben datos: Railway (alojamiento), Resend (correos) y RevenueCat (compras), todos como encargados, sin publicidad ni tracking. «¿Usas datos para rastrear?» → **No** (sin App Tracking Transparency). La lista de espera es de la web, no de la app: no entra en las etiquetas.
+
+Coherencia: `ios.privacyManifests` en `app/app.json` declara exactamente los mismos 5 tipos (EmailAddress, Name, UserID, PurchaseHistory, GameplayContent), sin tracking. El uso de Family Controls: no recoge datos, el permiso lo pide iOS; explicado en `landing/privacidad.html` y en la app. Pendiente manual al enviar: URL de privacidad = `https://lampi.es/privacidad.html`, URL de soporte = `https://lampi.es/ayuda.html`, y en «Información de revisión» explicar el uso de Family Controls (entitlement `com.apple.developer.family-controls`, solicitado y aprobado por Apple para la app y sus extensiones).
 
 ## 4. Suscripción (guía 3.1.2)
 
@@ -54,12 +60,13 @@ El uso de pantalla **no se recoge**: se queda en el iPhone (Screen Time por umbr
 |---|---|---|
 | Precio, periodo y prueba gratis, claros antes de pagar | ✅ | Paywall: «Luego 49,99 $ al año», línea temporal de la prueba |
 | Enlaces a Términos y Privacidad en el paywall | ✅ | |
-| Restaurar compras | 🟡 | Conectado a RevenueCat; falta probarlo en sandbox |
+| Restaurar compras | 🟡 | Botón «Restaurar compras» en el paywall (`app/src/app/plus.tsx`), conectado a RevenueCat; falta probarlo en sandbox |
 | Recordatorio antes de que acabe la prueba | ✅ | Notificación local 2 días antes |
 | Lo gratis sigue funcionando sin pagar | ✅ | Escudo, límite, expediciones, postales, widget y modo noche |
 | Grupo de suscripción en App Store Connect | ⬜ | Anual (49,99 $, 7 días gratis) y mensual. IDs: `$rc_annual`, `$rc_monthly` en RevenueCat |
 | **Lo que se anuncia de Plus existe** (guías 2.3.1 y 3.1.2) | ✅ | Plus anuncia solo zonas exclusivas, escudo estricto y «Tus números», que ya están en la app. Especies y colores de luz, varios horarios y decoración de la madriguera quedan para más adelante: no se anuncian hasta que existan. Si el widget (#22) no sale en la primera versión, quitarlo también de «Gratis para siempre», de la ficha y de la landing. |
-| EULA | 🟡 | Términos propios en la app. En App Store Connect se puede usar el EULA estándar de Apple o enlazar `landing/terminos.html`. |
+| EULA | ✅ | `terminos.html` ya remite al EULA estándar de Apple y detalla precio, renovación y cancelación. En App Store Connect: dejar el EULA estándar y poner `https://lampi.es/terminos.html` en la descripción de la app (junto al enlace de privacidad). |
+| Borrado de cuenta dentro de la app (5.1.1(v)) | ✅ | Ajustes › Cuenta › Eliminar la cuenta (`app/src/app/cuenta/eliminar.tsx` → `POST /me/delete`, borra usuario y datos en cascada y avisa por correo) |
 
 ## 5. Ficha de la App Store
 
@@ -147,7 +154,7 @@ Pendiente en RevenueCat: subir la clave de App Store Connect y la clave de compr
 
 ## 6. Configuración de producción
 
-**Backend y landing en Render:** `render.yaml` (New › Blueprint). Rellena `RESEND_API_KEY`, `MAIL_FROM` y `CORS_ORIGINS` en `lumi-api`. Con la URL de la API, pon `WAITLIST_ENDPOINT` en `landing/main.js` y `EXPO_PUBLIC_API_URL` en EAS.
+**Backend y landing en Render:** `render.yaml` (New › Blueprint). Rellena `RESEND_API_KEY`, `MAIL_FROM` y `CORS_ORIGINS` en `lumi-api`. La landing llama a `<API>/waitlist` (constante `API_URL` en `landing/main.js`, hoy la URL de Railway; cámbiala si la API tiene dominio propio). `CORS_ORIGINS` ya incluye `https://lampi.es` y `https://www.lampi.es` por defecto.
 
 ```bash
 # Variables de la app en EAS (entorno production)
@@ -163,7 +170,7 @@ npx eas-cli@latest submit --platform ios --profile production
 
 Backend (variables en la plataforma): `NODE_ENV=production`, `DATABASE_URL`, `JWT_SECRET` (32+ caracteres), `RESEND_API_KEY`, `MAIL_FROM`, `CORS_ORIGINS` (el dominio de la landing) y, opcional, `PUBLIC_URL` (la URL de la API, para los enlaces de los correos). Al arrancar aplica las migraciones. Activa las copias de seguridad de Postgres en la plataforma.
 
-Landing: pon la URL del backend en `WAITLIST_ENDPOINT` (`landing/main.js`) como `https://api.<dominio>/waitlist`.
+Landing: `API_URL` en `landing/main.js` apunta a la API (hoy Railway); si tiene `https://api.<dominio>`, cámbiala.
 
 ## 7. Comprobación final antes de enviar
 

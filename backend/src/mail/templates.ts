@@ -20,6 +20,14 @@ const esc = (s: string) =>
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;');
 
+/** Texto plano: deshace el escape HTML del nombre. */
+const plain = (s: string) =>
+  s
+    .replace(/&quot;/g, '"')
+    .replace(/&gt;/g, '>')
+    .replace(/&lt;/g, '<')
+    .replace(/&amp;/g, '&');
+
 const footer = () =>
   tr({
     es: 'Si no has sido tú, puedes ignorar este correo. Tu cuenta sigue a salvo.',
@@ -102,7 +110,7 @@ export function verifyEmailMail(code: string, name: string): MailContent {
       fr: `${code} est ton code pour Lampi`,
     }),
     html: layout(hi, [`${line} ${expires()}`], code),
-    text: `${hi}\n\n${line} ${code}\n${expires()}\n\n${ignoreLine()}`,
+    text: `${plain(hi)}\n\n${line} ${code}\n${expires()}\n\n${ignoreLine()}`,
   };
 }
 
@@ -145,7 +153,7 @@ export function resetPasswordMail(code: string, name: string): MailContent {
       fr: `${code} est ton code pour changer le mot de passe`,
     }),
     html: layout(hi, [`${comfort} ${line} ${expires()}`], code),
-    text: `${hi}\n\n${line} ${code}\n${expires()}\n\n${ignoreLine()}`,
+    text: `${plain(hi)}\n\n${line} ${code}\n${expires()}\n\n${ignoreLine()}`,
   };
 }
 
@@ -189,7 +197,7 @@ export function passwordChangedMail(name: string): MailContent {
         fr: 'On te le dit au cas où.',
       })} ${signedOut}`,
     ]),
-    text: `${hi}.\n\n${signedOut} ${tr({
+    text: `${plain(hi)}.\n\n${signedOut} ${tr({
       es: 'Si no has sido tú, responde a este correo.',
       en: 'If this wasn’t you, reply to this email.',
       zh: '如果不是你本人操作，请回复这封邮件。',
@@ -246,7 +254,7 @@ export function accountDeletedMail(name: string): MailContent {
         fr: 'Lampi garde un joli souvenir de vous deux.',
       })} ${back}`,
     ]),
-    text: `${hi}.\n\n${deleted} ${back}`,
+    text: `${plain(hi)}.\n\n${deleted} ${back}`,
   };
 }
 

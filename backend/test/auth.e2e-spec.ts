@@ -336,6 +336,29 @@ describe('Cuentas (e2e)', () => {
     ]);
   });
 
+  it('deja que lampi.es llame a la lista de espera desde el navegador (CORS)', async () => {
+    const pre = await http()
+      .options('/waitlist')
+      .set('Origin', 'https://lampi.es')
+      .set('Access-Control-Request-Method', 'POST')
+      .set('Access-Control-Request-Headers', 'content-type,accept-language');
+    expect(pre.status).toBe(204);
+    expect(pre.headers['access-control-allow-origin']).toBe('https://lampi.es');
+    const res = await http()
+      .post('/waitlist')
+      .set('Origin', 'https://www.lampi.es')
+      .send({ email: 'cors@correo.com' })
+      .expect(204);
+    expect(res.headers['access-control-allow-origin']).toBe(
+      'https://www.lampi.es',
+    );
+    const other = await http()
+      .post('/waitlist')
+      .set('Origin', 'https://otra-web.com')
+      .send({ email: 'cors2@correo.com' });
+    expect(other.headers['access-control-allow-origin']).toBeUndefined();
+  });
+
   it('se da de baja de la lista de espera con el enlace del correo', async () => {
     await http()
       .post('/waitlist')
