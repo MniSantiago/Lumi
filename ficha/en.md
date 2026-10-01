@@ -56,6 +56,7 @@ For those who want to go a little further: exclusive places with their own stori
 
 Terms: https://<domain>/terminos.html?lang=en
 Privacy: https://<domain>/privacidad.html?lang=en
+Terms of Use (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ## Novedades de esta versión (máx. 4000)

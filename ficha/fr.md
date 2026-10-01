@@ -56,6 +56,7 @@ Pour qui veut aller un peu plus loin : des lieux exclusifs avec leurs propres hi
 
 Conditions : https://<domaine>/terminos.html?lang=fr
 Confidentialité : https://<domaine>/privacidad.html?lang=fr
+Conditions d'utilisation (EULA) : https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ## Novedades de esta versión (máx. 4000)
