@@ -7,11 +7,16 @@ import type { Threshold } from '@/lumi/states';
  * Funciones puras y deterministas por `seed` (mismo día → mismo resultado).
  *
  * Recompensas según el umbral máximo del día (menos uso → mejor):
- * | umbral | objetos | amiga nueva | chispas |
- * |--------|---------|-------------|---------|
- * | 0      | 2–3     | 35 %        | 16–24   |
- * | 25     | 1–2     | 20 %        | 10–17   |
- * | ≥ 50   | 1       | 10 %        | 10      |  (normalmente no hay expedición)
+ * | umbral | objetos                 | amiga nueva | chispas |
+ * |--------|-------------------------|-------------|---------|
+ * | 0      | 1, y 2 el 40 % de veces | 35 %        | 16–24   |
+ * | 25     | 1, y 2 el 15 % de veces | 20 %        | 10–17   |
+ * | ≥ 50   | 1                       | 10 %        | 10      |  (normalmente no hay expedición)
+ * Tope: `MAX_ITEMS_PER_POSTCARD` (2). Antes eran 2–3 (y 1–2) objetos cada noche:
+ * con ~30 objetos en el catálogo la colección se llenaba en un par de semanas y
+ * la postal parecía un reparto, no un regalo. Ahora lo normal es traer uno, un
+ * extra es un detalle bonito (más probable con menos uso) y la amiga nueva sigue
+ * siendo el gran premio ocasional. Las chispas (puntos) no cambian.
  * Los objetos que aún no tienes salen primero; la amiga solo si queda alguna
  * por conocer en ese destino.
  */
@@ -104,10 +109,14 @@ function pickStory(count: number, timesVisited: number | undefined, rand: () => 
   return 1 + Math.floor(roll * (count - 1));
 }
 
-function rewardTier(threshold: Threshold) {
-  if (threshold <= 0) return { minItems: 2, maxItems: 3, friendChance: 0.35, sparksMin: 16, sparksMax: 24 };
-  if (threshold <= 25) return { minItems: 1, maxItems: 2, friendChance: 0.2, sparksMin: 10, sparksMax: 17 };
-  return { minItems: 1, maxItems: 1, friendChance: 0.1, sparksMin: 10, sparksMax: 10 };
+/** Máximo de objetos que trae una sola postal. */
+export const MAX_ITEMS_PER_POSTCARD = 2;
+
+/** Probabilidades y rangos por umbral (ver tabla de arriba). Exportado para los tests. */
+export function rewardTier(threshold: Threshold) {
+  if (threshold <= 0) return { extraItemChance: 0.4, friendChance: 0.35, sparksMin: 16, sparksMax: 24 };
+  if (threshold <= 25) return { extraItemChance: 0.15, friendChance: 0.2, sparksMin: 10, sparksMax: 17 };
+  return { extraItemChance: 0, friendChance: 0.1, sparksMin: 10, sparksMax: 10 };
 }
 
 export function rollExpedition(destination: Destination, ctx: RollContext): ExpeditionResult {
@@ -123,7 +132,8 @@ export function rollExpedition(destination: Destination, ctx: RollContext): Expe
     ...shuffledLoot.filter((id) => !ownedItems.has(id)),
     ...shuffledLoot.filter((id) => ownedItems.has(id)),
   ];
-  const count = tier.minItems + Math.floor(rand() * (tier.maxItems - tier.minItems + 1));
+  // Siempre 1; un segundo objeto solo de vez en cuando.
+  const count = Math.min(MAX_ITEMS_PER_POSTCARD, 1 + (rand() < tier.extraItemChance ? 1 : 0));
   const itemIds = ordered.slice(0, Math.min(count, ordered.length));
 
   // Amiga: solo si queda alguna por conocer aquí.
