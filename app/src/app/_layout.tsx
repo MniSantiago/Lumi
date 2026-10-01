@@ -11,6 +11,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
 import { SessionProvider } from '@/account/session';
+import { AnimatedSplash } from '@/components/animated-splash';
 import { CrashScreen } from '@/components/crash-screen';
 import { ProgressSync } from '@/account/sync';
 import { Colors } from '@/constants/theme';
@@ -19,8 +20,10 @@ import { LumiProvider, useLumi } from '@/lumi/store';
 import { useNotificationRouting, useBedtimeReminder, useWeeklySummaryReminder } from '@/notifications';
 import { ParentalProvider } from '@/parental/store';
 import { PlusSync } from '@/purchases/plus-sync';
+import { markReady } from '@/splash/state';
 import { TourProvider } from '@/tour/store';
 
+// La splash nativa la quita <AnimatedSplash> cuando ya tiene pintada a Lampi encima.
 SplashScreen.preventAutoHideAsync();
 
 /** Si algo falla dentro de la app, Lampi dormida en vez de una pantalla en blanco. */
@@ -42,25 +45,35 @@ export default function RootLayout() {
     Figtree_700Bold,
   });
 
-  if (!loaded && !error) return null;
+  const fontsDone = loaded || !!error;
+  useEffect(() => {
+    if (fontsDone) markReady('fonts');
+  }, [fontsDone]);
 
+  // La splash animada va siempre en la misma posición del árbol (no se remonta al terminar
+  // de cargar las fuentes) y por encima de todo, tours incluidos.
   return (
-    <ThemeProvider value={navTheme}>
-      <LumiProvider>
-        <SessionProvider>
-          <GameProvider>
-            <TourProvider>
-              <ParentalProvider>
-                <StatusBar style="light" />
-                <RootStack />
-                <ProgressSync />
-                <PlusSync />
-              </ParentalProvider>
-            </TourProvider>
-          </GameProvider>
-        </SessionProvider>
-      </LumiProvider>
-    </ThemeProvider>
+    <>
+      {fontsDone && (
+        <ThemeProvider value={navTheme}>
+          <LumiProvider>
+            <SessionProvider>
+              <GameProvider>
+                <TourProvider>
+                  <ParentalProvider>
+                    <StatusBar style="light" />
+                    <RootStack />
+                    <ProgressSync />
+                    <PlusSync />
+                  </ParentalProvider>
+                </TourProvider>
+              </GameProvider>
+            </SessionProvider>
+          </LumiProvider>
+        </ThemeProvider>
+      )}
+      <AnimatedSplash />
+    </>
   );
 }
 
@@ -77,7 +90,7 @@ function RootStack() {
   useBedtimeReminder();
 
   useEffect(() => {
-    if (ready) SplashScreen.hideAsync();
+    if (ready) markReady('store');
   }, [ready]);
 
   // Esperamos a leer los ajustes guardados para no enseñar el onboarding un instante.
