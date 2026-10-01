@@ -35,6 +35,8 @@ enum LampiShared {
         static let snoozeDay = "snoozeDay"
         static let snoozes = "snoozes"
         static let nightActive = "nightActive"
+        static let selectionRevision = "selectionRevision"
+        static let scheduleSignature = "scheduleSignature"
     }
 
     // MARK: - Ajustes que escribe la app
@@ -67,6 +69,8 @@ enum LampiShared {
 
     static func saveSelection(_ selection: FamilyActivitySelection) {
         defaults.set(try? JSONEncoder().encode(selection), forKey: Key.selection)
+        // Los tokens no se codifican de forma estable: una revisión explícita avisa de que cambió.
+        defaults.set(UUID().uuidString, forKey: Key.selectionRevision)
     }
 
     static func hasItems(_ s: FamilyActivitySelection) -> Bool {
@@ -95,6 +99,15 @@ enum LampiShared {
     }
 
     static var limitReachedToday: Bool { threshold >= 100 }
+
+    /// Pone a cero el umbral y los «5 min más» solo si el día guardado no es hoy.
+    /// `intervalDidStart` también salta cuando se (re)programa el monitor a mitad de
+    /// día (cada vez que se abre la app): resetear ahí borraba el progreso real.
+    static func startNewDayIfNeeded() {
+        guard defaults.string(forKey: Key.thresholdDay) != dayKey() else { return }
+        setThreshold(0)
+        endAllSnoozes()
+    }
 
     // MARK: - Horario de noche
 
@@ -245,13 +258,28 @@ enum LampiShared {
     /// al cambiar el límite o la noche. Lanza si la app no tiene permiso.
     static func scheduleMonitoring() throws {
         let center = DeviceActivityCenter()
-        center.stopMonitoring([dailyActivity, nightActivity])
-
         let selection = loadSelection()
         guard hasItems(selection) else {
+            center.stopMonitoring([dailyActivity, nightActivity])
+            defaults.removeObject(forKey: Key.scheduleSignature)
             refreshShield()
             return
         }
+
+        // Reiniciar el monitor pone a cero los contadores de uso de iOS. La app llama a
+        // esto en cada arranque, así que solo se reprograma si algo ha cambiado de verdad.
+        let signature = [
+            defaults.string(forKey: Key.selectionRevision) ?? "",
+            String(limitMinutes), nightStart, nightEnd,
+        ].joined(separator: "|")
+        let running = center.activities.contains(dailyActivity)
+        if running, defaults.string(forKey: Key.scheduleSignature) == signature {
+            nightActive = isNight()
+            refreshShield()
+            return
+        }
+        center.stopMonitoring([dailyActivity, nightActivity])
+        defaults.set(signature, forKey: Key.scheduleSignature)
 
         // Umbrales al 25/50/75/100 % del límite. iOS no da los minutos exactos, solo avisa.
         var events: [DeviceActivityEvent.Name: DeviceActivityEvent] = [:]
@@ -291,6 +319,7 @@ enum LampiShared {
     }
 
     static func stopEverything() {
+        defaults.removeObject(forKey: Key.scheduleSignature)
         DeviceActivityCenter().stopMonitoring()
         store.clearAllSettings()
         endAllSnoozes()

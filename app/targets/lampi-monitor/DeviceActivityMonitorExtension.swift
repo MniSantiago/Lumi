@@ -8,9 +8,9 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
         super.intervalDidStart(for: activity)
         switch activity {
         case LampiShared.dailyActivity:
-            // Cada día empieza de cero: sin umbral y sin ratitos extra pendientes.
-            LampiShared.setThreshold(0)
-            LampiShared.endAllSnoozes()
+            // Cada día empieza de cero, pero este callback también salta al reprogramar
+            // a mitad de día: solo se resetea si de verdad es un día nuevo.
+            LampiShared.startNewDayIfNeeded()
             LampiShared.refreshShield()
         case LampiShared.nightActivity:
             LampiShared.nightActive = true
