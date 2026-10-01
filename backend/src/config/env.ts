@@ -17,6 +17,9 @@ export type Env = {
   PUBLIC_URL: string;
 };
 
+/** Orígenes de la web oficial: sin ellos el navegador bloquea el formulario de la lista de espera. */
+export const DEFAULT_CORS_ORIGINS = ['https://lampi.es', 'https://www.lampi.es'];
+
 export function validateEnv(raw: Record<string, unknown>): Env {
   const str = (key: string, fallback?: string) => {
     const value = raw[key];
@@ -60,10 +63,16 @@ export function validateEnv(raw: Record<string, unknown>): Env {
       'MAIL_FROM',
       prod ? undefined : 'Lampi <onboarding@resend.dev>',
     ),
-    CORS_ORIGINS: str('CORS_ORIGINS', '')
-      .split(',')
-      .map((o) => o.trim())
-      .filter(Boolean),
+    // La landing (lampi.es) siempre puede llamar a la API; CORS_ORIGINS añade otros orígenes (p. ej. un preview).
+    CORS_ORIGINS: [
+      ...new Set([
+        ...DEFAULT_CORS_ORIGINS,
+        ...str('CORS_ORIGINS', '')
+          .split(',')
+          .map((o) => o.trim().replace(/\/$/, ''))
+          .filter(Boolean),
+      ]),
+    ],
     PUBLIC_URL: str('PUBLIC_URL', '').replace(/\/$/, ''),
   };
 }

@@ -28,18 +28,25 @@ export class MailService {
       );
       return;
     }
-    const { error } = await this.resend.emails.send({
-      from: this.from,
-      to,
-      subject: mail.subject,
-      html: mail.html,
-      text: mail.text,
-      headers: mail.headers,
-    });
-    // No rompemos la petición del usuario por un fallo de correo: queda en el log.
-    if (error)
+    // Un fallo de correo (Resend caído, dominio sin verificar, red) nunca tumba la petición del usuario:
+    // la cuenta o la lista de espera ya se han guardado. Queda en el log.
+    try {
+      const { error } = await this.resend.emails.send({
+        from: this.from,
+        to,
+        subject: mail.subject,
+        html: mail.html,
+        text: mail.text,
+        headers: mail.headers,
+      });
+      if (error)
+        this.logger.error(
+          `Resend no ha podido enviar "${mail.subject}": ${error.message}`,
+        );
+    } catch (err) {
       this.logger.error(
-        `Resend no ha podido enviar "${mail.subject}": ${error.message}`,
+        `Resend ha fallado al enviar "${mail.subject}": ${err instanceof Error ? err.message : String(err)}`,
       );
+    }
   }
 }

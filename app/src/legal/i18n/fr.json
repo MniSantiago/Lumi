@@ -2,13 +2,28 @@
   "privacidad": {
     "title": "Confidentialité",
     "intro": "Lampi est faite pour que tu passes moins de temps sur ton téléphone, pas pour en savoir plus sur toi. Voici ce qu’elle utilise et pourquoi.",
-    "updated": "Septembre 2026",
+    "updated": "Octobre 2026",
     "sections": [
+      {
+        "heading": "Qui est responsable",
+        "body": [
+          "Le responsable du traitement de tes données est Santiago González, développeur indépendant installé en Espagne. Contact : hola@lampi.es.",
+          "Nous traitons tes données pour te fournir le compte que tu demandes (exécution du service) et, pour la liste d’attente, parce que tu t’inscris (ton consentement, que tu peux retirer à tout moment)."
+        ]
+      },
       {
         "heading": "Ce que Lampi ne voit pas",
         "body": [
           "Lampi utilise Temps d’écran d’Apple (Family Controls et Device Activity). Elle reçoit seulement des avis du type « tu es à la moitié de ta limite ».",
           "Elle ne sait pas quelles vidéos tu regardes, ce que tu écris ni avec qui tu parles. iOS ne le permettrait pas de toute façon."
+        ]
+      },
+      {
+        "heading": "Temps d’écran d’Apple (Family Controls)",
+        "body": [
+          "Pour masquer tes applis voleuses de temps avec le bouclier, Lampi utilise les fonctions Temps d’écran d’Apple (Family Controls, Device Activity et Managed Settings). iOS te demande ton autorisation avant de les activer, et tu peux la retirer à tout moment dans Réglages iOS › Temps d’écran.",
+          "Les applis que tu choisis sont représentées par iOS sous forme d’identifiants opaques qui restent sur ton iPhone, dans l’app et ses extensions. Lampi ne les lit pas comme des noms, ne les envoie à aucun serveur et ne les partage pas. Elle ne collecte pas non plus ton temps d’écran : elle reçoit seulement des avis du type « tu es à la moitié de ta limite ».",
+          "Lampi s’en sert uniquement pour t’aider avec ta propre utilisation. Ce n’est pas un outil de contrôle parental et elle ne surveille personne d’autre."
         ]
       },
       {
@@ -21,7 +36,7 @@
       {
         "heading": "Si tu crées un compte (facultatif)",
         "body": [
-          "Nous enregistrons ton e-mail, ton mot de passe chiffré (jamais en clair), ton prénom et celui de Lampi, pour que tu ne perdes pas ta progression si tu changes d’iPhone.",
+          "Nous enregistrons ton e-mail, ton mot de passe chiffré (jamais en clair), ton prénom et celui de Lampi, pour que tu ne perdes pas ta progression si tu changes d’iPhone. Nous gardons aussi une sauvegarde de ta progression et de tes réglages (jours, cartes postales, objets, étincelles, limite quotidienne, horaire de nuit et la liste des applis que tu as marquées comme voleuses, uniquement leurs noms dans la liste de Lampi).",
           "Nous utilisons ton e-mail uniquement pour ton compte : confirmer qu’il est à toi, récupérer ton mot de passe et te prévenir des changements de sécurité. Nous les envoyons avec Resend.",
           "Tu peux supprimer ton compte quand tu veux depuis Réglages › Compte › Supprimer le compte. Il est effacé immédiatement avec toutes ses données."
         ]
@@ -35,26 +50,41 @@
       {
         "heading": "Achats",
         "body": [
-          "Les abonnements Lampi Plus sont facturés par Apple. Nous ne voyons jamais ta carte. Pour savoir si Plus est actif, nous utilisons un identifiant d’achat anonyme."
+          "Les abonnements à Lampi Plus sont facturés par Apple ; nous ne voyons jamais ta carte. Pour savoir si tu as Plus et restaurer tes achats, nous utilisons RevenueCat, qui reçoit d’Apple le reçu d’achat et un identifiant : anonyme si tu n’as pas de compte, ou celui de ton compte Lampi si tu en as un."
         ]
       },
       {
-        "heading": "Liste d’attente",
+        "heading": "Avec qui nous partageons des données",
         "body": [
-          "Si tu t’inscris sur le site, nous enregistrons ton e-mail et d’où tu viens (par exemple une vidéo TikTok) uniquement pour te prévenir quand Lampi sera prête. Nous ne le vendons ni ne le partageons, et tu peux nous demander de l’effacer quand tu veux. Chaque e-mail contient un lien pour te désinscrire."
+          "Uniquement avec les prestataires nécessaires au fonctionnement de Lampi : Railway (hébergement du serveur et de la base de données des comptes et de la liste d’attente), Resend (envoi des e-mails), et RevenueCat et Apple (achats). Ils peuvent traiter des données hors de l’Espace économique européen, avec les garanties habituelles (clauses contractuelles types).",
+          "Nous ne vendons pas tes données, nous ne faisons pas de publicité, nous n’utilisons pas d’analyse tierce et nous ne te suivons pas d’une appli ou d’un site à l’autre."
+        ]
+      },
+      {
+        "heading": "Le site (lampi.es) et les cookies",
+        "body": [
+          "Le site n’utilise ni cookies ni traceurs et n’a pas d’analyse d’audience. Il garde dans ton navigateur, seulement le temps de la visite, le lien d’où tu viens (par exemple une vidéo TikTok), pour savoir ce qui marche. Les polices sont chargées depuis Google Fonts, donc Google reçoit ton adresse IP à l’ouverture de la page.",
+          "Si tu t’inscris à la liste d’attente, nous gardons ton e-mail, la langue du site, l’appli qui te vole le plus de temps (si tu l’indiques) et d’où tu viens, uniquement pour te prévenir quand Lampi sera prête. Nous ne le vendons ni ne le partageons, et chaque e-mail contient un lien de désinscription."
+        ]
+      },
+      {
+        "heading": "Combien de temps nous les gardons",
+        "body": [
+          "Les données du compte, jusqu’à ce que tu le supprimes (elles sont effacées immédiatement). Celles de la liste d’attente, jusqu’à ce que tu te désinscrives ou que nous t’ayons prévenu du lancement et n’en ayons plus besoin. Les journaux techniques du serveur ne sont gardés que peu de temps."
         ]
       },
       {
         "heading": "Mineurs",
         "body": [
-          "Lampi n’est pas pensée pour les moins de 13 ans. Pour créer un compte, il faut avoir au moins 13 ans, ou l’âge que ton pays exige pour l’accepter seul s’il est plus élevé (en France, 15 ans).",
-          "Sans compte, rien ne quitte ton iPhone. Si tu penses qu’un mineur nous a donné son e-mail, écris-nous et nous le supprimerons."
+          "Lampi n’est pas destinée aux enfants de moins de 13 ans et n’est pas dans la catégorie Enfants de l’App Store. Nous ne collectons pas sciemment de données d’enfants de moins de 13 ans. Pour créer un compte, tu dois avoir au moins 13 ans, ou l’âge exigé par ton pays pour accepter ceci seul si c’est plus (en Espagne, 14 ans).",
+          "Sans compte, rien ne quitte ton iPhone. Si tu penses qu’un mineur nous a donné son e-mail, écris à hola@lampi.es et nous le supprimerons."
         ]
       },
       {
         "heading": "Tes droits",
         "body": [
-          "Depuis Réglages › Compte, tu peux télécharger toutes tes données dans un fichier (Tes données › Télécharger), corriger tes prénoms et supprimer le compte. Tu peux aussi nous le demander en écrivant à l’adresse de support indiquée sur la page de Lampi dans l’App Store."
+          "Tu peux accéder à tes données, les corriger, les supprimer, t’opposer à leur usage, le limiter et demander une copie portable. Dans Réglages › Compte, tu peux télécharger toutes tes données dans un fichier (Tes données › Télécharger), corriger tes noms et supprimer le compte. Pour le reste, ou pour la liste d’attente, écris à hola@lampi.es.",
+          "Si tu penses que nous n’avons pas bien traité tes données, tu peux déposer une réclamation auprès de l’autorité de protection des données de ton pays (en Espagne, l’AEPD : aepd.es)."
         ]
       }
     ]
@@ -62,7 +92,7 @@
   "terminos": {
     "title": "Conditions",
     "intro": "Les règles pour vivre avec Lampi, en bref.",
-    "updated": "Septembre 2026",
+    "updated": "Octobre 2026",
     "sections": [
       {
         "heading": "Ce qu’est Lampi",
@@ -74,9 +104,10 @@
         "heading": "Gratuit et Lampi Plus",
         "body": [
           "L’essentiel de Lampi est gratuit et le restera : ta Lampi et son bouclier, la limite quotidienne, les expéditions et les cartes postales, le widget et le mode nuit.",
-          "Lampi Plus est un abonnement facultatif (annuel ou mensuel) avec un essai gratuit de 7 jours. Il se renouvelle automatiquement jusqu’à ce que tu l’annules.",
-          "Tu peux l’annuler quand tu veux depuis Réglages de ton iPhone › ton nom › Abonnements, au moins 24 heures avant le renouvellement. Si tu annules pendant l’essai, rien n’est facturé.",
-          "Les remboursements sont gérés par Apple selon ses conditions."
+          "Lampi Plus est un abonnement facultatif à renouvellement automatique, annuel ou mensuel. Le prix exact, dans ta devise, s’affiche sur l’écran Lampi Plus avant de confirmer ; l’offre annuelle inclut 7 jours d’essai gratuit.",
+          "Le paiement est prélevé sur ton identifiant Apple à la confirmation de l’achat (ou, avec un essai gratuit, à la fin de l’essai). L’abonnement se renouvelle automatiquement pour la même durée au prix en vigueur, sauf si tu l’annules au moins 24 heures avant la fin de la période en cours ; le renouvellement est prélevé dans les 24 heures qui précèdent la fin.",
+          "Tu peux le gérer et l’annuler à tout moment dans Réglages de ton iPhone › ton nom › Abonnements. Si tu annules pendant l’essai, rien n’est prélevé ; la partie inutilisée de l’essai gratuit est perdue si tu achètes avant sa fin. Supprimer l’app ou le compte n’annule pas l’abonnement.",
+          "Si tu changes d’iPhone, utilise « Restaurer les achats » sur l’écran Lampi Plus. Les remboursements sont gérés par Apple selon ses conditions."
         ]
       },
       {
@@ -87,9 +118,21 @@
         ]
       },
       {
+        "heading": "Licence de l’app (EULA)",
+        "body": [
+          "Lampi t’est concédée pour un usage personnel. Le contrat de licence standard d’Apple pour les applications sous licence (https://www.apple.com/legal/internet-services/itunes/dev/stdeula/) s’applique à tout ce que ces conditions ne couvrent pas. Ces conditions et notre politique de confidentialité en font partie."
+        ]
+      },
+      {
         "heading": "Changements",
         "body": [
           "Si nous modifions ces conditions de façon importante, nous te le dirons dans l’app avant qu’elles s’appliquent."
+        ]
+      },
+      {
+        "heading": "Contact",
+        "body": [
+          "Des questions sur ces conditions ou sur ton compte : hola@lampi.es."
         ]
       }
     ]

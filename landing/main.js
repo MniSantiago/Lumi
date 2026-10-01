@@ -4,12 +4,17 @@
 const t = (es) => (window.lumiT ? window.lumiT(es) : es);
 
 /**
- * Dónde se envían los registros. POST con JSON.
- * - Formspree: 'https://formspree.io/f/XXXXXXX'
- * - Tally / Supabase / Worker propio: cualquier URL que acepte POST application/json.
+ * Dónde se envían los registros: POST con JSON a `POST /waitlist` de la API de Lampi (backend/).
+ * La API guarda el correo en `waitlist_entries` y manda la bienvenida en el idioma de la web.
+ * Cuando la API tenga su dominio propio (p. ej. https://api.lampi.es), cámbialo aquí.
+ * En local (localhost) apunta a la API de desarrollo (`npm run start:dev` en backend/, puerto 3000).
  * Si se deja vacío, el formulario no finge: avisa de que la lista aún no está abierta.
  */
-const WAITLIST_ENDPOINT = '';
+const API_URL =
+  location.hostname === 'localhost' || location.hostname === '127.0.0.1'
+    ? 'http://localhost:3000'
+    : 'https://dependable-expression-production-83d3.up.railway.app';
+const WAITLIST_ENDPOINT = `${API_URL}/waitlist`;
 
 /**
  * Modo lanzamiento: con la URL de la ficha de la App Store, los formularios de
@@ -133,7 +138,7 @@ async function onSubmit(event) {
 
   button.disabled = true;
   const label = button.textContent;
-  button.textContent = 'Apuntando…';
+  button.textContent = t('Apuntando…');
   setMessage(form, '');
 
   try {
@@ -148,7 +153,11 @@ async function onSubmit(event) {
       },
       body: JSON.stringify(payload),
     });
-    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    if (!res.ok) {
+      const error = new Error(`HTTP ${res.status}`);
+      error.status = res.status;
+      throw error;
+    }
     track('waitlist_success', { form: form.dataset.form, app: payload.app });
     showSuccess(form);
   } catch (err) {
@@ -156,7 +165,15 @@ async function onSubmit(event) {
     track('waitlist_error', { form: form.dataset.form });
     button.disabled = false;
     button.textContent = label;
-    setMessage(form, t('No se ha podido guardar tu correo. Comprueba la conexión y vuelve a intentarlo.'));
+    // 400: la API no da por bueno el correo; 429: demasiados intentos seguidos; el resto, red o servidor.
+    if (err.status === 400) {
+      emailInput.setAttribute('aria-invalid', 'true');
+      setMessage(form, t('Ese correo no parece completo. Revisa que tenga @ y dominio, por ejemplo tu@correo.com.'));
+    } else if (err.status === 429) {
+      setMessage(form, t('Demasiados intentos seguidos. Espera un minuto y vuelve a probar.'));
+    } else {
+      setMessage(form, t('No se ha podido guardar tu correo. Comprueba la conexión y vuelve a intentarlo.'));
+    }
   }
 }
 

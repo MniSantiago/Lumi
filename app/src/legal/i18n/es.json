@@ -2,13 +2,28 @@
   "privacidad": {
     "title": "Privacidad",
     "intro": "Lampi está hecha para que pases menos rato en el móvil, no para saber más de ti. Esto es lo que usa y por qué.",
-    "updated": "Septiembre de 2026",
+    "updated": "Octubre de 2026",
     "sections": [
+      {
+        "heading": "Quién es el responsable",
+        "body": [
+          "El responsable del tratamiento de tus datos es Santiago González, desarrollador independiente en España. Contacto: hola@lampi.es.",
+          "Tratamos tus datos para darte la cuenta que pides (ejecución del servicio) y, en la lista de espera, porque tú te apuntas (tu consentimiento, que puedes retirar cuando quieras)."
+        ]
+      },
       {
         "heading": "Lo que Lampi no ve",
         "body": [
           "Lampi usa Tiempo de uso de Apple (Family Controls y Device Activity). Solo recibe avisos del tipo «ya vas por la mitad de tu límite».",
           "No sabe qué vídeos ves, qué escribes ni con quién hablas. iOS tampoco se lo permitiría."
+        ]
+      },
+      {
+        "heading": "Tiempo de uso de Apple (Family Controls)",
+        "body": [
+          "Para tapar tus apps ladronas con el escudo, Lampi usa las funciones de Tiempo de uso de Apple (Family Controls, Device Activity y Managed Settings). iOS te pide permiso antes de activarlas y puedes retirarlo cuando quieras en Ajustes de iOS › Tiempo de uso.",
+          "Las apps que eliges las representa iOS con identificadores opacos que se quedan en tu iPhone, dentro de la app y sus extensiones. Lampi no los lee como nombres, no los envía a ningún servidor y no los comparte. Tampoco recoge tu tiempo de uso: solo recibe avisos del tipo «ya vas por la mitad de tu límite».",
+          "Lampi lo usa solo para ayudarte a ti con tu propio uso. No es una herramienta de control parental ni vigila a otras personas."
         ]
       },
       {
@@ -21,7 +36,7 @@
       {
         "heading": "Si creas una cuenta (opcional)",
         "body": [
-          "Guardamos tu correo, tu contraseña cifrada (nunca en claro), tu nombre y el de Lampi, para que no pierdas tu progreso si cambias de iPhone.",
+          "Guardamos tu correo, tu contraseña cifrada (nunca en claro), tu nombre y el de Lampi, para que no pierdas tu progreso si cambias de iPhone. También guardamos una copia de tu progreso y ajustes (días, postales, objetos, chispas, límite diario, horario de noche y la lista de apps que has marcado como ladronas, solo sus nombres de la lista de Lampi).",
           "Usamos tu correo solo para cosas de tu cuenta: confirmar que es tuyo, recuperar la contraseña y avisarte de cambios de seguridad. Los enviamos con Resend.",
           "Puedes eliminar la cuenta cuando quieras desde Ajustes › Cuenta › Eliminar la cuenta. Se borra al momento con todos sus datos."
         ]
@@ -35,26 +50,41 @@
       {
         "heading": "Compras",
         "body": [
-          "Las suscripciones a Lampi Plus las cobra Apple. Nosotros no vemos tu tarjeta. Para saber si tienes Plus activo usamos un identificador anónimo de compra."
+          "Las suscripciones a Lampi Plus las cobra Apple; nosotros no vemos tu tarjeta. Para saber si tienes Plus activo y poder restaurar tus compras usamos RevenueCat, que recibe de Apple el recibo de la compra y un identificador: anónimo si no tienes cuenta, o el de tu cuenta de Lampi si la tienes."
         ]
       },
       {
-        "heading": "Lista de espera",
+        "heading": "Con quién compartimos datos",
         "body": [
-          "Si te apuntas en la web, guardamos tu correo y de dónde llegaste (por ejemplo, un vídeo de TikTok) solo para avisarte cuando Lampi esté lista. No lo vendemos ni lo compartimos, y puedes pedir que lo borremos cuando quieras. Cada correo trae un enlace para darte de baja."
+          "Solo con los proveedores que hacen falta para que Lampi funcione: Railway (alojamiento del servidor y la base de datos de las cuentas y la lista de espera), Resend (envío de correos) y RevenueCat y Apple (compras). Pueden tratar datos fuera del Espacio Económico Europeo, con las garantías habituales (cláusulas contractuales tipo).",
+          "No vendemos tus datos, no hacemos publicidad, no usamos analítica de terceros y no te seguimos entre apps ni webs."
+        ]
+      },
+      {
+        "heading": "La web (lampi.es) y las cookies",
+        "body": [
+          "La web no usa cookies ni rastreadores, y no tiene analítica. Guarda en tu navegador, solo mientras dura la visita, de qué enlace llegaste (por ejemplo, un vídeo de TikTok), para saber qué funciona. Las tipografías se cargan desde Google Fonts, así que Google recibe tu dirección IP al abrir la página.",
+          "Si te apuntas a la lista de espera guardamos tu correo, el idioma de la web, la app que más te roba tiempo (si la indicas) y de dónde llegaste, solo para avisarte cuando Lampi esté lista. No lo vendemos ni lo compartimos, y cada correo trae un enlace para darte de baja."
+        ]
+      },
+      {
+        "heading": "Cuánto tiempo los guardamos",
+        "body": [
+          "Los datos de la cuenta, hasta que la elimines (se borran al momento). Los de la lista de espera, hasta que te des de baja o te avisemos del lanzamiento y ya no los necesitemos. Los registros técnicos del servidor se conservan poco tiempo."
         ]
       },
       {
         "heading": "Menores",
         "body": [
-          "Lampi no está pensada para menores de 13 años. Para crear una cuenta necesitas tener al menos 13 años, o la edad que pida tu país para aceptar esto por tu cuenta si es mayor (en España, 14).",
-          "Sin cuenta, nada sale de tu iPhone. Si crees que un menor nos ha dado su correo, escríbenos y lo borramos."
+          "Lampi no está pensada para menores de 13 años y no está en la categoría de Niños de la App Store. No recogemos a sabiendas datos de menores de 13 años. Para crear una cuenta necesitas tener al menos 13 años, o la edad que pida tu país para aceptar esto por tu cuenta si es mayor (en España, 14).",
+          "Sin cuenta, nada sale de tu iPhone. Si crees que un menor nos ha dado su correo, escríbenos a hola@lampi.es y lo borramos."
         ]
       },
       {
         "heading": "Tus derechos",
         "body": [
-          "Desde Ajustes › Cuenta puedes descargar todos tus datos en un archivo (Tus datos › Descargar), corregir tus nombres y eliminar la cuenta. También puedes pedírnoslo escribiendo al correo de soporte que aparece en la ficha de Lampi en la App Store."
+          "Puedes acceder a tus datos, corregirlos, borrarlos, oponerte, limitar su uso y pedir una copia portable. Desde Ajustes › Cuenta puedes descargar todos tus datos en un archivo (Tus datos › Descargar), corregir tus nombres y eliminar la cuenta. Para lo demás, o para la lista de espera, escribe a hola@lampi.es.",
+          "Si crees que no hemos tratado bien tus datos, puedes reclamar ante la autoridad de protección de datos de tu país (en España, la AEPD: aepd.es)."
         ]
       }
     ]
@@ -62,7 +92,7 @@
   "terminos": {
     "title": "Términos",
     "intro": "Las reglas de convivencia con Lampi, en corto.",
-    "updated": "Septiembre de 2026",
+    "updated": "Octubre de 2026",
     "sections": [
       {
         "heading": "Qué es Lampi",
@@ -74,9 +104,10 @@
         "heading": "Gratis y Lampi Plus",
         "body": [
           "Lo importante de Lampi es gratis y lo seguirá siendo: tu Lampi y su escudo, el límite diario, las expediciones y postales, el widget y el modo noche.",
-          "Lampi Plus es una suscripción opcional (anual o mensual) con prueba gratis de 7 días. Se renueva sola hasta que la canceles.",
-          "Puedes cancelarla cuando quieras desde Ajustes de tu iPhone › tu nombre › Suscripciones, al menos 24 horas antes de la renovación. Si cancelas durante la prueba, no se cobra nada.",
-          "Los reembolsos los gestiona Apple según sus condiciones."
+          "Lampi Plus es una suscripción opcional con renovación automática, anual o mensual. El precio exacto, en tu moneda, se muestra en la pantalla de Lampi Plus antes de confirmar; el plan anual incluye 7 días gratis para estrenar.",
+          "El pago se carga a tu Apple ID al confirmar la compra (o, con prueba gratis, cuando acaba la prueba). La suscripción se renueva sola por el mismo periodo y al precio vigente, salvo que la canceles al menos 24 horas antes de que termine el periodo en curso; el cobro de la renovación se hace en las 24 horas previas al final.",
+          "Puedes gestionarla y cancelarla cuando quieras desde Ajustes de tu iPhone › tu nombre › Suscripciones. Si cancelas durante la prueba, no se cobra nada; la parte no usada de la prueba se pierde si compras antes de que acabe. Eliminar la app o la cuenta no cancela la suscripción.",
+          "Si cambias de iPhone, usa «Restaurar compras» en la pantalla de Lampi Plus. Los reembolsos los gestiona Apple según sus condiciones."
         ]
       },
       {
@@ -87,9 +118,21 @@
         ]
       },
       {
+        "heading": "Licencia de la app (EULA)",
+        "body": [
+          "Lampi se te licencia para uso personal. Se aplica el Acuerdo de licencia estándar de Apple para aplicaciones con licencia (https://www.apple.com/legal/internet-services/itunes/dev/stdeula/) en todo lo que estos términos no regulen. Estos términos y nuestra política de privacidad forman parte de ese acuerdo."
+        ]
+      },
+      {
         "heading": "Cambios",
         "body": [
           "Si cambiamos estos términos de forma importante, te lo contaremos en la app antes de que se apliquen."
+        ]
+      },
+      {
+        "heading": "Contacto",
+        "body": [
+          "Dudas sobre estos términos o sobre tu cuenta: hola@lampi.es."
         ]
       }
     ]

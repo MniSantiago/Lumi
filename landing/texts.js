@@ -171,6 +171,8 @@ window.LUMI_ROWS = [
   ['Ese correo no parece completo. Revisa que tenga @ y dominio, por ejemplo tu@correo.com.', 'That email doesn’t look complete. Check it has an @ and a domain, for example you@email.com.', '这个邮箱地址好像不完整。请检查是否有 @ 和域名，例如 you@email.com。', 'यह ईमेल पूरा नहीं लगता। देखो कि उसमें @ और डोमेन है, जैसे you@email.com।', 'Cet e-mail semble incomplet. Vérifie qu’il a un @ et un domaine, par exemple toi@email.com.'],
   ['La lista de espera abre muy pronto y todavía no guarda correos. Vuelve en unos días y Lampi te apunta.', 'The waitlist opens very soon and doesn’t save emails yet. Come back in a few days and Lampi will sign you up.', '等候名单很快开放，目前还不能保存邮箱。过几天再来，Lampi 会帮你登记。', 'प्रतीक्षा सूची बहुत जल्द खुलेगी और अभी ईमेल सहेजती नहीं। कुछ दिनों में लौटो, Lampi तुम्हारा नाम लिख लेगी।', 'La liste d’attente ouvre très bientôt et n’enregistre pas encore les e-mails. Reviens dans quelques jours et Lampi t’inscrira.'],
   ['No se ha podido guardar tu correo. Comprueba la conexión y vuelve a intentarlo.', 'We couldn’t save your email. Check your connection and try again.', '无法保存你的邮箱。请检查网络后重试。', 'तुम्हारा ईमेल सहेजा नहीं जा सका। कनेक्शन देखकर फिर कोशिश करो।', 'Impossible d’enregistrer ton e-mail. Vérifie ta connexion et réessaie.'],
+  ['Apuntando…', 'Signing you up…', '正在登记……', 'नाम लिख रहे हैं…', 'Inscription…'],
+  ['Demasiados intentos seguidos. Espera un minuto y vuelve a probar.', 'Too many attempts in a row. Wait a minute and try again.', '连续尝试次数太多。请等一分钟再试。', 'लगातार बहुत कोशिशें हो गईं। एक मिनट रुककर फिर कोशिश करो।', 'Trop d’essais d’affilée. Attends une minute et réessaie.'],
 
   // ── Página 404 ──
   ['Página no encontrada · Lampi', 'Page not found · Lampi', '找不到页面 · Lampi', 'पेज नहीं मिला · Lampi', 'Page introuvable · Lampi'],
