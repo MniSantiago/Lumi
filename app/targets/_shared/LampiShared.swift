@@ -5,8 +5,10 @@ import ManagedSettings
 import notify
 
 /// Todo lo que comparten la app (módulo `lampi-screen-time`) y las tres extensiones
-/// (monitor, escudo y acción del escudo). Vive en `targets/_shared`; el módulo lo
-/// enlaza con un symlink, así que hay una sola copia.
+/// (monitor, escudo y acción del escudo). Vive en `targets/_shared`; el módulo tiene una
+/// copia idéntica en `modules/lampi-screen-time/ios/LampiShared.swift` (un symlink no
+/// sobrevive a git con `core.symlinks=false` ni al empaquetado de EAS). Si cambias uno,
+/// copia el otro: `src/screen-time/__tests__/shared-sync.test.ts` falla si difieren.
 ///
 /// Las extensiones corren en otro proceso: lo único que tienen en común con la app
 /// es el App Group, por eso todo el estado pasa por `defaults`.
