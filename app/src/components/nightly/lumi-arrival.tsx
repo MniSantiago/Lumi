@@ -12,6 +12,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { Colors, Fonts } from '@/constants/theme';
 import { haptic } from '@/haptics';
+import { sfx } from '@/sound';
 import { tr } from '@/i18n';
 
 const VIDEO = require('@/assets/video/lumi-vuelve.mp4');
@@ -64,6 +65,7 @@ export function LumiArrival({ name, onDone }: { name: string; onDone: () => void
         setTimeout(() => {
           if (finished.current) return;
           haptic.light();
+          sfx.arrival();
           caption.set(withTiming(1, { duration: 500, easing: Easing.out(Easing.quad) }));
         }, LANDING_MS),
         setTimeout(() => finish(), SAFETY_MS),

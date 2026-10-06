@@ -141,7 +141,8 @@
         }
       ],
       "expo-video",
-      "@bacons/apple-targets"
+      "@bacons/apple-targets",
+      "expo-audio"
     ],
     "experiments": {
       "typedRoutes": true,

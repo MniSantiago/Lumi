@@ -3,6 +3,7 @@ import { useState, type ReactNode, type Ref } from 'react';
 import { Pressable, StyleSheet, Switch, Text, TextInput, View, type TextInputProps } from 'react-native';
 
 import { haptic } from '@/haptics';
+import { sfx } from '@/sound';
 import { Colors, Fonts, Radius } from '@/constants/theme';
 import { tr } from '@/i18n';
 import type { ThiefApp } from '@/lumi/data';
@@ -103,6 +104,7 @@ export function Stepper({
         disabled={!canDecrease}
         onPress={() => {
           haptic.selection();
+          sfx.select();
           onDecrease();
         }}
       />
@@ -115,6 +117,7 @@ export function Stepper({
         disabled={!canIncrease}
         onPress={() => {
           haptic.selection();
+          sfx.select();
           onIncrease();
         }}
       />

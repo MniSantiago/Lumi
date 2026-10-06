@@ -12,6 +12,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { haptic } from '@/haptics';
+import { sfx } from '@/sound';
 import { Fireflies } from '@/components/fireflies';
 import { AppTag, ShieldButton } from '@/components/shield/shield-parts';
 import { SleepingLumi } from '@/components/shield/sleeping-lumi';
@@ -77,6 +78,7 @@ export default function ShieldScreen() {
     busy.current = true;
     setPhase('leaving');
     haptic.success();
+    sfx.success();
     finish(shieldCopy.leaveThanks, 1);
   };
 

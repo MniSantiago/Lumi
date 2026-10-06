@@ -1,6 +1,7 @@
 import { createContext, use, useState, type ReactNode } from 'react';
 
 import { haptic } from '@/haptics';
+import { sfx } from '@/sound';
 import { useLumi, type Settings } from '@/lumi/store';
 import { ensureNotificationPermission } from '@/notifications';
 
@@ -39,6 +40,7 @@ export function OnboardingDraftProvider({ children }: { children: ReactNode }) {
 
   const finish = async () => {
     haptic.success();
+    sfx.success();
     // Si deniega el permiso, la postal nocturna queda apagada (se puede encender en Ajustes).
     const nightlyPostcard = draft.nightlyPostcard ? await ensureNotificationPermission() : false;
     updateSettings({
