@@ -1,0 +1,37 @@
+# Con .easignore, EAS deja de leer .gitignore: repetimos aquí lo que ya ignoraba.
+.DS_Store
+.vscode/
+.idea/
+*.swp
+__pycache__/
+apimartkey/
+grabaciones/
+
+# Dependencias y artefactos (se regeneran en el build)
+node_modules/
+.expo/
+dist/
+app/ios/
+app/e2e/
+
+# Claude Code (incluye worktrees)
+.claude/
+.git/
+
+# Carpetas del repo que la app no usa al compilar
+# (app/ referencia solo app/assets, nunca ../assets)
+/assets/
+/store/
+/landing/
+/backend/
+/tools/
+/ficha/
+/src/
+/*.png
+/*.html
+/*.md
+/render.yaml
+.github/
+
+# Rueda de Python suelta
+app/*.whl
