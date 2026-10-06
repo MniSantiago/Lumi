@@ -4,6 +4,7 @@ import { createContext, use, useEffect, useState, type ReactNode } from 'react';
 import { screenTime } from '@/screen-time';
 import { screenTimeControl } from '@/screen-time/control';
 import { tr } from '@/i18n';
+import { setSoundsEnabled } from '@/sound';
 import { stateForThreshold, type LumiState, type Threshold } from '@/lumi/states';
 
 export type Settings = {
@@ -20,6 +21,8 @@ export type Settings = {
   nightlyPostcard: boolean;
   /** Aviso del domingo por la tarde con el resumen de la semana. */
   weeklySummary: boolean;
+  /** Efectos de sonido (campanitas al guardar una postal, tocar a Lampi…). */
+  sounds: boolean;
   /** Aviso a la hora de dormir (empieza el horario de noche). Desactivado de entrada. */
   bedtimeReminder: boolean;
   restDays: boolean;
@@ -39,6 +42,7 @@ const DEFAULT_SETTINGS: Settings = {
   nightEnd: '07:00',
   nightlyPostcard: true,
   weeklySummary: true,
+  sounds: true,
   bedtimeReminder: false,
   restDays: true,
   strictShield: false,
@@ -86,6 +90,8 @@ export function LumiProvider({ children }: { children: ReactNode }) {
       .configure({ lumiName, limitMinutes, nightStart, nightEnd, strictShield, isPlus })
       .catch((e) => console.warn('Screen Time: no se pudo configurar', e));
   }, [ready, onboarded, lumiName, limitMinutes, nightStart, nightEnd, strictShield, isPlus]);
+
+  useEffect(() => setSoundsEnabled(settings.sounds), [settings.sounds]);
 
   const updateSettings = (patch: Partial<Settings>) =>
     setSettings((prev) => {

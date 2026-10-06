@@ -16,6 +16,7 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { captureRef, releaseCapture } from 'react-native-view-shot';
 
 import { haptic } from '@/haptics';
+import { sfx } from '@/sound';
 import { Fireflies } from '@/components/fireflies';
 import { NightPostcard } from '@/components/nightly/night-postcard';
 import { buildTimeline, stageProgress, useReveal } from '@/components/nightly/reveal';
@@ -160,6 +161,7 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
     busy.current = true;
     saveReturnToAlbum();
     haptic.success();
+    sfx.postcard();
     setSaved(true);
     // Una postal de un sitio ya visitado sustituye a la anterior: el álbum no crece.
     const isNew = !album.some((a) => a.destinationId === pending.destination.id);

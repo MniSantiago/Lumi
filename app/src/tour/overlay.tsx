@@ -22,6 +22,7 @@ import { Fireflies } from '@/components/fireflies';
 import { LumiAvatar } from '@/components/lumi-avatar';
 import { Colors, Fonts, Radius } from '@/constants/theme';
 import { haptic } from '@/haptics';
+import { sfx } from '@/sound';
 import { LUMI_STATES } from '@/lumi/states';
 import { useTour } from '@/tour/context';
 import { TOUR_ICONS, tourCopy, type TourIcon } from '@/tour/definitions';
@@ -105,8 +106,10 @@ function TourScene() {
   }, [target, index, measure, next, win, insets.top, insets.bottom]);
 
   useEffect(() => {
-    if (celebrate) haptic.success();
-    else haptic.selection();
+    if (celebrate) {
+      haptic.success();
+      sfx.reward();
+    } else haptic.selection();
   }, [index, celebrate]);
 
   // El foco: un rectángulo animado. Sin elemento, se encoge hasta un punto y todo queda oscuro.

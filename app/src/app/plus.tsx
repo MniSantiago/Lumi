@@ -12,6 +12,7 @@ import Animated, {
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { haptic } from '@/haptics';
+import { sfx } from '@/sound';
 import { addDays, formatDayMonth, paywallCopy, plusFeatures, REMINDER_DAYS_BEFORE } from '@/components/paywall/copy';
 import {
   CloseButton,
@@ -72,6 +73,7 @@ export default function PlusScreen() {
 
   const celebrate = (title: string) => {
     haptic.success();
+    sfx.reward();
     updateSettings({ isPlus: true });
     setSuccessTitle(title);
     setView('success');

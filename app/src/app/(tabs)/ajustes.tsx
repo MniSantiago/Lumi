@@ -33,6 +33,14 @@ const strictTitle = tr({
   fr: 'Bouclier strict',
 });
 
+const soundsTitle = tr({
+  es: 'Sonidos',
+  en: 'Sounds',
+  zh: '声音',
+  hi: 'आवाज़ें',
+  fr: 'Sons',
+});
+
 const bedtimeTitle = tr({
   es: 'Aviso de buenas noches',
   en: 'Good-night reminder',
@@ -467,6 +475,19 @@ export default function SettingsScreen() {
               })}
             />
             <Toggle label={weeklyTitle} value={settings.weeklySummary} onChange={(v) => void setWeeklySummary(v)} />
+          </Row>
+          <Row>
+            <Label
+              title={soundsTitle}
+              sub={tr({
+                es: 'Campanitas suaves al tocar a Lampi o guardar una postal',
+                en: 'Soft chimes when you tap Lampi or save a postcard',
+                zh: '轻点 Lampi 或保存明信片时的轻柔铃声',
+                hi: 'Lampi को छूने या पोस्टकार्ड सहेजने पर हल्की घंटियाँ',
+                fr: 'De petites clochettes quand tu touches Lampi ou gardes une carte',
+              })}
+            />
+            <Toggle label={soundsTitle} value={settings.sounds} onChange={(v) => updateSettings({ sounds: v })} />
           </Row>
           <Row>
             <Label

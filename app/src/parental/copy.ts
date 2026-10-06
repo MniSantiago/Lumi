@@ -1,13 +1,13 @@
 import { tr } from '@/i18n';
 
-/** Textos del control parental (Ajustes y pantalla del PIN). */
+/** Textos del bloqueo con PIN (Ajustes y pantalla del PIN). */
 export const parentalCopy = {
   section: tr({
-    es: 'Control parental',
-    en: 'Parental controls',
-    zh: '家长控制',
-    hi: 'पैरेंटल कंट्रोल',
-    fr: 'Contrôle parental',
+    es: 'Bloqueo con PIN',
+    en: 'PIN lock',
+    zh: 'PIN 锁',
+    hi: 'PIN लॉक',
+    fr: 'Verrou par PIN',
   }),
   rowOffSub: tr({
     es: 'Un PIN de 4 dígitos para que nadie cambie los horarios ni las apps ladronas',
@@ -34,11 +34,11 @@ export const parentalCopy = {
     fr: 'Protégé par PIN',
   }),
   lockedA11y: tr({
-    es: 'Bloqueado. Pide el PIN parental',
-    en: 'Locked. Asks for the parental PIN',
-    zh: '已锁定。需要家长 PIN',
-    hi: 'लॉक है। पैरेंटल PIN माँगेगा',
-    fr: 'Verrouillé. Demande le PIN parental',
+    es: 'Bloqueado. Pide el PIN',
+    en: 'Locked. Asks for the PIN',
+    zh: '已锁定。需要 PIN',
+    hi: 'लॉक है। PIN माँगेगा',
+    fr: 'Verrouillé. Demande le PIN',
   }),
 
   pinLabel: tr({ es: 'PIN', en: 'PIN', zh: 'PIN', hi: 'PIN', fr: 'PIN' }),
@@ -76,18 +76,18 @@ export const parentalCopy = {
   }),
 
   createTitle: tr({
-    es: 'Crea un PIN parental',
-    en: 'Create a parental PIN',
-    zh: '创建家长 PIN',
-    hi: 'पैरेंटल PIN बनाओ',
-    fr: 'Crée un PIN parental',
+    es: 'Crea un PIN',
+    en: 'Create a PIN',
+    zh: '创建 PIN',
+    hi: 'PIN बनाओ',
+    fr: 'Crée un PIN',
   }),
   createSub: tr({
-    es: 'Sin el PIN no se podrán cambiar el límite, la hora de dormir, el escudo estricto ni las apps ladronas. Elige uno que un menor no adivine.',
-    en: 'Without the PIN, the limit, bedtime, strict shield and thief apps can’t be changed. Pick one a child won’t guess.',
-    zh: '没有 PIN 就无法修改上限、睡觉时间、严格护盾和偷时间的 App。请选一个孩子猜不到的。',
-    hi: 'PIN के बिना सीमा, सोने का समय, सख़्त ढाल और चोर ऐप्स नहीं बदले जा सकेंगे। ऐसा PIN चुनो जो बच्चा न भाँप सके।',
-    fr: 'Sans le PIN, on ne peut changer ni la limite, ni l’heure du coucher, ni le bouclier strict, ni les applis voleuses. Choisis-en un qu’un enfant ne devine pas.',
+    es: 'Sin el PIN no se podrán cambiar el límite, la hora de dormir, el escudo estricto ni las apps ladronas. Elige uno que los demás no adivinen.',
+    en: 'Without the PIN, the limit, bedtime, strict shield and thief apps can’t be changed. Pick one others won’t guess.',
+    zh: '没有 PIN 就无法修改上限、睡觉时间、严格护盾和偷时间的 App。请选一个别人猜不到的。',
+    hi: 'PIN के बिना सीमा, सोने का समय, सख़्त ढाल और चोर ऐप्स नहीं बदले जा सकेंगे। ऐसा PIN चुनो जिसे दूसरे न भाँप सकें।',
+    fr: 'Sans le PIN, on ne peut changer ni la limite, ni l’heure du coucher, ni le bouclier strict, ni les applis voleuses. Choisis-en un que les autres ne devinent pas.',
   }),
   changeTitle: tr({
     es: 'Cambiar el PIN',

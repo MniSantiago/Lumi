@@ -5,6 +5,7 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 import { haptic } from '@/haptics';
+import { sfx } from '@/sound';
 import { Fireflies } from '@/components/fireflies';
 import { LivingBackground } from '@/components/living-background';
 import { LightMeter } from '@/components/light-meter';
@@ -76,6 +77,7 @@ export default function HomeScreen() {
   const line = talk.key === state.key && talk.i >= 0 ? state.chatter[talk.i % state.chatter.length] : state.bubble;
   const onPokeLumi = () => {
     haptic.light();
+    sfx.tap();
     setTalk((prev) => ({ key: state.key, i: prev.key === state.key ? prev.i + 1 : 0 }));
   };
 
