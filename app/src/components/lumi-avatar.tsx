@@ -14,8 +14,10 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
+import { Companion, OutfitLayer } from '@/components/outfit';
 import { SparkGlyph } from '@/components/spark-glyph';
 import { Colors, Fonts } from '@/constants/theme';
+import type { Outfit } from '@/game/types';
 import type { LumiState, LumiStateKey } from '@/lumi/states';
 
 const loop = { easing: Easing.inOut(Easing.sin), reduceMotion: ReduceMotion.System };
@@ -70,6 +72,7 @@ export function LumiAvatar({
   accessibilityHint,
   halo,
   alive = !!onPress,
+  outfit,
 }: {
   state: LumiState;
   size?: number;
@@ -79,6 +82,8 @@ export function LumiAvatar({
   accessibilityHint?: string;
   /** Gestos espontáneos (mirar alrededor, saltitos…). */
   alive?: boolean;
+  /** Lo que lleva puesto (objetos y compañero); por defecto, nada. */
+  outfit?: Outfit;
 }) {
   const asleep = state.key === 'apagadita';
   const reduced = useReducedMotion();
@@ -199,7 +204,9 @@ export function LumiAvatar({
             breathe={breathe}
           />
         ))}
+        {outfit ? <OutfitLayer outfit={outfit} art={art} size={size} stateKey={state.key} /> : null}
       </Animated.View>
+      {outfit?.companion ? <Companion friendId={outfit.companion} size={size} /> : null}
       {asleep ? <Zzz size={size} /> : null}
       {bursts.map((id) => (
         <Burst key={id} size={size} top={top} />

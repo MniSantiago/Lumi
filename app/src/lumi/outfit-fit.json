@@ -1,0 +1,13 @@
+{
+  "bufanda": { "scale": 1.35 },
+  "llave": { "scale": 1.2 },
+  "campanilla": { "scale": 1.4 },
+  "reloj": { "scale": 1.5 },
+  "lazo-luna": { "scale": 1.3 },
+  "medallon-sol": { "scale": 1.25 },
+  "capa-estrellas": { "scale": 1.5 },
+  "catalejo": { "scale": 1.35, "rotate": -25 },
+  "mapa": { "scale": 1.4 },
+  "carta": { "scale": 1.2 },
+  "vela": { "scale": 1.35 }
+}

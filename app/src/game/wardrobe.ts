@@ -2,6 +2,7 @@ import { FRIEND_CATALOG, itemById } from '@/game/catalog';
 import type { GameState } from '@/game/engine';
 import type { Outfit, Slot } from '@/game/types';
 import { tr } from '@/i18n';
+import fit from '@/lumi/outfit-fit.json';
 
 /**
  * Armario de Lampi: dónde se lleva cada objeto, los accesorios especiales que se
@@ -21,7 +22,7 @@ export const ITEM_SLOTS: Record<string, Slot> = {
 };
 
 /** Ajuste fino por objeto (escala y giro en grados sobre el tamaño base del hueco). Se afina con `tools/outfit_preview.py`. */
-export const ITEM_FIT: Record<string, { scale?: number; rotate?: number }> = {};
+export const ITEM_FIT: Record<string, { scale?: number; rotate?: number }> = fit;
 
 export type SpecialAccessory = {
   id: string;

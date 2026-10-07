@@ -1,0 +1,6 @@
+{
+  "radiante":  { "cabeza": [0.47, 0.17], "cuello": [0.47, 0.60], "mano": [0.13, 0.27] },
+  "contenta":  { "cabeza": [0.50, 0.22], "cuello": [0.50, 0.63], "mano": [0.20, 0.70] },
+  "cansada":   { "cabeza": [0.40, 0.19], "cuello": [0.42, 0.61], "mano": [0.52, 0.68] },
+  "apagadita": { "cabeza": [0.43, 0.30], "cuello": [0.36, 0.66], "mano": [0.62, 0.64] }
+}
