@@ -78,3 +78,9 @@ export type AlbumEntry = {
   date: DateKey;
   savedAt: number;
 };
+
+/** Huecos del cuerpo de Lampi donde se puede llevar un objeto. */
+export type Slot = 'cabeza' | 'cuello' | 'mano';
+
+/** Lo que lleva puesto Lampi (ids de objetos o accesorios) y el amigo que la acompaña. */
+export type Outfit = { cabeza?: string; cuello?: string; mano?: string; companion?: string };

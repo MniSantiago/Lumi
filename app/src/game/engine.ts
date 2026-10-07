@@ -15,7 +15,7 @@
 import { addDays, atTime, dateKey, daysBetween, mondayOf } from '@/game/clock';
 import { destinationById } from '@/game/destinations';
 import { pickDestination, rollExpedition, seedFromDate } from '@/game/rewards';
-import type { AlbumEntry, DateKey, DayRecord, ExpeditionResult } from '@/game/types';
+import type { AlbumEntry, DateKey, DayRecord, ExpeditionResult, Outfit } from '@/game/types';
 import type { Threshold } from '@/lumi/states';
 import { toMinutes } from '@/lumi/time';
 
@@ -55,6 +55,12 @@ export type GameState = {
   pending: StoredPending | null;
   /** Mañanas (fecha del día que empieza) tras una noche en la que se pidió «5 min más». */
   restlessNights: DateKey[];
+  /** Lo que lleva puesto Lampi y su compañero. */
+  outfit: Outfit;
+  /** Ids de accesorios especiales comprados con chispas. */
+  unlocked: string[];
+  /** Chispas gastadas (`sparks` es el total ganado; el saldo es `sparks - spent`). */
+  spent: number;
 };
 
 export type EngineContext = { isPlus: boolean; restDays: boolean };
@@ -68,6 +74,9 @@ export const EMPTY_STATE: GameState = {
   sparks: 0,
   pending: null,
   restlessNights: [],
+  outfit: {},
+  unlocked: [],
+  spent: 0,
 };
 
 const uniq = (list: string[]) => [...new Set(list)];
