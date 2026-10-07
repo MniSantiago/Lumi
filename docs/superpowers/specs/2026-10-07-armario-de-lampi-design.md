@@ -26,8 +26,9 @@ evolución), varios conjuntos guardados, venta o intercambio, compras con dinero
 hueco aparte que admite un amigo (`friendId`).
 
 ### Catálogo
-`CatalogEntry` gana `slot?: Slot` (solo objetos) y `fit?: { scale?: number; rotate?: number }`
-(ajuste fino por objeto, por defecto escala 1 y giro 0). Asignación de los 36 objetos:
+El hueco de cada objeto vive en `game/wardrobe.ts` (`ITEM_SLOTS`) y el ajuste fino por objeto
+(`{ scale?, rotate? }`) en `lumi/outfit-fit.json` (compartido con `tools/outfit_preview.py`). `CatalogEntry` no cambia.
+Asignación de los 36 objetos:
 
 - **cabeza (10):** trebol, seta, bellota, pluma, hoja, flor-luna, trocito-luna, nenufar, pina, polvo-estrella
 - **cuello (9):** bufanda, moneda, llave, boton, concha, campanilla, cristal, geoda, reloj
@@ -35,7 +36,7 @@ hueco aparte que admite un amigo (`friendId`).
   burbuja, engranaje, piedra, semilla, canica, calcetin, ovillo
 
 ### Accesorios especiales (chispas)
-Nuevo `game/wardrobe.ts` con `SPECIAL_ACCESSORIES`: 8 piezas, cada una con `id`, `slot`, `price`,
+Nuevo `game/wardrobe.ts` con `SPECIAL_ACCESSORIES`: 9 piezas, cada una con `id`, `slot`, `price`,
 `icon` (arte propio generado con APIMart) y textos en 5 idiomas.
 
 | id | hueco | precio |
@@ -44,12 +45,13 @@ Nuevo `game/wardrobe.ts` con `SPECIAL_ACCESSORIES`: 8 piezas, cada una con `id`,
 | antifaz-estrellas | cabeza | 70 |
 | corona-luz | cabeza | 150 |
 | lazo-luna | cuello | 60 |
+| medallon-sol | cuello | 100 |
 | capa-estrellas | cuello | 120 |
 | varita-luz | mano | 80 |
 | paraguas-nube | mano | 90 |
 | linterna-dorada | mano | 110 |
 
-Total 730 chispas ≈ 2 meses jugando cada noche (una postal da 10–24; más el bonus de dormir bien).
+Total 830 chispas ≈ 2 meses jugando cada noche (una postal da 10–24; más el bonus de dormir bien).
 Los precios viven en una sola tabla para reajustarlos.
 
 ### Estado guardado (`GameState`, sigue en `version: 1`)
@@ -67,7 +69,7 @@ spent: number;       // chispas gastadas
 enseñan el saldo.
 
 ### Reglas (funciones puras en `engine.ts`/`wardrobe.ts`, con tests)
-- `equip(state, slot, id)`: solo si el id existe, es del hueco y está en `items` o `unlocked`.
+- `equip(state, id)`: el hueco se deduce del id; solo si existe y está en `items` o `unlocked`.
   Poner el mismo id otra vez no hace nada. `unequip(state, slot)`.
 - `setCompanion(state, friendId | null)`: solo si está en `friends`.
 - `buy(state, id)`: el accesorio existe, no está comprado y `balance >= price`; suma a `unlocked`
@@ -83,20 +85,20 @@ enseñan el saldo.
   texto de lo que falta. Equipar y comprar dan el háptico y sonido suaves ya existentes.
 - **Accesos:** botón «Armario» junto a Lampi en el Hogar (con `TourTarget` y un paso nuevo en el
   tour del Hogar) y botón «Ponérselo» en `CollectionDetail` (objetos y amigos poseídos).
-- Lampi vestida se ve en el Hogar, la postal nocturna y el armario (donde use `LumiAvatar`).
+- Lampi vestida se ve en el Hogar y en el armario (la postal nocturna no muestra a Lampi).
 
 ### Dibujo: `Outfit` dentro de `LumiAvatar`
-`RIG` de cada estado gana `anchors: { cabeza, cuello, mano }` (fracciones de ancho y alto de la
-ilustración, como `orbs`). Un componente `<Outfit>` pinta cada icono con `CollectionIcon`
+Las anclas `{ cabeza, cuello, mano }` de cada estado (fracciones de ancho y alto de la
+ilustración, como `orbs`) viven en `lumi/outfit-anchors.json`, compartido con el script de previsualización. Un componente `<Outfit>` pinta cada icono con `CollectionIcon`
 en su ancla, **dentro del contenedor animado del cuerpo**, así flota, respira y salta con Lampi.
-Escala base 0.26 del tamaño de Lampi (cabeza/mano) y 0.22 (cuello), multiplicada por `fit.scale`.
+Escala base (`lumi/outfit-layout.ts`): 0.30 cabeza, 0.27 cuello, 0.32 mano, multiplicada por `fit.scale`.
 El **compañero** va abajo a la derecha, escala 0.34, con un balanceo propio suave, fuera del
 contenedor del cuerpo. Con «reducir movimiento» no se anima.
 Hay un prop `outfit` (por defecto, el del juego) para poder previsualizar y para tests.
 Estado `apagadita` (dormida): lleva puesto lo mismo, sin gestos.
 
 ## Arte (APIMart)
-- 8 accesorios especiales en una hoja 3×3 con `tools/apimart_generate.py` y recorte con
+- 9 accesorios especiales en una hoja 3×3 (`objetos-5`) con `tools/apimart_generate.py` y recorte con
   `tools/slice_sheets.py`, mismo estilo que el resto de la colección. Salida en
   `assets/collection/<id>.webp` y registro en `CollectionIcon`.
 - Anclas y `fit`: se afinan con un script de previsualización (PIL) que compone cada objeto sobre
