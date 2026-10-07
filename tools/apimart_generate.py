@@ -123,6 +123,16 @@ SHEETS = {
             ["an old gold coin with a star engraved", "a single odd striped sock", "an iridescent soap bubble"],
         ]),
     },
+    "objetos-5": {
+        "size": "1:1", "ref": "assets/fa783b9e-d615-4151-b0b7-0f5ef3977612.png",
+        "ids": ["gorro-dormir", "antifaz-estrellas", "corona-luz", "lazo-luna", "medallon-sol",
+                "capa-estrellas", "varita-luz", "paraguas-nube", "linterna-dorada"],
+        "prompt": "A 3x3 grid of nine small wearable accessories for a cute round character, shown alone as flat collectible icons for a cozy game inventory. " + STYLE_ICON + " " + cells([
+            ["a soft lavender knitted nightcap with a little amber pom-pom", "a sleep eye mask in deep indigo with tiny golden stars", "a small glowing golden crown made of light with three soft points"],
+            ["a soft peach-pink ribbon bow decorated with a tiny crescent moon", "a round golden locket pendant on a thin chain engraved with a smiling sun", "a short indigo cape with a lavender lining scattered with golden stars"],
+            ["a small wand with a glowing amber star on top and a lavender handle", "a small closed-top umbrella whose canopy is a puffy, bright white and pale lavender cloud with soft pink shading, with a curved lavender handle, no dark areas", "a small ornate golden lantern with a warm glowing flame inside"],
+        ]),
+    },
     "tutorial": {
         "size": "1:1", "ref": "assets/fa783b9e-d615-4151-b0b7-0f5ef3977612.png",
         "ids": ["mano", "estrella", "flecha", "brillos", "corazon", "varita", "medalla", "pergamino", "corona"],

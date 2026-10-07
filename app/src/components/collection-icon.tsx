@@ -46,6 +46,16 @@ const ARTWORK: Record<string, ImageSource> = {
   moneda: require('../../assets/collection/moneda.webp'),
   calcetin: require('../../assets/collection/calcetin.webp'),
   burbuja: require('../../assets/collection/burbuja.webp'),
+  // Accesorios especiales (se compran con chispas)
+  'gorro-dormir': require('../../assets/collection/gorro-dormir.webp'),
+  'antifaz-estrellas': require('../../assets/collection/antifaz-estrellas.webp'),
+  'corona-luz': require('../../assets/collection/corona-luz.webp'),
+  'lazo-luna': require('../../assets/collection/lazo-luna.webp'),
+  'medallon-sol': require('../../assets/collection/medallon-sol.webp'),
+  'capa-estrellas': require('../../assets/collection/capa-estrellas.webp'),
+  'varita-luz': require('../../assets/collection/varita-luz.webp'),
+  'paraguas-nube': require('../../assets/collection/paraguas-nube.webp'),
+  'linterna-dorada': require('../../assets/collection/linterna-dorada.webp'),
   // Criaturas amigas
   musguito: require('../../assets/collection/musguito.webp'),
   hollin: require('../../assets/collection/hollin.webp'),

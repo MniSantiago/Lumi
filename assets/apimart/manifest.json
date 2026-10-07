@@ -162,5 +162,26 @@
     "url": "https://getapib.org/image/9998209196953301-0391f4a5-5f84-421e-ab12-d70cd03ea1db-image_task_01M3T2VW8CFDXHAEP0WPK5CWNX_0.jpg",
     "url_expires_at": 1790889446,
     "file": "tutorial.jpg"
+  },
+  "objetos-5": {
+    "ids": [
+      "gorro-dormir",
+      "antifaz-estrellas",
+      "corona-luz",
+      "lazo-luna",
+      "medallon-sol",
+      "capa-estrellas",
+      "varita-luz",
+      "paraguas-nube",
+      "linterna-dorada"
+    ],
+    "size": "1:1",
+    "prompt": "A 3x3 grid of nine small wearable accessories for a cute round character, shown alone as flat collectible icons for a cozy game inventory. Each one centered alone in its own cell, clearly separated from the others with generous empty space, on one continuous plain flat pure white background, no gutters, no frames, no ground shadows, no text, no letters. Same soft cozy 2D painterly illustration style as the reference character (gentle grain, rounded shapes, soft glow), palette of lavender, soft violet, warm amber-gold, peach-pink, mint green and cream. Cute, readable at small size. Row 1 left: a soft lavender knitted nightcap with a little amber pom-pom. Row 1 center: a sleep eye mask in deep indigo with tiny golden stars. Row 1 right: a small glowing golden crown made of light with three soft points. Row 2 left: a soft peach-pink ribbon bow decorated with a tiny crescent moon. Row 2 center: a round golden locket pendant on a thin chain engraved with a smiling sun. Row 2 right: a short indigo cape with a lavender lining scattered with golden stars. Row 3 left: a small wand with a glowing amber star on top and a lavender handle. Row 3 center: a small closed-top umbrella whose canopy is a puffy, bright white and pale lavender cloud with soft pink shading, with a curved lavender handle, no dark areas. Row 3 right: a small ornate golden lantern with a warm glowing flame inside.",
+    "task_id": "task_01M4BNA6VBHRHFHB2T3DRK9J1Q",
+    "cost": 0.028,
+    "credits_cost": 0.28,
+    "url": "https://getapib.org/image/9998208607133931-d302c7c5-8950-42f9-9cfc-b25dd34de8bb-image_task_01M4BNBQQXBHA5P9M4JK7RM3S8_0.jpg",
+    "url_expires_at": 1791479266,
+    "file": "objetos-5.png"
   }
 }
