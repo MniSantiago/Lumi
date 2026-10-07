@@ -3,13 +3,14 @@ import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { haptic } from '@/haptics';
-import { CollectionDetail, type CollectionDetailData } from '@/components/collection-detail';
+import { CollectionDetail, type CollectionDetailData, type WearAction } from '@/components/collection-detail';
 import { CollectionIcon } from '@/components/collection-icon';
 import { PostcardView } from '@/components/postcard';
 import { Screen } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
 import { FRIEND_CATALOG, ITEM_CATALOG } from '@/game/catalog';
 import { destinationById, DESTINATIONS } from '@/game/destinations';
+import { ITEM_SLOTS } from '@/game/wardrobe';
 import { useGame } from '@/game/store';
 import { parseDateKey } from '@/game/clock';
 import type { CatalogEntry, DayRecord, ExpeditionResult } from '@/game/types';
@@ -247,6 +248,7 @@ function ItemGrid({
   countTimes: (entry: CatalogEntry) => number;
 }) {
   const [selected, setSelected] = useState<string | null>(null);
+  const game = useGame();
   const selectedEntry = entries.find((e) => e.id === selected && owned.includes(e.id));
   const detail: CollectionDetailData | null = selectedEntry
     ? {
@@ -258,6 +260,18 @@ function ItemGrid({
         total: entries.length,
       }
     : null;
+  const wearable = !!selectedEntry && (kind === 'friend' || !!ITEM_SLOTS[selectedEntry.id]);
+  const wear: WearAction | undefined =
+    selectedEntry && wearable
+      ? {
+          worn: kind === 'friend' ? game.outfit.companion === selectedEntry.id : Object.values(game.outfit).includes(selectedEntry.id),
+          onWear: () => {
+            if (kind === 'friend') game.setCompanion(selectedEntry.id);
+            else game.equip(selectedEntry.id);
+            haptic.success();
+          },
+        }
+      : undefined;
   const sorted = [...entries.filter((e) => owned.includes(e.id)), ...entries.filter((e) => !owned.includes(e.id))];
   let mystery = 0;
   return (
@@ -274,7 +288,7 @@ function ItemGrid({
           })}
         </Text>
       ) : null}
-      <CollectionDetail data={detail} onClose={() => setSelected(null)} />
+      <CollectionDetail data={detail} onClose={() => setSelected(null)} wear={wear} />
       <View style={styles.itemGrid}>
         {sorted.map((entry) => {
           const known = owned.includes(entry.id);

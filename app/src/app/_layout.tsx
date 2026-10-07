@@ -110,6 +110,7 @@ function RootStack() {
         <Stack.Screen name="nombres" options={{ presentation: 'modal' }} />
         <Stack.Screen name="pin" options={{ presentation: 'modal' }} />
         <Stack.Screen name="chispas" options={{ presentation: 'modal' }} />
+        <Stack.Screen name="armario" options={{ presentation: 'modal' }} />
         <Stack.Screen name="cuenta/contrasena" options={{ presentation: 'modal' }} />
         <Stack.Screen name="cuenta/eliminar" options={{ presentation: 'modal' }} />
         <Stack.Screen name="resumen" options={{ presentation: 'fullScreenModal', animation: 'fade' }} />

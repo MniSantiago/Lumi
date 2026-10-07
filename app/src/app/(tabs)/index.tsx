@@ -110,7 +110,7 @@ export default function HomeScreen() {
             <Pressable
               style={({ pressed }) => [styles.sparks, pressed && { opacity: 0.75 }]}
               accessibilityRole="button"
-              accessibilityLabel={`${game.sparks} ${nightlyCopy.sparksUnit}`}
+              accessibilityLabel={`${game.balance} ${nightlyCopy.sparksUnit}`}
               accessibilityHint={tr({
                 es: 'Qué son y cómo se consiguen',
                 en: 'What they are and how to get them',
@@ -122,7 +122,7 @@ export default function HomeScreen() {
               onPress={() => router.push('/chispas')}>
               <View style={styles.sparksRow}>
                 <SparkGlyph size={14} color={Colors.amberPale} />
-                <Text style={styles.sparksText}>{game.sparks}</Text>
+                <Text style={styles.sparksText}>{game.balance}</Text>
               </View>
             </Pressable>
           </TourTarget>
@@ -157,6 +157,7 @@ export default function HomeScreen() {
             <LumiAvatar
               state={state}
               size={190}
+              outfit={game.outfit}
               halo={EVOLUTION.stages[game.evolution.stage]?.halo}
               onPress={onPokeLumi}
               accessibilityHint={tr({
@@ -171,6 +172,17 @@ export default function HomeScreen() {
           <Pill tone={state.exploring ? 'amber' : 'lavender'} style={styles.statePill}>
             {state.label}
           </Pill>
+          <TourTarget id="home.wardrobe">
+            <Pressable
+              accessibilityRole="button"
+              onPress={() => router.push('/armario')}
+              hitSlop={8}
+              style={({ pressed }) => [styles.wardrobeButton, pressed && { opacity: 0.75 }]}>
+              <Text style={styles.wardrobeText}>
+                {tr({ es: 'Armario', en: 'Wardrobe', zh: '衣橱', hi: 'अलमारी', fr: 'Garde-robe' })}
+              </Text>
+            </Pressable>
+          </TourTarget>
         </View>
 
         {game.ready ? (
@@ -409,6 +421,14 @@ const styles = StyleSheet.create({
   sparksRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
   sparksText: { fontFamily: Fonts.bodyBold, color: Colors.amberPale, fontSize: 15, fontVariant: ['tabular-nums'] },
   meterCard: { gap: Spacing.three },
+  wardrobeButton: {
+    alignSelf: 'center',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: Radius.pill,
+    backgroundColor: 'rgba(201, 191, 242, 0.14)',
+  },
+  wardrobeText: { fontFamily: Fonts.bodySemiBold, fontSize: 13, color: Colors.lavenderPale },
   statePill: { alignSelf: 'center', backgroundColor: 'rgba(19, 17, 46, 0.78)' },
   stage: { flex: 1, alignItems: 'center', justifyContent: 'flex-end', gap: Spacing.two },
   bubble: {

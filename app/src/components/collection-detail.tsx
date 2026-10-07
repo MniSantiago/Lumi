@@ -19,10 +19,18 @@ export type CollectionDetailData = {
   total: number;
 };
 
+export type WearAction = {
+  /** Ya lo lleva puesto. */
+  worn: boolean;
+  onWear: () => void;
+};
+
 const copy = {
   close: tr({ es: 'Cerrar', en: 'Close', zh: '关闭', hi: 'बंद करो', fr: 'Fermer' }),
   friend: tr({ es: 'Criatura amiga', en: 'Creature friend', zh: '小伙伴', hi: 'जीव दोस्त', fr: 'Créature amie' }),
   item: tr({ es: 'Objeto', en: 'Keepsake', zh: '物品', hi: 'चीज़', fr: 'Objet' }),
+  wear: tr({ es: 'Ponérselo', en: 'Put it on', zh: '戴上', hi: 'पहनाओ', fr: 'Le lui mettre' }),
+  worn: tr({ es: 'Lo lleva puesto', en: 'Wearing it', zh: '已戴上', hi: 'पहना हुआ है', fr: 'Elle le porte' }),
   number: (n: number, total: number) =>
     tr({
       es: `N.º ${n} de ${total}`,
@@ -42,15 +50,24 @@ const copy = {
 };
 
 /** Vista ampliada de un amigo u objeto de la Colección: arte grande, nombre y datos. */
-export function CollectionDetail({ data, onClose }: { data: CollectionDetailData | null; onClose: () => void }) {
+export function CollectionDetail({
+  data,
+  onClose,
+  wear,
+}: {
+  data: CollectionDetailData | null;
+  onClose: () => void;
+  /** Si se puede poner a Lampi, el botón para hacerlo. */
+  wear?: WearAction;
+}) {
   return (
     <Modal visible={data !== null} transparent animationType="none" onRequestClose={onClose} statusBarTranslucent>
-      {data ? <Body data={data} onClose={onClose} /> : null}
+      {data ? <Body data={data} onClose={onClose} wear={wear} /> : null}
     </Modal>
   );
 }
 
-function Body({ data, onClose }: { data: CollectionDetailData; onClose: () => void }) {
+function Body({ data, onClose, wear }: { data: CollectionDetailData; onClose: () => void; wear?: WearAction }) {
   const { entry, kind, origin, times, number, total } = data;
   const kindLabel = kind === 'friend' ? copy.friend : copy.item;
   return (
@@ -91,6 +108,16 @@ function Body({ data, onClose }: { data: CollectionDetailData; onClose: () => vo
           {times > 0 ? <Text style={styles.fact}>{copy.times(times)}</Text> : null}
         </View>
         {origin ? <Text style={styles.origin}>{origin}</Text> : null}
+        {wear ? (
+          <Pressable
+            accessibilityRole="button"
+            accessibilityState={{ disabled: wear.worn }}
+            disabled={wear.worn}
+            onPress={wear.onWear}
+            style={({ pressed }) => [styles.wear, wear.worn && { opacity: 0.6 }, pressed && { opacity: 0.75 }]}>
+            <Text style={styles.wearText}>{wear.worn ? copy.worn : copy.wear}</Text>
+          </Pressable>
+        ) : null}
       </Animated.View>
     </View>
   );
@@ -160,6 +187,15 @@ const styles = StyleSheet.create({
     overflow: 'hidden',
     backgroundColor: 'rgba(201, 191, 242, 0.1)',
   },
+  wear: {
+    marginTop: 16,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 16,
+    borderCurve: 'continuous',
+    backgroundColor: 'rgba(201, 191, 242, 0.18)',
+  },
+  wearText: { fontFamily: Fonts.bodySemiBold, fontSize: 14, color: Colors.lavenderPale },
   origin: {
     fontFamily: Fonts.body,
     fontSize: 14,

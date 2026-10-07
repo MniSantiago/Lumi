@@ -121,6 +121,16 @@ export function tourSteps(id: TourId, name: string): TourStep[] {
             fr: 'J’en gagne à chaque voyage et après une bonne nuit. Touche-les pour en savoir plus.',
           }),
         }),
+        step('home.wardrobe', 'estrella', {
+          title: tr({ es: 'Mi armario', en: 'My wardrobe', zh: '我的衣橱', hi: 'मेरी अलमारी', fr: 'Ma garde-robe' }),
+          body: tr({
+            es: 'Con lo que traigo de mis viajes me visto, y un amigo puede venir conmigo. Con chispas hay accesorios especiales.',
+            en: 'I dress up with what I bring back from my trips, and a friend can tag along. Sparks get you special accessories.',
+            zh: '我用旅行带回来的东西打扮自己，还能带一个朋友同行。用火花可以换特别的配饰。',
+            hi: 'सफ़र से लाई चीज़ों से मैं सजती हूँ, और एक दोस्त मेरे साथ चल सकता है। चिंगारियों से खास एक्सेसरीज़ मिलती हैं।',
+            fr: 'Je m’habille avec ce que je rapporte de mes voyages, et un ami peut m’accompagner. Les étincelles donnent des accessoires spéciaux.',
+          }),
+        }),
         finale({
           title: tr({
             es: '¡Eso es todo!',

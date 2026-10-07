@@ -1,5 +1,6 @@
+import { router } from 'expo-router';
 import type { ReactNode } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { LumiAvatar } from '@/components/lumi-avatar';
 import { Label, List, Row } from '@/components/onboarding/controls';
@@ -19,7 +20,7 @@ import { tr } from '@/i18n';
  */
 export default function SparksSheet() {
   const { settings } = useLumi();
-  const { sparks } = useGame();
+  const { balance: sparks } = useGame();
   const name = settings.lumiName;
 
   return (
@@ -134,13 +135,27 @@ export default function SparksSheet() {
 
       <Text style={styles.note}>
         {tr({
-          es: 'Nunca pierde las que tiene, ni se compran con dinero: son la luz que ha ido juntando contigo.',
-          en: 'She never loses the ones she has, and they can’t be bought: they’re the light she’s gathered with you.',
-          zh: '她不会失去已有的火花，也不能用钱买：这是她和你一起攒下的光。',
-          hi: 'जो उसके पास हैं वो कभी नहीं खोतीं, और पैसों से नहीं ख़रीदी जातीं: ये वो रोशनी है जो उसने तुम्हारे साथ जुटाई है।',
-          fr: 'Elle ne perd jamais celles qu’elle a, et elles ne s’achètent pas : c’est la lumière qu’elle a réunie avec toi.',
+          es: 'No caducan ni se compran con dinero: son la luz que ha ido juntando contigo. Solo se gastan si tú quieres, en el Armario.',
+          en: 'They never expire and can’t be bought with money: they’re the light she’s gathered with you. They’re only spent if you want, in the Wardrobe.',
+          zh: '火花不会过期，也不能用钱买：这是她和你一起攒下的光。只有你愿意时，才会在衣橱里花掉。',
+          hi: 'ये कभी ख़त्म नहीं होतीं और पैसों से नहीं ख़रीदी जातीं: ये वो रोशनी है जो उसने तुम्हारे साथ जुटाई है। तुम चाहो तभी अलमारी में खर्च होती हैं।',
+          fr: 'Elles n’expirent jamais et ne s’achètent pas avec de l’argent : c’est la lumière qu’elle a réunie avec toi. Elles ne se dépensent que si tu le veux, dans la garde-robe.',
         })}
       </Text>
+      <Pressable
+        accessibilityRole="button"
+        onPress={() => router.replace('/armario')}
+        style={({ pressed }) => [styles.wardrobeLink, pressed && { opacity: 0.75 }]}>
+        <Text style={styles.wardrobeLinkText}>
+          {tr({
+            es: 'Abrir el Armario',
+            en: 'Open the Wardrobe',
+            zh: '打开衣橱',
+            hi: 'अलमारी खोलो',
+            fr: 'Ouvrir la garde-robe',
+          })}
+        </Text>
+      </Pressable>
     </Sheet>
   );
 }
@@ -168,5 +183,13 @@ const styles = StyleSheet.create({
   },
   amount: { fontFamily: Fonts.bodySemiBold, fontSize: 15, color: Colors.amberPale, fontVariant: ['tabular-nums'] },
   muted: { color: Colors.textTertiary },
+  wardrobeLink: {
+    alignSelf: 'center',
+    paddingHorizontal: 18,
+    paddingVertical: 10,
+    borderRadius: 16,
+    backgroundColor: 'rgba(201, 191, 242, 0.14)',
+  },
+  wardrobeLinkText: { fontFamily: Fonts.bodySemiBold, fontSize: 14, color: Colors.lavenderPale },
   note: { fontFamily: Fonts.body, fontSize: 14, lineHeight: 20, color: Colors.textSecondary, paddingHorizontal: 6 },
 });
