@@ -8,6 +8,7 @@ import {
   buy,
   equip,
   ITEM_SLOTS,
+  missingSparks,
   sanitizeWardrobe,
   setCompanion,
   SLOTS,
@@ -141,5 +142,20 @@ describe('toGameState', () => {
   it('limpia un outfit con objetos no poseídos al restaurar', () => {
     const s = toGameState({ ...EMPTY_STATE, outfit: { cabeza: 'seta' } });
     expect(s.outfit).toEqual({});
+  });
+});
+
+describe('missingSparks', () => {
+  const price = SPECIAL_ACCESSORIES.find((a) => a.id === 'gorro-dormir')!.price;
+  it('dice cuántas chispas faltan para un accesorio', () => {
+    expect(missingSparks({ ...EMPTY_STATE, sparks: price - 7 }, 'gorro-dormir')).toBe(7);
+  });
+  it('descuenta lo ya gastado (usa el saldo, no el total ganado)', () => {
+    expect(missingSparks({ ...EMPTY_STATE, sparks: 100, spent: 100 }, 'gorro-dormir')).toBe(price);
+  });
+  it('es 0 si alcanza, si ya está comprado o si el id no existe', () => {
+    expect(missingSparks({ ...EMPTY_STATE, sparks: price }, 'gorro-dormir')).toBe(0);
+    expect(missingSparks(buy({ ...EMPTY_STATE, sparks: 999 }, 'gorro-dormir'), 'gorro-dormir')).toBe(0);
+    expect(missingSparks(EMPTY_STATE, 'nada')).toBe(0);
   });
 });

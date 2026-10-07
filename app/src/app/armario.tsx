@@ -9,11 +9,12 @@ import { Colors, Fonts } from '@/constants/theme';
 import { FRIEND_CATALOG, ITEM_CATALOG } from '@/game/catalog';
 import { useGame } from '@/game/store';
 import type { Slot } from '@/game/types';
-import { ITEM_SLOTS, SPECIAL_ACCESSORIES } from '@/game/wardrobe';
+import { ITEM_SLOTS, missingSparks, specialById, SPECIAL_ACCESSORIES } from '@/game/wardrobe';
 import { haptic } from '@/haptics';
 import { tr } from '@/i18n';
 import { LUMI_STATES } from '@/lumi/states';
 import { useLumi } from '@/lumi/store';
+import { nightlyCopy } from '@/nightly/copy';
 import { sfx } from '@/sound';
 
 type Tab = Slot | 'amigo';
@@ -33,6 +34,15 @@ const copy = {
     fr: 'Rien pour cet endroit pour l’instant. Ce qu’elle rapportera de ses voyages apparaîtra ici.',
   }),
   remove: tr({ es: 'Quitar', en: 'Remove', zh: '取下', hi: 'हटाओ', fr: 'Retirer' }),
+  get: tr({ es: 'Conseguir', en: 'Get', zh: '获得', hi: 'पाओ', fr: 'Obtenir' }),
+  missing: (n: number) =>
+    tr({
+      es: n === 1 ? 'Te falta 1 chispa' : `Te faltan ${n} chispas`,
+      en: n === 1 ? '1 more spark needed' : `${n} more sparks needed`,
+      zh: `还差 ${n} 个火花`,
+      hi: `${n} चिंगारियाँ और चाहिए`,
+      fr: n === 1 ? 'Il te manque 1 étincelle' : `Il te manque ${n} étincelles`,
+    }),
   shop: tr({ es: 'Con chispas', en: 'With sparks', zh: '用火花换', hi: 'चिंगारियों से', fr: 'Avec des étincelles' }),
 };
 
@@ -43,6 +53,8 @@ export default function WardrobeSheet() {
   const { settings } = useLumi();
   const game = useGame();
   const [tab, setTab] = useState<Tab>('cabeza');
+  /** Accesorio elegido en la tienda: se compra solo con el botón «Conseguir». */
+  const [choice, setChoice] = useState<string | null>(null);
   const name = settings.lumiName;
 
   const owned: Option[] =
@@ -93,6 +105,7 @@ export default function WardrobeSheet() {
             accessibilityState={{ selected: tab === t.key }}
             onPress={() => {
               setTab(t.key);
+              setChoice(null);
               haptic.selection();
             }}
             style={[styles.tab, tab === t.key && styles.tabOn]}>
@@ -138,17 +151,13 @@ export default function WardrobeSheet() {
                 <Pressable
                   key={a.id}
                   accessibilityRole="button"
-                  accessibilityLabel={`${a.name}, ${a.price}`}
-                  accessibilityState={{ disabled: !can }}
-                  disabled={!can}
+                  accessibilityLabel={`${a.name}, ${a.price} ${nightlyCopy.sparksUnit}`}
+                  accessibilityState={{ selected: choice === a.id }}
                   onPress={() => {
-                    if (game.buy(a.id)) {
-                      game.equip(a.id);
-                      haptic.success();
-                      sfx.reward();
-                    }
+                    setChoice(a.id);
+                    haptic.selection();
                   }}
-                  style={[styles.cell, !can && { opacity: 0.55 }]}>
+                  style={[styles.cell, choice === a.id && styles.cellOn, !can && choice !== a.id && { opacity: 0.55 }]}>
                   <CollectionIcon name={a.icon} size={52} />
                   <Text style={styles.cellName} numberOfLines={2}>
                     {a.name}
@@ -161,6 +170,32 @@ export default function WardrobeSheet() {
               );
             })}
           </View>
+          {choice && specialById(choice) && shop.some((a) => a.id === choice) ? (
+            <View style={styles.confirm}>
+              <Text style={styles.confirmName} numberOfLines={2}>
+                {specialById(choice)!.name}
+              </Text>
+              {missingSparks(game.snapshot, choice) > 0 ? (
+                <Text style={styles.confirmMissing}>{copy.missing(missingSparks(game.snapshot, choice))}</Text>
+              ) : (
+                <Pressable
+                  accessibilityRole="button"
+                  onPress={() => {
+                    if (game.buy(choice)) {
+                      game.equip(choice);
+                      setChoice(null);
+                      haptic.success();
+                      sfx.reward();
+                    }
+                  }}
+                  style={({ pressed }) => [styles.confirmButton, pressed && { opacity: 0.8 }]}>
+                  <Text style={styles.confirmButtonText}>{copy.get}</Text>
+                  <SparkGlyph size={12} color={Colors.night} />
+                  <Text style={styles.confirmButtonText}>{specialById(choice)!.price}</Text>
+                </Pressable>
+              )}
+            </View>
+          ) : null}
         </View>
       ) : null}
     </Sheet>
@@ -200,6 +235,29 @@ const styles = StyleSheet.create({
   cellOn: { borderColor: Colors.amberPale, backgroundColor: 'rgba(255, 214, 140, 0.12)' },
   removeText: { fontFamily: Fonts.bodySemiBold, fontSize: 13, color: Colors.textSecondary, textAlign: 'center' },
   cellName: { fontFamily: Fonts.body, fontSize: 11, color: Colors.textSecondary, textAlign: 'center' },
+  confirm: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    gap: 12,
+    padding: 12,
+    borderRadius: 16,
+    borderCurve: 'continuous',
+    backgroundColor: 'rgba(201, 191, 242, 0.12)',
+  },
+  confirmName: { flex: 1, fontFamily: Fonts.bodySemiBold, fontSize: 14, color: Colors.lavenderPale },
+  confirmMissing: { flexShrink: 1, fontFamily: Fonts.body, fontSize: 13, color: Colors.textSecondary, textAlign: 'right' },
+  confirmButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 5,
+    paddingHorizontal: 16,
+    paddingVertical: 9,
+    borderRadius: 14,
+    borderCurve: 'continuous',
+    backgroundColor: Colors.amberPale,
+  },
+  confirmButtonText: { fontFamily: Fonts.bodyBold, fontSize: 14, color: Colors.night, fontVariant: ['tabular-nums'] },
   price: { flexDirection: 'row', alignItems: 'center', gap: 3 },
   priceText: { fontFamily: Fonts.bodyBold, fontSize: 12, color: Colors.amberPale, fontVariant: ['tabular-nums'] },
   label: {

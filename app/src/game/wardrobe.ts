@@ -103,6 +103,13 @@ export function wardrobeEntry(id: string): { id: string; name: string; icon: str
 /** Chispas disponibles: lo ganado menos lo gastado (nunca negativo). */
 export const balance = (state: GameState): number => Math.max(0, state.sparks - state.spent);
 
+/** Chispas que faltan para comprar un accesorio (0 si alcanza, ya está comprado o no existe). */
+export function missingSparks(state: GameState, id: string): number {
+  const accessory = specialById(id);
+  if (!accessory || state.unlocked.includes(id)) return 0;
+  return Math.max(0, accessory.price - balance(state));
+}
+
 /** Se puede llevar: es un objeto poseído o un accesorio comprado. */
 export function canWear(state: GameState, id: string): boolean {
   return specialById(id) ? state.unlocked.includes(id) : !!ITEM_SLOTS[id] && state.items.includes(id);
