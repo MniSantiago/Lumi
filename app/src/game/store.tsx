@@ -23,7 +23,15 @@ import {
   type GameState,
   type StoredDay,
 } from '@/game/engine';
-import type { AlbumEntry, DateKey, DayRecord, Destination, ExpeditionResult } from '@/game/types';
+import type { AlbumEntry, DateKey, DayRecord, Destination, ExpeditionResult, Outfit, Slot } from '@/game/types';
+import {
+  balance as walletBalance,
+  buy as buyAccessory,
+  equip as equipItem,
+  sanitizeWardrobe,
+  setCompanion as setCompanionOf,
+  unequip as unequipSlot,
+} from '@/game/wardrobe';
 import { useLumi } from '@/lumi/store';
 import { cancelNightlyReturn, scheduleNightlyReturn } from '@/notifications';
 import { screenTime } from '@/screen-time';
@@ -72,6 +80,17 @@ export type GameApi = {
   items: string[];
   friends: string[];
   sparks: number;
+  /** Chispas disponibles para gastar (`sparks` es el total ganado). */
+  balance: number;
+  /** Lo que lleva puesto Lampi y su compañero. */
+  outfit: Outfit;
+  /** Accesorios especiales comprados. */
+  unlocked: string[];
+  equip: (id: string) => void;
+  unequip: (slot: Slot) => void;
+  setCompanion: (friendId: string | null) => void;
+  /** Compra un accesorio con chispas; false si no se pudo (saldo, ya comprado, no existe). */
+  buy: (id: string) => boolean;
   streak: number;
   week: WeekDay[];
   /** Días con expedición acumulados. */
@@ -113,7 +132,7 @@ const GameContext = createContext<GameApi | null>(null);
 export function toGameState(value: unknown): GameState {
   const parsed = value as Partial<GameState> | null;
   if (!parsed || typeof parsed !== 'object' || parsed.version !== 1) return EMPTY_STATE;
-  return { ...EMPTY_STATE, ...parsed } as GameState;
+  return sanitizeWardrobe({ ...EMPTY_STATE, ...parsed } as GameState);
 }
 
 function parseState(raw: string | null): GameState {
@@ -223,6 +242,19 @@ export function GameProvider({ children }: { children: ReactNode }) {
     setState((s) => markRestless(s, morningAfter(clock.now(), nightEnd)));
   }, [nightEnd]);
 
+  const equip = useCallback((id: string) => setState((s) => equipItem(s, id)), []);
+  const unequip = useCallback((slot: Slot) => setState((s) => unequipSlot(s, slot)), []);
+  const setCompanion = useCallback((friendId: string | null) => setState((s) => setCompanionOf(s, friendId)), []);
+  const stateRef = useRef(state);
+  useEffect(() => {
+    stateRef.current = state;
+  });
+  const buy = useCallback((id: string) => {
+    if (buyAccessory(stateRef.current, id) === stateRef.current) return false;
+    setState((s) => buyAccessory(s, id));
+    return true;
+  }, []);
+
   const restore = useCallback((next: GameState) => setState(toGameState(next)), []);
 
   const dev = useMemo(
@@ -267,6 +299,13 @@ export function GameProvider({ children }: { children: ReactNode }) {
       items: state.items,
       friends: state.friends,
       sparks: state.sparks,
+      balance: walletBalance(state),
+      outfit: state.outfit,
+      unlocked: state.unlocked,
+      equip,
+      unequip,
+      setCompanion,
+      buy,
       streak: streakFor(state, today),
       week: weekFor(state, today),
       brightDays: bright,
@@ -283,7 +322,7 @@ export function GameProvider({ children }: { children: ReactNode }) {
       restore,
       dev,
     };
-  }, [state, day, ready, today, todayDestination, currentDestination, now, settings.nightEnd, saveReturnToAlbum, markRestlessNight, restore, dev]);
+  }, [state, day, ready, today, todayDestination, currentDestination, now, settings.nightEnd, saveReturnToAlbum, markRestlessNight, restore, dev, equip, unequip, setCompanion, buy]);
 
   return <GameContext value={api}>{children}</GameContext>;
 }

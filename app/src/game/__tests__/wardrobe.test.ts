@@ -2,6 +2,7 @@ import { describe, expect, it } from '@jest/globals';
 
 import { ITEM_CATALOG } from '@/game/catalog';
 import { EMPTY_STATE, type GameState } from '@/game/engine';
+import { toGameState } from '@/game/store';
 import {
   balance,
   buy,
@@ -124,5 +125,21 @@ describe('sanitizeWardrobe', () => {
   });
   it('devuelve el mismo objeto si no hay nada que corregir', () => {
     expect(sanitizeWardrobe(rich)).toBe(rich);
+  });
+});
+
+describe('toGameState', () => {
+  it('carga un estado guardado antes del armario sin perder nada', () => {
+    const old = { version: 1, days: {}, album: [], items: ['seta'], friends: [], sparks: 40, pending: null, restlessNights: [] };
+    const s = toGameState(old);
+    expect(s.sparks).toBe(40);
+    expect(s.items).toEqual(['seta']);
+    expect(s.outfit).toEqual({});
+    expect(s.unlocked).toEqual([]);
+    expect(s.spent).toBe(0);
+  });
+  it('limpia un outfit con objetos no poseídos al restaurar', () => {
+    const s = toGameState({ ...EMPTY_STATE, outfit: { cabeza: 'seta' } });
+    expect(s.outfit).toEqual({});
   });
 });
