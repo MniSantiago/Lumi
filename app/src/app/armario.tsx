@@ -15,7 +15,6 @@ import { tr } from '@/i18n';
 import { LUMI_STATES } from '@/lumi/states';
 import { useLumi } from '@/lumi/store';
 import { nightlyCopy } from '@/nightly/copy';
-import { sfx } from '@/sound';
 
 type Tab = Slot | 'amigo';
 const TABS: { key: Tab; label: string }[] = [
@@ -71,7 +70,6 @@ export default function WardrobeSheet() {
     if (tab === 'amigo') game.setCompanion(id);
     else game.equip(id);
     haptic.selection();
-    sfx.select();
   };
   const remove = () => {
     if (tab === 'amigo') game.setCompanion(null);
@@ -185,7 +183,6 @@ export default function WardrobeSheet() {
                       game.equip(choice);
                       setChoice(null);
                       haptic.success();
-                      sfx.reward();
                     }
                   }}
                   style={({ pressed }) => [styles.confirmButton, pressed && { opacity: 0.8 }]}>
