@@ -1,5 +1,6 @@
 import { router } from 'expo-router';
 import { LinearGradient } from 'expo-linear-gradient';
+import { SymbolView } from 'expo-symbols';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
@@ -19,7 +20,7 @@ import { meterNote } from '@/lumi/meter';
 import { EVOLUTION } from '@/lumi/data';
 import { LUMI_STATES, THRESHOLDS, type LumiState, type Threshold } from '@/lumi/states';
 import { useLumi } from '@/lumi/store';
-import { SparkGlyph } from '@/components/spark-glyph';
+import { SparksPill } from '@/components/sparks-pill';
 import { isNightTime } from '@/lumi/time';
 import { nightlyCopy } from '@/nightly/copy';
 import { screenTime } from '@/screen-time';
@@ -100,32 +101,43 @@ export default function HomeScreen() {
           { paddingTop: insets.top + Spacing.two + WEB_TABS_INSET, paddingBottom: insets.bottom + Spacing.three },
         ]}>
         <View style={styles.header}>
-          <View>
+          <View style={styles.headerTitle}>
             <AppText variant="caption">
               {settings.userName ? `${greeting()}, ${settings.userName}` : greeting()}
             </AppText>
             <AppText variant="display">{settings.lumiName}</AppText>
           </View>
-          <TourTarget id="home.sparks">
-            <Pressable
-              style={({ pressed }) => [styles.sparks, pressed && { opacity: 0.75 }]}
-              accessibilityRole="button"
-              accessibilityLabel={`${game.balance} ${nightlyCopy.sparksUnit}`}
-              accessibilityHint={tr({
-                es: 'Qué son y cómo se consiguen',
-                en: 'What they are and how to get them',
-                zh: '火花是什么、怎么获得',
-                hi: 'ये क्या हैं और कैसे मिलती हैं',
-                fr: 'Ce que c’est et comment en gagner',
-              })}
-              hitSlop={8}
-              onPress={() => router.push('/chispas')}>
-              <View style={styles.sparksRow}>
-                <SparkGlyph size={14} color={Colors.amberPale} />
-                <Text style={styles.sparksText}>{game.balance}</Text>
-              </View>
-            </Pressable>
-          </TourTarget>
+          <View style={styles.headerActions}>
+            <TourTarget id="home.wardrobe">
+              <Pressable
+                accessibilityRole="button"
+                onPress={() => router.push('/armario')}
+                hitSlop={8}
+                style={({ pressed }) => [styles.wardrobeButton, pressed && { opacity: 0.75 }]}>
+                <SymbolView name="tshirt.fill" size={14} tintColor={Colors.lavenderPale} />
+                <Text style={styles.wardrobeText} numberOfLines={1}>
+                  {tr({ es: 'Armario', en: 'Wardrobe', zh: '衣橱', hi: 'अलमारी', fr: 'Garde-robe' })}
+                </Text>
+              </Pressable>
+            </TourTarget>
+            <TourTarget id="home.sparks">
+              <Pressable
+                style={({ pressed }) => pressed && { opacity: 0.75 }}
+                accessibilityRole="button"
+                accessibilityLabel={`${game.balance} ${nightlyCopy.sparksUnit}`}
+                accessibilityHint={tr({
+                  es: 'Qué son y cómo se consiguen',
+                  en: 'What they are and how to get them',
+                  zh: '火花是什么、怎么获得',
+                  hi: 'ये क्या हैं और कैसे मिलती हैं',
+                  fr: 'Ce que c’est et comment en gagner',
+                })}
+                hitSlop={8}
+                onPress={() => router.push('/chispas')}>
+                <SparksPill value={game.balance} />
+              </Pressable>
+            </TourTarget>
+          </View>
         </View>
 
         <TourTarget id="home.meter">
@@ -172,17 +184,6 @@ export default function HomeScreen() {
           <Pill tone={state.exploring ? 'amber' : 'lavender'} style={styles.statePill}>
             {state.label}
           </Pill>
-          <TourTarget id="home.wardrobe">
-            <Pressable
-              accessibilityRole="button"
-              onPress={() => router.push('/armario')}
-              hitSlop={8}
-              style={({ pressed }) => [styles.wardrobeButton, pressed && { opacity: 0.75 }]}>
-              <Text style={styles.wardrobeText}>
-                {tr({ es: 'Armario', en: 'Wardrobe', zh: '衣橱', hi: 'अलमारी', fr: 'Garde-robe' })}
-              </Text>
-            </Pressable>
-          </TourTarget>
         </View>
 
         {game.ready ? (
@@ -410,21 +411,17 @@ const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: Colors.night },
   topShade: { position: 'absolute', top: 0, left: 0, right: 0 },
   content: { flex: 1, paddingHorizontal: Spacing.three + 4, gap: Spacing.three },
-  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end' },
-  sparks: {
-    backgroundColor: 'rgba(255, 201, 107, 0.16)',
-    borderRadius: Radius.pill,
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    marginBottom: 6,
-  },
-  sparksRow: { flexDirection: 'row', alignItems: 'center', gap: 5 },
-  sparksText: { fontFamily: Fonts.bodyBold, color: Colors.amberPale, fontSize: 15, fontVariant: ['tabular-nums'] },
+  header: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'flex-end', gap: 12 },
+  headerTitle: { flexShrink: 1 },
+  // Acciones de la cabecera: armario y chispas, alineadas con la base del nombre.
+  headerActions: { flexDirection: 'row', alignItems: 'center', gap: 8, marginBottom: 6, flexShrink: 0 },
   meterCard: { gap: Spacing.three },
   wardrobeButton: {
-    alignSelf: 'center',
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 7,
     borderRadius: Radius.pill,
     backgroundColor: 'rgba(201, 191, 242, 0.14)',
   },

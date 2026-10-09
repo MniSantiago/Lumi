@@ -6,6 +6,7 @@ import { haptic } from '@/haptics';
 import { CollectionDetail, type CollectionDetailData, type WearAction } from '@/components/collection-detail';
 import { CollectionIcon } from '@/components/collection-icon';
 import { PostcardView } from '@/components/postcard';
+import { SegmentTabs } from '@/components/segment-tabs';
 import { Screen } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
 import { FRIEND_CATALOG, ITEM_CATALOG } from '@/game/catalog';
@@ -77,30 +78,18 @@ export default function CollectionScreen() {
       })}>
       <View>
         <TourTarget id="col.tabs">
-          <View
-            style={styles.tabs}
-            accessibilityRole="tablist"
+          <SegmentTabs
+            items={SECTIONS}
+            value={section}
+            onChange={setSection}
             accessibilityLabel={tr({
               es: 'Tipo de colección',
               en: 'Collection type',
               zh: '收藏类型',
               hi: 'संग्रह का प्रकार',
               fr: 'Type de collection',
-            })}>
-            {SECTIONS.map((s) => {
-              const on = s.key === section;
-              return (
-                <Pressable
-                  key={s.key}
-                  accessibilityRole="tab"
-                  accessibilityState={{ selected: on }}
-                  onPress={() => setSection(s.key)}
-                  style={[styles.tab, on && styles.tabOn]}>
-                  <Text style={[styles.tabText, on && { color: Colors.text }]}>{s.label}</Text>
-                </Pressable>
-              );
             })}
-          </View>
+          />
         </TourTarget>
 
         {section === 'postales' ? (
@@ -133,7 +122,13 @@ export default function CollectionScreen() {
                   accessibilityRole="button"
                   accessibilityLabel={nightlyCopy.rereadHeader(d)}
                   onPress={() => router.push({ pathname: '/postal', params: { id: d.id } })}>
-                  <PostcardView title={d.name} caption={nightlyCopy.chapter(d.chapter)} art={d.art} image={d.image} artHeight={100} />
+                  <PostcardView
+                    title={d.name}
+                    caption={nightlyCopy.chapter(d.chapter)}
+                    art={d.art}
+                    image={d.image}
+                    artHeight={100}
+                  />
                 </Pressable>
               ))}
               {missing.map((d) => (
@@ -264,7 +259,10 @@ function ItemGrid({
   const wear: WearAction | undefined =
     selectedEntry && wearable
       ? {
-          worn: kind === 'friend' ? game.outfit.companion === selectedEntry.id : Object.values(game.outfit).includes(selectedEntry.id),
+          worn:
+            kind === 'friend'
+              ? game.outfit.companion === selectedEntry.id
+              : Object.values(game.outfit).includes(selectedEntry.id),
           onWear: () => {
             if (kind === 'friend') game.setCompanion(selectedEntry.id);
             else game.equip(selectedEntry.id);
@@ -322,18 +320,6 @@ const GRID_GAP = 12;
 const ITEM_GAP = 10;
 
 const styles = StyleSheet.create({
-  tabs: {
-    flexDirection: 'row',
-    gap: 4,
-    padding: 4,
-    borderRadius: 14,
-    borderCurve: 'continuous',
-    backgroundColor: 'rgba(201, 191, 242, 0.08)',
-    marginBottom: 14,
-  },
-  tab: { flex: 1, alignItems: 'center', padding: 8, borderRadius: 10, borderCurve: 'continuous' },
-  tabOn: { backgroundColor: Colors.indigoLight },
-  tabText: { fontFamily: Fonts.bodySemiBold, fontSize: 13, color: Colors.textTertiary },
   count: { fontFamily: Fonts.body, fontSize: 13, color: Colors.textTertiary, marginBottom: 12 },
   empty: { fontFamily: Fonts.body, fontSize: 14, lineHeight: 20, color: Colors.textSecondary, marginBottom: 14 },
   postGrid: { flexDirection: 'row', flexWrap: 'wrap', marginHorizontal: -GRID_GAP / 2, rowGap: 14 },

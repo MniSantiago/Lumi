@@ -4,8 +4,10 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 
 import { CollectionIcon } from '@/components/collection-icon';
 import { LumiAvatar } from '@/components/lumi-avatar';
+import { SegmentTabs } from '@/components/segment-tabs';
 import { Sheet } from '@/components/sheet';
 import { SparkGlyph } from '@/components/spark-glyph';
+import { SparksPill } from '@/components/sparks-pill';
 import { Colors, Fonts } from '@/constants/theme';
 import { FRIEND_CATALOG, ITEM_CATALOG } from '@/game/catalog';
 import { useGame } from '@/game/store';
@@ -27,12 +29,35 @@ const TABS: { key: Tab; label: string }[] = [
 
 const copy = {
   empty: tr({
-    es: 'Aún no tienes nada para este sitio. Lo que traiga de sus viajes aparecerá aquí.',
-    en: 'Nothing for this spot yet. Whatever she brings back from her trips will show up here.',
-    zh: '这里还没有东西。她旅行带回来的东西会出现在这里。',
-    hi: 'इस जगह के लिए अभी कुछ नहीं है। सफ़र से जो वो लाएगी, यहाँ दिखेगा।',
-    fr: 'Rien pour cet endroit pour l’instant. Ce qu’elle rapportera de ses voyages apparaîtra ici.',
+    es: 'Aún no tienes nada para este sitio.',
+    en: 'Nothing for this spot yet.',
+    zh: '这里还没有东西。',
+    hi: 'इस जगह के लिए अभी कुछ नहीं है।',
+    fr: 'Rien pour cet endroit pour l’instant.',
   }),
+  emptyHow: (name: string) =>
+    tr({
+      es: `Las expediciones traen objetos para este hueco: cuando ${name} vuelva con uno, aparecerá aquí.`,
+      en: `Expeditions bring back things for this spot: when ${name} returns with one, it’ll show up here.`,
+      zh: `探险会带回适合这里的东西：${name}带回来后就会出现在这里。`,
+      hi: `सफ़र इस जगह के लिए चीज़ें लाते हैं: जब ${name} कोई लेकर लौटेगी, वो यहाँ दिखेगी।`,
+      fr: `Les expéditions rapportent des objets pour cet endroit : quand ${name} en ramènera un, il apparaîtra ici.`,
+    }),
+  emptyFriends: tr({
+    es: 'Aún no tienes amigos.',
+    en: 'No friends yet.',
+    zh: '还没有朋友。',
+    hi: 'अभी कोई दोस्त नहीं है।',
+    fr: 'Pas encore d’amis.',
+  }),
+  emptyFriendsHow: (name: string) =>
+    tr({
+      es: `En sus expediciones ${name} a veces hace un amigo: cuando pase, podrá acompañarla.`,
+      en: `Sometimes ${name} makes a friend on her expeditions: when that happens, they can tag along.`,
+      zh: `${name}在探险中有时会交到朋友：到时候，朋友就能陪着她。`,
+      hi: `कभी-कभी सफ़र में ${name} का कोई दोस्त बन जाता है: तब वो उसके साथ चल सकेगा।`,
+      fr: `Parfois, ${name} se fait un ami pendant ses expéditions : il pourra alors l’accompagner.`,
+    }),
   remove: tr({ es: 'Quitar', en: 'Remove', zh: '取下', hi: 'हटाओ', fr: 'Retirer' }),
   get: tr({ es: 'Conseguir', en: 'Get', zh: '获得', hi: 'पाओ', fr: 'Obtenir' }),
   missing: (n: number) =>
@@ -89,6 +114,7 @@ export default function WardrobeSheet() {
   const shop =
     tab === 'amigo' ? [] : SPECIAL_ACCESSORIES.filter((a) => a.slot === tab && !game.unlocked.includes(a.id));
   const current = tab === 'amigo' ? game.outfit.companion : game.outfit[tab];
+  const currentName = current ? owned.find((e) => e.id === current)?.name : undefined;
   /** Accesorio de la tienda en vista previa (solo si sigue a la venta en esta pestaña). */
   const trying = choice && shop.some((a) => a.id === choice) ? choice : null;
   /** Lampi se lo prueba puesto; solo se queda si se compra. */
@@ -152,56 +178,59 @@ export default function WardrobeSheet() {
       footer={confirmBar ?? undefined}>
       <View style={styles.hero}>
         <LumiAvatar state={LUMI_STATES.contenta} size={170} outfit={shown} alive={false} />
-        <View style={styles.balance} accessible accessibilityLabel={`${game.balance}`}>
-          <SparkGlyph size={14} color={Colors.amberPale} />
-          <Text style={styles.balanceText}>{game.balance}</Text>
+        <View style={styles.balance} accessible accessibilityLabel={`${game.balance} ${nightlyCopy.sparksUnit}`}>
+          <SparksPill value={game.balance} />
         </View>
       </View>
 
-      <View style={styles.tabs} accessibilityRole="tablist">
-        {TABS.map((t) => (
-          <Pressable
-            key={t.key}
-            accessibilityRole="tab"
-            accessibilityState={{ selected: tab === t.key }}
-            onPress={() => {
-              setTab(t.key);
-              setChoice(null);
-              haptic.selection();
-            }}
-            style={[styles.tab, tab === t.key && styles.tabOn]}>
-            <Text style={[styles.tabText, tab === t.key && styles.tabTextOn]} numberOfLines={1}>
-              {t.label}
-            </Text>
-          </Pressable>
-        ))}
-      </View>
+      <SegmentTabs
+        items={TABS}
+        value={tab}
+        onChange={(key) => {
+          setTab(key);
+          setChoice(null);
+          haptic.selection();
+        }}
+      />
 
-      {owned.length === 0 && shop.length === 0 ? <Text style={styles.empty}>{copy.empty}</Text> : null}
-      <View style={styles.grid}>
-        {current ? (
-          <Pressable accessibilityRole="button" onPress={remove} style={styles.cell}>
-            <Text style={styles.removeText} numberOfLines={2}>
-              {copy.remove}
-            </Text>
-          </Pressable>
-        ) : null}
-        {owned.map((e) => (
-          <Pressable
-            key={e.id}
-            accessibilityRole="button"
-            accessibilityLabel={current === e.id ? `${e.name}, ${copy.worn}` : e.name}
-            accessibilityState={{ selected: current === e.id }}
-            onPress={() => pick(e.id)}
-            style={[styles.cell, current === e.id && styles.cellOn]}>
-            {current === e.id ? <CheckBadge /> : null}
-            <CollectionIcon name={e.icon} size={52} />
-            <Text style={styles.cellName} numberOfLines={2}>
-              {e.name}
-            </Text>
-          </Pressable>
-        ))}
-      </View>
+      {owned.length === 0 ? (
+        <View style={styles.emptyBox}>
+          <Text style={styles.empty}>{tab === 'amigo' ? copy.emptyFriends : copy.empty}</Text>
+          <Text style={styles.emptyHow}>{tab === 'amigo' ? copy.emptyFriendsHow(name) : copy.emptyHow(name)}</Text>
+        </View>
+      ) : (
+        <View style={styles.grid}>
+          {owned.map((e) => (
+            <Pressable
+              key={e.id}
+              accessibilityRole="button"
+              accessibilityLabel={current === e.id ? `${e.name}, ${copy.worn}` : e.name}
+              accessibilityState={{ selected: current === e.id }}
+              onPress={() => pick(e.id)}
+              style={[styles.cell, current === e.id && styles.cellOn]}>
+              {current === e.id ? <CheckBadge /> : null}
+              <CollectionIcon name={e.icon} size={52} />
+              <Text style={styles.cellName} numberOfLines={2}>
+                {e.name}
+              </Text>
+            </Pressable>
+          ))}
+          {current ? (
+            <Pressable
+              accessibilityRole="button"
+              accessibilityLabel={currentName ? `${copy.remove}: ${currentName}` : copy.remove}
+              onPress={remove}
+              style={({ pressed }) => [styles.cell, styles.cellAction, pressed && { opacity: 0.7 }]}>
+              <View style={styles.removeIcon}>
+                <SymbolView name="xmark" size={14} weight="bold" tintColor={Colors.lavenderPale} />
+              </View>
+              <Text style={styles.removeText} numberOfLines={2}>
+                {copy.remove}
+              </Text>
+            </Pressable>
+          ) : null}
+        </View>
+      )}
 
       {shop.length > 0 ? (
         <View style={styles.shop}>
@@ -252,20 +281,8 @@ export default function WardrobeSheet() {
 
 const styles = StyleSheet.create({
   hero: { alignItems: 'center', marginBottom: 14 },
-  balance: { flexDirection: 'row', alignItems: 'center', gap: 5, marginTop: 6 },
-  balanceText: { fontFamily: Fonts.bodyBold, color: Colors.amberPale, fontSize: 15, fontVariant: ['tabular-nums'] },
-  tabs: { flexDirection: 'row', gap: 6, marginBottom: 14 },
-  tab: {
-    flex: 1,
-    paddingVertical: 9,
-    borderRadius: 14,
-    borderCurve: 'continuous',
-    alignItems: 'center',
-    backgroundColor: 'rgba(201, 191, 242, 0.08)',
-  },
-  tabOn: { backgroundColor: 'rgba(201, 191, 242, 0.22)' },
-  tabText: { fontFamily: Fonts.bodySemiBold, fontSize: 13, color: Colors.textSecondary },
-  tabTextOn: { color: Colors.lavenderPale },
+  // Saldo arriba a la derecha de Lampi, junto al título: se ve antes de mirar la tienda.
+  balance: { position: 'absolute', top: 0, right: 0 },
   grid: { flexDirection: 'row', flexWrap: 'wrap', gap: 10 },
   cell: {
     width: '30.5%',
@@ -281,8 +298,18 @@ const styles = StyleSheet.create({
     borderColor: 'transparent',
   },
   cellOn: { borderColor: Colors.amberPale, backgroundColor: 'rgba(255, 214, 140, 0.12)' },
-  removeText: { fontFamily: Fonts.bodySemiBold, fontSize: 13, color: Colors.textSecondary, textAlign: 'center' },
-  cellName: { fontFamily: Fonts.body, fontSize: 11, color: Colors.textSecondary, textAlign: 'center' },
+  // «Quitar» es una acción, no un objeto: sin relleno, borde fino e icono ✕ en círculo.
+  cellAction: { backgroundColor: 'transparent', borderColor: Colors.hairline, gap: 8 },
+  removeIcon: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    backgroundColor: 'rgba(201, 191, 242, 0.14)',
+  },
+  removeText: { fontFamily: Fonts.bodySemiBold, fontSize: 13, color: Colors.lavenderPale, textAlign: 'center' },
+  cellName: { fontFamily: Fonts.body, fontSize: 12, lineHeight: 15, color: Colors.textSecondary, textAlign: 'center' },
   confirm: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12, minHeight: 46 },
   confirmName: { flex: 1, fontFamily: Fonts.bodySemiBold, fontSize: 14, color: Colors.lavenderPale },
   confirmMissing: {
@@ -322,7 +349,7 @@ const styles = StyleSheet.create({
   },
   priceShort: { backgroundColor: 'rgba(201, 191, 242, 0.10)' },
   priceText: { fontFamily: Fonts.bodyBold, fontSize: 13, color: Colors.amberPale, fontVariant: ['tabular-nums'] },
-  shop: { gap: 8, marginTop: 22 },
+  shop: { gap: 8, marginTop: 4 },
   shopHeader: { flexDirection: 'row', alignItems: 'center', gap: 6 },
   shopTitle: {
     fontFamily: Fonts.bodySemiBold,
@@ -332,5 +359,7 @@ const styles = StyleSheet.create({
     color: Colors.amberPale,
   },
   shopHint: { fontFamily: Fonts.body, fontSize: 13, color: Colors.textTertiary, marginBottom: 4 },
-  empty: { fontFamily: Fonts.body, fontSize: 14, lineHeight: 20, color: Colors.textSecondary, marginBottom: 14 },
+  emptyBox: { gap: 4 },
+  empty: { fontFamily: Fonts.bodySemiBold, fontSize: 14, lineHeight: 20, color: Colors.textSecondary },
+  emptyHow: { fontFamily: Fonts.body, fontSize: 14, lineHeight: 20, color: Colors.textTertiary },
 });
