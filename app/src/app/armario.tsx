@@ -1,3 +1,4 @@
+import { SymbolView } from 'expo-symbols';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 
@@ -43,7 +44,29 @@ const copy = {
       fr: n === 1 ? 'Il te manque 1 étincelle' : `Il te manque ${n} étincelles`,
     }),
   shop: tr({ es: 'Con chispas', en: 'With sparks', zh: '用火花换', hi: 'चिंगारियों से', fr: 'Avec des étincelles' }),
+  shopHint: (name: string) =>
+    tr({
+      es: `Toca uno para que ${name} se lo pruebe.`,
+      en: `Tap one and ${name} will try it on.`,
+      zh: `点一下，${name}就会试戴。`,
+      hi: `किसी पर टैप करो, ${name} उसे पहनकर देखेगी।`,
+      fr: `Touche-en un pour que ${name} l’essaie.`,
+    }),
+  worn: tr({ es: 'puesto', en: 'wearing', zh: '已穿戴', hi: 'पहना हुआ', fr: 'porté' }),
 };
+
+/** Marca ✓ de lo puesto o elegido: el estado no depende solo del color del borde. */
+function CheckBadge() {
+  return (
+    <View
+      style={styles.badge}
+      pointerEvents="none"
+      accessibilityElementsHidden
+      importantForAccessibility="no-hide-descendants">
+      <SymbolView name="checkmark.circle.fill" size={18} tintColor={Colors.amberPale} />
+    </View>
+  );
+}
 
 type Option = { id: string; name: string; icon: string };
 
@@ -63,12 +86,45 @@ export default function WardrobeSheet() {
           ...ITEM_CATALOG.filter((i) => ITEM_SLOTS[i.id] === tab && game.items.includes(i.id)),
           ...SPECIAL_ACCESSORIES.filter((a) => a.slot === tab && game.unlocked.includes(a.id)),
         ];
-  const shop = tab === 'amigo' ? [] : SPECIAL_ACCESSORIES.filter((a) => a.slot === tab && !game.unlocked.includes(a.id));
+  const shop =
+    tab === 'amigo' ? [] : SPECIAL_ACCESSORIES.filter((a) => a.slot === tab && !game.unlocked.includes(a.id));
   const current = tab === 'amigo' ? game.outfit.companion : game.outfit[tab];
   /** Accesorio de la tienda en vista previa (solo si sigue a la venta en esta pestaña). */
   const trying = choice && shop.some((a) => a.id === choice) ? choice : null;
   /** Lampi se lo prueba puesto; solo se queda si se compra. */
   const shown = trying ? previewOutfit(game.outfit, trying) : game.outfit;
+
+  const tryingEntry = trying ? specialById(trying) : undefined;
+  const missing = trying ? missingSparks(game.snapshot, trying) : 0;
+  const confirmBuy = () => {
+    if (!trying) return;
+    if (game.buy(trying)) {
+      game.equip(trying);
+      setChoice(null);
+      haptic.success();
+    }
+  };
+  // Barra de confirmación: va en el pie fijo de la hoja para que nunca quede fuera de pantalla.
+  const confirmBar = tryingEntry ? (
+    <View style={styles.confirm}>
+      <Text style={styles.confirmName} numberOfLines={2}>
+        {tryingEntry.name}
+      </Text>
+      {missing > 0 ? (
+        <Text style={styles.confirmMissing}>{copy.missing(missing)}</Text>
+      ) : (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`${copy.get}, ${tryingEntry.price} ${nightlyCopy.sparksUnit}`}
+          onPress={confirmBuy}
+          style={({ pressed }) => [styles.confirmButton, pressed && { opacity: 0.8 }]}>
+          <Text style={styles.confirmButtonText}>{copy.get}</Text>
+          <SparkGlyph size={12} color={Colors.night} />
+          <Text style={styles.confirmButtonText}>{tryingEntry.price}</Text>
+        </Pressable>
+      )}
+    </View>
+  ) : null;
 
   const pick = (id: string) => {
     setChoice(null);
@@ -92,7 +148,8 @@ export default function WardrobeSheet() {
         zh: `${name}旅行时穿戴的东西。`,
         hi: `${name} अपने सफ़र पर जो पहनती है।`,
         fr: `Ce que ${name} porte pendant ses voyages.`,
-      })}>
+      })}
+      footer={confirmBar ?? undefined}>
       <View style={styles.hero}>
         <LumiAvatar state={LUMI_STATES.contenta} size={170} outfit={shown} alive={false} />
         <View style={styles.balance} accessible accessibilityLabel={`${game.balance}`}>
@@ -133,10 +190,11 @@ export default function WardrobeSheet() {
           <Pressable
             key={e.id}
             accessibilityRole="button"
-            accessibilityLabel={e.name}
+            accessibilityLabel={current === e.id ? `${e.name}, ${copy.worn}` : e.name}
             accessibilityState={{ selected: current === e.id }}
             onPress={() => pick(e.id)}
             style={[styles.cell, current === e.id && styles.cellOn]}>
+            {current === e.id ? <CheckBadge /> : null}
             <CollectionIcon name={e.icon} size={52} />
             <Text style={styles.cellName} numberOfLines={2}>
               {e.name}
@@ -146,60 +204,46 @@ export default function WardrobeSheet() {
       </View>
 
       {shop.length > 0 ? (
-        <View style={{ gap: 10, marginTop: 18 }}>
-          <Text style={styles.label}>{copy.shop}</Text>
+        <View style={styles.shop}>
+          <View style={styles.shopHeader}>
+            <SymbolView name="tag.fill" size={13} tintColor={Colors.amberPale} />
+            <Text style={styles.shopTitle} accessibilityRole="header">
+              {copy.shop}
+            </Text>
+          </View>
+          <Text style={styles.shopHint}>{copy.shopHint(name)}</Text>
           <View style={styles.grid}>
             {shop.map((a) => {
               const can = game.balance >= a.price;
+              const on = trying === a.id;
               return (
                 <Pressable
                   key={a.id}
                   accessibilityRole="button"
                   accessibilityLabel={`${a.name}, ${a.price} ${nightlyCopy.sparksUnit}`}
-                  accessibilityState={{ selected: choice === a.id }}
+                  accessibilityState={{ selected: on }}
                   onPress={() => {
                     // Tocar otra vez el mismo accesorio deshace la prueba.
-                    setChoice(choice === a.id ? null : a.id);
+                    setChoice(on ? null : a.id);
                     haptic.selection();
                   }}
-                  style={[styles.cell, choice === a.id && styles.cellOn, !can && choice !== a.id && { opacity: 0.55 }]}>
-                  <CollectionIcon name={a.icon} size={52} />
+                  style={[styles.cell, styles.cellShop, on && styles.cellOn]}>
+                  {on ? <CheckBadge /> : null}
+                  <View style={!can && !on ? styles.dim : null}>
+                    <CollectionIcon name={a.icon} size={52} />
+                  </View>
                   <Text style={styles.cellName} numberOfLines={2}>
                     {a.name}
                   </Text>
-                  <View style={styles.price}>
-                    <SparkGlyph size={11} color={Colors.amberPale} />
-                    <Text style={styles.priceText}>{a.price}</Text>
+                  <View style={[styles.price, !can && styles.priceShort]}>
+                    {can ? null : <SymbolView name="lock.fill" size={10} tintColor={Colors.textTertiary} />}
+                    <SparkGlyph size={11} color={can ? Colors.amberPale : Colors.textTertiary} />
+                    <Text style={[styles.priceText, !can && { color: Colors.textSecondary }]}>{a.price}</Text>
                   </View>
                 </Pressable>
               );
             })}
           </View>
-          {choice && specialById(choice) && shop.some((a) => a.id === choice) ? (
-            <View style={styles.confirm}>
-              <Text style={styles.confirmName} numberOfLines={2}>
-                {specialById(choice)!.name}
-              </Text>
-              {missingSparks(game.snapshot, choice) > 0 ? (
-                <Text style={styles.confirmMissing}>{copy.missing(missingSparks(game.snapshot, choice))}</Text>
-              ) : (
-                <Pressable
-                  accessibilityRole="button"
-                  onPress={() => {
-                    if (game.buy(choice)) {
-                      game.equip(choice);
-                      setChoice(null);
-                      haptic.success();
-                    }
-                  }}
-                  style={({ pressed }) => [styles.confirmButton, pressed && { opacity: 0.8 }]}>
-                  <Text style={styles.confirmButtonText}>{copy.get}</Text>
-                  <SparkGlyph size={12} color={Colors.night} />
-                  <Text style={styles.confirmButtonText}>{specialById(choice)!.price}</Text>
-                </Pressable>
-              )}
-            </View>
-          ) : null}
         </View>
       ) : null}
     </Sheet>
@@ -239,37 +283,54 @@ const styles = StyleSheet.create({
   cellOn: { borderColor: Colors.amberPale, backgroundColor: 'rgba(255, 214, 140, 0.12)' },
   removeText: { fontFamily: Fonts.bodySemiBold, fontSize: 13, color: Colors.textSecondary, textAlign: 'center' },
   cellName: { fontFamily: Fonts.body, fontSize: 11, color: Colors.textSecondary, textAlign: 'center' },
-  confirm: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    gap: 12,
-    padding: 12,
-    borderRadius: 16,
-    borderCurve: 'continuous',
-    backgroundColor: 'rgba(201, 191, 242, 0.12)',
-  },
+  confirm: { flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', gap: 12, minHeight: 46 },
   confirmName: { flex: 1, fontFamily: Fonts.bodySemiBold, fontSize: 14, color: Colors.lavenderPale },
-  confirmMissing: { flexShrink: 1, fontFamily: Fonts.body, fontSize: 13, color: Colors.textSecondary, textAlign: 'right' },
+  confirmMissing: {
+    flexShrink: 1,
+    fontFamily: Fonts.body,
+    fontSize: 13,
+    color: Colors.textSecondary,
+    textAlign: 'right',
+  },
   confirmButton: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 5,
-    paddingHorizontal: 16,
-    paddingVertical: 9,
+    paddingHorizontal: 18,
+    paddingVertical: 13,
     borderRadius: 14,
     borderCurve: 'continuous',
     backgroundColor: Colors.amberPale,
   },
   confirmButtonText: { fontFamily: Fonts.bodyBold, fontSize: 14, color: Colors.night, fontVariant: ['tabular-nums'] },
-  price: { flexDirection: 'row', alignItems: 'center', gap: 3 },
-  priceText: { fontFamily: Fonts.bodyBold, fontSize: 12, color: Colors.amberPale, fontVariant: ['tabular-nums'] },
-  label: {
+  cellShop: {
+    backgroundColor: 'rgba(255, 201, 107, 0.05)',
+    borderColor: 'rgba(255, 201, 107, 0.18)',
+    borderStyle: 'dashed',
+  },
+  badge: { position: 'absolute', top: 6, right: 6 },
+  dim: { opacity: 0.45 },
+  price: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    marginTop: 2,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
+    borderRadius: 999,
+    backgroundColor: 'rgba(255, 201, 107, 0.16)',
+  },
+  priceShort: { backgroundColor: 'rgba(201, 191, 242, 0.10)' },
+  priceText: { fontFamily: Fonts.bodyBold, fontSize: 13, color: Colors.amberPale, fontVariant: ['tabular-nums'] },
+  shop: { gap: 8, marginTop: 22 },
+  shopHeader: { flexDirection: 'row', alignItems: 'center', gap: 6 },
+  shopTitle: {
     fontFamily: Fonts.bodySemiBold,
     fontSize: 12,
     letterSpacing: 0.6,
     textTransform: 'uppercase',
-    color: Colors.textTertiary,
+    color: Colors.amberPale,
   },
+  shopHint: { fontFamily: Fonts.body, fontSize: 13, color: Colors.textTertiary, marginBottom: 4 },
   empty: { fontFamily: Fonts.body, fontSize: 14, lineHeight: 20, color: Colors.textSecondary, marginBottom: 14 },
 });
