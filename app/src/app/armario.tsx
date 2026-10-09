@@ -9,7 +9,7 @@ import { Colors, Fonts } from '@/constants/theme';
 import { FRIEND_CATALOG, ITEM_CATALOG } from '@/game/catalog';
 import { useGame } from '@/game/store';
 import type { Slot } from '@/game/types';
-import { ITEM_SLOTS, missingSparks, specialById, SPECIAL_ACCESSORIES } from '@/game/wardrobe';
+import { ITEM_SLOTS, missingSparks, previewOutfit, specialById, SPECIAL_ACCESSORIES } from '@/game/wardrobe';
 import { haptic } from '@/haptics';
 import { tr } from '@/i18n';
 import { LUMI_STATES } from '@/lumi/states';
@@ -65,13 +65,19 @@ export default function WardrobeSheet() {
         ];
   const shop = tab === 'amigo' ? [] : SPECIAL_ACCESSORIES.filter((a) => a.slot === tab && !game.unlocked.includes(a.id));
   const current = tab === 'amigo' ? game.outfit.companion : game.outfit[tab];
+  /** Accesorio de la tienda en vista previa (solo si sigue a la venta en esta pestaña). */
+  const trying = choice && shop.some((a) => a.id === choice) ? choice : null;
+  /** Lampi se lo prueba puesto; solo se queda si se compra. */
+  const shown = trying ? previewOutfit(game.outfit, trying) : game.outfit;
 
   const pick = (id: string) => {
+    setChoice(null);
     if (tab === 'amigo') game.setCompanion(id);
     else game.equip(id);
     haptic.selection();
   };
   const remove = () => {
+    setChoice(null);
     if (tab === 'amigo') game.setCompanion(null);
     else game.unequip(tab);
     haptic.selection();
@@ -88,7 +94,7 @@ export default function WardrobeSheet() {
         fr: `Ce que ${name} porte pendant ses voyages.`,
       })}>
       <View style={styles.hero}>
-        <LumiAvatar state={LUMI_STATES.contenta} size={170} outfit={game.outfit} alive={false} />
+        <LumiAvatar state={LUMI_STATES.contenta} size={170} outfit={shown} alive={false} />
         <View style={styles.balance} accessible accessibilityLabel={`${game.balance}`}>
           <SparkGlyph size={14} color={Colors.amberPale} />
           <Text style={styles.balanceText}>{game.balance}</Text>
@@ -152,7 +158,8 @@ export default function WardrobeSheet() {
                   accessibilityLabel={`${a.name}, ${a.price} ${nightlyCopy.sparksUnit}`}
                   accessibilityState={{ selected: choice === a.id }}
                   onPress={() => {
-                    setChoice(a.id);
+                    // Tocar otra vez el mismo accesorio deshace la prueba.
+                    setChoice(choice === a.id ? null : a.id);
                     haptic.selection();
                   }}
                   style={[styles.cell, choice === a.id && styles.cellOn, !can && choice !== a.id && { opacity: 0.55 }]}>

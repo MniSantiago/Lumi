@@ -121,6 +121,16 @@ export function equip(state: GameState, id: string): GameState {
   return { ...state, outfit: { ...state.outfit, [slot]: id } };
 }
 
+/**
+ * Traje de prueba (vista previa en la tienda): pone `id` en su hueco sin comprobar
+ * si se posee. Devuelve el mismo objeto si el id no existe o ya está puesto.
+ */
+export function previewOutfit(outfit: Outfit, id: string): Outfit {
+  const slot = slotOf(id);
+  if (!slot || outfit[slot] === id) return outfit;
+  return { ...outfit, [slot]: id };
+}
+
 export function unequip(state: GameState, slot: Slot): GameState {
   if (!state.outfit[slot]) return state;
   const { [slot]: _removed, ...rest } = state.outfit;

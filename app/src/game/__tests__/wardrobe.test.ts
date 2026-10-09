@@ -9,6 +9,7 @@ import {
   equip,
   ITEM_SLOTS,
   missingSparks,
+  previewOutfit,
   sanitizeWardrobe,
   setCompanion,
   SLOTS,
@@ -92,6 +93,26 @@ describe('buy', () => {
   });
   it('el saldo nunca es negativo', () => {
     expect(balance({ ...EMPTY_STATE, sparks: 5, spent: 50 })).toBe(0);
+  });
+});
+
+describe('previewOutfit', () => {
+  it('pone el accesorio en su hueco sin tocar los demás', () => {
+    const outfit = { cabeza: 'seta', cuello: 'bufanda', companion: 'musguito' };
+    expect(previewOutfit(outfit, 'medallon-sol')).toEqual({ cabeza: 'seta', cuello: 'medallon-sol', companion: 'musguito' });
+  });
+  it('no modifica el traje original', () => {
+    const outfit = { cabeza: 'seta' };
+    previewOutfit(outfit, 'corona-luz');
+    expect(outfit).toEqual({ cabeza: 'seta' });
+  });
+  it('rellena un hueco vacío', () => {
+    expect(previewOutfit({}, 'varita-luz')).toEqual({ mano: 'varita-luz' });
+  });
+  it('devuelve el mismo objeto si el id no existe o ya está puesto', () => {
+    const outfit = { cabeza: 'corona-luz' };
+    expect(previewOutfit(outfit, 'nada')).toBe(outfit);
+    expect(previewOutfit(outfit, 'corona-luz')).toBe(outfit);
   });
 });
 
