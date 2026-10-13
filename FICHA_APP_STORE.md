@@ -2,33 +2,62 @@
 
 Textos para App Store Connect, en español. Los límites de caracteres son los de Apple y están comprobados (`python3 tools/check_ficha.py`).
 
+> **Estado:** nombre, subtítulo y palabras clave de abajo están **propuestos para la 1.0.2**
+> y todavía no están aplicados en App Store Connect. Van atados a versión y la 1.0.1
+> está en revisión, así que esos tres campos están bloqueados hasta que Apple resuelva.
+> El **texto promocional** no va atado a versión: ese se puede aplicar hoy.
+> Los valores que sirve la tienda ahora mismo quedan apuntados en cada apartado.
+
 ---
 
 ## Nombre (máx. 30)
 
 ```
-Lampi: menos scroll, más luz
+Lampi: menos pantalla, más luz
 ```
+
+Vivo hoy en la tienda: `Lampi: menos scroll, más luz` (28/30).
+Mete `pantalla` en el campo de más peso y solo cede `scroll`, que no rinde: con `scroll`
+en el nombre Lampi es la 99.ª de su propia búsqueda. Solo afecta a la ficha en español;
+las demás localizaciones (`ficha/*.md`) mantienen su nombre.
 
 ## Subtítulo (máx. 30)
 
 ```
-Mascota para soltar el móvil
+Deja el móvil sin castigarte
 ```
+
+Vivo hoy en la tienda: `Mascota para soltar el móvil` (28/30), optimizado para
+`soltar el movil` — una consulta que devuelve **un solo resultado en toda la tienda**.
+El nuevo recoge `dejar` y dice la diferencia real del producto.
 
 ## Palabras clave (máx. 100, separadas por comas, sin espacios)
 
 ```
-tiempo de pantalla,mascota,bloqueador,apps,scroll,hábitos,concentración,bienestar digital,descanso
+tiempo,pantalla,adiccion,dejar,bloquear,apps,detox,digital,limite,habitos,bienestar,descanso,enfoque
 ```
 
-No hace falta repetir palabras del nombre ni del subtítulo: Apple ya las indexa.
+Vivo hoy en la tienda:
+`tiempo de pantalla,mascota,bloqueador,apps,scroll,hábitos,concentración,bienestar digital,descanso` (98/100).
+
+No hace falta repetir palabras del nombre ni del subtítulo: Apple ya las indexa. El campo
+vivo gastaba 13 caracteres en `mascota` y `scroll`, que ya estaban cubiertos. Con eso
+recuperado entran `adiccion`, `dejar`, `detox` y `limite`.
+
+**Consecuencia pendiente de decidir:** al cambiar el subtítulo, `mascota` desaparece de
+todos los campos indexados. Alternativa, si se prefiere conservarla a costa de `descanso`:
+`tiempo,pantalla,adiccion,dejar,bloquear,apps,detox,digital,limite,habitos,bienestar,enfoque,mascota`
+(99/100).
 
 ## Texto promocional (máx. 170; se puede cambiar sin nueva versión)
 
 ```
-Cuando sueltas el móvil, Lampi brilla y sale de aventura. Esta noche, quizá te traiga su primera postal.
+Cuanto menos scroll, más brilla Lampi. Eliges tus apps ladronas y un límite suave para el día. Si te pasas, no te riñe: se echa la siesta. Fricción con cariño.
 ```
+
+Vivo hoy en la tienda: `Cuando sueltas el móvil, Lampi brilla y sale de aventura. Esta
+noche, quizá te traiga su primera postal.` (104/170). No está indexado: su trabajo es
+convertir a quien ya ha llegado a la ficha, no atraer búsquedas.
 
 ## Descripción (máx. 4000)
 
@@ -77,7 +106,11 @@ Términos de uso (EULA): https://www.apple.com/legal/internet-services/itunes/de
 
 ## Categoría y clasificación
 
-- **Categoría principal:** Estilo de vida. **Secundaria:** Productividad.
+- **Categoría principal:** Productividad. **Secundaria:** Estilo de vida.
+  Propuesto; vivo hoy es el orden inverso (principal Estilo de vida). Es cambiar el orden
+  de dos categorías que ya están declaradas, no añadir ninguna. Afecta a las listas de la
+  tienda, no a la búsqueda, así que el impacto es menor. Sin verificar si App Store Connect
+  deja cambiarlo con la 1.0.1 en revisión.
 - **Clasificación por edad:** 4+ (sin contenido sensible, sin compras fuera de la app, sin chat).
 
 ## Notas para la revisión
