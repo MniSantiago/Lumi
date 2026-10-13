@@ -21,7 +21,7 @@ const WAITLIST_ENDPOINT = `${API_URL}/waitlist`;
  * la lista de espera se cambian por un botón de descarga (y "Llega pronto" por
  * "Ya en el iPhone"). Vacío mientras Lampi no esté publicada.
  */
-const APP_STORE_URL = '';
+const APP_STORE_URL = 'https://apps.apple.com/app/id6817946323';
 
 /** Cabeceras extra (p. ej. Supabase: { apikey: '…', Authorization: 'Bearer …', Prefer: 'return=minimal' }). */
 const WAITLIST_HEADERS = {};
