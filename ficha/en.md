@@ -46,10 +46,10 @@ NO GUILT
 Lampi never dies or gets sick. Every day starts fresh. Streaks have rest days. And night mode lets her sleep, so you can rest too.
 
 YOUR PRIVACY FIRST
-Lampi uses Apple’s Screen Time and only learns when you’re getting close to your limit. She doesn’t see what you do inside your apps. What she knows about you lives on your iPhone. The account is optional, keeps her safe if you change iPhones, and you can delete it anytime from the app.
+Lampi uses Apple’s Screen Time and only learns when you’re getting close to your limit. She doesn’t see what you do inside your apps. Without an account, what she knows about you lives on your iPhone. The account is optional, keeps her safe if you change iPhones, and you can delete it anytime from the app.
 
 THE IMPORTANT STUFF IS FREE
-Your Lampi and her shield, the daily limit, expeditions and postcards, the widget and night mode are free. Always.
+Your Lampi and her shield, the daily limit, expeditions and postcards, and night mode are free.
 
 LAMPI PLUS (OPTIONAL)
 For those who want to go a little further: exclusive places with their own stories, a strict shield without “5 more min”, and your all-time numbers (longest streak, places, things and friends). Yearly or monthly subscription with a 7-day free trial on the yearly plan. It renews automatically until you cancel it in Settings › your name › Subscriptions, at least 24 hours before renewal.

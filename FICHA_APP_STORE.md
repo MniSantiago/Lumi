@@ -48,10 +48,10 @@ SIN CULPA
 Lampi nunca muere ni enferma. Cada día empieza de cero. Las rachas tienen días de descanso. Y el modo noche la deja dormir, para que tú también descanses.
 
 TU PRIVACIDAD, PRIMERO
-Lampi usa Tiempo de uso de Apple y solo se entera de cuándo te acercas a tu límite. No ve qué haces dentro de tus apps. Lo que sabe de ti vive en tu iPhone. La cuenta es opcional, sirve para no perderla si cambias de iPhone, y la puedes borrar cuando quieras desde la app.
+Lampi usa Tiempo de uso de Apple y solo se entera de cuándo te acercas a tu límite. No ve qué haces dentro de tus apps. Sin cuenta, todo lo que sabe de ti vive en tu iPhone. La cuenta es opcional: sirve para no perderla si cambias de iPhone, y la puedes borrar cuando quieras desde la app.
 
 LO IMPORTANTE ES GRATIS
-Tu Lampi y su escudo, el límite diario, las expediciones y postales, el widget y el modo noche son gratis. Siempre.
+Tu Lampi y su escudo, el límite diario, las expediciones y postales y el modo noche son gratis.
 
 LAMPI PLUS (OPCIONAL)
 Para quien quiere ir un poco más lejos: zonas exclusivas con sus propias historias, un escudo estricto sin «5 min más» y tus números de siempre (racha más larga, lugares, objetos y amigos). Suscripción anual o mensual con 7 días gratis en el plan anual. Se renueva sola hasta que la canceles en Ajustes › tu nombre › Suscripciones, al menos 24 horas antes de la renovación.
@@ -77,7 +77,7 @@ Términos de uso (EULA): https://www.apple.com/legal/internet-services/itunes/de
 
 ## Categoría y clasificación
 
-- **Categoría principal:** Estilo de vida. **Secundaria:** Salud y forma física.
+- **Categoría principal:** Estilo de vida. **Secundaria:** Productividad.
 - **Clasificación por edad:** 4+ (sin contenido sensible, sin compras fuera de la app, sin chat).
 
 ## Notas para la revisión

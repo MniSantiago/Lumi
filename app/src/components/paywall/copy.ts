@@ -78,15 +78,14 @@ export const plusFeatures = [
 ] as const;
 
 export const freeForever = tr({
-  es: ['Tu Lampi y su escudo', 'El límite diario', 'Expediciones y postales', 'El widget', 'El modo noche'],
-  en: ['Your Lampi and her shield', 'The daily limit', 'Expeditions and postcards', 'The widget', 'Night mode'],
-  zh: ['你的 Lampi 和她的护盾', '每日上限', '探险和明信片', '小组件', '夜间模式'],
-  hi: ['तुम्हारी Lampi और उसकी ढाल', 'रोज़ की सीमा', 'सफ़र और पोस्टकार्ड', 'विजेट', 'रात का मोड'],
+  es: ['Tu Lampi y su escudo', 'El límite diario', 'Expediciones y postales', 'El modo noche'],
+  en: ['Your Lampi and her shield', 'The daily limit', 'Expeditions and postcards', 'Night mode'],
+  zh: ['你的 Lampi 和她的护盾', '每日上限', '探险和明信片', '夜间模式'],
+  hi: ['तुम्हारी Lampi और उसकी ढाल', 'रोज़ की सीमा', 'सफ़र और पोस्टकार्ड', 'रात का मोड'],
   fr: [
     'Ta Lampi et son bouclier',
     'La limite quotidienne',
     'Expéditions et cartes postales',
-    'Le widget',
     'Le mode nuit',
   ],
 });
@@ -113,11 +112,11 @@ export const paywallCopy = {
   }),
   plusSection: tr({ es: 'Con Plus', en: 'With Plus', zh: 'Plus 包含', hi: 'Plus के साथ', fr: 'Avec Plus' }),
   freeTitle: tr({
-    es: 'Gratis para siempre',
-    en: 'Free forever',
-    zh: '永久免费',
-    hi: 'हमेशा मुफ़्त',
-    fr: 'Gratuit pour toujours',
+    es: 'Gratis',
+    en: 'Free',
+    zh: '免费',
+    hi: 'मुफ़्त',
+    fr: 'Gratuit',
   }),
   freeNote: (name: string) =>
     tr({

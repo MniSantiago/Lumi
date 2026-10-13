@@ -54,11 +54,11 @@ enum ShieldCopy {
                 hi: "उसके सोने का समय है, और तुम्हारा भी। अभी छोड़ दो, तो कल वो ज़्यादा चिंगारियाँ लाएगी।",
                 fr: "C’est l’heure de dormir pour elle, et pour toi aussi. Si tu arrêtes maintenant, elle rapportera des étincelles en plus demain.")
             : tr(
-                es: "Ya habéis pasado de tu hora de hoy. Si lo dejas ahora, mañana se despierta con más luz.",
+                es: "Ya has pasado de tu hora de hoy. Si lo dejas ahora, mañana se despierta con más luz.",
                 en: "You’ve gone past today’s time. If you stop now, she’ll wake up brighter tomorrow.",
                 zh: "今天的时间已经用完了。现在放下，她明天醒来会更亮。",
                 hi: "आज का समय पूरा हो चुका है। अभी छोड़ दो, तो कल वो और ज़्यादा रोशनी के साथ जागेगी।",
-                fr: "Vous avez dépassé ton temps du jour. Si tu arrêtes maintenant, elle se réveillera plus lumineuse demain.")
+                fr: "Tu as dépassé ton temps du jour. Si tu arrêtes maintenant, elle se réveillera plus lumineuse demain.")
     }
 
     static var leave: String {
@@ -67,11 +67,11 @@ enum ShieldCopy {
 
     static var strictNote: String {
         tr(
-            es: "Escudo estricto: hoy no hay ratitos extra. Lo elegiste tú, y Lampi te lo agradece.",
-            en: "Strict shield: no extra minutes today. You chose it, and Lampi thanks you.",
-            zh: "严格护盾：今天没有额外时间。这是你自己的选择，Lampi 谢谢你。",
-            hi: "सख़्त ढाल: आज कोई अतिरिक्त समय नहीं। यह तुमने चुना था, और Lampi तुम्हारा शुक्रिया करती है।",
-            fr: "Bouclier strict : pas de minutes en plus aujourd’hui. C’est toi qui l’as choisi, et Lampi t’en remercie.")
+            es: "Escudo estricto: hoy no hay ratitos extra. Lo elegiste tú, y te lo agradezco.",
+            en: "Strict shield: no extra minutes today. You chose it, and I thank you.",
+            zh: "严格护盾：今天没有额外时间。这是你自己的选择，我谢谢你。",
+            hi: "सख़्त ढाल: आज कोई अतिरिक्त समय नहीं। यह तुमने चुना था, और मैं तुम्हारा शुक्रिया करती हूँ।",
+            fr: "Bouclier strict : pas de minutes en plus aujourd’hui. C’est toi qui l’as choisi, et je t’en remercie.")
     }
 
     /// `used` = veces que ya se ha pedido hoy, antes de esta.

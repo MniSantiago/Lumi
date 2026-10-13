@@ -62,9 +62,9 @@ Coherencia: `ios.privacyManifests` en `app/app.json` declara exactamente los mis
 | Enlaces a Términos y Privacidad en el paywall | ✅ | |
 | Restaurar compras | 🟡 | Botón «Restaurar compras» en el paywall (`app/src/app/plus.tsx`), conectado a RevenueCat; falta probarlo en sandbox |
 | Recordatorio antes de que acabe la prueba | ✅ | Notificación local 2 días antes |
-| Lo gratis sigue funcionando sin pagar | ✅ | Escudo, límite, expediciones, postales, widget y modo noche |
+| Lo gratis sigue funcionando sin pagar | ✅ | Escudo, límite, expediciones, postales y modo noche |
 | Grupo de suscripción en App Store Connect | ⬜ | Anual (49,99 $, 7 días gratis) y mensual. IDs: `$rc_annual`, `$rc_monthly` en RevenueCat |
-| **Lo que se anuncia de Plus existe** (guías 2.3.1 y 3.1.2) | ✅ | Plus anuncia solo zonas exclusivas, escudo estricto y «Tus números», que ya están en la app. Especies y colores de luz, varios horarios y decoración de la madriguera quedan para más adelante: no se anuncian hasta que existan. Si el widget (#22) no sale en la primera versión, quitarlo también de «Gratis para siempre», de la ficha y de la landing. |
+| **Lo que se anuncia de Plus existe** (guías 2.3.1 y 3.1.2) | ✅ | Plus anuncia solo zonas exclusivas, escudo estricto y «Tus números», que ya están en la app. Especies y colores de luz, varios horarios y decoración de la madriguera quedan para más adelante: no se anuncian hasta que existan. El widget no se hizo: ya no se anuncia en la ficha, la landing, el paywall ni los Términos. Si se hace más adelante, volver a anunciarlo entonces. |
 | EULA | ✅ | `terminos.html` ya remite al EULA estándar de Apple y detalla precio, renovación y cancelación. En App Store Connect: dejar el EULA estándar y poner `https://lampi.es/terminos.html` en la descripción de la app (junto al enlace de privacidad). |
 | Borrado de cuenta dentro de la app (5.1.1(v)) | ✅ | Ajustes › Cuenta › Eliminar la cuenta (`app/src/app/cuenta/eliminar.tsx` → `POST /me/delete`, borra usuario y datos en cascada y avisa por correo) |
 
