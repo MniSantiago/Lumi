@@ -92,8 +92,10 @@ Términos de uso (EULA): https://www.apple.com/legal/internet-services/itunes/de
 
 ## Novedades de esta versión (máx. 4000)
 
-Para la **1.0.2**. Incluye también lo que iba en la 1.0.1 (el armario), porque la 1.0.1
-no llegó a publicarse: si acaba saliendo antes, quita la primera línea.
+Para la **1.0.2**. Incluye también lo que iba en la 1.0.1 (el armario): la 1.0.1 nunca se
+envió a revisión, así que la tienda sigue en la 1.0 y el usuario no ha visto nada de eso.
+La 1.0.2 es, de hecho, la primera actualización que recibe, y estas novedades son las
+únicas que hay que escribir.
 
 ```
 Soy Lampi y traigo unas cuantas cosas nuevas ✨
