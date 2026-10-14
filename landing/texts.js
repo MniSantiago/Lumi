@@ -127,7 +127,7 @@ window.LUMI_ROWS = [
   ['El límite diario', 'The daily limit', '每日上限', 'रोज़ की सीमा', 'La limite quotidienne'],
   ['Expediciones y postales', 'Expeditions and postcards', '探险和明信片', 'सफ़र और पोस्टकार्ड', 'Expéditions et cartes postales'],
   ['El modo noche', 'Night mode', '夜间模式', 'रात का मोड', 'Le mode nuit'],
-  ['Unos 49,99 € al año, con prueba gratis', 'About $49.99 a year, with a free trial', '每年约 49.99 美元，含免费试用', 'लगभग $49.99 सालाना, मुफ़्त ट्रायल के साथ', 'Environ 49,99 € par an, avec essai gratuit'],
+  ['Unos 59,99 € al año, con prueba gratis', 'About $49.99 a year, with a free trial', '每年约 49.99 美元，含免费试用', 'लगभग $49.99 सालाना, मुफ़्त ट्रायल के साथ', 'Environ 59,99 € par an, avec essai gratuit'],
   ['Zonas exclusivas, con sus propias historias', 'Exclusive places, with their own stories', '专属地点，有自己的故事', 'ख़ास जगहें, अपनी कहानियों के साथ', 'Des lieux exclusifs, avec leurs propres histoires'],
   ['Escudo estricto, sin «5 min más»', 'Strict shield, without “5 more min”', '严格护盾，没有“再 5 分钟”', 'सख़्त ढाल, बिना "5 मिनट और"', 'Bouclier strict, sans « 5 min de plus »'],
   ['Tus números: todo lo que habéis brillado juntos', 'Your numbers: everything you’ve shone together', '你的数据：你们一起发过的所有光', 'तुम्हारे आँकड़े: तुम दोनों कितना चमके', 'Tes chiffres : tout ce que vous avez brillé ensemble'],
