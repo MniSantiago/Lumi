@@ -23,7 +23,7 @@ import { LumiArrival } from '@/components/nightly/lumi-arrival';
 import { CardIn, FadeUp, RewardTile, SparksCounter } from '@/components/nightly/reveal-parts';
 import { ShieldButton } from '@/components/shield/shield-parts';
 import { Colors, Fonts } from '@/constants/theme';
-import { destinationById } from '@/game/destinations';
+import { DESTINATIONS, destinationById } from '@/game/destinations';
 import { BRIGHT_DAYS_PER_STAGE, EVOLUTION_STAGES } from '@/game/engine';
 import { useGame, type PendingReturn } from '@/game/store';
 import type { Destination } from '@/game/types';
@@ -36,6 +36,8 @@ import { maybeAskForReview } from '@/review';
 
 /** Cuánto se queda la despedida en pantalla antes de cerrar. */
 const GOODBYE_MS = 1500;
+/** En qué postal se cuenta por primera (y única) vez lo que Lampi vio de lejos. */
+const POSTCARDS_BEFORE_GLIMPSE = 3;
 const TILT = -2.5;
 const easeOut = Easing.out(Easing.cubic);
 
@@ -100,10 +102,17 @@ function NoPostcard() {
 }
 
 function TonightPostcard({ pending }: { pending: PendingReturn }) {
-  const { settings } = useLumi();
-  const { saveReturnToAlbum, album, streak, brightDays } = useGame();
+  const { settings, updateSettings } = useLumi();
+  const { saveReturnToAlbum, album, streak, brightDays, visited } = useGame();
   // Se decide al abrir: al guardarla, el álbum deja de estar vacío.
   const [first] = useState(album.length === 0);
+  // Lo que vio de lejos: también se decide al abrir, para que guardar no lo cambie.
+  const [glimpse] = useState(() =>
+    !settings.isPlus && !settings.plusTeaseSeen && album.length >= POSTCARDS_BEFORE_GLIMPSE - 1
+      ? (DESTINATIONS.find((d) => d.plus && !visited.includes(d.id)) ?? null)
+      : null,
+  );
+  const [glimpseOpen, setGlimpseOpen] = useState(true);
   // Esta vuelta es el día brillante que completa una etapa (7, 14, 21): Lampi crece.
   const [grewTo] = useState(() =>
     brightDays > 0 && brightDays % BRIGHT_DAYS_PER_STAGE === 0 && brightDays / BRIGHT_DAYS_PER_STAGE < EVOLUTION_STAGES
@@ -154,6 +163,15 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
     },
     [],
   );
+
+  // Se da por contado cuando la postal ha terminado de revelarse, no al abrirla:
+  // así no se gasta si se cierra antes de llegar a leerlo.
+  const seen = useRef(false);
+  useEffect(() => {
+    if (!glimpse || !done || seen.current) return;
+    seen.current = true;
+    updateSettings({ plusTeaseSeen: true });
+  }, [glimpse, done, updateSettings]);
 
   const onSave = () => {
     if (busy.current) return;
@@ -228,6 +246,25 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
               <Text style={styles.milestone} accessibilityLiveRegion="polite">
                 {milestone}
               </Text>
+            </FadeUp>
+          ) : null}
+          {glimpse && glimpseOpen ? (
+            <FadeUp t={t} stage={timeline.sparks} lift={4}>
+              <View style={styles.glimpse}>
+                <Pressable
+                  style={styles.glimpseClose}
+                  hitSlop={10}
+                  accessibilityRole="button"
+                  accessibilityLabel={copy.glimpseDismiss}
+                  onPress={() => setGlimpseOpen(false)}>
+                  <Text style={styles.glimpseCloseMark}>×</Text>
+                </Pressable>
+                <Text style={styles.label}>{copy.glimpseLabel}</Text>
+                <Text style={styles.glimpseText}>{copy.glimpse(settings.lumiName, glimpse)}</Text>
+                <Pressable accessibilityRole="button" onPress={() => router.push('/plus')} hitSlop={6}>
+                  <Text style={styles.glimpseLink}>{copy.glimpseLink}</Text>
+                </Pressable>
+              </View>
             </FadeUp>
           ) : null}
         </View>
@@ -403,6 +440,37 @@ const styles = StyleSheet.create({
     color: Colors.amberPale,
     textAlign: 'center',
     paddingHorizontal: 12,
+  },
+  // Nota tranquila al pie de la postal: se lee si apetece y se cierra con la ×.
+  glimpse: {
+    marginTop: 4,
+    maxWidth: 320,
+    alignItems: 'center',
+    gap: 6,
+    paddingVertical: 14,
+    paddingHorizontal: 18,
+    borderRadius: 18,
+    borderCurve: 'continuous',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 201, 107, 0.26)',
+    backgroundColor: 'rgba(42, 37, 96, 0.5)',
+  },
+  glimpseClose: { position: 'absolute', top: 4, right: 8, padding: 4 },
+  glimpseCloseMark: { fontFamily: Fonts.body, fontSize: 18, lineHeight: 20, color: Colors.textTertiary },
+  glimpseText: {
+    fontFamily: Fonts.display,
+    fontSize: 15,
+    lineHeight: 21,
+    color: Colors.text,
+    textAlign: 'center',
+  },
+  glimpseLink: {
+    fontFamily: Fonts.bodySemiBold,
+    fontSize: 13.5,
+    lineHeight: 18,
+    color: Colors.amberPale,
+    textAlign: 'center',
+    paddingTop: 2,
   },
   bottom: { paddingHorizontal: 28, paddingTop: 8 },
   actions: { gap: 10, minHeight: 110, justifyContent: 'center' },

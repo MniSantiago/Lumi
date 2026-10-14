@@ -111,6 +111,41 @@ export const nightlyCopy = {
   share: tr({ es: 'Compartir', en: 'Share', zh: '分享', hi: 'शेयर करो', fr: 'Partager' }),
   close: tr({ es: 'Cerrar', en: 'Close', zh: '关闭', hi: 'बंद करो', fr: 'Fermer' }),
 
+  /**
+   * Lo que Lampi vio de lejos: una zona de Plus contada como historia, no como
+   * oferta. Sale una sola vez, nunca en las primeras postales, y se puede cerrar
+   * sin tocar nada más (la postal sigue igual debajo).
+   */
+  glimpseLabel: tr({
+    es: 'Y algo que vio de lejos',
+    en: 'And something she saw from afar',
+    zh: '还有她远远望见的东西',
+    hi: 'और कुछ जो उसने दूर से देखा',
+    fr: 'Et quelque chose qu’elle a vu de loin',
+  }),
+  glimpse: (lumiName: string, d: Destination) =>
+    tr({
+      es: `Desde allí, ${lumiName} alcanzó a ver ${d.the}. Dice que algún día le gustaría acercarse.`,
+      en: `From there, ${lumiName} could just make out ${d.the}. She says she’d like to go closer some day.`,
+      zh: `从那里，${lumiName}远远望见了${d.the}。她说总有一天想去看看。`,
+      hi: `वहाँ से ${lumiName} को दूर ${d.the} दिखी। कहती है किसी दिन पास जाना चाहेगी।`,
+      fr: `De là-bas, ${lumiName} a aperçu ${d.the}. Elle dit qu’un jour elle aimerait s’en approcher.`,
+    }),
+  glimpseLink: tr({
+    es: 'Ver qué es Lampi Plus',
+    en: 'See what Lampi Plus is',
+    zh: '看看 Lampi Plus 是什么',
+    hi: 'देखो Lampi Plus क्या है',
+    fr: 'Voir ce qu’est Lampi Plus',
+  }),
+  glimpseDismiss: tr({
+    es: 'Cerrar este aviso',
+    en: 'Dismiss this note',
+    zh: '关闭这条提示',
+    hi: 'यह सूचना बंद करो',
+    fr: 'Fermer cette note',
+  }),
+
   /** Sin vuelta pendiente: aún está fuera, o hoy se ha quedado en casa. */
   stillOut: (lumiName: string, returnsAt: string) =>
     tr({
