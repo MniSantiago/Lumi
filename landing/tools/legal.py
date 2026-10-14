@@ -14,6 +14,12 @@ SOURCE = ROOT / "app/src/legal/content.json"
 TEXTS = ROOT / "app/src/legal/i18n"
 LANGS = ["es", "en", "zh", "hi", "fr"]
 
+# Los estáticos se sirven con max-age=14400 (4 h). Sin ?v=, un cambio tarda hasta
+# 4 horas en verse. Tiene que ser el mismo número que en index.html y 404.html:
+# si este generador lo olvidara, regenerar estas tres páginas desharía el arreglo
+# de caché sin que nadie se diera cuenta.
+ASSET_VERSION = "1.0.1"
+
 # Lo que rodea al texto de cada documento.
 CHROME = {
     "es": {"more": "¿Algo más?", "write": "Escríbenos a", "updated": "Última actualización"},
@@ -38,9 +44,10 @@ PAGE = """<!doctype html>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght,SOFT,WONK@9..144,500..800,100,1&family=Figtree:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="styles.css">
-<script src="texts.js" defer></script>
-<script src="i18n.js" defer></script>
+<!-- ?v= obligatorio: ver la nota en index.html. Sube el número al tocar estos archivos. -->
+<link rel="stylesheet" href="styles.css?v={version}">
+<script src="texts.js?v={version}" defer></script>
+<script src="i18n.js?v={version}" defer></script>
 </head>
 <body class="legal-page">
 <header class="legal-top">
@@ -106,6 +113,7 @@ def render(key: str, texts: dict, contact_email: str) -> str:
         )
         + f'\n<link rel="alternate" hreflang="x-default" href="{key}.html">',
         blocks="\n".join(block(lang, texts[lang][key], key, contact_email) for lang in LANGS),
+        version=ASSET_VERSION,
     )
 
 
