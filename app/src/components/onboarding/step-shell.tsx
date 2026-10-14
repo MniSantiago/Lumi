@@ -9,7 +9,7 @@ import { AppText } from '@/components/ui';
 import { Colors, Fonts, Radius, Spacing } from '@/constants/theme';
 import { tr } from '@/i18n';
 
-export const STEP_COUNT = 3;
+export const STEP_COUNT = 4;
 
 const enter = (delay: number) => FadeInDown.duration(520).delay(delay).reduceMotion(ReduceMotion.System);
 
@@ -25,6 +25,7 @@ export function StepShell({
   subtitle,
   children,
   cta,
+  secondary,
   background,
   scrollRef,
 }: {
@@ -33,6 +34,12 @@ export function StepShell({
   subtitle?: string;
   children: ReactNode;
   cta: Cta;
+  /**
+   * Segunda salida del paso, del mismo tamaño y en el mismo sitio que la
+   * principal. Es para cuando las dos opciones son legítimas (seguir gratis o
+   * probar Plus) y ninguna debe parecer la pequeña.
+   */
+  secondary?: Cta;
   /** Fondo propio (la ilustración del paso 1); por defecto, la noche con resplandor lavanda. */
   background?: ReactNode;
   scrollRef?: RefObject<ScrollView | null>;
@@ -71,6 +78,12 @@ export function StepShell({
         <View style={[styles.footer, { paddingBottom: keyboardUp ? Spacing.three : insets.bottom + Spacing.two }]}>
           {cta.hint ? <Text style={styles.hint}>{cta.hint}</Text> : null}
           <PrimaryButton label={cta.label} onPress={cta.onPress} disabled={cta.disabled} />
+          {secondary ? (
+            <>
+              <SecondaryButton label={secondary.label} onPress={secondary.onPress} disabled={secondary.disabled} />
+              {secondary.hint ? <Text style={styles.hint}>{secondary.hint}</Text> : null}
+            </>
+          ) : null}
         </View>
       </KeyboardAvoidingView>
     </View>
@@ -174,6 +187,36 @@ export function PrimaryButton({
   );
 }
 
+/** Misma caja que el botón principal, en lavanda: una opción, no un «no, gracias». */
+export function SecondaryButton({
+  label,
+  onPress,
+  disabled,
+}: {
+  label: string;
+  onPress: () => void;
+  disabled?: boolean;
+}) {
+  const handlePress = () => {
+    Keyboard.dismiss();
+    onPress();
+  };
+  return (
+    <Pressable
+      accessibilityRole="button"
+      accessibilityState={{ disabled: !!disabled }}
+      disabled={disabled}
+      onPress={handlePress}
+      style={({ pressed }) => [
+        styles.primary,
+        styles.secondary,
+        pressed && { opacity: 0.88, transform: [{ scale: 0.985 }] },
+      ]}>
+      <Text style={[styles.secondaryText, disabled && { color: Colors.textTertiary }]}>{label}</Text>
+    </Pressable>
+  );
+}
+
 const styles = StyleSheet.create({
   root: { flex: 1, backgroundColor: Colors.nightDeep },
   innerBg: {
@@ -223,4 +266,10 @@ const styles = StyleSheet.create({
   primaryEnabled: { backgroundColor: Colors.amber, boxShadow: '0 8px 24px -8px rgba(255, 201, 107, 0.75)' },
   primaryDisabled: { backgroundColor: 'rgba(201, 191, 242, 0.14)' },
   primaryText: { fontFamily: Fonts.bodyBold, fontSize: 16, color: Colors.onAmber },
+  secondary: {
+    backgroundColor: 'rgba(201, 191, 242, 0.14)',
+    borderWidth: StyleSheet.hairlineWidth,
+    borderColor: Colors.hairline,
+  },
+  secondaryText: { fontFamily: Fonts.bodyBold, fontSize: 16, color: Colors.lavenderPale },
 });

@@ -239,6 +239,17 @@ function routeOf(response: Notifications.NotificationResponse): NotificationRout
   return ROUTES.find((r) => r === route) ?? null;
 }
 
+/**
+ * La ruta tal cual se navega. El único aviso que lleva al paywall es el de la
+ * prueba, así que se marca su origen para saber en PostHog si ese aviso vende.
+ * El `origen` se añade aquí y no en `ROUTES` a propósito: `ROUTES` se compara con
+ * `usePathname()`, que nunca trae la query, y meterlo ahí rompería el guard de
+ * «no vuelvas a abrir la pantalla en la que ya estás».
+ */
+function hrefOf(route: NotificationRoute): Href {
+  return route === '/plus' ? ('/plus?origen=aviso' satisfies Href) : (route satisfies Href);
+}
+
 /** Una misma entrega de un aviso (el identificador se repite cada noche; la fecha no). */
 function responseKey(response: Notifications.NotificationResponse) {
   return `${response.notification.request.identifier}@${response.notification.date}`;
@@ -274,6 +285,6 @@ export function useNotificationRouting(): void {
     // Para que un recargado o el siguiente arranque no vuelva a abrir la misma pantalla.
     Notifications.clearLastNotificationResponse();
     const route = routeOf(pending);
-    if (route && pathname !== route) router.push(route satisfies Href);
+    if (route && pathname !== route) router.push(hrefOf(route));
   }, [pending, canRoute, pathname]);
 }

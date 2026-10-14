@@ -54,16 +54,24 @@
         ]
       },
       {
+        "heading": "How we measure usage",
+        "body": [
+          "To find out where people get stuck we use PostHog, hosted in the European Union. Your installation gets a random number: not your name, not your email, not your iPhone’s identifier, and it can’t be used to recognise you in any other app or website.",
+          "What we send is the shape of what you do, never the content: that you opened the app, that you started and finished the intro, whether you granted the Screen Time permission or not, how many thief apps you picked, that you saw the Lampi Plus screen and that you started a purchase. Plus the app version, the language and whether it’s iPhone or web.",
+          "What never leaves your iPhone: which apps you picked, how many minutes you set as your limit, and your actual screen time. We also don’t record your screen or capture taps automatically: only the list above, counted one by one."
+        ]
+      },
+      {
         "heading": "Who we share data with",
         "body": [
-          "Only the providers needed for Lampi to work: Railway (hosting of the server and the database for accounts and the waitlist), Resend (sending emails), and RevenueCat and Apple (purchases). They may process data outside the European Economic Area, with the usual safeguards (standard contractual clauses).",
-          "We don’t sell your data, we don’t run ads, we don’t use third-party analytics and we don’t track you across apps or websites."
+          "Only the providers needed for Lampi to work: Railway (hosting of the server and the database for accounts and the waitlist), Resend (sending emails), RevenueCat and Apple (purchases), and PostHog (usage measurement, with the data hosted in the European Union). They may process data outside the European Economic Area, with the usual safeguards (standard contractual clauses).",
+          "We don’t sell your data, we don’t run ads and we don’t track you across apps or websites. We do measure, anonymously, how Lampi is used, and the “How we measure usage” section says exactly what we measure."
         ]
       },
       {
         "heading": "The website (lampi.es) and cookies",
         "body": [
-          "The website uses no cookies or trackers and has no analytics. It keeps in your browser, only for the length of the visit, which link you came from (for example, a TikTok video), to know what works. Fonts are loaded from Google Fonts, so Google receives your IP address when the page opens.",
+          "The website uses no cookies or trackers. It keeps in your browser, only for the length of the visit, which link you came from (for example, a TikTok video) and a random number for that visit, so we can count how many people arrive and how many tap the download button. Closing the tab erases it, and there is no way for us to know you came back another day. Fonts are loaded from Google Fonts, so Google receives your IP address when the page opens.",
           "If you join the waitlist we store your email, the website language, the app that steals most of your time (if you say so) and where you came from, only to tell you when Lampi is ready. We don’t sell or share it, and every email has an unsubscribe link."
         ]
       },

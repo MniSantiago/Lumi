@@ -3,6 +3,7 @@ import { useCallback, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { SelectedAppsView, SELECTED_APP_ROW_HEIGHT } from '../../modules/lampi-screen-time';
+import { analytics, EVENTS } from '@/analytics';
 import { List } from '@/components/onboarding/controls';
 import { PillButton, TextLink } from '@/components/ui';
 import { Colors, Fonts } from '@/constants/theme';
@@ -51,13 +52,33 @@ export function useNativeApps() {
   );
 
   const pick = useCallback(async () => {
+    // El permiso de Tiempo de Uso es la etapa que más importa del embudo, y es la
+    // única vez que se puede medir: `pickApps` lo pide por dentro si falta.
+    const origen = settings.onboarded ? 'ajustes' : 'onboarding';
+    const antes = screenTimeControl.authorizationStatus();
+
     const result = await screenTimeControl.pickApps({
       title: thiefAppsTitle,
       done: tr({ es: 'Listo', en: 'Done', zh: '完成', hi: 'हो गया', fr: 'Terminé' }),
       cancel: tr({ es: 'Cancelar', en: 'Cancel', zh: '取消', hi: 'रद्द करें', fr: 'Annuler' }),
     });
-    setStatus(screenTimeControl.authorizationStatus());
+
+    const despues = screenTimeControl.authorizationStatus();
+    setStatus(despues);
+    // Solo si de verdad se ha enseñado la pantalla del sistema. Así «denegado» no
+    // se confunde con «cerró el selector de apps», que es otra caída distinta.
+    if (antes !== 'approved') {
+      analytics.track(EVENTS.permisoTiempoUso, {
+        resultado: despues === 'approved' ? 'concedido' : 'denegado',
+        origen,
+      });
+    }
     if (!result) return;
+    // El número de apps ladronas, nunca cuáles: los tokens de Apple no salen de aquí.
+    analytics.track(EVENTS.appsElegidas, {
+      num: result.apps + result.categories + result.webDomains,
+      origen,
+    });
     setSummary(result);
     setRevision((r) => r + 1);
     // Durante el onboarding se configura al terminar; después, al momento.

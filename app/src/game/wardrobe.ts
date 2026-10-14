@@ -34,6 +34,13 @@ export type SpecialAccessory = {
   /** Con artículo indefinido: "una corona de luz". */
   a: string;
   feminine: boolean;
+  /**
+   * Viene incluido con Lampi Plus. No se vende por chispas (ni con Plus): se
+   * tiene desde el primer día de la suscripción. Es lo único que Plus da nada
+   * más pagar, y por eso existe — lo demás de Plus tarda días en notarse.
+   * Se mantiene la línea roja: las chispas siguen sin venderse.
+   */
+  plus?: boolean;
 };
 
 /** Accesorios que no salen de las postales: se compran con chispas (un solo sitio para ajustar precios). */
@@ -64,7 +71,7 @@ export const SPECIAL_ACCESSORIES: SpecialAccessory[] = [
     a: tr({ es: 'un medallón del sol', en: 'a sun locket', zh: '一枚太阳吊坠', hi: 'सूरज का एक लॉकेट', fr: 'un médaillon du soleil' }),
   },
   {
-    id: 'capa-estrellas', slot: 'cuello', price: 120, icon: 'capa-estrellas', feminine: true,
+    id: 'capa-estrellas', slot: 'cuello', price: 120, icon: 'capa-estrellas', feminine: true, plus: true,
     name: tr({ es: 'Capa de estrellas', en: 'Star cape', zh: '星星斗篷', hi: 'तारों वाली केप', fr: 'Cape d’étoiles' }),
     a: tr({ es: 'una capa de estrellas', en: 'a star cape', zh: '一件星星斗篷', hi: 'तारों वाली एक केप', fr: 'une cape d’étoiles' }),
   },
@@ -87,6 +94,25 @@ export const SPECIAL_ACCESSORIES: SpecialAccessory[] = [
 
 export const specialById = (id: string) => SPECIAL_ACCESSORIES.find((a) => a.id === id);
 
+/** Lo que trae puesto la suscripción. */
+export const PLUS_ACCESSORIES = SPECIAL_ACCESSORIES.filter((a) => a.plus);
+
+/** Se tiene por Plus, no por chispas: ni se compra ni se enseña con precio. */
+export const isPlusAccessory = (id: string) => !!specialById(id)?.plus;
+
+/**
+ * Pone a disposición lo que trae Plus. Solo da, nunca quita: si la suscripción
+ * caduca, la capa se queda. Es deliberado — retirar algo que Lampi ya llevaba
+ * puesto sería castigar por dejar de pagar, y además no hay forma de distinguir
+ * lo regalado por Plus de lo que alguien pudiera haber comprado con chispas
+ * antes de que esto existiera. Devuelve el mismo objeto si no hay nada que dar.
+ */
+export function grantPlusAccessories(state: GameState, isPlus: boolean): GameState {
+  if (!isPlus) return state;
+  const missing = PLUS_ACCESSORIES.filter((a) => !state.unlocked.includes(a.id)).map((a) => a.id);
+  return missing.length === 0 ? state : { ...state, unlocked: [...state.unlocked, ...missing] };
+}
+
 /** Hueco de un objeto del catálogo o de un accesorio especial. */
 export function slotOf(id: string): Slot | undefined {
   return ITEM_SLOTS[id] ?? specialById(id)?.slot;
@@ -103,10 +129,10 @@ export function wardrobeEntry(id: string): { id: string; name: string; icon: str
 /** Chispas disponibles: lo ganado menos lo gastado (nunca negativo). */
 export const balance = (state: GameState): number => Math.max(0, state.sparks - state.spent);
 
-/** Chispas que faltan para comprar un accesorio (0 si alcanza, ya está comprado o no existe). */
+/** Chispas que faltan para comprar un accesorio (0 si alcanza, ya está comprado, no se vende o no existe). */
 export function missingSparks(state: GameState, id: string): number {
   const accessory = specialById(id);
-  if (!accessory || state.unlocked.includes(id)) return 0;
+  if (!accessory || accessory.plus || state.unlocked.includes(id)) return 0;
   return Math.max(0, accessory.price - balance(state));
 }
 
@@ -150,7 +176,8 @@ export function setCompanion(state: GameState, friendId: string | null): GameSta
 
 export function buy(state: GameState, id: string): GameState {
   const accessory = specialById(id);
-  if (!accessory || state.unlocked.includes(id) || balance(state) < accessory.price) return state;
+  // Lo de Plus no está a la venta: se tiene con la suscripción o no se tiene.
+  if (!accessory || accessory.plus || state.unlocked.includes(id) || balance(state) < accessory.price) return state;
   return { ...state, unlocked: [...state.unlocked, id], spent: state.spent + accessory.price };
 }
 

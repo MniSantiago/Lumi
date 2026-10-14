@@ -178,7 +178,7 @@ export default function ExpeditionsScreen() {
               <Pressable
                 key={zone.key}
                 disabled={status !== 'plus'}
-                onPress={() => router.push('/plus')}
+                onPress={() => router.push('/plus?origen=expediciones')}
                 accessibilityRole={status === 'plus' ? 'button' : undefined}
                 style={styles.zone}>
                 <View

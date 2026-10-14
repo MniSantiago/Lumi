@@ -7,12 +7,16 @@ import {
   balance,
   buy,
   equip,
+  grantPlusAccessories,
+  isPlusAccessory,
   ITEM_SLOTS,
   missingSparks,
+  PLUS_ACCESSORIES,
   previewOutfit,
   sanitizeWardrobe,
   setCompanion,
   SLOTS,
+  slotOf,
   SPECIAL_ACCESSORIES,
   unequip,
 } from '@/game/wardrobe';
@@ -93,6 +97,44 @@ describe('buy', () => {
   });
   it('el saldo nunca es negativo', () => {
     expect(balance({ ...EMPTY_STATE, sparks: 5, spent: 50 })).toBe(0);
+  });
+});
+
+describe('accesorios de Plus', () => {
+  const plusId = PLUS_ACCESSORIES[0].id;
+  // Qué pieza viene con Plus es una decisión de producto, así que el hueco se
+  // mira, no se escribe: cambiarla no debe obligar a tocar estas pruebas.
+  const plusSlot = slotOf(plusId)!;
+  it('hay al menos uno, y no es de los que se compran', () => {
+    expect(PLUS_ACCESSORIES.length).toBeGreaterThan(0);
+    expect(isPlusAccessory(plusId)).toBe(true);
+    expect(isPlusAccessory('gorro-dormir')).toBe(false);
+  });
+  it('no se compra con chispas por mucho saldo que haya', () => {
+    const loaded = { ...EMPTY_STATE, sparks: 9999 };
+    expect(buy(loaded, plusId)).toBe(loaded);
+  });
+  it('no pide chispas: no está a la venta', () => {
+    expect(missingSparks(EMPTY_STATE, plusId)).toBe(0);
+  });
+  it('con Plus se tiene desde el primer momento, y se puede poner', () => {
+    const s = grantPlusAccessories(EMPTY_STATE, true);
+    expect(s.unlocked).toContain(plusId);
+    expect(s.spent).toBe(0);
+    expect(equip(s, plusId).outfit[plusSlot]).toBe(plusId);
+  });
+  it('sin Plus no da nada y devuelve el mismo objeto', () => {
+    expect(grantPlusAccessories(EMPTY_STATE, false)).toBe(EMPTY_STATE);
+  });
+  it('no lo da dos veces', () => {
+    const once = grantPlusAccessories(EMPTY_STATE, true);
+    expect(grantPlusAccessories(once, true)).toBe(once);
+  });
+  it('si la suscripción se va, lo que ya llevaba puesto se queda', () => {
+    const withPlus = equip(grantPlusAccessories(EMPTY_STATE, true), plusId);
+    const after = sanitizeWardrobe(grantPlusAccessories(withPlus, false));
+    expect(after.unlocked).toContain(plusId);
+    expect(after.outfit[plusSlot]).toBe(plusId);
   });
 });
 

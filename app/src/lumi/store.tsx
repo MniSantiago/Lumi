@@ -27,6 +27,8 @@ export type Settings = {
   strictShield: boolean;
   /** Suscripción a Lampi Plus activa (de momento, compra simulada). */
   isPlus: boolean;
+  /** Ya se ha visto en una postal lo que Lampi miró de lejos. Se enseña una sola vez. */
+  plusTeaseSeen: boolean;
 };
 
 const DEFAULT_SETTINGS: Settings = {
@@ -43,6 +45,7 @@ const DEFAULT_SETTINGS: Settings = {
   restDays: true,
   strictShield: false,
   isPlus: false,
+  plusTeaseSeen: false,
 };
 
 export const LIMIT_OPTIONS = [30, 45, 60, 90, 120] as const;

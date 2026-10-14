@@ -54,16 +54,24 @@
         ]
       },
       {
+        "heading": "Cómo medimos el uso",
+        "body": [
+          "Para saber dónde se atasca la gente usamos PostHog, alojado en la Unión Europea. A tu instalación le toca un número aleatorio: no es tu nombre, ni tu correo, ni el identificador de tu iPhone, y no sirve para reconocerte en ninguna otra app ni web.",
+          "Lo que se manda es la forma de lo que haces, nunca el contenido: que has abierto la app, que has empezado y terminado la presentación, si has concedido o no el permiso de Tiempo de uso, cuántas apps ladronas has elegido, que has visto la pantalla de Lampi Plus y que has empezado una compra. También la versión de la app, el idioma y si es iPhone o web.",
+          "Lo que no sale nunca de tu iPhone: qué apps has elegido, cuántos minutos has puesto de límite y tu tiempo de uso real. Tampoco se graba la pantalla ni se capturan toques automáticamente: solo se manda la lista de cosas de arriba, contadas una por una."
+        ]
+      },
+      {
         "heading": "Con quién compartimos datos",
         "body": [
-          "Solo con los proveedores que hacen falta para que Lampi funcione: Railway (alojamiento del servidor y la base de datos de las cuentas y la lista de espera), Resend (envío de correos) y RevenueCat y Apple (compras). Pueden tratar datos fuera del Espacio Económico Europeo, con las garantías habituales (cláusulas contractuales tipo).",
-          "No vendemos tus datos, no hacemos publicidad, no usamos analítica de terceros y no te seguimos entre apps ni webs."
+          "Solo con los proveedores que hacen falta para que Lampi funcione: Railway (alojamiento del servidor y la base de datos de las cuentas y la lista de espera), Resend (envío de correos), RevenueCat y Apple (compras) y PostHog (medición de uso, con los datos alojados en la Unión Europea). Pueden tratar datos fuera del Espacio Económico Europeo, con las garantías habituales (cláusulas contractuales tipo).",
+          "No vendemos tus datos, no hacemos publicidad y no te seguimos entre apps ni webs. Sí medimos, de forma anónima, cómo se usa Lampi, y te contamos exactamente qué se mide en el apartado «Cómo medimos el uso»."
         ]
       },
       {
         "heading": "La web (lampi.es) y las cookies",
         "body": [
-          "La web no usa cookies ni rastreadores, y no tiene analítica. Guarda en tu navegador, solo mientras dura la visita, de qué enlace llegaste (por ejemplo, un vídeo de TikTok), para saber qué funciona. Las tipografías se cargan desde Google Fonts, así que Google recibe tu dirección IP al abrir la página.",
+          "La web no usa cookies ni rastreadores. Guarda en tu navegador, solo mientras dura la visita, de qué enlace llegaste (por ejemplo, un vídeo de TikTok) y un número aleatorio de esa visita, para contar cuánta gente llega y cuánta pulsa el botón de descarga. Al cerrar la pestaña se borra, y no hay forma de saber que has vuelto otro día. Las tipografías se cargan desde Google Fonts, así que Google recibe tu dirección IP al abrir la página.",
           "Si te apuntas a la lista de espera guardamos tu correo, el idioma de la web, la app que más te roba tiempo (si la indicas) y de dónde llegaste, solo para avisarte cuando Lampi esté lista. No lo vendemos ni lo compartimos, y cada correo trae un enlace para darte de baja."
         ]
       },

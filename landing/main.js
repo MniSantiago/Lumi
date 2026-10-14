@@ -27,15 +27,66 @@ const APP_STORE_URL = 'https://apps.apple.com/app/id6817946323';
 const WAITLIST_HEADERS = {};
 
 /**
- * Analítica. De momento no hace nada (solo registra en consola en local).
- * Para medir registros por visita, conecta aquí Plausible o PostHog:
- *   window.plausible?.(event, { props });
- *   window.posthog?.capture(event, props);
+ * Analítica (Fase 1): PostHog en EU Cloud, por HTTP y sin script de terceros.
+ *
+ * **Pega la clave de proyecto aquí y empieza a medir.** Es lo único que falta;
+ * mientras esté vacía, `track()` no manda nada (en local sigue escribiendo en
+ * consola, como siempre). La clave de proyecto de PostHog es pública: va en el
+ * JS de la web a propósito, no es un secreto.
+ *
+ * Por qué no el snippet de posthog.js: trae autocaptura y grabación de sesión
+ * activadas de serie, carga ~50 kB de terceros y pone cookies propias. Aquí hay
+ * nueve eventos contados a mano, así que no hace falta nada de eso: sin script
+ * externo, sin cookies y sin nada que añadir a la política más que el proveedor.
  */
+const POSTHOG_KEY = '';
+const POSTHOG_HOST = 'https://eu.i.posthog.com';
+
+/**
+ * Id anónimo de la visita. Vive en `sessionStorage`, así que se borra al cerrar
+ * la pestaña: sirve para unir «ha entrado» con «ha pulsado descargar» dentro de
+ * una misma visita, y no para seguir a nadie entre días ni entre webs.
+ */
+const visitorId = (() => {
+  const KEY = 'lumi-visit';
+  try {
+    const saved = sessionStorage.getItem(KEY);
+    if (saved) return saved;
+    const fresh = `web_${Math.random().toString(36).slice(2)}${Date.now().toString(36)}`;
+    sessionStorage.setItem(KEY, fresh);
+    return fresh;
+  } catch {
+    return `web_${Math.random().toString(36).slice(2)}`;
+  }
+})();
+
 function track(event, props = {}) {
   const payload = { ...props, ...source };
   if (location.protocol === 'file:' || location.hostname === 'localhost') {
     console.debug('[track]', event, payload);
+  }
+  if (!POSTHOG_KEY) return;
+
+  const body = JSON.stringify({
+    api_key: POSTHOG_KEY,
+    event,
+    distinct_id: visitorId,
+    properties: { ...payload, idioma: document.documentElement.lang || null, $current_url: location.href },
+    timestamp: new Date().toISOString(),
+  });
+
+  try {
+    // `sendBeacon` sobrevive a que la página se vaya, que es justo lo que pasa al
+    // pulsar el botón de la App Store: es el evento que más importa de la web.
+    if (navigator.sendBeacon?.(`${POSTHOG_HOST}/i/v0/e/`, new Blob([body], { type: 'application/json' }))) return;
+    fetch(`${POSTHOG_HOST}/i/v0/e/`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body,
+      keepalive: true,
+    }).catch(() => {});
+  } catch {
+    /* la analítica nunca rompe la web */
   }
 }
 

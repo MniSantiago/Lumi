@@ -54,16 +54,24 @@
         ]
       },
       {
+        "heading": "Comment nous mesurons l’usage",
+        "body": [
+          "Pour savoir où les gens bloquent, nous utilisons PostHog, hébergé dans l’Union européenne. Ton installation reçoit un numéro aléatoire : ce n’est pas ton nom, ni ton e-mail, ni l’identifiant de ton iPhone, et il ne permet pas de te reconnaître sur une autre appli ou un autre site.",
+          "Ce que nous envoyons, c’est la forme de ce que tu fais, jamais le contenu : que tu as ouvert l’appli, que tu as commencé et terminé la présentation, si tu as accordé ou non l’autorisation Temps d’écran, combien d’applis voleuses tu as choisies, que tu as vu l’écran Lampi Plus et que tu as commencé un achat. Plus la version de l’appli, la langue et s’il s’agit d’un iPhone ou du web.",
+          "Ce qui ne quitte jamais ton iPhone : quelles applis tu as choisies, combien de minutes tu t’es fixé comme limite, et ton temps d’écran réel. Nous n’enregistrons pas non plus ton écran et ne captons pas les touches automatiquement : seulement la liste ci-dessus, comptée une par une."
+        ]
+      },
+      {
         "heading": "Avec qui nous partageons des données",
         "body": [
-          "Uniquement avec les prestataires nécessaires au fonctionnement de Lampi : Railway (hébergement du serveur et de la base de données des comptes et de la liste d’attente), Resend (envoi des e-mails), et RevenueCat et Apple (achats). Ils peuvent traiter des données hors de l’Espace économique européen, avec les garanties habituelles (clauses contractuelles types).",
-          "Nous ne vendons pas tes données, nous ne faisons pas de publicité, nous n’utilisons pas d’analyse tierce et nous ne te suivons pas d’une appli ou d’un site à l’autre."
+          "Uniquement avec les prestataires nécessaires au fonctionnement de Lampi : Railway (hébergement du serveur et de la base de données des comptes et de la liste d’attente), Resend (envoi des e-mails), RevenueCat et Apple (achats), et PostHog (mesure d’usage, données hébergées dans l’Union européenne). Ils peuvent traiter des données hors de l’Espace économique européen, avec les garanties habituelles (clauses contractuelles types).",
+          "Nous ne vendons pas tes données, nous ne faisons pas de publicité et nous ne te suivons pas d’une appli ou d’un site à l’autre. En revanche, nous mesurons de façon anonyme l’usage de Lampi, et la section « Comment nous mesurons l’usage » dit exactement quoi."
         ]
       },
       {
         "heading": "Le site (lampi.es) et les cookies",
         "body": [
-          "Le site n’utilise ni cookies ni traceurs et n’a pas d’analyse d’audience. Il garde dans ton navigateur, seulement le temps de la visite, le lien d’où tu viens (par exemple une vidéo TikTok), pour savoir ce qui marche. Les polices sont chargées depuis Google Fonts, donc Google reçoit ton adresse IP à l’ouverture de la page.",
+          "Le site n’utilise ni cookies ni traceurs. Il garde dans ton navigateur, seulement le temps de la visite, le lien d’où tu viens (par exemple une vidéo TikTok) et un numéro aléatoire pour cette visite, afin de compter combien de personnes arrivent et combien appuient sur le bouton de téléchargement. En fermant l’onglet, tout est effacé, et nous ne pouvons pas savoir que tu es revenu un autre jour. Les polices sont chargées depuis Google Fonts, donc Google reçoit ton adresse IP à l’ouverture de la page.",
           "Si tu t’inscris à la liste d’attente, nous gardons ton e-mail, la langue du site, l’appli qui te vole le plus de temps (si tu l’indiques) et d’où tu viens, uniquement pour te prévenir quand Lampi sera prête. Nous ne le vendons ni ne le partageons, et chaque e-mail contient un lien de désinscription."
         ]
       },

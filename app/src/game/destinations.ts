@@ -86,6 +86,21 @@ const DATA: DestinationData[] = [
   },
 
   // ── Capítulo 2 ─────────────────────────────────────────────
+  // Las zonas Plus abren su capítulo a propósito. `pickDestination` sirve el
+  // primer lugar sin visitar en este mismo orden, así que una zona Plus al final
+  // del capítulo no se alcanzaba hasta haber pasado por todas las gratuitas de
+  // delante: con la prueba de 7 días, la suscripción caducaba antes de llegar a
+  // ver lo que se había pagado. Primeras del capítulo, se llega el día que se
+  // entra en él. A quien no tiene Plus no le cambia nada: se filtran antes.
+  {
+    id: 'faro-dormido',
+    art: 'linear-gradient(160deg, #FFC96B, #B06A7A 60%, #2A2560)',
+    chapter: 2,
+    plus: true,
+    unlockAfterBrightDays: 4,
+    lootItems: ['farolillo', 'vela', 'catalejo', 'concha', 'llave'],
+    lootFriends: ['mochuelito'],
+  },
   {
     id: 'madriguera-vecino',
     art: 'linear-gradient(170deg, #FFC96B, #6B4A3E 70%)',
@@ -122,17 +137,18 @@ const DATA: DestinationData[] = [
     lootItems: ['cristal', 'geoda', 'piedra', 'vela', 'moneda'],
     lootFriends: ['hollin'],
   },
-  {
-    id: 'faro-dormido',
-    art: 'linear-gradient(160deg, #FFC96B, #B06A7A 60%, #2A2560)',
-    chapter: 2,
-    plus: true,
-    unlockAfterBrightDays: 4,
-    lootItems: ['farolillo', 'vela', 'catalejo', 'concha', 'llave'],
-    lootFriends: ['mochuelito'],
-  },
 
   // ── Capítulo 3 ─────────────────────────────────────────────
+  {
+    id: 'isla-reloj',
+    art: 'linear-gradient(160deg, #C9BFF2, #FFC96B 55%, #2A2560)',
+    chapter: 3,
+    plus: true,
+    // Al frente del capítulo 3, que abre con 8 días de luz.
+    unlockAfterBrightDays: 8,
+    lootItems: ['reloj', 'engranaje', 'llave', 'mapa'],
+    lootFriends: ['pinzas'],
+  },
   {
     id: 'charca-ranas',
     art: 'linear-gradient(165deg, #9FE3F0, #8FD1A6 45%, #2A2560)',
@@ -169,17 +185,18 @@ const DATA: DestinationData[] = [
     lootItems: ['barquito', 'carta', 'bufanda', 'mapa'],
     lootFriends: ['burbujo'],
   },
-  {
-    id: 'isla-reloj',
-    art: 'linear-gradient(160deg, #C9BFF2, #FFC96B 55%, #2A2560)',
-    chapter: 3,
-    plus: true,
-    unlockAfterBrightDays: 10,
-    lootItems: ['reloj', 'engranaje', 'llave', 'mapa'],
-    lootFriends: ['pinzas'],
-  },
 
   // ── Capítulo 4 ─────────────────────────────────────────────
+  {
+    id: 'observatorio-cometas',
+    art: 'linear-gradient(160deg, #9FE3F0, #2A2560 55%, #13112E)',
+    chapter: 4,
+    plus: true,
+    // Al frente del capítulo 4, que abre con 13 días de luz.
+    unlockAfterBrightDays: 13,
+    lootItems: ['catalejo', 'engranaje', 'polvo-estrella', 'trocito-luna'],
+    lootFriends: ['mochuelito'],
+  },
   {
     id: 'mercadillo-buhos',
     art: 'linear-gradient(165deg, #FFC96B, #8C7BD8 55%, #1B1840)',
@@ -216,15 +233,6 @@ const DATA: DestinationData[] = [
     lootItems: ['polvo-estrella', 'trocito-luna', 'flor-luna', 'farolillo', 'semilla'],
     lootFriends: ['estrellita'],
   },
-  {
-    id: 'observatorio-cometas',
-    art: 'linear-gradient(160deg, #9FE3F0, #2A2560 55%, #13112E)',
-    chapter: 4,
-    plus: true,
-    unlockAfterBrightDays: 15,
-    lootItems: ['catalejo', 'engranaje', 'polvo-estrella', 'trocito-luna'],
-    lootFriends: ['mochuelito'],
-  },
 ];
 
 export const DESTINATIONS: Destination[] = DATA.map((d) => {
@@ -243,6 +251,25 @@ export const DESTINATIONS: Destination[] = DATA.map((d) => {
 });
 
 export const destinationById = (id: string) => DESTINATIONS.find((d) => d.id === id);
+
+/**
+ * Los lugares de un capítulo a los que esta persona puede llegar. Sin Plus, las
+ * zonas Plus no cuentan: si contaran, un capítulo no se cerraría nunca y el
+ * final de capítulo sería un premio reservado a quien paga.
+ */
+export const chapterDestinations = (chapter: number, isPlus: boolean) =>
+  DESTINATIONS.filter((d) => d.chapter === chapter && (!d.plus || isPlus));
+
+/**
+ * Esta visita cierra el capítulo: era el último lugar que le quedaba por
+ * conocer. `visitedBefore` son los destinos visitados sin contar el de hoy, para
+ * que una revisita a un capítulo ya terminado no vuelva a celebrarlo.
+ */
+export function closesChapter(destination: Destination, visitedBefore: string[], isPlus: boolean): boolean {
+  if (visitedBefore.includes(destination.id)) return false;
+  const seen = new Set(visitedBefore);
+  return chapterDestinations(destination.chapter, isPlus).every((d) => d.id === destination.id || seen.has(d.id));
+}
 
 /** "del Bosque de Musgo", "from the Moss Forest". */
 export const fromDestination = (d: Pick<Destination, 'from'>) => d.from;

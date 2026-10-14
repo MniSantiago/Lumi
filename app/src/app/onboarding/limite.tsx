@@ -1,4 +1,5 @@
 import { Image } from 'expo-image';
+import { router } from 'expo-router';
 import { StyleSheet, Text, View } from 'react-native';
 
 import { Label, List, Row, Stepper, Toggle } from '@/components/onboarding/controls';
@@ -23,7 +24,7 @@ const STAGES: { state: LumiState; pct: number }[] = [
 
 /** Paso 3: límite diario suave y horario de noche. */
 export default function LimitStep() {
-  const { draft, setDraft, finish } = useOnboardingDraft();
+  const { draft, setDraft } = useOnboardingDraft();
   const lumiName = useLumiName();
   const limit = draft.limitMinutes;
   const limitIndex = Math.max(0, LIMIT_OPTIONS.indexOf(limit as (typeof LIMIT_OPTIONS)[number]));
@@ -50,14 +51,8 @@ export default function LimitStep() {
         fr: `Une limite douce, sans punition. ${lumiName} te le rappelle juste à sa façon.`,
       })}
       cta={{
-        label: tr({
-          es: `Despertar a ${lumiName}`,
-          en: `Wake up ${lumiName}`,
-          zh: `叫醒${lumiName}`,
-          hi: `${lumiName} को जगाओ`,
-          fr: `Réveiller ${lumiName}`,
-        }),
-        onPress: () => void finish(),
+        label: tr({ es: 'Continuar', en: 'Continue', zh: '继续', hi: 'आगे बढ़ो', fr: 'Continuer' }),
+        onPress: () => router.push('/onboarding/plus'),
       }}>
       <View style={{ gap: 10 }}>
         <AppText variant="label">

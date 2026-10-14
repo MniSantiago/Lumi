@@ -532,7 +532,7 @@ export default function SettingsScreen() {
                 onChange={(v) => protect(() => updateSettings({ strictShield: v }))}
               />
             ) : (
-              <TextLink label="Plus" onPress={() => router.push('/plus')} />
+              <TextLink label="Plus" onPress={() => router.push('/plus?origen=ajustes')} />
             )}
           </Row>
         </List>
@@ -616,7 +616,7 @@ export default function SettingsScreen() {
             </Row>
             <Row>
               <Label title="Ver Lampi Plus" sub="El paywall con la prueba gratis" />
-              <TextLink label="Abrir" onPress={() => router.push('/plus')} />
+              <TextLink label="Abrir" onPress={() => router.push('/plus?origen=ajustes')} />
             </Row>
             <Row last>
               <Label title="Repetir el onboarding" sub="Vuelve a la primera pantalla" />
@@ -647,7 +647,7 @@ export default function SettingsScreen() {
                 hi: 'मेरी सदस्यता देखो',
                 fr: 'Voir mon abonnement',
               })}
-              onPress={() => router.push('/plus')}
+              onPress={() => router.push('/plus?origen=ajustes')}
             />
           </>
         ) : (
@@ -660,7 +660,7 @@ export default function SettingsScreen() {
                 hi: '7 दिन मुफ़्त आज़माओ',
                 fr: 'Essayer 7 jours gratuits',
               })}
-              onPress={() => router.push('/plus')}
+              onPress={() => router.push('/plus?origen=ajustes')}
             />
             {/* El precio lo enseña el paywall, localizado por la App Store: aquí no se fija. */}
             <Text style={styles.plusSmall}>{paywallCopy.noPressure}</Text>

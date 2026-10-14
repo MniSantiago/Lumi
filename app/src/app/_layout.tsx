@@ -11,6 +11,7 @@ import { StatusBar } from 'expo-status-bar';
 import { useEffect } from 'react';
 
 import { SessionProvider } from '@/account/session';
+import { startAnalytics } from '@/analytics';
 import { AnimatedSplash } from '@/components/animated-splash';
 import { CrashScreen } from '@/components/crash-screen';
 import { ProgressSync } from '@/account/sync';
@@ -49,6 +50,9 @@ export default function RootLayout() {
   useEffect(() => {
     if (fontsDone) markReady('fonts');
   }, [fontsDone]);
+
+  // La medición, lo primero y una sola vez: sin clave de PostHog no hace nada.
+  useEffect(startAnalytics, []);
 
   // La splash animada va siempre en la misma posición del árbol (no se remonta al terminar
   // de cargar las fuentes) y por encima de todo, tours incluidos.
