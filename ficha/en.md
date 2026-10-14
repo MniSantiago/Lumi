@@ -46,7 +46,7 @@ NO GUILT
 Lampi never dies or gets sick. Every day starts fresh. Streaks have rest days. And night mode lets her sleep, so you can rest too.
 
 YOUR PRIVACY FIRST
-Lampi uses Apple’s Screen Time and only learns when you’re getting close to your limit. She doesn’t see what you do inside your apps. Without an account, what she knows about you lives on your iPhone. The account is optional, keeps her safe if you change iPhones, and you can delete it anytime from the app.
+Lampi uses Apple’s Screen Time and only learns when you’re getting close to your limit. She doesn’t see what you do inside your apps. Without an account, what she knows about you lives on your iPhone: which apps you pick and how long you use them never leave it. The account is optional, keeps her safe if you change iPhones, and you can delete it anytime from the app.
 
 THE IMPORTANT STUFF IS FREE
 Your Lampi and her shield, the daily limit, expeditions and postcards, and night mode are free.
@@ -54,12 +54,26 @@ Your Lampi and her shield, the daily limit, expeditions and postcards, and night
 LAMPI PLUS (OPTIONAL)
 For those who want to go a little further: exclusive places with their own stories, a strict shield without “5 more min”, and your all-time numbers (longest streak, places, things and friends). Yearly or monthly subscription with a 7-day free trial on the yearly plan. It renews automatically until you cancel it in Settings › your name › Subscriptions, at least 24 hours before renewal.
 
-Terms: https://<domain>/terminos.html?lang=en
-Privacy: https://<domain>/privacidad.html?lang=en
+Terms: https://lampi.es/terminos.html?lang=en
+Privacy: https://lampi.es/privacidad.html?lang=en
 Terms of Use (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ## Novedades de esta versión (máx. 4000)
+
+Para la **1.0.2**. Incluye lo que iba en la 1.0.1 (el armario), que no llegó a publicarse.
+
+```
+I’m Lampi, and I’ve brought a few new things ✨
+
+• The wardrobe is comfier: try an accessory on before spending sparks, and change my look straight from Home.
+• Finishing a chapter is a moment now, and I tell you so.
+• A rest day doesn’t break your streak. Now I say it where it was missing: in Progress, and in the next night’s postcard.
+• With Lampi Plus, the Star cape is yours from the first minute, and the Plus places are reachable within the 7-day trial.
+• Anonymous measurement of where people get stuck inside the app. Which apps you pick and how long you use them never leave your iPhone.
+```
+
+### Versión anterior (1.0)
 
 ```
 Hi! I’m Lampi. This is my first version: put your phone down and I’ll go on an adventure ✨
