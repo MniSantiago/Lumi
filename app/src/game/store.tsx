@@ -28,6 +28,7 @@ import {
   balance as walletBalance,
   buy as buyAccessory,
   equip as equipItem,
+  grantPlusAccessories,
   sanitizeWardrobe,
   setCompanion as setCompanionOf,
   unequip as unequipSlot,
@@ -182,6 +183,17 @@ export function GameProvider({ children }: { children: ReactNode }) {
     if (!loaded) return;
     AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(state)).catch(() => {});
   }, [state, loaded]);
+
+  // Lo que trae puesto Plus, desde el primer minuto de la suscripción (y también
+  // al restaurarla en otro móvil, porque esto sigue a `settings.isPlus`). Se
+  // ajusta durante el render en vez de en un efecto: así no hay un render de más
+  // con el armario a medias. Solo da, así que basta con hacerlo una vez; el
+  // orden en que terminen de cargar los ajustes y el juego da igual.
+  const [plusGranted, setPlusGranted] = useState(false);
+  if (loaded && settings.isPlus && !plusGranted) {
+    setPlusGranted(true);
+    setState((s) => grantPlusAccessories(s, true));
+  }
 
   // El reloj avanza cada minuto y al volver a la app. Al cambiar de día, el
   // umbral del mock vuelve a 0 (cada día empieza de cero).

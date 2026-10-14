@@ -1,3 +1,4 @@
+import { router } from 'expo-router';
 import { SymbolView } from 'expo-symbols';
 import { useState } from 'react';
 import { Pressable, StyleSheet, Text, View } from 'react-native';
@@ -78,6 +79,16 @@ const copy = {
       fr: `Touche-en un pour que ${name} l’essaie.`,
     }),
   worn: tr({ es: 'puesto', en: 'wearing', zh: '已穿戴', hi: 'पहना हुआ', fr: 'porté' }),
+  /** Lo que trae puesto la suscripción: no se compra con chispas. */
+  plusBadge: 'Plus',
+  plusIncluded: tr({
+    es: 'Viene con Lampi Plus',
+    en: 'Comes with Lampi Plus',
+    zh: 'Lampi Plus 自带',
+    hi: 'Lampi Plus के साथ आता है',
+    fr: 'Inclus avec Lampi Plus',
+  }),
+  plusSee: tr({ es: 'Ver Plus', en: 'See Plus', zh: '看看 Plus', hi: 'Plus देखो', fr: 'Voir Plus' }),
 };
 
 /** Marca ✓ de lo puesto o elegido: el estado no depende solo del color del borde. */
@@ -136,7 +147,15 @@ export default function WardrobeSheet() {
       <Text style={styles.confirmName} numberOfLines={2}>
         {tryingEntry.name}
       </Text>
-      {missing > 0 ? (
+      {tryingEntry.plus ? (
+        <Pressable
+          accessibilityRole="button"
+          accessibilityLabel={`${copy.plusIncluded}. ${copy.plusSee}`}
+          onPress={() => router.push('/plus')}
+          style={({ pressed }) => [styles.confirmButton, pressed && { opacity: 0.8 }]}>
+          <Text style={styles.confirmButtonText}>{copy.plusSee}</Text>
+        </Pressable>
+      ) : missing > 0 ? (
         <Text style={styles.confirmMissing}>{copy.missing(missing)}</Text>
       ) : (
         <Pressable
@@ -249,7 +268,9 @@ export default function WardrobeSheet() {
                 <Pressable
                   key={a.id}
                   accessibilityRole="button"
-                  accessibilityLabel={`${a.name}, ${a.price} ${nightlyCopy.sparksUnit}`}
+                  accessibilityLabel={
+                    a.plus ? `${a.name}, ${copy.plusIncluded}` : `${a.name}, ${a.price} ${nightlyCopy.sparksUnit}`
+                  }
                   accessibilityState={{ selected: on }}
                   onPress={() => {
                     // Tocar otra vez el mismo accesorio deshace la prueba.
@@ -264,11 +285,17 @@ export default function WardrobeSheet() {
                   <Text style={styles.cellName} numberOfLines={2}>
                     {a.name}
                   </Text>
-                  <View style={[styles.price, !can && styles.priceShort]}>
-                    {can ? null : <SymbolView name="lock.fill" size={10} tintColor={Colors.textTertiary} />}
-                    <SparkGlyph size={11} color={can ? Colors.amberPale : Colors.textTertiary} />
-                    <Text style={[styles.priceText, !can && { color: Colors.textSecondary }]}>{a.price}</Text>
-                  </View>
+                  {a.plus ? (
+                    <View style={[styles.price, styles.pricePlus]}>
+                      <Text style={styles.pricePlusText}>{copy.plusBadge}</Text>
+                    </View>
+                  ) : (
+                    <View style={[styles.price, !can && styles.priceShort]}>
+                      {can ? null : <SymbolView name="lock.fill" size={10} tintColor={Colors.textTertiary} />}
+                      <SparkGlyph size={11} color={can ? Colors.amberPale : Colors.textTertiary} />
+                      <Text style={[styles.priceText, !can && { color: Colors.textSecondary }]}>{a.price}</Text>
+                    </View>
+                  )}
                 </Pressable>
               );
             })}
@@ -348,6 +375,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 201, 107, 0.16)',
   },
   priceShort: { backgroundColor: 'rgba(201, 191, 242, 0.10)' },
+  pricePlus: { backgroundColor: 'rgba(255, 201, 107, 0.18)' },
+  pricePlusText: { fontFamily: Fonts.bodyBold, fontSize: 12, letterSpacing: 0.4, color: Colors.amberPale },
   priceText: { fontFamily: Fonts.bodyBold, fontSize: 13, color: Colors.amberPale, fontVariant: ['tabular-nums'] },
   shop: { gap: 8, marginTop: 4 },
   shopHeader: { flexDirection: 'row', alignItems: 'center', gap: 6 },

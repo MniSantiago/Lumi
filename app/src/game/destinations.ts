@@ -86,6 +86,21 @@ const DATA: DestinationData[] = [
   },
 
   // ── Capítulo 2 ─────────────────────────────────────────────
+  // Las zonas Plus abren su capítulo a propósito. `pickDestination` sirve el
+  // primer lugar sin visitar en este mismo orden, así que una zona Plus al final
+  // del capítulo no se alcanzaba hasta haber pasado por todas las gratuitas de
+  // delante: con la prueba de 7 días, la suscripción caducaba antes de llegar a
+  // ver lo que se había pagado. Primeras del capítulo, se llega el día que se
+  // entra en él. A quien no tiene Plus no le cambia nada: se filtran antes.
+  {
+    id: 'faro-dormido',
+    art: 'linear-gradient(160deg, #FFC96B, #B06A7A 60%, #2A2560)',
+    chapter: 2,
+    plus: true,
+    unlockAfterBrightDays: 4,
+    lootItems: ['farolillo', 'vela', 'catalejo', 'concha', 'llave'],
+    lootFriends: ['mochuelito'],
+  },
   {
     id: 'madriguera-vecino',
     art: 'linear-gradient(170deg, #FFC96B, #6B4A3E 70%)',
@@ -122,17 +137,18 @@ const DATA: DestinationData[] = [
     lootItems: ['cristal', 'geoda', 'piedra', 'vela', 'moneda'],
     lootFriends: ['hollin'],
   },
-  {
-    id: 'faro-dormido',
-    art: 'linear-gradient(160deg, #FFC96B, #B06A7A 60%, #2A2560)',
-    chapter: 2,
-    plus: true,
-    unlockAfterBrightDays: 4,
-    lootItems: ['farolillo', 'vela', 'catalejo', 'concha', 'llave'],
-    lootFriends: ['mochuelito'],
-  },
 
   // ── Capítulo 3 ─────────────────────────────────────────────
+  {
+    id: 'isla-reloj',
+    art: 'linear-gradient(160deg, #C9BFF2, #FFC96B 55%, #2A2560)',
+    chapter: 3,
+    plus: true,
+    // Al frente del capítulo 3, que abre con 8 días de luz.
+    unlockAfterBrightDays: 8,
+    lootItems: ['reloj', 'engranaje', 'llave', 'mapa'],
+    lootFriends: ['pinzas'],
+  },
   {
     id: 'charca-ranas',
     art: 'linear-gradient(165deg, #9FE3F0, #8FD1A6 45%, #2A2560)',
@@ -169,17 +185,18 @@ const DATA: DestinationData[] = [
     lootItems: ['barquito', 'carta', 'bufanda', 'mapa'],
     lootFriends: ['burbujo'],
   },
-  {
-    id: 'isla-reloj',
-    art: 'linear-gradient(160deg, #C9BFF2, #FFC96B 55%, #2A2560)',
-    chapter: 3,
-    plus: true,
-    unlockAfterBrightDays: 10,
-    lootItems: ['reloj', 'engranaje', 'llave', 'mapa'],
-    lootFriends: ['pinzas'],
-  },
 
   // ── Capítulo 4 ─────────────────────────────────────────────
+  {
+    id: 'observatorio-cometas',
+    art: 'linear-gradient(160deg, #9FE3F0, #2A2560 55%, #13112E)',
+    chapter: 4,
+    plus: true,
+    // Al frente del capítulo 4, que abre con 13 días de luz.
+    unlockAfterBrightDays: 13,
+    lootItems: ['catalejo', 'engranaje', 'polvo-estrella', 'trocito-luna'],
+    lootFriends: ['mochuelito'],
+  },
   {
     id: 'mercadillo-buhos',
     art: 'linear-gradient(165deg, #FFC96B, #8C7BD8 55%, #1B1840)',
@@ -215,15 +232,6 @@ const DATA: DestinationData[] = [
     unlockAfterBrightDays: 20,
     lootItems: ['polvo-estrella', 'trocito-luna', 'flor-luna', 'farolillo', 'semilla'],
     lootFriends: ['estrellita'],
-  },
-  {
-    id: 'observatorio-cometas',
-    art: 'linear-gradient(160deg, #9FE3F0, #2A2560 55%, #13112E)',
-    chapter: 4,
-    plus: true,
-    unlockAfterBrightDays: 15,
-    lootItems: ['catalejo', 'engranaje', 'polvo-estrella', 'trocito-luna'],
-    lootFriends: ['mochuelito'],
   },
 ];
 

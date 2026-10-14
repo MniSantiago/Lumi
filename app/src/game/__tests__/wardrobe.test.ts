@@ -7,8 +7,11 @@ import {
   balance,
   buy,
   equip,
+  grantPlusAccessories,
+  isPlusAccessory,
   ITEM_SLOTS,
   missingSparks,
+  PLUS_ACCESSORIES,
   previewOutfit,
   sanitizeWardrobe,
   setCompanion,
@@ -50,13 +53,13 @@ describe('equip / unequip', () => {
     expect(equip(rich, 'catalejo')).toBe(rich);
   });
   it('un accesorio especial solo se pone si está comprado', () => {
-    expect(equip(rich, 'corona-luz')).toBe(rich);
-    const bought = buy(rich, 'corona-luz');
-    expect(equip(bought, 'corona-luz').outfit.cabeza).toBe('corona-luz');
+    expect(equip(rich, 'gorro-dormir')).toBe(rich);
+    const bought = buy(rich, 'gorro-dormir');
+    expect(equip(bought, 'gorro-dormir').outfit.cabeza).toBe('gorro-dormir');
   });
   it('un accesorio sustituye al objeto que hubiera en su hueco', () => {
-    const s = equip(buy(equip(rich, 'seta'), 'corona-luz'), 'corona-luz');
-    expect(s.outfit.cabeza).toBe('corona-luz');
+    const s = equip(buy(equip(rich, 'seta'), 'gorro-dormir'), 'gorro-dormir');
+    expect(s.outfit.cabeza).toBe('gorro-dormir');
   });
   it('unequip quita el hueco y es no-op si está vacío', () => {
     const s = equip(rich, 'bufanda');
@@ -93,6 +96,41 @@ describe('buy', () => {
   });
   it('el saldo nunca es negativo', () => {
     expect(balance({ ...EMPTY_STATE, sparks: 5, spent: 50 })).toBe(0);
+  });
+});
+
+describe('accesorios de Plus', () => {
+  const plusId = PLUS_ACCESSORIES[0].id;
+  it('hay al menos uno, y no es de los que se compran', () => {
+    expect(PLUS_ACCESSORIES.length).toBeGreaterThan(0);
+    expect(isPlusAccessory(plusId)).toBe(true);
+    expect(isPlusAccessory('gorro-dormir')).toBe(false);
+  });
+  it('no se compra con chispas por mucho saldo que haya', () => {
+    const loaded = { ...EMPTY_STATE, sparks: 9999 };
+    expect(buy(loaded, plusId)).toBe(loaded);
+  });
+  it('no pide chispas: no está a la venta', () => {
+    expect(missingSparks(EMPTY_STATE, plusId)).toBe(0);
+  });
+  it('con Plus se tiene desde el primer momento, y se puede poner', () => {
+    const s = grantPlusAccessories(EMPTY_STATE, true);
+    expect(s.unlocked).toContain(plusId);
+    expect(s.spent).toBe(0);
+    expect(equip(s, plusId).outfit.cabeza).toBe(plusId);
+  });
+  it('sin Plus no da nada y devuelve el mismo objeto', () => {
+    expect(grantPlusAccessories(EMPTY_STATE, false)).toBe(EMPTY_STATE);
+  });
+  it('no lo da dos veces', () => {
+    const once = grantPlusAccessories(EMPTY_STATE, true);
+    expect(grantPlusAccessories(once, true)).toBe(once);
+  });
+  it('si la suscripción se va, lo que ya llevaba puesto se queda', () => {
+    const withPlus = equip(grantPlusAccessories(EMPTY_STATE, true), plusId);
+    const after = sanitizeWardrobe(grantPlusAccessories(withPlus, false));
+    expect(after.unlocked).toContain(plusId);
+    expect(after.outfit.cabeza).toBe(plusId);
   });
 });
 
