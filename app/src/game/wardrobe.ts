@@ -56,7 +56,7 @@ export const SPECIAL_ACCESSORIES: SpecialAccessory[] = [
     a: tr({ es: 'un antifaz de estrellas', en: 'a star eye mask', zh: '一个星星眼罩', hi: 'एक तारों वाला आई मास्क', fr: 'un masque d’étoiles' }),
   },
   {
-    id: 'corona-luz', slot: 'cabeza', price: 150, icon: 'corona-luz', feminine: true, plus: true,
+    id: 'corona-luz', slot: 'cabeza', price: 150, icon: 'corona-luz', feminine: true,
     name: tr({ es: 'Corona de luz', en: 'Crown of light', zh: '光之王冠', hi: 'रोशनी का ताज', fr: 'Couronne de lumière' }),
     a: tr({ es: 'una corona de luz', en: 'a crown of light', zh: '一顶光之王冠', hi: 'रोशनी का एक ताज', fr: 'une couronne de lumière' }),
   },
@@ -71,7 +71,7 @@ export const SPECIAL_ACCESSORIES: SpecialAccessory[] = [
     a: tr({ es: 'un medallón del sol', en: 'a sun locket', zh: '一枚太阳吊坠', hi: 'सूरज का एक लॉकेट', fr: 'un médaillon du soleil' }),
   },
   {
-    id: 'capa-estrellas', slot: 'cuello', price: 120, icon: 'capa-estrellas', feminine: true,
+    id: 'capa-estrellas', slot: 'cuello', price: 120, icon: 'capa-estrellas', feminine: true, plus: true,
     name: tr({ es: 'Capa de estrellas', en: 'Star cape', zh: '星星斗篷', hi: 'तारों वाली केप', fr: 'Cape d’étoiles' }),
     a: tr({ es: 'una capa de estrellas', en: 'a star cape', zh: '一件星星斗篷', hi: 'तारों वाली एक केप', fr: 'une cape d’étoiles' }),
   },
@@ -102,7 +102,7 @@ export const isPlusAccessory = (id: string) => !!specialById(id)?.plus;
 
 /**
  * Pone a disposición lo que trae Plus. Solo da, nunca quita: si la suscripción
- * caduca, la corona se queda. Es deliberado — retirar algo que Lampi ya llevaba
+ * caduca, la capa se queda. Es deliberado — retirar algo que Lampi ya llevaba
  * puesto sería castigar por dejar de pagar, y además no hay forma de distinguir
  * lo regalado por Plus de lo que alguien pudiera haber comprado con chispas
  * antes de que esto existiera. Devuelve el mismo objeto si no hay nada que dar.

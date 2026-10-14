@@ -16,6 +16,7 @@ import {
   sanitizeWardrobe,
   setCompanion,
   SLOTS,
+  slotOf,
   SPECIAL_ACCESSORIES,
   unequip,
 } from '@/game/wardrobe';
@@ -53,13 +54,13 @@ describe('equip / unequip', () => {
     expect(equip(rich, 'catalejo')).toBe(rich);
   });
   it('un accesorio especial solo se pone si está comprado', () => {
-    expect(equip(rich, 'gorro-dormir')).toBe(rich);
-    const bought = buy(rich, 'gorro-dormir');
-    expect(equip(bought, 'gorro-dormir').outfit.cabeza).toBe('gorro-dormir');
+    expect(equip(rich, 'corona-luz')).toBe(rich);
+    const bought = buy(rich, 'corona-luz');
+    expect(equip(bought, 'corona-luz').outfit.cabeza).toBe('corona-luz');
   });
   it('un accesorio sustituye al objeto que hubiera en su hueco', () => {
-    const s = equip(buy(equip(rich, 'seta'), 'gorro-dormir'), 'gorro-dormir');
-    expect(s.outfit.cabeza).toBe('gorro-dormir');
+    const s = equip(buy(equip(rich, 'seta'), 'corona-luz'), 'corona-luz');
+    expect(s.outfit.cabeza).toBe('corona-luz');
   });
   it('unequip quita el hueco y es no-op si está vacío', () => {
     const s = equip(rich, 'bufanda');
@@ -101,6 +102,9 @@ describe('buy', () => {
 
 describe('accesorios de Plus', () => {
   const plusId = PLUS_ACCESSORIES[0].id;
+  // Qué pieza viene con Plus es una decisión de producto, así que el hueco se
+  // mira, no se escribe: cambiarla no debe obligar a tocar estas pruebas.
+  const plusSlot = slotOf(plusId)!;
   it('hay al menos uno, y no es de los que se compran', () => {
     expect(PLUS_ACCESSORIES.length).toBeGreaterThan(0);
     expect(isPlusAccessory(plusId)).toBe(true);
@@ -117,7 +121,7 @@ describe('accesorios de Plus', () => {
     const s = grantPlusAccessories(EMPTY_STATE, true);
     expect(s.unlocked).toContain(plusId);
     expect(s.spent).toBe(0);
-    expect(equip(s, plusId).outfit.cabeza).toBe(plusId);
+    expect(equip(s, plusId).outfit[plusSlot]).toBe(plusId);
   });
   it('sin Plus no da nada y devuelve el mismo objeto', () => {
     expect(grantPlusAccessories(EMPTY_STATE, false)).toBe(EMPTY_STATE);
@@ -130,7 +134,7 @@ describe('accesorios de Plus', () => {
     const withPlus = equip(grantPlusAccessories(EMPTY_STATE, true), plusId);
     const after = sanitizeWardrobe(grantPlusAccessories(withPlus, false));
     expect(after.unlocked).toContain(plusId);
-    expect(after.outfit.cabeza).toBe(plusId);
+    expect(after.outfit[plusSlot]).toBe(plusId);
   });
 });
 
