@@ -46,7 +46,7 @@ SANS CULPABILITÉ
 Lampi ne meurt jamais et ne tombe jamais malade. Chaque jour repart de zéro. Les séries ont des jours de repos. Et le mode nuit la laisse dormir, pour que toi aussi tu te reposes.
 
 TA VIE PRIVÉE D’ABORD
-Lampi utilise Temps d’écran d’Apple et sait seulement quand tu approches de ta limite. Elle ne voit pas ce que tu fais dans tes applis. Sans compte, ce qu’elle sait de toi reste sur ton iPhone. Le compte est facultatif, sert à ne pas la perdre si tu changes d’iPhone, et tu peux le supprimer quand tu veux depuis l’app.
+Lampi utilise Temps d’écran d’Apple et sait seulement quand tu approches de ta limite. Elle ne voit pas ce que tu fais dans tes applis. Sans compte, ce qu’elle sait de toi reste sur ton iPhone : les applis que tu choisis et le temps que tu y passes n’en sortent jamais. Le compte est facultatif, sert à ne pas la perdre si tu changes d’iPhone, et tu peux le supprimer quand tu veux depuis l’app.
 
 L’ESSENTIEL EST GRATUIT
 Ta Lampi et son bouclier, la limite quotidienne, les expéditions et les cartes, et le mode nuit sont gratuits.
@@ -54,12 +54,26 @@ Ta Lampi et son bouclier, la limite quotidienne, les expéditions et les cartes,
 LAMPI PLUS (FACULTATIF)
 Pour qui veut aller un peu plus loin : des lieux exclusifs avec leurs propres histoires, un bouclier strict sans « 5 min de plus » et tes chiffres depuis le début (plus longue série, lieux, objets et amis). Abonnement annuel ou mensuel, avec 7 jours gratuits sur l’offre annuelle. Il se renouvelle automatiquement jusqu’à ce que tu l’annules dans Réglages › ton nom › Abonnements, au moins 24 heures avant le renouvellement.
 
-Conditions : https://<domaine>/terminos.html?lang=fr
-Confidentialité : https://<domaine>/privacidad.html?lang=fr
+Conditions : https://lampi.es/terminos.html?lang=fr
+Confidentialité : https://lampi.es/privacidad.html?lang=fr
 Conditions d'utilisation (EULA) : https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ## Novedades de esta versión (máx. 4000)
+
+Para la **1.0.2**. Incluye lo que iba en la 1.0.1 (el armario), que no llegó a publicarse.
+
+```
+Je suis Lampi, et j’apporte quelques nouveautés ✨
+
+• La garde-robe est plus agréable : tu essaies l’accessoire avant de dépenser tes étincelles, et tu changes mon look depuis Maison.
+• Terminer un chapitre, ça se remarque enfin : je te le raconte comme le moment que c’est.
+• Un jour de repos ne casse pas ta série. Maintenant je te le dis là où il fallait : dans Progrès, et sur la carte postale du lendemain soir.
+• Avec Lampi Plus, la Cape d’étoiles est à toi dès la première minute, et les lieux Plus sont atteignables pendant les 7 jours d’essai.
+• Mesure anonyme des endroits où les gens bloquent dans l’app. Les applis que tu choisis et le temps que tu y passes ne quittent jamais ton iPhone.
+```
+
+### Versión anterior (1.0)
 
 ```
 Coucou ! Je suis Lampi. Voici ma première version : pose ton téléphone et je pars à l’aventure ✨

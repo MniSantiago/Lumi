@@ -48,7 +48,7 @@ SIN CULPA
 Lampi nunca muere ni enferma. Cada día empieza de cero. Las rachas tienen días de descanso. Y el modo noche la deja dormir, para que tú también descanses.
 
 TU PRIVACIDAD, PRIMERO
-Lampi usa Tiempo de uso de Apple y solo se entera de cuándo te acercas a tu límite. No ve qué haces dentro de tus apps. Sin cuenta, todo lo que sabe de ti vive en tu iPhone. La cuenta es opcional: sirve para no perderla si cambias de iPhone, y la puedes borrar cuando quieras desde la app.
+Lampi usa Tiempo de uso de Apple y solo se entera de cuándo te acercas a tu límite. No ve qué haces dentro de tus apps. Sin cuenta, lo que sabe de ti vive en tu iPhone: qué apps eliges y cuánto las usas no salen de ahí nunca. La cuenta es opcional: sirve para no perderla si cambias de iPhone, y la puedes borrar cuando quieras desde la app.
 
 LO IMPORTANTE ES GRATIS
 Tu Lampi y su escudo, el límite diario, las expediciones y postales y el modo noche son gratis.
@@ -56,12 +56,27 @@ Tu Lampi y su escudo, el límite diario, las expediciones y postales y el modo n
 LAMPI PLUS (OPCIONAL)
 Para quien quiere ir un poco más lejos: zonas exclusivas con sus propias historias, un escudo estricto sin «5 min más» y tus números de siempre (racha más larga, lugares, objetos y amigos). Suscripción anual o mensual con 7 días gratis en el plan anual. Se renueva sola hasta que la canceles en Ajustes › tu nombre › Suscripciones, al menos 24 horas antes de la renovación.
 
-Términos: https://<dominio>/terminos.html
-Privacidad: https://<dominio>/privacidad.html
+Términos: https://lampi.es/terminos.html
+Privacidad: https://lampi.es/privacidad.html
 Términos de uso (EULA): https://www.apple.com/legal/internet-services/itunes/dev/stdeula/
 ```
 
 ## Novedades de esta versión (máx. 4000)
+
+Para la **1.0.2**. Incluye también lo que iba en la 1.0.1 (el armario), porque la 1.0.1
+no llegó a publicarse: si acaba saliendo antes, quita la primera línea.
+
+```
+Soy Lampi y traigo unas cuantas cosas nuevas ✨
+
+• El armario está más cómodo: pruebas el accesorio antes de gastar chispas, y me cambias de look desde el Hogar.
+• Cerrar un capítulo ya se nota: te lo cuento como el momento que es.
+• Un día de descanso no te rompe la racha. Ahora te lo digo donde hacía falta: en Progreso y en la postal de la noche siguiente.
+• Con Lampi Plus, la Capa de estrellas es tuya desde el primer minuto, y los lugares de Plus se pueden alcanzar dentro de los 7 días de prueba.
+• Medición anónima de por dónde se atasca la gente dentro de la app. Qué apps eliges y cuánto las usas no salen nunca de tu iPhone.
+```
+
+### Versión anterior (1.0, publicada el 8 de octubre)
 
 ```
 ¡Hola! Soy Lampi. Esta es mi primera versión: suelta el móvil y salgo de aventura ✨
@@ -71,9 +86,9 @@ Términos de uso (EULA): https://www.apple.com/legal/internet-services/itunes/de
 
 | Campo | Valor |
 |---|---|
-| URL de soporte (obligatoria) | `https://<dominio>/ayuda.html` |
-| URL de marketing | `https://<dominio>/` |
-| URL de la política de privacidad (obligatoria) | `https://<dominio>/privacidad.html` |
+| URL de soporte (obligatoria) | `https://lampi.es/ayuda.html` |
+| URL de marketing | `https://lampi.es/` |
+| URL de la política de privacidad (obligatoria) | `https://lampi.es/privacidad.html` |
 
 ## Categoría y clasificación
 
@@ -85,7 +100,7 @@ Términos de uso (EULA): https://www.apple.com/legal/internet-services/itunes/de
 En inglés, que es lo que lee el equipo de revisión de Apple (pegar tal cual en App Store Connect › Información para la revisión › Notas):
 
 ```
-Lampi is a pet that helps people use the apps they choose less. It uses Family Controls with individual authorization (not parental control): the user picks their own apps with FamilyActivityPicker, DeviceActivityMonitor reports when they reach 25/50/75/100% of their daily limit, and ShieldConfiguration shows Lampi when one of those apps is opened past the limit. The apps are also shielded during the user's night hours (23:00-07:00 by default). The shield always offers "5 more min" unless the user turned on the optional strict shield (Lampi Plus). No usage data leaves the device.
+Lampi is a pet that helps people use the apps they choose less. It uses Family Controls with individual authorization (not parental control): the user picks their own apps with FamilyActivityPicker, DeviceActivityMonitor reports when they reach 25/50/75/100% of their daily limit, and ShieldConfiguration shows Lampi when one of those apps is opened past the limit. The apps are also shielded during the user's night hours (23:00-07:00 by default). The shield always offers "5 more min" unless the user turned on the optional strict shield (Lampi Plus). Screen Time data never leaves the device: which apps the user picked, the limit they set and their actual usage are all read and kept on-device. The app does send anonymous product-analytics events (PostHog, EU-hosted) recording which steps of the app were reached — never any Screen Time content. This is declared in the privacy policy and in the app's privacy manifest (ProductInteraction, not linked to identity, not used for tracking).
 
 To test it quickly: during onboarding, pick Safari and the lowest limit (30 min). To see the night shield without waiting, go to Settings > Limit and night and move "Goes to sleep" to a few minutes from now.
 
@@ -100,7 +115,7 @@ Referencia en español: Lampi usa Family Controls para el propio usuario (no con
 
 ## Pendiente antes de enviar
 
-- [ ] Poner el dominio real en las URLs y en la descripción.
+- [x] Poner el dominio real en las URLs y en la descripción. Es `lampi.es`, ya puesto en los cinco idiomas.
 - [ ] Crear la cuenta de prueba en producción y poner su contraseña en las notas.
 - [ ] Capturas de 6,9" (1320 × 2868): Hogar, postal nocturna, escudo, Colección y resumen semanal. Con titular en cada idioma: `sh landing/tools/capturas.sh` (ver `APP_STORE.md` §5).
 - [ ] Comprobar precios finales (la descripción no los pone: los enseña Apple).
