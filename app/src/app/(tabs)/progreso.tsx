@@ -45,13 +45,15 @@ function restNote(game: GameApi, restDaysOn: boolean): string {
     });
   const used = game.restDaysThisWeek;
   const left = MAX_REST_DAYS_PER_WEEK - used.length;
+  // Lo que de verdad hace falta saber no es cuántos quedan, sino que no rompen
+  // la racha: el miedo a perderla es justo lo que haría coger el móvil.
   if (used.length === 0)
     return tr({
-      es: 'Si algún día lo necesitas, esta semana tienes 2 días de descanso.',
-      en: 'If you ever need it, you have 2 rest days this week.',
-      zh: '如果需要，这周你有 2 天休息日。',
-      hi: 'अगर कभी ज़रूरत हो, तो इस हफ़्ते तुम्हारे पास 2 आराम के दिन हैं।',
-      fr: 'Si un jour tu en as besoin, tu as 2 jours de repos cette semaine.',
+      es: 'Si algún día lo necesitas, esta semana tienes 2 días de descanso. No rompen la racha.',
+      en: 'If you ever need it, you have 2 rest days this week. They don’t break the streak.',
+      zh: '如果需要，这周你有 2 天休息日。它们不会中断连续记录。',
+      hi: 'अगर कभी ज़रूरत हो, तो इस हफ़्ते तुम्हारे पास 2 आराम के दिन हैं। इनसे सिलसिला नहीं टूटता।',
+      fr: 'Si un jour tu en as besoin, tu as 2 jours de repos cette semaine. Ils ne cassent pas la série.',
     });
   const when = used
     .map((d) => whenLabel(d, game.today))
@@ -65,11 +67,11 @@ function restNote(game: GameApi, restDaysOn: boolean): string {
       fr: `Tu as utilisé les jours de repos de la semaine (${when}). Ils reviennent lundi.`,
     });
   return tr({
-    es: `Usaste 1 día de descanso ${when}. Te queda otro esta semana.`,
-    en: `You used 1 rest day ${when}. You have one more this week.`,
-    zh: `你${when}用了 1 天休息日。这周还剩一天。`,
-    hi: `तुमने ${when} 1 आराम का दिन लिया। इस हफ़्ते एक और बचा है।`,
-    fr: `Tu as pris 1 jour de repos ${when}. Il t’en reste un cette semaine.`,
+    es: `Usaste 1 día de descanso ${when}, y la racha sigue. Te queda otro esta semana.`,
+    en: `You used 1 rest day ${when}, and the streak held. You have one more this week.`,
+    zh: `你${when}用了 1 天休息日，连续记录还在。这周还剩一天。`,
+    hi: `तुमने ${when} 1 आराम का दिन लिया, और सिलसिला क़ायम रहा। इस हफ़्ते एक और बचा है।`,
+    fr: `Tu as pris 1 jour de repos ${when}, et la série a tenu. Il t’en reste un cette semaine.`,
   });
 }
 

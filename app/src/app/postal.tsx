@@ -23,7 +23,7 @@ import { LumiArrival } from '@/components/nightly/lumi-arrival';
 import { CardIn, FadeUp, RewardTile, SparksCounter } from '@/components/nightly/reveal-parts';
 import { ShieldButton } from '@/components/shield/shield-parts';
 import { Colors, Fonts } from '@/constants/theme';
-import { DESTINATIONS, destinationById } from '@/game/destinations';
+import { closesChapter, DESTINATIONS, destinationById } from '@/game/destinations';
 import { BRIGHT_DAYS_PER_STAGE, EVOLUTION_STAGES } from '@/game/engine';
 import { useGame, type PendingReturn } from '@/game/store';
 import type { Destination } from '@/game/types';
@@ -103,7 +103,7 @@ function NoPostcard() {
 
 function TonightPostcard({ pending }: { pending: PendingReturn }) {
   const { settings, updateSettings } = useLumi();
-  const { saveReturnToAlbum, album, streak, brightDays, visited } = useGame();
+  const { saveReturnToAlbum, album, streak, brightDays, visited, history, today } = useGame();
   // Se decide al abrir: al guardarla, el álbum deja de estar vacío.
   const [first] = useState(album.length === 0);
   // Lo que vio de lejos: también se decide al abrir, para que guardar no lo cambie.
@@ -119,8 +119,19 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
       ? EVOLUTION.stages[brightDays / BRIGHT_DAYS_PER_STAGE]
       : null,
   );
+  // Lo de ayer y lo ya conocido, sin contar el día de hoy: `history` viene
+  // ordenado por fecha, así que el último anterior a hoy es el día de ayer.
+  const before = history.filter((d) => d.date < today);
+  const closed = closesChapter(
+    pending.destination,
+    before.flatMap((d) => (d.expedition ? [d.expedition.destinationId] : [])),
+    settings.isPlus,
+  );
+  const restedYesterday = !!before[before.length - 1]?.restDay;
   const milestone =
+    (closed ? copy.chapterDone(settings.lumiName, pending.destination.chapter, pending.destination.chapterTitle) : null) ??
     (grewTo ? copy.grewUp(settings.lumiName, grewTo.name) : null) ??
+    (restedYesterday && streak > 1 ? copy.restKeptStreak(streak) : null) ??
     copy.streakMilestone(streak) ??
     (first ? copy.firstPostcard : null);
   const tonight = useMemo(() => nightlyReturnFrom(pending), [pending]);

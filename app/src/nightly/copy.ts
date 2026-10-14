@@ -78,6 +78,31 @@ export const nightlyCopy = {
       hi: `${lumiName} बड़ी हो गई! नया पड़ाव: ${stageName}।`,
       fr: `${lumiName} a grandi ! Nouvelle étape : ${stageName}.`,
     }),
+  /**
+   * Se ha conocido el último lugar del capítulo. Es el momento más grande que
+   * tiene el juego —«tengo algo que no quiero perder»— y hasta ahora el capítulo
+   * era solo una etiqueta en la postal.
+   */
+  chapterDone: (lumiName: string, chapter: number, title?: string) =>
+    tr({
+      es: `Fin del capítulo ${chapter}${title ? `: ${title}` : ''}. ${lumiName} ya conoce este rincón entero.`,
+      en: `End of chapter ${chapter}${title ? `: ${title}` : ''}. ${lumiName} now knows this whole corner.`,
+      zh: `第${chapter}章完${title ? `：${title}` : ''}。${lumiName}已经走遍了这一带。`,
+      hi: `अध्याय ${chapter} पूरा${title ? `: ${title}` : ''}। ${lumiName} अब यह पूरा कोना जानती है।`,
+      fr: `Fin du chapitre ${chapter}${title ? ` : ${title}` : ''}. ${lumiName} connaît maintenant tout ce coin.`,
+    }),
+  /**
+   * La noche siguiente a un descanso. Es justo cuando se espera haber perdido la
+   * racha, así que es el único sitio donde decirlo sirve de algo.
+   */
+  restKeptStreak: (days: number) =>
+    tr({
+      es: `Descansasteis ayer y la racha sigue en pie: ${days} días.`,
+      en: `You rested yesterday and the streak is still going: ${days} days.`,
+      zh: `昨天休息了，连续记录还在：${days} 天。`,
+      hi: `कल आराम किया और सिलसिला अब भी क़ायम है: ${days} दिन।`,
+      fr: `Vous avez fait une pause hier et la série tient toujours : ${days} jours.`,
+    }),
   firstPostcard: tr({
     es: ' ¡Tu primera postal! La primera de muchas.',
     en: ' Your first postcard! The first of many.',

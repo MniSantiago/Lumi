@@ -244,6 +244,25 @@ export const DESTINATIONS: Destination[] = DATA.map((d) => {
 
 export const destinationById = (id: string) => DESTINATIONS.find((d) => d.id === id);
 
+/**
+ * Los lugares de un capítulo a los que esta persona puede llegar. Sin Plus, las
+ * zonas Plus no cuentan: si contaran, un capítulo no se cerraría nunca y el
+ * final de capítulo sería un premio reservado a quien paga.
+ */
+export const chapterDestinations = (chapter: number, isPlus: boolean) =>
+  DESTINATIONS.filter((d) => d.chapter === chapter && (!d.plus || isPlus));
+
+/**
+ * Esta visita cierra el capítulo: era el último lugar que le quedaba por
+ * conocer. `visitedBefore` son los destinos visitados sin contar el de hoy, para
+ * que una revisita a un capítulo ya terminado no vuelva a celebrarlo.
+ */
+export function closesChapter(destination: Destination, visitedBefore: string[], isPlus: boolean): boolean {
+  if (visitedBefore.includes(destination.id)) return false;
+  const seen = new Set(visitedBefore);
+  return chapterDestinations(destination.chapter, isPlus).every((d) => d.id === destination.id || seen.has(d.id));
+}
+
 /** "del Bosque de Musgo", "from the Moss Forest". */
 export const fromDestination = (d: Pick<Destination, 'from'>) => d.from;
 
