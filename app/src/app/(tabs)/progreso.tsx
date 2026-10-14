@@ -419,7 +419,7 @@ function LifetimeStats({ game, isPlus }: { game: GameApi; isPlus: boolean }) {
                 fr: 'Avec Lampi Plus, tu vois tout ce que vous avez brillé ensemble depuis le premier jour.',
               })}
             </Text>
-            <PillButton label={paywallCopy.title} onPress={() => router.push('/plus')} />
+            <PillButton label={paywallCopy.title} onPress={() => router.push('/plus?origen=progreso')} />
           </View>
         )}
       </Card>

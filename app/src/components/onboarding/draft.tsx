@@ -1,5 +1,6 @@
-import { createContext, use, useState, type ReactNode } from 'react';
+import { createContext, use, useEffect, useState, type ReactNode } from 'react';
 
+import { analytics, EVENTS } from '@/analytics';
 import { haptic } from '@/haptics';
 import { useLumi, type Settings } from '@/lumi/store';
 import { ensureNotificationPermission } from '@/notifications';
@@ -37,10 +38,25 @@ export function OnboardingDraftProvider({ children }: { children: ReactNode }) {
 
   const setDraft = (patch: Partial<OnboardingDraft>) => setDraftState((prev) => ({ ...prev, ...patch }));
 
+  // Este proveedor envuelve el onboarding entero: montarlo es empezarlo.
+  const repetido = settings.onboarded;
+  useEffect(() => {
+    analytics.track(EVENTS.onboardingIniciado, { repetido });
+    // Solo al montar: `repetido` se lee una vez a propósito.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const finish = async () => {
     haptic.success();
     // Si deniega el permiso, la postal nocturna queda apagada (se puede encender en Ajustes).
     const nightlyPostcard = draft.nightlyPostcard ? await ensureNotificationPermission() : false;
+    // Cuántas apps ladronas hay lo dice `apps_elegidas` con el número real del
+    // selector de Apple: `draft.thiefApps` solo se rellena en la maqueta (Expo Go
+     // y web), así que aquí sería un número inventado. El límite en minutos no sale
+    // del iPhone, y «lo ha configurado» siempre sería `true` porque trae un valor
+    // por defecto. Lo que sí es señal: si han aceptado el aviso de la noche, que es
+    // el motor de todo el bucle diario.
+    analytics.track(EVENTS.onboardingCompletado, { postal_nocturna: nightlyPostcard });
     updateSettings({
       userName: draft.userName.trim(),
       lumiName: draft.lumiName.trim() || 'Lampi',

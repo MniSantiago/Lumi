@@ -1,4 +1,4 @@
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { AccessibilityInfo, ActivityIndicator, Linking, ScrollView, StyleSheet, Text, View } from 'react-native';
 import Animated, {
@@ -11,6 +11,7 @@ import Animated, {
 } from 'react-native-reanimated';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
+import { analytics, EVENTS, type PaywallOrigen } from '@/analytics';
 import { haptic } from '@/haptics';
 import { addDays, formatDayMonth, paywallCopy, plusFeatures, REMINDER_DAYS_BEFORE } from '@/components/paywall/copy';
 import {
@@ -44,6 +45,9 @@ export default function PlusScreen() {
   const insets = useSafeAreaInsets();
   const { settings, updateSettings } = useLumi();
   const name = settings.lumiName;
+  // De dónde se ha abierto. Sin `origen` es que alguien añadió una entrada nueva
+  // sin decirlo: sale como «desconocido» en vez de contaminar otra.
+  const { origen = 'desconocido' } = useLocalSearchParams<{ origen?: PaywallOrigen }>();
 
   const [view, setView] = useState<Mode>(settings.isPlus ? 'owned' : 'offer');
   const [packages, setPackages] = useState<PlusPackage[] | null>(null);
@@ -68,6 +72,18 @@ export default function PlusScreen() {
     };
   }, []);
 
+  // Quien ya tiene Plus ve la pantalla de «ya lo tienes», que no es una etapa del
+  // embudo: solo cuenta como paywall visto la oferta de verdad.
+  const verOferta = !settings.isPlus;
+  useEffect(() => {
+    if (verOferta) analytics.track(EVENTS.paywallVisto, { origen });
+  }, [verOferta, origen]);
+
+  // La tienda ha contestado y no hay nada que vender: nadie puede pagar desde aquí.
+  useEffect(() => {
+    if (verOferta && packages?.length === 0) analytics.track(EVENTS.paywallSinOferta, { origen });
+  }, [verOferta, packages, origen]);
+
   const pkg = packages?.find((p) => p.id === selected) ?? null;
 
   const celebrate = (title: string) => {
@@ -84,8 +100,15 @@ export default function PlusScreen() {
     if (!pkg || busy) return;
     setBusy('purchase');
     setNotice(null);
+    const compra = { origen, plan: pkg.id, con_prueba: pkg.trialDays > 0 };
+    analytics.track(EVENTS.compraIniciada, compra);
     try {
       const result = await purchases.purchase(pkg.id);
+      // El dinero lo cuenta RevenueCat; esto solo cierra el embudo de PostHog.
+      analytics.track(
+        result.status === 'purchased' ? EVENTS.compraCompletada : EVENTS.compraNoCompletada,
+        result.status === 'purchased' ? compra : { ...compra, motivo: 'cancelada' },
+      );
       if (result.status === 'purchased') {
         celebrate(paywallCopy.successTitle);
         if (pkg.trialDays > 0) {
@@ -96,6 +119,7 @@ export default function PlusScreen() {
         }
       }
     } catch {
+      analytics.track(EVENTS.compraNoCompletada, { ...compra, motivo: 'error' });
       setNotice(paywallCopy.purchaseError);
     } finally {
       setBusy(null);

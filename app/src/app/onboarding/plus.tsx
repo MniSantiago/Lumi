@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import { analytics, EVENTS } from '@/analytics';
 import { useLumiName, useOnboardingDraft } from '@/components/onboarding/draft';
 import { StepShell } from '@/components/onboarding/step-shell';
 import { addDays, formatDayMonth, paywallCopy, plusFeatures, REMINDER_DAYS_BEFORE } from '@/components/paywall/copy';
@@ -33,14 +34,21 @@ export default function PlusStep() {
 
   useEffect(() => {
     alive.current = true;
+    analytics.track(EVENTS.paywallVisto, { origen: 'onboarding' });
     purchases
       .getOfferings()
       .then((list) => {
         if (!alive.current) return;
         // El anual es el que lleva la prueba; si algún día la lleva otro, vale igual.
-        setTrial(list.find((p) => p.trialDays > 0) ?? null);
+        const conPrueba = list.find((p) => p.trialDays > 0) ?? null;
+        setTrial(conPrueba);
+        // Sin prueba que ofrecer, este paso se queda solo con la salida gratis:
+        // es el mismo callejón sin salida que medimos en el paywall de dentro.
+        if (!conPrueba) analytics.track(EVENTS.paywallSinOferta, { origen: 'onboarding' });
       })
-      .catch(() => {});
+      .catch(() => {
+        if (alive.current) analytics.track(EVENTS.paywallSinOferta, { origen: 'onboarding' });
+      });
     return () => {
       alive.current = false;
     };
@@ -52,8 +60,14 @@ export default function PlusStep() {
     if (!trial || busy) return;
     setBusy(true);
     setNotice(null);
+    const compra = { origen: 'onboarding', plan: trial.id, con_prueba: true };
+    analytics.track(EVENTS.compraIniciada, compra);
     try {
       const result = await purchases.purchase(trial.id);
+      analytics.track(
+        result.status === 'purchased' ? EVENTS.compraCompletada : EVENTS.compraNoCompletada,
+        result.status === 'purchased' ? compra : { ...compra, motivo: 'cancelada' },
+      );
       if (result.status === 'purchased') {
         updateSettings({ isPlus: true });
         // Primero se cierra el onboarding (ahí se pide el permiso de avisos),
@@ -65,6 +79,7 @@ export default function PlusStep() {
         return;
       }
     } catch {
+      analytics.track(EVENTS.compraNoCompletada, { ...compra, motivo: 'error' });
       if (alive.current) setNotice(paywallCopy.purchaseError);
     }
     if (alive.current) setBusy(false);

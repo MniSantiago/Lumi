@@ -261,7 +261,7 @@ function TonightPostcard({ pending }: { pending: PendingReturn }) {
                 </Pressable>
                 <Text style={styles.label}>{copy.glimpseLabel}</Text>
                 <Text style={styles.glimpseText}>{copy.glimpse(settings.lumiName, glimpse)}</Text>
-                <Pressable accessibilityRole="button" onPress={() => router.push('/plus')} hitSlop={6}>
+                <Pressable accessibilityRole="button" onPress={() => router.push('/plus?origen=postal')} hitSlop={6}>
                   <Text style={styles.glimpseLink}>{copy.glimpseLink}</Text>
                 </Pressable>
               </View>
