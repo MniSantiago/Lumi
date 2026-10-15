@@ -1,4 +1,5 @@
-# Con .easignore, EAS deja de leer .gitignore: repetimos aquí lo que ya ignoraba.
+# Con .easignore, EAS deja de leer los .gitignore (el de la raíz y el de app/):
+# repetimos aquí lo que ya ignoraban.
 .DS_Store
 .vscode/
 .idea/
@@ -7,25 +8,50 @@ __pycache__/
 apimartkey/
 grabaciones/
 
+# Secretos y credenciales (de app/.gitignore). Las variables del build van por
+# `eas env`; el .env local (localhost, claves de pruebas) no debe subir.
+.env
+.env*.local
+*.jks
+*.p8
+*.p12
+*.key
+*.pem
+*.mobileprovision
+
 # Dependencias y artefactos (se regeneran en el build)
-node_modules/
+node_modules
 .expo/
 dist/
+web-build/
+.kotlin/
+*.orig.*
+*.tsbuildinfo
+.metro-health-check*
+npm-debug.*
+yarn-debug.*
+yarn-error.*
+app/expo-env.d.ts
+app/example
 app/ios/
+app/android/
 app/e2e/
 
-# Claude Code (incluye worktrees)
+# Claude Code (incluye worktrees) y git
 .claude/
-.git/
+.superpowers/
+.git
 
 # Carpetas del repo que la app no usa al compilar
-# (app/ referencia solo app/assets, nunca ../assets)
+# (app/ referencia solo app/assets, nunca ../assets; orval lee ../backend
+# solo con `npm run api:generate`, y el cliente generado ya está en app/src)
 /assets/
 /store/
 /landing/
 /backend/
 /tools/
 /ficha/
+/docs/
 /src/
 /*.png
 /*.html
